@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -1081,4 +1082,35 @@ function selectKies(i, selected, correct) {
   document.getElementById('kies-score-bar').style.display = '';
   document.getElementById('kies-score').textContent = `${kiesScore}/${answered}`;
   document.getElementById('kies-progress-container').style.display = '';
-  document.getElementById
+  document.getElementById('kies-progress').style.width = `${(answered / kiesData.length) * 100}%`;
+
+  if (answered === kiesData.length) {
+    const pct = Math.round((kiesScore / kiesData.length) * 100);
+    setTimeout(() => {
+      let emoji, msg;
+      if (pct === 100) { emoji = '🌟'; msg = 'Perfect! Je beheerst de bezittelijke voornaamwoorden!'; }
+      else if (pct >= 80) { emoji = '🎉'; msg = 'Heel goed! Bijna foutloos.'; }
+      else if (pct >= 60) { emoji = '💪'; msg = 'Goed bezig! Herhaal de fouten nog eens.'; }
+      else { emoji = '📚'; msg = 'Ga terug naar de theorie en probeer het opnieuw!'; }
+
+      document.getElementById('kies-celebration').innerHTML = `
+        <div class="celebration">
+          <div class="emoji">${emoji}</div>
+          <h3>${kiesScore}/${kiesData.length} juist (${pct}%)</h3>
+          <p>${msg}</p>
+        </div>`;
+    }, 500);
+  }
+}
+
+document.getElementById('kies-reset').addEventListener('click', buildKies);
+
+// =============================================
+// INIT
+// =============================================
+buildFlashcards();
+buildVertaal();
+buildKies();
+</script>
+</body>
+</html>
