@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klaswerkplaats · Steinerschool Turnhout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F7F2E8;
+      --warm-white: #FFFDF7;
+      --terracotta: #C2704E;
+      --terracotta-light: #D4916F;
+      --ochre: #D4A843;
+      --olive: #7A8B6F;
+      --olive-light: #95A886;
+      --warm-brown: #5C4033;
+      --dark-brown: #3D2B1F;
+      --sand: #E8DCC8;
+      --sand-light: #F0E8D8;
+      --parchment: #F5EDE0;
+      --sage: #A8B89A;
+      --dusty-rose: #C9A0A0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+      font-family: 'Vollkorn', Georgia, serif;
+      color: var(--dark-brown);
+      overflow-x: hidden;
+    }
+
+    /* Organic background pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M20,80 Q40,20 80,60 Q60,100 20,80Z' fill='%237A8B6F' opacity='0.04'/%3E%3Cpath d='M120,40 Q160,10 170,60 Q140,80 120,40Z' fill='%23C2704E' opacity='0.04'/%3E%3Cpath d='M60,150 Q90,120 110,160 Q80,180 60,150Z' fill='%23D4A843' opacity='0.04'/%3E%3Ccircle cx='160' cy='150' r='15' fill='%23A8B89A' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      padding-top: 12vh;
+    }
+
+    /* Floating leaves animation */
+    .leaf {
+      position: fixed;
+      top: -40px;
+      font-size: 20px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatDown 18s ease-in-out infinite;
+    }
+    .leaf:nth-child(1) { left: 8%; animation-delay: 0s; }
+    .leaf:nth-child(2) { left: 28%; animation-delay: 4s; font-size: 16px; }
+    .leaf:nth-child(3) { left: 55%; animation-delay: 8s; }
+    .leaf:nth-child(4) { left: 78%; animation-delay: 2s; font-size: 24px; }
+    .leaf:nth-child(5) { left: 92%; animation-delay: 11s; font-size: 14px; }
+
+    @keyframes floatDown {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      8% { opacity: 0.15; }
+      88% { opacity: 0.15; }
+      100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo { font-size: 56px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+
+    h1 {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(40px, 8vw, 60px);
+      color: var(--warm-brown);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 17px;
+      color: var(--warm-brown);
+      opacity: 0.6;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      margin-bottom: 56px;
+    }
+
+    .header-block {
+      animation: fadeSlideUp 0.7s ease forwards;
+    }
+
+    .years {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeSlideUp 0.7s ease 0.2s both;
+    }
+
+    .year-card {
+      background: var(--warm-white);
+      border: 1px solid rgba(61,43,31,0.08);
+      border-radius: 20px;
+      padding: 28px 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(61,43,31,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+    .year-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(61,43,31,0.1);
+    }
+    .year-card .accent {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 5px;
+      border-radius: 20px 0 0 20px;
+    }
+    .year-card .info { text-align: left; padding-left: 14px; }
+    .year-card .name {
+      font-family: 'Vollkorn', serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .year-card .period {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      color: var(--warm-brown);
+      opacity: 0.6;
+      margin-top: 2px;
+    }
+    .year-card .stat {
+      text-align: right;
+    }
+    .year-card .count {
+      font-family: 'Caveat', cursive;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .year-card .count-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 12px;
+      color: var(--warm-brown);
+      opacity: 0.5;
+    }
+
+    .year-card.upcoming {
+      background: transparent;
+      border: 2px dashed var(--sand);
+      box-shadow: none;
+      opacity: 0.5;
+      cursor: default;
+    }
+    .year-card.upcoming:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    .year-card.upcoming .soon {
+      font-family: 'Caveat', cursive;
+      font-size: 16px;
+      color: var(--warm-brown);
+      opacity: 0.5;
+    }
+
+    .footer {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      color: var(--warm-brown);
+      opacity: 0.35;
+      font-style: italic;
+      margin-top: 64px;
+      animation: fadeSlideUp 0.7s ease 0.4s both;
+    }
+  </style>
+</head>
+<body>
+  <div class="leaf">🍂</div>
+  <div class="leaf">🍂</div>
+  <div class="leaf">🍂</div>
+  <div class="leaf">🍂</div>
+  <div class="leaf">🍂</div>
+
+  <div class="container">
+    <div class="header-block">
+      <div class="logo">🌱</div>
+      <h1>Klaswerkplaats</h1>
+      <p class="subtitle">Steinerschool Turnhout · Oefenmateriaal per week</p>
+    </div>
+
+    <div class="years">
+      <!-- ========================================
+           CONFIGURATIE: Voeg hier nieuwe jaren toe.
+           Kopieer een year-card blok en pas aan.
+           ======================================== -->
+
+      <a href="1-middelbaar-2024-2025/index.html" class="year-card">
+        <div class="accent" style="background: var(--terracotta)"></div>
+        <div class="info">
+          <div class="name">1e Middelbaar</div>
+          <div class="period">2024 – 2025</div>
+        </div>
+        <div class="stat">
+          <div class="count" style="color: var(--terracotta)" id="count-1m">…</div>
+          <div class="count-label">oefeningen</div>
+        </div>
+      </a>
+
+      <div class="year-card upcoming">
+        <div class="accent" style="background: var(--olive)"></div>
+        <div class="info">
+          <div class="name">2e Middelbaar</div>
+          <div class="period">2025 – 2026</div>
+        </div>
+        <div class="stat">
+          <span class="soon">binnenkort...</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer">Gemaakt met 🤎 voor de klas van Elmo</p>
+  </div>
+
+  <script>
+    // =============================================
+    // CONFIGURATIE — Pas dit aan naar jouw GitHub
+    // =============================================
+    const GITHUB_OWNER = 'StroomToorts';  // ← Vul hier je GitHub-gebruikersnaam in
+    const GITHUB_REPO  = 'klaswerkplaats';         // ← Naam van je repository
+
+    // Probeer het aantal oefeningen op te halen via de GitHub API
+    async function fetchCount(path, elementId) {
+      try {
+        const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`);
+        if (!resp.ok) throw new Error('API error');
+        const files = await resp.json();
+        const htmlFiles = files.filter(f => f.name.endsWith('.html'));
+        document.getElementById(elementId).textContent = htmlFiles.length;
+      } catch (e) {
+        // Als de API niet bereikbaar is, toon een neutraal icoon
+        document.getElementById(elementId).textContent = '📚';
+      }
+    }
+
+    fetchCount('1-middelbaar-2024-2025/oefeningen', 'count-1m');
+  </script>
+</body>
+</html>
