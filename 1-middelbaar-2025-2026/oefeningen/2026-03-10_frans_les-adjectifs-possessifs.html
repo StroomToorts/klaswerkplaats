@@ -564,20 +564,41 @@
       .exercise-icon { display: none; }
       .print-only { display: block !important; }
       .theory-card, .translate-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
-      .translate-input { border: 1px solid #ccc; }
+
+      /* Vertaal: altijd leeg invulveld, geen ingevulde antwoorden */
+      .translate-input { border: 1px solid #ccc; color: transparent !important; -webkit-text-fill-color: transparent !important; }
       .translate-input::placeholder { color: transparent !important; }
-      .check-btn { display: none; }
-      .choose-blank { color: transparent !important; min-width: 100px; }
-      .choose-options { display: none; }
       .translate-feedback { display: none !important; }
+      .translate-card.correct, .translate-card.incorrect { border-color: #ddd !important; background: var(--warm-white) !important; }
+      .translate-input.correct-input, .translate-input.wrong-input { border-color: #ccc !important; background: var(--cream) !important; }
+      .check-btn { display: none; }
+
+      /* Kies juist: altijd clean, geen selecties zichtbaar */
+      .choose-blank { color: transparent !important; min-width: 100px; border-bottom-color: #999 !important; }
+      .choose-options { display: none; }
+      .choose-sentence { color: var(--dark-brown) !important; }
+
+      /* Flashcards: altijd de Franse kant tonen, nooit het antwoord */
+      .flashcard-grid { display: block; }
+      .flashcard {
+        display: inline-block !important; width: 47%; margin: 1%; padding: 12px;
+        min-height: auto; box-shadow: none; border: 1px solid #ddd;
+        vertical-align: top; break-inside: avoid;
+        background: white !important; color: var(--dark-brown) !important;
+      }
+      .flashcard .question-word { display: block !important; }
+      .flashcard .answer-word { display: none !important; }
+      .flashcard .hint { display: none; }
+      .flashcard.flipped { background: white !important; color: var(--dark-brown) !important; }
+
+      /* Oplossingen altijd op nieuwe pagina */
       .print-answers { margin-top: 20px; padding-top: 16px; border-top: 2px solid #ddd; page-break-before: always; }
       .print-answers h3 { font-family: 'Caveat', cursive; font-size: 18pt; color: var(--terracotta); margin-bottom: 10px; }
       .print-answers .answer-item { font-family: 'Vollkorn', serif; font-size: 12pt; margin-bottom: 4px; padding: 4px 0; border-bottom: 1px solid #eee; }
       .print-answers .answer-item strong { color: var(--terracotta); }
-      .flashcard-grid { display: block; }
-      .flashcard { display: inline-block; width: 47%; margin: 1%; padding: 12px; min-height: auto; box-shadow: none; border: 1px solid #ddd; vertical-align: top; break-inside: avoid; }
-      .flashcard .hint { display: none; }
-      .flashcard .answer-word { display: none !important; }
+
+      /* Score en progress verbergen */
+      .score-bar, .progress-bar-container, .celebration { display: none !important; }
     }
 
     @media (max-width: 600px) {
@@ -1060,35 +1081,4 @@ function selectKies(i, selected, correct) {
   document.getElementById('kies-score-bar').style.display = '';
   document.getElementById('kies-score').textContent = `${kiesScore}/${answered}`;
   document.getElementById('kies-progress-container').style.display = '';
-  document.getElementById('kies-progress').style.width = `${(answered / kiesData.length) * 100}%`;
-
-  if (answered === kiesData.length) {
-    const pct = Math.round((kiesScore / kiesData.length) * 100);
-    setTimeout(() => {
-      let emoji, msg;
-      if (pct === 100) { emoji = '🌟'; msg = 'Perfect! Je beheerst de bezittelijke voornaamwoorden!'; }
-      else if (pct >= 80) { emoji = '🎉'; msg = 'Heel goed! Bijna foutloos.'; }
-      else if (pct >= 60) { emoji = '💪'; msg = 'Goed bezig! Herhaal de fouten nog eens.'; }
-      else { emoji = '📚'; msg = 'Ga terug naar de theorie en probeer het opnieuw!'; }
-
-      document.getElementById('kies-celebration').innerHTML = `
-        <div class="celebration">
-          <div class="emoji">${emoji}</div>
-          <h3>${kiesScore}/${kiesData.length} juist (${pct}%)</h3>
-          <p>${msg}</p>
-        </div>`;
-    }, 500);
-  }
-}
-
-document.getElementById('kies-reset').addEventListener('click', buildKies);
-
-// =============================================
-// INIT
-// =============================================
-buildFlashcards();
-buildVertaal();
-buildKies();
-</script>
-</body>
-</html>
+  document.getElementById
