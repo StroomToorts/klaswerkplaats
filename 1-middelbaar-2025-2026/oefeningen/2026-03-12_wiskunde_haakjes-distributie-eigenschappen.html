@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haakjes, distributie & eigenschappen — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===================== CSS VARIABLES ===================== */
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #7A8B6F;
+  --vak-light: #95a886;
+  /* Expander colors */
+  --color-a: #C2704E;
+  --color-b: #6A9BB5;
+  --color-c: #C9A0A0;
+  --color-d: #8B6DAE;
+}
+
+/* ===================== RESET & BASE ===================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23967B5E' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================== ANIMATIONS ===================== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.7); }
+  60% { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===================== BREADCRUMB ===================== */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  animation: fadeSlideUp 0.5s ease;
+}
+.breadcrumb a {
+  color: var(--vak-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.breadcrumb a:hover { color: var(--olive-dark); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+/* ===================== HEADER ===================== */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+  animation: fadeSlideUp 0.5s ease 0.1s both;
+}
+.vak-icon {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-light));
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(122,139,111,0.25);
+}
+.exercise-title {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-brown);
+}
+.exercise-date {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--warm-brown);
+  opacity: 0.8;
+}
+.exercise-intro {
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 22px;
+  animation: fadeSlideUp 0.5s ease 0.15s both;
+  line-height: 1.5;
+}
+
+/* ===================== TABS ===================== */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+  animation: fadeSlideUp 0.5s ease 0.2s both;
+}
+.tab-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border: 2px solid var(--sand);
+  border-radius: 30px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.tab-btn:hover {
+  border-color: var(--vak-color);
+  color: var(--vak-color);
+  transform: translateY(-1px);
+}
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-light));
+  color: white;
+  border-color: var(--vak-color);
+  box-shadow: 0 3px 10px rgba(122,139,111,0.3);
+}
+.tab-content { display: none; animation: fadeSlideUp 0.35s ease; }
+.tab-content.active { display: block; }
+
+/* ===================== THEORY CARDS ===================== */
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s;
+}
+.theory-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); }
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+}
+.theory-card p, .theory-card li {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--dark-brown);
+}
+.theory-card .formula {
+  background: var(--sand-light);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--dark-brown);
+  border-left: 4px solid var(--vak-color);
+}
+.attention-box {
+  background: #FFF5EE;
+  border: 2px solid var(--terracotta-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+}
+.attention-box::before {
+  content: '⚠️ ';
+}
+.theory-card .example {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+}
+
+/* ===================== EXPANDER TAB ===================== */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.chip {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border: 2px solid var(--sand);
+  border-radius: 24px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chip:hover { border-color: var(--vak-color); color: var(--vak-color); }
+.chip.active {
+  background: var(--vak-color);
+  color: white;
+  border-color: var(--vak-color);
+}
+
+.expander-area {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+.expander-area h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.source-row {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
+  gap: 2px; padding: 16px; margin-bottom: 8px;
+}
+.src-token {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: clamp(26px, 6vw, 38px); font-weight: 700;
+  padding: 4px 3px; border-radius: 8px;
+  transition: all 0.5s ease; line-height: 1.2;
+}
+.src-token.dim { opacity: 0.2; }
+.src-token.glow-a { background: rgba(194,112,78,0.15); }
+.src-token.glow-b { background: rgba(106,155,181,0.15); }
+.src-token.glow-c { background: rgba(201,160,160,0.15); }
+.src-token.glow-d { background: rgba(139,109,174,0.15); }
+.src-token.strikethrough { text-decoration: line-through; text-decoration-color: var(--rust); opacity: 0.4; }
+.color-a { color: var(--color-a); }
+.color-b { color: var(--color-b); }
+.color-c { color: var(--color-c); }
+.color-d { color: var(--color-d); }
+.color-op { color: var(--warm-brown); opacity: 0.35; font-weight: 400; }
+.color-bracket { color: var(--color-d); opacity: 0.4; }
+.color-sign { color: var(--rust); font-weight: 700; }
+.explain-box {
+  text-align: center; min-height: 28px; margin-bottom: 16px;
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown);
+}
+.explain-box .hl { font-weight: 600; }
+.explain-box .rule { color: var(--vak-color); font-weight: 600; }
+.result-row {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center;
+  gap: 4px; padding: 8px; min-height: 50px; margin-bottom: 12px;
+}
+.res-token {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: clamp(22px, 5vw, 32px); font-weight: 700;
+  padding: 6px 12px; border-radius: 12px;
+  opacity: 0; transform: scale(0.4); transition: all 0.4s ease;
+}
+.res-token.show { opacity: 1; transform: scale(1); animation: popIn 0.4s ease; }
+.res-token.bg-b { background: rgba(106,155,181,0.1); color: var(--color-b); }
+.res-token.bg-c { background: rgba(201,160,160,0.1); color: var(--color-c); }
+.res-token.bg-a { background: rgba(194,112,78,0.1); color: var(--color-a); }
+.res-token.plain { background: none; color: var(--warm-brown); opacity: 0; }
+.res-token.plain.show { opacity: 0.4; transform: scale(1); animation: none; }
+.final-box {
+  text-align: center; font-family: 'Vollkorn', Georgia, serif;
+  font-size: clamp(24px, 5vw, 34px); font-weight: 700;
+  color: var(--olive-dark); padding: 16px; background: rgba(122,139,111,0.06);
+  border-radius: 14px; margin-top: 12px; opacity: 0; transition: all 0.5s ease;
+}
+.final-box.show { opacity: 1; }
+.step-controls {
+  display: flex; justify-content: center; gap: 10px; margin-top: 16px;
+}
+.step-btn {
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500;
+  padding: 8px 22px; border: 2px solid var(--sand); border-radius: 24px;
+  background: var(--warm-white); color: var(--warm-brown); cursor: pointer; transition: all 0.2s;
+}
+.step-btn:hover { border-color: var(--vak-color); color: var(--vak-color); transform: translateY(-1px); }
+.step-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+.step-btn.primary { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.step-btn.primary:hover { background: var(--olive-dark); }
+
+/* Live formula */
+.live-formula-area {
+  background: var(--warm-white); border-radius: 18px; padding: 24px;
+  border: 1px solid var(--sand); box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.live-formula-area h4 {
+  font-family: 'Caveat', cursive; font-size: 20px;
+  color: var(--vak-color); margin-bottom: 4px; text-align: center;
+}
+.live-desc {
+  font-family: 'Source Sans 3', sans-serif; font-size: 13px;
+  color: var(--warm-brown); opacity: 0.5; text-align: center; margin-bottom: 16px;
+}
+.live-display {
+  text-align: center; padding: 20px 12px; background: var(--sand-light);
+  border-radius: 16px; margin-bottom: 16px;
+}
+.live-line { font-family: 'Vollkorn', Georgia, serif; font-size: clamp(16px, 3.5vw, 22px); font-weight: 600; line-height: 2; }
+.live-result { display: block; font-family: 'Vollkorn', Georgia, serif; font-size: clamp(24px, 6vw, 36px); font-weight: 700; color: var(--olive-dark); margin-top: 8px; }
+.live-step { font-family: 'Source Sans 3', sans-serif; font-size: clamp(12px, 2.5vw, 14px); color: var(--warm-brown); opacity: 0.6; margin-top: 6px; line-height: 1.6; }
+.sliders-row {
+  display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 18px; justify-content: center;
+}
+.slider-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.slider-group label { font-family: 'Vollkorn', Georgia, serif; font-size: 15px; font-weight: 600; }
+.slider-group input[type="range"] { width: 100px; accent-color: var(--vak-color); }
+.slider-group .slider-val {
+  font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown);
+  background: var(--sand-light); padding: 2px 10px; border-radius: 10px;
+}
+
+/* ===================== QUIZ TAB ===================== */
+.quiz-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: border-color 0.3s;
+}
+.quiz-card.correct-card { border-color: var(--olive); }
+.quiz-card.wrong-card { border-color: var(--rust); }
+.quiz-num {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--vak-color);
+  margin-bottom: 4px;
+}
+.quiz-question {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--dark-brown);
+}
+.quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quiz-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border: 2px solid var(--sand);
+  border-radius: 24px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-option:hover:not(.chosen) { border-color: var(--vak-color); color: var(--vak-color); transform: translateY(-1px); }
+.quiz-option.chosen-correct {
+  background: var(--olive);
+  color: white;
+  border-color: var(--olive);
+  animation: pop 0.3s ease;
+}
+.quiz-option.chosen-wrong {
+  background: var(--rust);
+  color: white;
+  border-color: var(--rust);
+  animation: shake 0.4s ease;
+}
+.quiz-option.show-correct {
+  border-color: var(--olive);
+  color: var(--olive);
+  font-weight: 600;
+}
+.quiz-option.chosen { pointer-events: none; }
+.quiz-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: #f0f7ed; color: var(--olive-dark); }
+.quiz-feedback.wrong-fb { background: #fef0ed; color: var(--rust); }
+
+/* ===================== EXERCISES TAB ===================== */
+.exercise-category {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  margin: 24px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--sand);
+}
+.exercise-category:first-child { margin-top: 0; }
+.exercise-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.ex-number {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--vak-color);
+  margin-bottom: 4px;
+}
+.ex-problem {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  margin-bottom: 10px;
+}
+.show-solution-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border: 2px solid var(--sand);
+  border-radius: 20px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.show-solution-btn:hover { border-color: var(--vak-color); color: var(--vak-color); }
+.solution {
+  display: none;
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: var(--sand-light);
+  border-radius: 12px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--warm-brown);
+  border-left: 4px solid var(--vak-color);
+}
+.solution.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+.solution .answer {
+  font-weight: 700;
+  color: var(--vak-color);
+  font-size: 16px;
+}
+
+/* ===================== SCORE BAR ===================== */
+.score-bar {
+  display: none;
+  align-items: center;
+  gap: 14px;
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  animation: fadeSlideUp 0.3s ease;
+}
+.score-bar.visible { display: flex; flex-wrap: wrap; }
+.score-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  white-space: nowrap;
+}
+.progress-bar-container {
+  flex: 1;
+  min-width: 100px;
+  height: 10px;
+  background: var(--sand);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  border-radius: 6px;
+  transition: width 0.4s ease;
+  width: 0;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border: 2px solid var(--sand);
+  border-radius: 18px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.reset-btn:hover { border-color: var(--vak-color); color: var(--vak-color); }
+
+.celebration {
+  display: none;
+  text-align: center;
+  padding: 22px;
+  background: var(--warm-white);
+  border-radius: 16px;
+  border: 1px solid var(--sand);
+  margin-top: 18px;
+  animation: fadeSlideUp 0.4s ease;
+}
+.celebration.visible { display: block; }
+.celebration .emoji { font-size: 40px; margin-bottom: 8px; }
+.celebration .msg {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--vak-color);
+}
+
+/* ===================== ACTION BUTTONS ===================== */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border: 2px solid var(--sand);
+  border-radius: 26px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.action-btn:hover { border-color: var(--vak-color); color: var(--vak-color); transform: translateY(-2px); box-shadow: 0 3px 10px rgba(0,0,0,0.07); }
+
+/* ===================== PRINT ===================== */
+.print-only { display: none; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .print-only { display: block !important; }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .theory-card, .quiz-card, .exercise-card, .expander-area, .live-formula-area {
+    box-shadow: none !important;
+    border-color: #ddd !important;
+    break-inside: avoid;
+  }
+  .vak-icon { display: none; }
+  .step-controls { display: none !important; }
+  .chip-group { display: none !important; }
+  .explain-box { display: none !important; }
+  .result-row { display: none !important; }
+  .final-box { display: none !important; }
+  /* Quiz: hide options and feedback */
+  .quiz-options { display: none !important; }
+  .quiz-feedback { display: none !important; }
+  .quiz-card.correct-card, .quiz-card.wrong-card { border-color: #ddd !important; }
+  /* Expander: show starting state only */
+  .sliders-row { display: none !important; }
+  /* Solutions in exercises */
+  .show-solution-btn { display: none !important; }
+  .solution { display: none !important; }
+  /* Print answers section */
+  .print-answers { page-break-before: always; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 22pt;
+    color: var(--vak-color);
+    margin-bottom: 14px;
+  }
+  .print-answer-item {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+  .print-answer-item strong { color: var(--vak-color); }
+  .print-answer-category {
+    font-family: 'Caveat', cursive;
+    font-size: 14pt;
+    color: var(--vak-color);
+    margin: 14px 0 6px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+  }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 20px; }
+  .vak-icon { width: 44px; height: 44px; font-size: 22px; }
+  .tabs { gap: 4px; }
+  .tab-btn { font-size: 12px; padding: 6px 12px; }
+  .theory-card { padding: 16px; }
+  .theory-card h3 { font-size: 19px; }
+  .formula { font-size: 16px !important; padding: 10px 12px !important; }
+  .step-display { font-size: 17px; }
+  .live-line { font-size: 15px !important; }
+  .src-token { font-size: 24px !important; }
+  .sliders-row { gap: 10px; }
+  .slider-group input[type="range"] { width: 80px; }
+  .quiz-question { font-size: 15px; }
+  .quiz-option { font-size: 13px; padding: 6px 14px; }
+  .ex-problem { font-size: 15px; }
+  .expander-area, .live-formula-area { padding: 16px; }
+  .chip { font-size: 12px; padding: 5px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== BREADCRUMB ==================== -->
+<div class="container">
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a>
+    <span>›</span>
+    <a href="../index.html">1e Middelbaar</a>
+    <span>›</span>
+    Haakjes, distributie &amp; eigenschappen
+  </nav>
+
+  <!-- ==================== HEADER ==================== -->
+  <div class="exercise-header">
+    <div class="vak-icon no-print">📐</div>
+    <div>
+      <div class="exercise-title">Haakjes, distributie &amp; eigenschappen</div>
+      <div class="exercise-date">12 maart 2026</div>
+    </div>
+  </div>
+  <p class="exercise-intro">Leer haakjes wegwerken, de distributieve eigenschap toepassen, en herken de commutatieve en associatieve eigenschap.</p>
+
+  <!-- ==================== TABS ==================== -->
+  <div class="tabs no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('expander')">🔬 Haakjes-ontplooier</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">🧩 Eigenschap herkennen</button>
+    <button class="tab-btn" onclick="switchTab('oefeningen')">✏️ Oefeningen</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 1: THEORIE                                               -->
+  <!-- ============================================================ -->
+  <div id="tab-theorie" class="tab-content active">
+
+    <div class="theory-card">
+      <h3>1. Plusteken vóór de haakjes</h3>
+      <p>Bij een <strong>plusteken</strong> vóór de haakjes blijven alle tekens in de haakjes gewoon hetzelfde. Je mag de haakjes simpelweg weglaten.</p>
+      <div class="formula">a + (b + c) = a + b + c</div>
+      <div class="example">Voorbeeld: 5 + (3 + 2) = 5 + 3 + 2 = 10</div>
+    </div>
+
+    <div class="theory-card">
+      <h3>2. Minteken vóór de haakjes</h3>
+      <p>Bij een <strong>minteken</strong> vóór de haakjes draai je alle tekens in de haakjes om: plus wordt min, en min wordt plus.</p>
+      <div class="formula">a − (b + c) = a − b − c</div>
+      <div class="attention-box">Alle tekens in de haakjes draaien om! Vergeet geen enkel teken.</div>
+      <div class="example">Voorbeeld: 10 − (3 + 2) = 10 − 3 − 2 = 5</div>
+    </div>
+
+    <div class="theory-card">
+      <h3>3. Distributieve eigenschap — getal maal som</h3>
+      <p>Je vermenigvuldigt het getal vóór de haakjes met <strong>elke term</strong> in de haakjes apart.</p>
+      <div class="formula">a · (b + c) = a·b + a·c</div>
+      <div class="example">Voorbeeld: 3 · (4 + 2) = 3·4 + 3·2 = 12 + 6 = 18</div>
+    </div>
+
+    <div class="theory-card">
+      <h3>4. Distributieve eigenschap — som maal som</h3>
+      <p>Elke term uit de eerste haakjes wordt vermenigvuldigd met <strong>elke term</strong> uit de tweede haakjes.</p>
+      <div class="formula">(a + b) · (c − d) = ac − ad + bc − bd</div>
+      <div class="attention-box">Let extra goed op de tekens! Vermenigvuldig elke term met elke term en behoud het juiste teken.</div>
+      <div class="example">Voorbeeld: (2 + 3) · (4 − 1) = 2·4 − 2·1 + 3·4 − 3·1 = 8 − 2 + 12 − 3 = 15</div>
+    </div>
+
+    <div class="theory-card">
+      <h3>5. Commutatieve eigenschap</h3>
+      <p>De <strong>volgorde</strong> maakt niet uit bij optelling en vermenigvuldiging.</p>
+      <div class="formula">a + b = b + a &nbsp;&nbsp;&nbsp;&nbsp; a · b = b · a</div>
+      <div class="example">Voorbeeld: 3 + 7 = 7 + 3 = 10 &nbsp;|&nbsp; 4 · 5 = 5 · 4 = 20</div>
+      <div class="attention-box">Geldt NIET voor aftrekken en delen! &nbsp; 5 − 3 ≠ 3 − 5</div>
+    </div>
+
+    <div class="theory-card">
+      <h3>6. Associatieve eigenschap</h3>
+      <p>De <strong>groepering</strong> maakt niet uit bij optelling en vermenigvuldiging. Je mag de haakjes verschuiven.</p>
+      <div class="formula">a + (b + c) = (a + b) + c &nbsp;&nbsp;&nbsp;&nbsp; a · (b · c) = (a · b) · c</div>
+      <div class="example">Voorbeeld: 2 + (3 + 4) = (2 + 3) + 4 = 9 &nbsp;|&nbsp; 2 · (3 · 4) = (2 · 3) · 4 = 24</div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: HAAKJES-ONTPLOOIER                                    -->
+  <!-- ============================================================ -->
+  <div id="tab-expander" class="tab-content">
+
+    <div class="chip-group no-print">
+      <button class="chip active" onclick="selectExpander('plus', this)">+(b+c)</button>
+      <button class="chip" onclick="selectExpander('minus', this)">−(b+c)</button>
+      <button class="chip" onclick="selectExpander('distrib', this)">a·(b+c)</button>
+      <button class="chip" onclick="selectExpander('dubbel', this)">(a+b)·(c−d)</button>
+    </div>
+
+    <!-- STEP-BY-STEP EXPANDER -->
+    <div class="expander-area" id="expander-steps">
+      <h4 id="expander-title">Stap-voor-stap ontplooier</h4>
+      <div class="source-row" id="source-row"></div>
+      <div class="explain-box" id="explain-box"></div>
+      <div class="result-row" id="result-row"></div>
+      <div class="final-box" id="final-box"></div>
+      <div class="step-controls no-print">
+        <button class="step-btn" id="btn-prev" onclick="prevStep()" disabled>← Vorige</button>
+        <button class="step-btn primary" id="btn-next" onclick="nextStep()">Volgende stap →</button>
+        <button class="step-btn" id="btn-reset-exp" onclick="resetExpander()">↺ Opnieuw</button>
+      </div>
+    </div>
+
+    <!-- LIVE FORMULA -->
+    <div class="live-formula-area" id="live-formula">
+      <h4>Levende formule — pas de waarden aan</h4>
+      <p class="live-desc">Verschuif de waarden en zie het resultaat live meeveranderen</p>
+      <div class="sliders-row no-print" id="sliders-row"></div>
+      <div class="live-display" id="live-display"></div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 3: EIGENSCHAP HERKENNEN (QUIZ)                           -->
+  <!-- ============================================================ -->
+  <div id="tab-quiz" class="tab-content">
+    <div class="score-bar no-print" id="quiz-score-bar">
+      <span class="score-text" id="quiz-score-text">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="quiz-progress"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+    <div id="quiz-container"></div>
+    <div class="celebration" id="quiz-celebration">
+      <div class="emoji" id="quiz-cel-emoji"></div>
+      <div class="msg" id="quiz-cel-msg"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 4: OEFENINGEN                                            -->
+  <!-- ============================================================ -->
+  <div id="tab-oefeningen" class="tab-content">
+    <div id="exercises-container"></div>
+  </div>
+
+  <!-- ==================== PRINT ANSWERS ==================== -->
+  <div class="print-only print-answers" id="print-answers"></div>
+
+  <!-- ==================== ACTION BUTTONS ==================== -->
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  const labels = { theorie: '📚 Theorie', expander: '🔬 Haakjes-ontplooier', quiz: '🧩 Eigenschap herkennen', oefeningen: '✏️ Oefeningen' };
+  document.querySelectorAll('.tab-btn').forEach(b => { if (b.textContent.trim() === labels[id]) b.classList.add('active'); });
+}
+
+/* ============================================================
+   EXPANDER — STEP BY STEP (v2 — color highlights)
+   ============================================================ */
+const EXPRS = {
+  plus: {
+    title: 'Plusteken vóór de haakjes',
+    tokens: [
+      { t:'a', c:'color-a', id:'a' }, { t:' + ', c:'color-op', id:'plus' },
+      { t:'(', c:'color-bracket', id:'lb' }, { t:'b', c:'color-b', id:'b' },
+      { t:' + ', c:'color-op', id:'plus2' }, { t:'c', c:'color-c', id:'c' },
+      { t:')', c:'color-bracket', id:'rb' },
+    ],
+    steps: [
+      { explain: '<span class="rule">Plusteken vóór de haakjes:</span> we mogen de haakjes gewoon weglaten.', highlights: { lb:'dim', rb:'dim' }, results: [] },
+      { explain: 'De termen komen er <span class="hl">onveranderd</span> uit — de tekens blijven hetzelfde.', highlights: { lb:'strikethrough', rb:'strikethrough', a:'glow-a', b:'glow-b', c:'glow-c' },
+        results: [ {t:'a',c:'bg-a'}, {t:'+',c:'plain'}, {t:'b',c:'bg-b'}, {t:'+',c:'plain'}, {t:'c',c:'bg-c'} ] },
+      { explain:'', highlights:{}, results:[], final:'a + b + c' }
+    ],
+    live: {
+      vars: [ {n:'a',v:5,min:-10,max:10,col:'var(--color-a)'}, {n:'b',v:3,min:-10,max:10,col:'var(--color-b)'}, {n:'c',v:2,min:-10,max:10,col:'var(--color-c)'} ],
+      fn: (v) => ({ line1:`<span style="color:var(--color-a)">${v.a}</span> + (<span style="color:var(--color-b)">${v.b}</span> + <span style="color:var(--color-c)">${v.c}</span>)`, steps:`= <span style="color:var(--color-a)">${v.a}</span> + <span style="color:var(--color-b)">${v.b}</span> + <span style="color:var(--color-c)">${v.c}</span>`, result: v.a+v.b+v.c })
+    }
+  },
+  minus: {
+    title: 'Minteken vóór de haakjes',
+    tokens: [
+      { t:'a', c:'color-a', id:'a' }, { t:' − ', c:'color-sign', id:'min' },
+      { t:'(', c:'color-bracket', id:'lb' }, { t:'b', c:'color-b', id:'b' },
+      { t:' + ', c:'color-op', id:'plus2' }, { t:'c', c:'color-c', id:'c' },
+      { t:')', c:'color-bracket', id:'rb' },
+    ],
+    steps: [
+      { explain: '<span class="rule">Minteken vóór de haakjes:</span> haakjes mogen weg, maar <span class="hl">alle tekens draaien om!</span>', highlights: { lb:'dim', rb:'dim', min:'glow-a' }, results: [] },
+      { explain: 'Het <span style="color:var(--rust)">minteken</span> keert alle tekens om: + wordt −, en + wordt −.', highlights: { lb:'strikethrough', rb:'strikethrough', a:'glow-a', b:'glow-b', c:'glow-c' },
+        results: [ {t:'a',c:'bg-a'}, {t:'−',c:'plain'}, {t:'b',c:'bg-b'}, {t:'−',c:'plain'}, {t:'c',c:'bg-c'} ] },
+      { explain:'', highlights:{}, results:[], final:'a − b − c' }
+    ],
+    live: {
+      vars: [ {n:'a',v:10,min:-10,max:10,col:'var(--color-a)'}, {n:'b',v:3,min:-10,max:10,col:'var(--color-b)'}, {n:'c',v:2,min:-10,max:10,col:'var(--color-c)'} ],
+      fn: (v) => ({ line1:`<span style="color:var(--color-a)">${v.a}</span> <span style="color:var(--rust)">−</span> (<span style="color:var(--color-b)">${v.b}</span> + <span style="color:var(--color-c)">${v.c}</span>)`, steps:`= <span style="color:var(--color-a)">${v.a}</span> <span style="color:var(--rust)">−</span> <span style="color:var(--color-b)">${v.b}</span> <span style="color:var(--rust)">−</span> <span style="color:var(--color-c)">${v.c}</span>`, result: v.a-v.b-v.c })
+    }
+  },
+  distrib: {
+    title: 'Distributief — getal maal som',
+    tokens: [
+      { t:'a', c:'color-a', id:'a' }, { t:' · ', c:'color-op', id:'dot' },
+      { t:'(', c:'color-bracket', id:'lb' }, { t:'b', c:'color-b', id:'b' },
+      { t:' + ', c:'color-op', id:'plus' }, { t:'c', c:'color-c', id:'c' },
+      { t:')', c:'color-bracket', id:'rb' },
+    ],
+    steps: [
+      { explain: '<span class="rule">Distributieve eigenschap:</span> de factor <span style="color:var(--color-a)">a</span> vermenigvuldigt elk deel in de haakjes apart.', highlights: { a:'glow-a' }, results: [] },
+      { explain: '<span style="color:var(--color-a)">a</span> × <span style="color:var(--color-b)">b</span> = <span style="color:var(--color-b)">ab</span>', highlights: { a:'glow-a', b:'glow-b', lb:'dim', rb:'dim', c:'dim', plus:'dim' },
+        results: [ {t:'a·b',c:'bg-b'} ] },
+      { explain: '<span style="color:var(--color-a)">a</span> × <span style="color:var(--color-c)">c</span> = <span style="color:var(--color-c)">ac</span>', highlights: { a:'glow-a', c:'glow-c', lb:'dim', rb:'dim', b:'dim', plus:'dim' },
+        results: [ {t:'a·b',c:'bg-b'}, {t:'+',c:'plain'}, {t:'a·c',c:'bg-c'} ] },
+      { explain:'', highlights:{}, results:[], final:'ab + ac' }
+    ],
+    live: {
+      vars: [ {n:'a',v:3,min:-8,max:8,col:'var(--color-a)'}, {n:'b',v:4,min:-8,max:8,col:'var(--color-b)'}, {n:'c',v:2,min:-8,max:8,col:'var(--color-c)'} ],
+      fn: (v) => { const ab=v.a*v.b, ac=v.a*v.c; return { line1:`<span style="color:var(--color-a)">${v.a}</span> · (<span style="color:var(--color-b)">${v.b}</span> + <span style="color:var(--color-c)">${v.c}</span>)`, steps:`= <span style="color:var(--color-a)">${v.a}</span>×<span style="color:var(--color-b)">${v.b}</span> + <span style="color:var(--color-a)">${v.a}</span>×<span style="color:var(--color-c)">${v.c}</span> = <span style="color:var(--color-b)">${ab}</span> + <span style="color:var(--color-c)">${ac}</span>`, result: ab+ac }; }
+    }
+  },
+  dubbel: {
+    title: 'Distributief — som maal som',
+    tokens: [
+      { t:'(', c:'color-bracket', id:'lb1' }, { t:'a', c:'color-a', id:'a' },
+      { t:' + ', c:'color-op', id:'p1' }, { t:'b', c:'color-b', id:'b' },
+      { t:')', c:'color-bracket', id:'rb1' }, { t:' · ', c:'color-op', id:'dot' },
+      { t:'(', c:'color-bracket', id:'lb2' }, { t:'c', c:'color-c', id:'c' },
+      { t:' − ', c:'color-sign', id:'min' }, { t:'d', c:'color-d', id:'d' },
+      { t:')', c:'color-bracket', id:'rb2' },
+    ],
+    steps: [
+      { explain: '<span class="rule">Som maal som:</span> elke term uit de eerste haakjes vermenigvuldigt elke term uit de tweede.', highlights: {}, results: [] },
+      { explain: '<span style="color:var(--color-a)">a</span> × <span style="color:var(--color-c)">c</span> = <span style="color:var(--color-b)">ac</span>',
+        highlights: { a:'glow-a', c:'glow-c', b:'dim', d:'dim', p1:'dim', lb1:'dim', rb1:'dim', lb2:'dim', rb2:'dim' },
+        results: [ {t:'ac',c:'bg-b'} ] },
+      { explain: '<span style="color:var(--color-a)">a</span> × (<span style="color:var(--rust)">−</span><span style="color:var(--color-d)">d</span>) = <span style="color:var(--color-c)">−ad</span> &nbsp;(let op het minteken!)',
+        highlights: { a:'glow-a', d:'glow-d', min:'glow-a', b:'dim', c:'dim', p1:'dim', lb1:'dim', rb1:'dim', lb2:'dim', rb2:'dim' },
+        results: [ {t:'ac',c:'bg-b'}, {t:'−',c:'plain'}, {t:'ad',c:'bg-c'} ] },
+      { explain: '<span style="color:var(--color-b)">b</span> × <span style="color:var(--color-c)">c</span> = <span style="color:var(--color-b)">bc</span>',
+        highlights: { b:'glow-b', c:'glow-c', a:'dim', d:'dim', p1:'dim', min:'dim', lb1:'dim', rb1:'dim', lb2:'dim', rb2:'dim' },
+        results: [ {t:'ac',c:'bg-b'}, {t:'−',c:'plain'}, {t:'ad',c:'bg-c'}, {t:'+',c:'plain'}, {t:'bc',c:'bg-b'} ] },
+      { explain: '<span style="color:var(--color-b)">b</span> × (<span style="color:var(--rust)">−</span><span style="color:var(--color-d)">d</span>) = <span style="color:var(--color-c)">−bd</span> &nbsp;(weer: minteken mee!)',
+        highlights: { b:'glow-b', d:'glow-d', min:'glow-a', a:'dim', c:'dim', p1:'dim', lb1:'dim', rb1:'dim', lb2:'dim', rb2:'dim' },
+        results: [ {t:'ac',c:'bg-b'}, {t:'−',c:'plain'}, {t:'ad',c:'bg-c'}, {t:'+',c:'plain'}, {t:'bc',c:'bg-b'}, {t:'−',c:'plain'}, {t:'bd',c:'bg-c'} ] },
+      { explain:'', highlights:{}, results:[], final:'ac − ad + bc − bd' }
+    ],
+    live: {
+      vars: [ {n:'a',v:2,min:-6,max:6,col:'var(--color-a)'}, {n:'b',v:3,min:-6,max:6,col:'var(--color-b)'}, {n:'c',v:4,min:-6,max:6,col:'var(--color-c)'}, {n:'d',v:1,min:-6,max:6,col:'var(--color-d)'} ],
+      fn: (v) => {
+        const ac=v.a*v.c, ad=v.a*v.d, bc=v.b*v.c, bd=v.b*v.d;
+        function signed(n) { return n >= 0 ? '+ '+n : '− '+Math.abs(n); }
+        return { line1:`(<span style="color:var(--color-a)">${v.a}</span> + <span style="color:var(--color-b)">${v.b}</span>) · (<span style="color:var(--color-c)">${v.c}</span> − <span style="color:var(--color-d)">${v.d}</span>)`,
+          steps:`= <span style="color:var(--color-a)">${v.a}</span>·<span style="color:var(--color-c)">${v.c}</span> − <span style="color:var(--color-a)">${v.a}</span>·<span style="color:var(--color-d)">${v.d}</span> + <span style="color:var(--color-b)">${v.b}</span>·<span style="color:var(--color-c)">${v.c}</span> − <span style="color:var(--color-b)">${v.b}</span>·<span style="color:var(--color-d)">${v.d}</span><br>= ${ac} ${signed(-ad)} ${signed(bc)} ${signed(-bd)}`,
+          result: ac - ad + bc - bd };
+      }
+    }
+  }
+};
+
+let currentExpType = 'plus';
+let currentStep = 0;
+let liveVars = {};
+
+function selectExpander(type, btn) {
+  currentExpType = type;
+  currentStep = 0;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderExpanderStep();
+  renderLiveFormula();
+}
+
+function renderExpanderStep() {
+  const expr = EXPRS[currentExpType];
+  const step = expr.steps[currentStep];
+  document.getElementById('expander-title').textContent = expr.title;
+
+  // Source tokens with highlights
+  document.getElementById('source-row').innerHTML = expr.tokens.map(tk => {
+    const hl = step.highlights[tk.id] || '';
+    return `<span class="src-token ${tk.c} ${hl}">${tk.t}</span>`;
+  }).join('');
+
+  // Explanation
+  document.getElementById('explain-box').innerHTML = step.explain;
+
+  // Results
+  const resEl = document.getElementById('result-row');
+  if (step.results && step.results.length > 0) {
+    resEl.innerHTML = step.results.map((r,i) =>
+      `<span class="res-token ${r.c} show" style="animation-delay:${i*0.12}s">${r.t}</span>`
+    ).join('');
+  } else { resEl.innerHTML = ''; }
+
+  // Final
+  const fin = document.getElementById('final-box');
+  if (step.final) { fin.textContent = '= ' + step.final; fin.classList.add('show'); }
+  else { fin.textContent = ''; fin.classList.remove('show'); }
+
+  // Buttons
+  document.getElementById('btn-prev').disabled = currentStep === 0;
+  const btnNext = document.getElementById('btn-next');
+  if (currentStep >= expr.steps.length - 1) { btnNext.disabled = true; btnNext.textContent = '✓ Klaar!'; }
+  else { btnNext.disabled = false; btnNext.textContent = 'Volgende stap →'; }
+}
+
+function nextStep() {
+  const expr = EXPRS[currentExpType];
+  if (currentStep < expr.steps.length - 1) { currentStep++; renderExpanderStep(); }
+}
+function prevStep() {
+  if (currentStep > 0) { currentStep--; renderExpanderStep(); }
+}
+function resetExpander() { currentStep = 0; renderExpanderStep(); }
+
+/* ============================================================
+   LIVE FORMULA (v2 — with steps display)
+   ============================================================ */
+function renderLiveFormula() {
+  const live = EXPRS[currentExpType].live;
+  liveVars = {};
+  const sr = document.getElementById('sliders-row');
+  sr.innerHTML = live.vars.map(v => {
+    liveVars[v.n] = v.v;
+    return `<div class="slider-group">
+      <label style="color:${v.col}">${v.n}</label>
+      <input type="range" min="${v.min}" max="${v.max}" value="${v.v}" id="sl-${v.n}" oninput="updateLive('${v.n}', this.value)">
+      <span class="slider-val" id="sv-${v.n}">${v.v}</span>
+    </div>`;
+  }).join('');
+  updateLiveDisplay();
+}
+
+function updateLive(name, val) {
+  liveVars[name] = parseInt(val);
+  document.getElementById('sv-' + name).textContent = val;
+  updateLiveDisplay();
+}
+
+function updateLiveDisplay() {
+  const r = EXPRS[currentExpType].live.fn(liveVars);
+  document.getElementById('live-display').innerHTML = `
+    <div class="live-line">${r.line1}</div>
+    <div class="live-step">${r.steps}</div>
+    <span class="live-result">= ${r.result}</span>
+  `;
+}
+
+/* ============================================================
+   QUIZ — EIGENSCHAP HERKENNEN
+   ============================================================ */
+const quizData = [
+  { q: '5 · (x + 3) = 5x + 15', answer: 'distributief', explain: 'Het getal 5 wordt vermenigvuldigd met elke term in de haakjes: 5·x + 5·3. Dat is de distributieve eigenschap.' },
+  { q: '7 + 9 = 9 + 7', answer: 'commutatief', explain: 'De volgorde van de optelling is omgedraaid, maar het resultaat blijft gelijk. Dat is de commutatieve eigenschap.' },
+  { q: '(2 + 3) + 4 = 2 + (3 + 4)', answer: 'associatief', explain: 'De groepering (haakjes) is verschoven, maar het resultaat blijft gelijk. Dat is de associatieve eigenschap.' },
+  { q: 'a − (b + c) = a − b − c', answer: 'minteken-regel', explain: 'Bij een minteken vóór de haakjes draaien alle tekens om: +b wordt −b, +c wordt −c.' },
+  { q: 'x + (y − 3) = x + y − 3', answer: 'plusteken-regel', explain: 'Bij een plusteken vóór de haakjes blijven alle tekens hetzelfde — de haakjes vallen gewoon weg.' },
+  { q: '3 · 8 = 8 · 3', answer: 'commutatief', explain: 'De volgorde van de vermenigvuldiging is omgedraaid. Dat is de commutatieve eigenschap.' },
+  { q: '−2 · (a + 4) = −2a − 8', answer: 'distributief', explain: '−2 wordt vermenigvuldigd met elke term: −2·a = −2a en −2·4 = −8. Dat is de distributieve eigenschap.' },
+  { q: '(5 · 2) · 3 = 5 · (2 · 3)', answer: 'associatief', explain: 'De groepering bij de vermenigvuldiging is verschoven. Dat is de associatieve eigenschap.' },
+  { q: 'y − (2x − 5) = y − 2x + 5', answer: 'minteken-regel', explain: 'Het minteken vóór de haakjes draait alle tekens om: +2x wordt −2x, en −5 wordt +5.' },
+  { q: '(a + 2) · (b + 3) = ab + 3a + 2b + 6', answer: 'distributief', explain: 'Elke term uit de eerste haakjes is vermenigvuldigd met elke term uit de tweede haakjes. Dat is de distributieve eigenschap (som maal som).' }
+];
+const quizOptions = ['distributief', 'commutatief', 'associatief', 'plusteken-regel', 'minteken-regel'];
+let quizScore = 0, quizAnswered = 0;
+
+function buildQuiz() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = quizData.map((q, i) => `
+    <div class="quiz-card" id="qc-${i}">
+      <div class="quiz-num">Vraag ${i + 1}</div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options" id="qo-${i}">
+        ${quizOptions.map(o => `<button class="quiz-option" onclick="answerQuiz(${i},'${o}')">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="qf-${i}"></div>
+    </div>
+  `).join('');
+}
+
+function answerQuiz(idx, chosen) {
+  const q = quizData[idx];
+  const card = document.getElementById('qc-' + idx);
+  const fb = document.getElementById('qf-' + idx);
+  const opts = document.querySelectorAll('#qo-' + idx + ' .quiz-option');
+
+  opts.forEach(o => {
+    o.classList.add('chosen');
+    if (o.textContent === q.answer) o.classList.add('show-correct');
+    if (o.textContent === chosen) {
+      o.classList.add(chosen === q.answer ? 'chosen-correct' : 'chosen-wrong');
+    }
+  });
+
+  const correct = chosen === q.answer;
+  if (correct) {
+    quizScore++;
+    card.classList.add('correct-card');
+    fb.className = 'quiz-feedback show correct-fb';
+    fb.textContent = '✓ Juist! ' + q.explain;
+  } else {
+    card.classList.add('wrong-card');
+    fb.className = 'quiz-feedback show wrong-fb';
+    fb.textContent = '✗ Het juiste antwoord is "' + q.answer + '". ' + q.explain;
+  }
+  quizAnswered++;
+  updateQuizScore();
+}
+
+function updateQuizScore() {
+  const bar = document.getElementById('quiz-score-bar');
+  bar.classList.add('visible');
+  document.getElementById('quiz-score-text').textContent = 'Score: ' + quizScore + '/' + quizAnswered;
+  document.getElementById('quiz-progress').style.width = (quizAnswered / quizData.length * 100) + '%';
+
+  if (quizAnswered === quizData.length) {
+    const cel = document.getElementById('quiz-celebration');
+    const pct = quizScore / quizData.length * 100;
+    let emoji, msg;
+    if (pct === 100) { emoji = '🌟'; msg = 'Alles juist — fantastisch!'; }
+    else if (pct >= 80) { emoji = '🎉'; msg = 'Heel goed! Bijna alles juist.'; }
+    else if (pct >= 60) { emoji = '💪'; msg = 'Goed bezig! Bekijk de fouten nog eens.'; }
+    else { emoji = '📚'; msg = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+    document.getElementById('quiz-cel-emoji').textContent = emoji;
+    document.getElementById('quiz-cel-msg').textContent = msg;
+    cel.classList.add('visible');
+  }
+}
+
+function resetQuiz() {
+  quizScore = 0;
+  quizAnswered = 0;
+  document.getElementById('quiz-score-bar').classList.remove('visible');
+  document.getElementById('quiz-celebration').classList.remove('visible');
+  buildQuiz();
+}
+
+/* ============================================================
+   EXERCISES — OEFENINGEN MET TOON/VERBERG
+   ============================================================ */
+const exercises = [
+  // A: Plusteken/Minteken vóór haakjes
+  { cat: 'A — Plusteken &amp; minteken vóór haakjes', items: [
+    { nr: 'A1', problem: 'x + (y + 3)', answer: 'x + y + 3', steps: 'Er staat een plusteken vóór de haakjes, dus de tekens blijven hetzelfde → x + y + 3' },
+    { nr: 'A2', problem: '4 + (a − 2)', answer: '4 + a − 2', steps: 'Er staat een plusteken vóór de haakjes, dus de tekens blijven hetzelfde → 4 + a − 2' },
+    { nr: 'A3', problem: 'b + (2x + 5 − y)', answer: 'b + 2x + 5 − y', steps: 'Er staat een plusteken vóór de haakjes, dus de tekens blijven hetzelfde → b + 2x + 5 − y' },
+    { nr: 'A4', problem: 'a − (b + 4)', answer: 'a − b − 4', steps: 'Er staat een minteken vóór de haakjes, dus alle tekens draaien om → a − b − 4' },
+    { nr: 'A5', problem: '7 − (x − 3)', answer: '7 − x + 3', steps: 'Er staat een minteken vóór de haakjes, dus alle tekens draaien om: +x wordt −x, en −3 wordt +3 → 7 − x + 3' },
+    { nr: 'A6', problem: 'y − (2a + b − 6)', answer: 'y − 2a − b + 6', steps: 'Er staat een minteken vóór de haakjes, dus alle tekens draaien om: +2a wordt −2a, +b wordt −b, −6 wordt +6 → y − 2a − b + 6' },
+  ]},
+  // B: Distributief — getal maal som
+  { cat: 'B — Distributief: getal maal som', items: [
+    { nr: 'B1', problem: '2 · (x + 3)', answer: '2x + 6', steps: 'Stap 1: 2 × x = 2x\nStap 2: 2 × 3 = 6\nResultaat: 2x + 6' },
+    { nr: 'B2', problem: '3 · (a − 5)', answer: '3a − 15', steps: 'Stap 1: 3 × a = 3a\nStap 2: 3 × 5 = 15\nLet op het minteken → 3a − 15' },
+    { nr: 'B3', problem: '−2 · (b + 4)', answer: '−2b − 8', steps: 'Stap 1: −2 × b = −2b\nStap 2: −2 × 4 = −8\nResultaat: −2b − 8' },
+    { nr: 'B4', problem: '4 · (2x − y)', answer: '8x − 4y', steps: 'Stap 1: 4 × 2x = 8x\nStap 2: 4 × y = 4y\nLet op het minteken → 8x − 4y' },
+    { nr: 'B5', problem: '−3 · (a − 2b + 1)', answer: '−3a + 6b − 3', steps: 'Stap 1: −3 × a = −3a\nStap 2: −3 × (−2b) = +6b\nStap 3: −3 × 1 = −3\nResultaat: −3a + 6b − 3' },
+    { nr: 'B6', problem: '5 · (x² + 2x − 4)', answer: '5x² + 10x − 20', steps: 'Stap 1: 5 × x² = 5x²\nStap 2: 5 × 2x = 10x\nStap 3: 5 × 4 = 20\nLet op het minteken → 5x² + 10x − 20' },
+  ]},
+  // C: Som maal som
+  { cat: 'C — Distributief: som maal som', items: [
+    { nr: 'C1', problem: '(a + 2) · (b + 3)', answer: 'ab + 3a + 2b + 6', steps: 'a×b = ab\na×3 = 3a\n2×b = 2b\n2×3 = 6\nResultaat: ab + 3a + 2b + 6' },
+    { nr: 'C2', problem: '(x + 4) · (x − 1)', answer: 'x² + 3x − 4', steps: 'x×x = x²\nx×(−1) = −x\n4×x = 4x\n4×(−1) = −4\nSamen: x² − x + 4x − 4\nVereenvoudig: x² + 3x − 4' },
+    { nr: 'C3', problem: '(2a − 3) · (a + 5)', answer: '2a² + 7a − 15', steps: '2a×a = 2a²\n2a×5 = 10a\n(−3)×a = −3a\n(−3)×5 = −15\nSamen: 2a² + 10a − 3a − 15\nVereenvoudig: 2a² + 7a − 15' },
+    { nr: 'C4', problem: '(3x − 2) · (2x − 5)', answer: '6x² − 19x + 10', steps: '3x×2x = 6x²\n3x×(−5) = −15x\n(−2)×2x = −4x\n(−2)×(−5) = +10\nSamen: 6x² − 15x − 4x + 10\nVereenvoudig: 6x² − 19x + 10' },
+  ]},
+  // D: Gecombineerd
+  { cat: 'D — Gecombineerde oefeningen', items: [
+    { nr: 'D1', problem: '2 · (a + b) − (a − b)', answer: 'a + 3b', steps: 'Stap 1: Distributie → 2a + 2b\nStap 2: Minteken → −a + b\nSamen: 2a + 2b − a + b\nVereenvoudig: a + 3b' },
+    { nr: 'D2', problem: '3 · (x − 2) + 2 · (x + 5)', answer: '5x + 4', steps: 'Stap 1: 3·(x−2) = 3x − 6\nStap 2: 2·(x+5) = 2x + 10\nSamen: 3x − 6 + 2x + 10\nVereenvoudig: 5x + 4' },
+    { nr: 'D3', problem: '(x + 3) · (x − 1) − 2x', answer: 'x² − 3', steps: 'Stap 1: (x+3)·(x−1) = x² − x + 3x − 3 = x² + 2x − 3\nStap 2: Trek 2x af → x² + 2x − 3 − 2x\nVereenvoudig: x² − 3' },
+    { nr: 'D4', problem: '4 · (a − 1) − 2 · (a + 3)', answer: '2a − 10', steps: 'Stap 1: 4·(a−1) = 4a − 4\nStap 2: 2·(a+3) = 2a + 6\nSamen: 4a − 4 − 2a − 6\nVereenvoudig: 2a − 10' },
+  ]}
+];
+
+function buildExercises() {
+  const c = document.getElementById('exercises-container');
+  let printHtml = '<h2>Oplossingen — Oefeningen</h2>';
+  let exHtml = '';
+
+  exercises.forEach(cat => {
+    exHtml += `<div class="exercise-category">${cat.cat}</div>`;
+    printHtml += `<div class="print-answer-category">${cat.cat}</div>`;
+    cat.items.forEach(item => {
+      const solId = 'sol-' + item.nr;
+      exHtml += `
+        <div class="exercise-card">
+          <div class="ex-number">${item.nr}</div>
+          <div class="ex-problem">${item.problem}</div>
+          <button class="show-solution-btn no-print" onclick="toggleSolution('${solId}', this)">👁 Toon oplossing</button>
+          <div class="solution" id="${solId}">
+            <div class="answer">${item.answer}</div>
+            <div style="margin-top:6px;white-space:pre-line;font-size:14px;">${item.steps}</div>
+          </div>
+        </div>
+      `;
+      printHtml += `<div class="print-answer-item"><strong>${item.nr}:</strong> ${item.answer}</div>`;
+    });
+  });
+
+  // Also add quiz answers to print
+  printHtml += '<div class="print-answer-category" style="margin-top:20px;">Eigenschap herkennen (quiz)</div>';
+  quizData.forEach((q, i) => {
+    printHtml += `<div class="print-answer-item"><strong>${i+1}.</strong> ${q.q} → <strong>${q.answer}</strong></div>`;
+  });
+
+  c.innerHTML = exHtml;
+  document.getElementById('print-answers').innerHTML = printHtml;
+}
+
+function toggleSolution(id, btn) {
+  const sol = document.getElementById(id);
+  if (sol.classList.contains('visible')) {
+    sol.classList.remove('visible');
+    btn.textContent = '👁 Toon oplossing';
+  } else {
+    sol.classList.add('visible');
+    btn.textContent = '🙈 Verberg oplossing';
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderExpanderStep();
+renderLiveFormula();
+buildQuiz();
+buildExercises();
+</script>
+</body>
+</html>
