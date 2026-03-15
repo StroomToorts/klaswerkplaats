@@ -236,12 +236,27 @@
           <label for="hw-vak">Vak *</label>
           <select id="hw-vak" required>
             <option value="">Kies een vak...</option>
-            <option value="frans">🇫🇷 Frans</option><option value="engels">🇬🇧 Engels</option>
-            <option value="wiskunde">📐 Wiskunde</option><option value="geschiedenis">🏛️ Geschiedenis</option>
-            <option value="aardrijkskunde">🌍 Aardrijkskunde</option><option value="nederlands">📖 Nederlands</option>
-            <option value="biologie">🌿 Biologie</option><option value="muziek">🎵 Muziek</option>
-            <option value="handenarbeid">🎨 Handenarbeid</option><option value="godsdienst">✨ Godsdienst</option>
-            <option value="anders">📝 Ander vak</option>
+            <optgroup label="Talen">
+              <option value="nederlands">🇳🇱 Nederlands</option>
+              <option value="engels">🇬🇧 Engels</option>
+              <option value="frans">🇫🇷 Frans</option>
+            </optgroup>
+            <optgroup label="Wetenschappen">
+              <option value="wiskunde">📐 Wiskunde</option>
+              <option value="fysica">⚡ Fysica</option>
+              <option value="chemie">🧪 Chemie</option>
+              <option value="biologie">🌿 Biologie</option>
+            </optgroup>
+            <optgroup label="Mens & maatschappij">
+              <option value="geschiedenis">🏛️ Geschiedenis</option>
+              <option value="aardrijkskunde">🌍 Aardrijkskunde</option>
+            </optgroup>
+            <optgroup label="Overig">
+              <option value="muziek">🎵 Muziek</option>
+              <option value="handenarbeid">🎨 Handenarbeid</option>
+              <option value="godsdienst">✨ Godsdienst</option>
+              <option value="anders">📝 Ander vak</option>
+            </optgroup>
           </select>
         </div>
         <div class="form-group" id="custom-vak-group" style="display:none;"><label for="hw-custom-vak">Vaknaam</label><input type="text" id="hw-custom-vak" placeholder="Typ de vaknaam"></div>
@@ -296,13 +311,15 @@
     const TELEGRAM_CHAT_ID = '7940690399';
 
     const VAKKEN = {
-      frans:{ emoji:'🇫🇷', label:'Frans', color:'#C2704E' },
+      nederlands:{ emoji:'🇳🇱', label:'Nederlands', color:'#A8B89A' },
       engels:{ emoji:'🇬🇧', label:'Engels', color:'#D4A843' },
+      frans:{ emoji:'🇫🇷', label:'Frans', color:'#C2704E' },
       wiskunde:{ emoji:'📐', label:'Wiskunde', color:'#7A8B6F' },
+      fysica:{ emoji:'⚡', label:'Fysica', color:'#D4A843' },
+      chemie:{ emoji:'🧪', label:'Chemie', color:'#6A9BB5' },
+      biologie:{ emoji:'🌿', label:'Biologie', color:'#95A886' },
       geschiedenis:{ emoji:'🏛️', label:'Geschiedenis', color:'#5C4033' },
       aardrijkskunde:{ emoji:'🌍', label:'Aardrijkskunde', color:'#C9A0A0' },
-      nederlands:{ emoji:'📖', label:'Nederlands', color:'#A8B89A' },
-      biologie:{ emoji:'🌿', label:'Biologie', color:'#95A886' },
       muziek:{ emoji:'🎵', label:'Muziek', color:'#6A9BB5' },
       handenarbeid:{ emoji:'🎨', label:'Handenarbeid', color:'#C2704E' },
       godsdienst:{ emoji:'✨', label:'Godsdienst', color:'#D4A843' },
@@ -337,7 +354,7 @@
       return d;
     }
 
-    function dateToStr(d) { return d.toISOString().split('T')[0]; }
+    function dateToStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 
     function getWeekDays(monday) {
       const days = [];
