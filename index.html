@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Klaswerkplaats · Steinerschool Turnhout</title>
+  <title>Leerhefboom · Steinerschool Turnhout</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -34,7 +34,6 @@
       overflow-x: hidden;
     }
 
-    /* Organic background pattern */
     body::before {
       content: '';
       position: fixed;
@@ -44,6 +43,149 @@
       z-index: 0;
     }
 
+    /* ============================================
+       SITEWIDE NAV
+       ============================================ */
+    .site-nav {
+      position: relative;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 20px 0;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--warm-brown);
+      transition: color 0.2s ease;
+    }
+    .home-link:hover { color: var(--terracotta); }
+    .home-link .logo-emoji { font-size: 20px; line-height: 1; }
+    .home-link .site-name {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-links a {
+      color: var(--terracotta);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .nav-links a:hover {
+      background: rgba(194,112,78,0.08);
+    }
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+      position: relative;
+      z-index: 110;
+      flex-shrink: 0;
+    }
+    .hamburger:hover { background: rgba(194,112,78,0.08); }
+    .hamburger svg { display: block; }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(61,43,31,0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 105;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu-panel {
+      position: absolute;
+      top: 0; right: 0;
+      width: 260px;
+      max-width: 80vw;
+      height: 100%;
+      background: var(--warm-white);
+      box-shadow: -4px 0 24px rgba(61,43,31,0.1);
+      padding: 72px 28px 32px;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.open .mobile-menu-panel { transform: translateX(0); }
+    .mobile-menu-panel a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 0;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--warm-brown);
+      text-decoration: none;
+      border-bottom: 1px solid var(--sand-light);
+      transition: color 0.2s ease;
+    }
+    .mobile-menu-panel a:last-child { border-bottom: none; }
+    .mobile-menu-panel a:hover { color: var(--terracotta); }
+    .mobile-menu-panel a .menu-emoji { font-size: 18px; width: 24px; text-align: center; }
+    .mobile-menu-panel .menu-label {
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      color: var(--warm-brown);
+      opacity: 0.35;
+      margin-bottom: 8px;
+    }
+    .mobile-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--warm-brown);
+      transition: background 0.2s ease;
+    }
+    .mobile-close:hover { background: rgba(194,112,78,0.08); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: block; }
+    }
+
+    /* ============================================
+       LANDING PAGE
+       ============================================ */
     .container {
       position: relative;
       z-index: 1;
@@ -51,10 +193,9 @@
       margin: 0 auto;
       padding: 20px;
       text-align: center;
-      padding-top: 12vh;
+      padding-top: 10vh;
     }
 
-    /* Floating leaves animation */
     .leaf {
       position: fixed;
       top: -40px;
@@ -103,9 +244,7 @@
       margin-bottom: 56px;
     }
 
-    .header-block {
-      animation: fadeSlideUp 0.7s ease forwards;
-    }
+    .header-block { animation: fadeSlideUp 0.7s ease forwards; }
 
     .years {
       display: flex;
@@ -153,9 +292,7 @@
       opacity: 0.6;
       margin-top: 2px;
     }
-    .year-card .stat {
-      text-align: right;
-    }
+    .year-card .stat { text-align: right; }
     .year-card .count {
       font-family: 'Caveat', cursive;
       font-size: 28px;
@@ -167,7 +304,6 @@
       color: var(--warm-brown);
       opacity: 0.5;
     }
-
     .year-card.upcoming {
       background: transparent;
       border: 2px dashed var(--sand);
@@ -175,10 +311,7 @@
       opacity: 0.5;
       cursor: default;
     }
-    .year-card.upcoming:hover {
-      transform: none;
-      box-shadow: none;
-    }
+    .year-card.upcoming:hover { transform: none; box-shadow: none; }
     .year-card.upcoming .soon {
       font-family: 'Caveat', cursive;
       font-size: 16px;
@@ -195,28 +328,65 @@
       margin-top: 64px;
       animation: fadeSlideUp 0.7s ease 0.4s both;
     }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      body::before { display: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="leaf">🍂</div>
-  <div class="leaf">🍂</div>
-  <div class="leaf">🍂</div>
-  <div class="leaf">🍂</div>
-  <div class="leaf">🍂</div>
+  <div class="leaf" aria-hidden="true">🍂</div>
+  <div class="leaf" aria-hidden="true">🍂</div>
+  <div class="leaf" aria-hidden="true">🍂</div>
+  <div class="leaf" aria-hidden="true">🍂</div>
+  <div class="leaf" aria-hidden="true">🍂</div>
 
+  <!-- SITEWIDE NAV -->
+  <nav class="site-nav no-print" role="navigation" aria-label="Hoofdnavigatie">
+    <a href="index.html" class="home-link" aria-label="Startpagina">
+      <span class="logo-emoji" aria-hidden="true">🌱</span>
+      <span class="site-name">Leerhefboom</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="over.html">Over dit project</a>
+      </div>
+      <button class="hamburger" aria-label="Menu openen" aria-expanded="false" id="hamburger-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="5" x2="17" y2="5" style="color: var(--warm-brown)"/>
+          <line x1="3" y1="10" x2="17" y2="10" style="color: var(--warm-brown)"/>
+          <line x1="3" y1="15" x2="17" y2="15" style="color: var(--warm-brown)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu no-print" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-panel" role="dialog" aria-label="Navigatiemenu">
+      <button class="mobile-close" aria-label="Menu sluiten" id="mobile-close-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="4" x2="14" y2="14" style="color: var(--warm-brown)"/>
+          <line x1="14" y1="4" x2="4" y2="14" style="color: var(--warm-brown)"/>
+        </svg>
+      </button>
+      <div class="menu-label">Navigatie</div>
+      <a href="index.html"><span class="menu-emoji">🏠</span> Startpagina</a>
+      <a href="over.html"><span class="menu-emoji">💡</span> Over dit project</a>
+    </div>
+  </div>
+
+  <!-- LANDING PAGE -->
   <div class="container">
     <div class="header-block">
       <div class="logo">🌱</div>
-      <h1>Klaswerkplaats</h1>
+      <h1>Leerhefboom</h1>
       <p class="subtitle">Steinerschool Turnhout · Oefenmateriaal per week</p>
     </div>
 
     <div class="years">
-      <!-- ========================================
-           CONFIGURATIE: Voeg hier nieuwe jaren toe.
-           Kopieer een year-card blok en pas aan.
-           ======================================== -->
-
       <a href="1-middelbaar-2025-2026/index.html" class="year-card">
         <div class="accent" style="background: var(--terracotta)"></div>
         <div class="info">
@@ -245,26 +415,41 @@
   </div>
 
   <script>
-    // =============================================
-    // CONFIGURATIE — Pas dit aan naar jouw GitHub
-    // =============================================
-    const GITHUB_OWNER = 'StroomToorts';  // ← Vul hier je GitHub-gebruikersnaam in
-    const GITHUB_REPO  = 'klaswerkplaats';         // ← Naam van je repository
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeBtn = document.getElementById('mobile-close-btn');
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu(); });
 
-    // Probeer het aantal oefeningen op te halen via de GitHub API
+    // Exercise count
+    const GITHUB_OWNER = 'StroomToorts';
+    const GITHUB_REPO  = 'klaswerkplaats';
     async function fetchCount(path, elementId) {
       try {
         const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${path}`);
         if (!resp.ok) throw new Error('API error');
         const files = await resp.json();
-        const htmlFiles = files.filter(f => f.name.endsWith('.html'));
+        const htmlFiles = files.filter(f => f.name.endsWith('.html') && f.name !== 'index.html');
         document.getElementById(elementId).textContent = htmlFiles.length;
       } catch (e) {
-        // Als de API niet bereikbaar is, toon een neutraal icoon
         document.getElementById(elementId).textContent = '📚';
       }
     }
-
     fetchCount('1-middelbaar-2025-2026/oefeningen', 'count-1m');
   </script>
 </body>
