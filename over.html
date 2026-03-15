@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Over dit project · Leerhefboom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F7F2E8; --warm-white: #FFFDF7; --terracotta: #C2704E;
+      --terracotta-light: #D4916F; --ochre: #D4A843; --olive: #7A8B6F;
+      --warm-brown: #5C4033; --dark-brown: #3D2B1F; --sand: #E8DCC8;
+      --sand-light: #F0E8D8; --parchment: #F5EDE0; --sage: #A8B89A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+      font-family: 'Vollkorn', Georgia, serif; color: var(--dark-brown); overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M20,80 Q40,20 80,60 Q60,100 20,80Z' fill='%237A8B6F' opacity='0.04'/%3E%3Cpath d='M120,40 Q160,10 170,60 Q140,80 120,40Z' fill='%23C2704E' opacity='0.04'/%3E%3Cpath d='M60,150 Q90,120 110,160 Q80,180 60,150Z' fill='%23D4A843' opacity='0.04'/%3E%3Ccircle cx='160' cy='150' r='15' fill='%23A8B89A' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    .site-nav { position: relative; z-index: 100; display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px 0; font-family: 'Source Sans 3', sans-serif; }
+    .home-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--warm-brown); transition: color 0.2s ease; }
+    .home-link:hover { color: var(--terracotta); }
+    .home-link .logo-emoji { font-size: 20px; line-height: 1; }
+    .home-link .site-name { font-family: 'Caveat', cursive; font-size: 20px; font-weight: 600; }
+    .nav-right { display: flex; align-items: center; gap: 6px; }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { color: var(--terracotta); text-decoration: none; font-size: 13px; font-weight: 500; padding: 5px 12px; border-radius: 8px; transition: all 0.2s ease; }
+    .nav-links a:hover { background: rgba(194,112,78,0.08); }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; width: 36px; height: 36px; border-radius: 10px; align-items: center; justify-content: center; transition: background 0.2s ease; position: relative; z-index: 110; flex-shrink: 0; }
+    .hamburger:hover { background: rgba(194,112,78,0.08); }
+    .hamburger svg { display: block; }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(61,43,31,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 105; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu-panel { position: absolute; top: 0; right: 0; width: 260px; max-width: 80vw; height: 100%; background: var(--warm-white); box-shadow: -4px 0 24px rgba(61,43,31,0.1); padding: 72px 28px 32px; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .mobile-menu.open .mobile-menu-panel { transform: translateX(0); }
+    .mobile-menu-panel a { display: flex; align-items: center; gap: 10px; padding: 14px 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; font-weight: 500; color: var(--warm-brown); text-decoration: none; border-bottom: 1px solid var(--sand-light); transition: color 0.2s ease; }
+    .mobile-menu-panel a:last-child { border-bottom: none; }
+    .mobile-menu-panel a:hover { color: var(--terracotta); }
+    .mobile-menu-panel a .menu-emoji { font-size: 18px; width: 24px; text-align: center; }
+    .mobile-menu-panel .menu-label { font-family: 'Caveat', cursive; font-size: 14px; color: var(--warm-brown); opacity: 0.35; margin-bottom: 8px; }
+    .mobile-close { position: absolute; top: 16px; right: 16px; background: none; border: none; cursor: pointer; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--warm-brown); transition: background 0.2s ease; }
+    .mobile-close:hover { background: rgba(194,112,78,0.08); }
+    @media (max-width: 600px) { .nav-links { display: none; } .hamburger { display: flex; } .mobile-menu { display: block; } }
+
+    /* LAYOUT */
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+    .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 20px; padding-top: 24px; }
+    .breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; animation: fadeSlideUp 0.5s ease forwards; }
+    .breadcrumb a { color: var(--warm-brown); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+    .breadcrumb a:hover { color: var(--terracotta); }
+    .breadcrumb .sep { opacity: 0.3; }
+    .breadcrumb .current { font-weight: 600; }
+
+    /* HERO */
+    .hero { display: flex; align-items: center; gap: 32px; margin-bottom: 56px; animation: fadeSlideUp 0.6s ease 0.1s both; }
+    .hero-photo {
+      width: 140px; height: 140px; border-radius: 20px; flex-shrink: 0;
+      object-fit: cover; box-shadow: 0 4px 20px rgba(61,43,31,0.12);
+      border: 3px solid var(--warm-white);
+    }
+    .hero-text { flex: 1; }
+    .hero h1 { font-family: 'Caveat', cursive; font-size: clamp(32px, 6vw, 48px); color: var(--warm-brown); font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+    .hero .tagline { font-family: 'Source Sans 3', sans-serif; font-size: 17px; color: var(--warm-brown); opacity: 0.6; line-height: 1.6; }
+    @media (max-width: 500px) {
+      .hero { flex-direction: column; text-align: center; gap: 20px; }
+      .hero-photo { width: 120px; height: 120px; }
+    }
+
+    /* SECTIONS */
+    .section { margin-bottom: 56px; }
+    .section-title {
+      font-family: 'Caveat', cursive; font-size: 28px; color: var(--terracotta);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    }
+    .section-title .section-emoji { font-size: 24px; }
+
+    .prose {
+      font-family: 'Vollkorn', serif; font-size: 17px; line-height: 1.8;
+      color: var(--dark-brown);
+    }
+    .prose p { margin-bottom: 16px; }
+    .prose strong { color: var(--terracotta); font-weight: 600; }
+    .prose a { color: var(--terracotta); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+    .prose a:hover { text-decoration-style: solid; }
+
+    /* QUOTE CARD */
+    .quote-card {
+      background: var(--warm-white); border-radius: 20px; padding: 28px 32px;
+      border-left: 4px solid var(--terracotta); margin: 28px 0;
+      box-shadow: 0 4px 20px rgba(61,43,31,0.06);
+    }
+    .quote-card p {
+      font-family: 'Vollkorn', serif; font-size: 18px; font-style: italic;
+      color: var(--warm-brown); line-height: 1.7; margin: 0;
+    }
+    .quote-card .attribution {
+      font-family: 'Source Sans 3', sans-serif; font-size: 13px;
+      color: var(--warm-brown); opacity: 0.5; margin-top: 12px; font-style: normal;
+    }
+
+    /* CHAT DEMO */
+    .chat-demo {
+      background: var(--warm-white); border-radius: 20px; padding: 24px;
+      box-shadow: 0 4px 24px rgba(61,43,31,0.08); border: 1px solid rgba(61,43,31,0.06);
+      margin: 28px 0; overflow: hidden;
+    }
+    .chat-demo-header {
+      font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1.2px; color: var(--warm-brown);
+      opacity: 0.4; margin-bottom: 20px; text-align: center;
+    }
+    .chat-messages { min-height: 200px; }
+    .chat-msg {
+      display: flex; gap: 12px; margin-bottom: 16px;
+      opacity: 0; transform: translateY(12px);
+      transition: all 0.4s ease;
+    }
+    .chat-msg.visible { opacity: 1; transform: translateY(0); }
+    .chat-msg .avatar {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .chat-msg.human .avatar { background: var(--sand); }
+    .chat-msg.ai .avatar { background: rgba(194,112,78,0.12); }
+    .chat-msg .bubble {
+      background: var(--cream); border-radius: 14px; padding: 12px 16px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 14px; line-height: 1.6;
+      color: var(--dark-brown); max-width: 85%;
+    }
+    .chat-msg.ai .bubble { background: rgba(194,112,78,0.06); }
+    .chat-msg .bubble .typing { display: inline; }
+    .chat-msg .bubble .cursor {
+      display: inline-block; width: 2px; height: 14px; background: var(--terracotta);
+      margin-left: 1px; vertical-align: middle; animation: blink 0.8s infinite;
+    }
+
+    .chat-controls {
+      display: flex; justify-content: center; gap: 10px; margin-top: 20px; padding-top: 16px;
+      border-top: 1px solid var(--sand-light);
+    }
+    .chat-btn {
+      font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 500;
+      padding: 7px 16px; border-radius: 50px; border: 1px solid var(--sand); cursor: pointer;
+      background: var(--warm-white); color: var(--warm-brown); transition: all 0.2s ease;
+    }
+    .chat-btn:hover { background: var(--sand-light); border-color: var(--terracotta-light); }
+    .chat-btn.active { background: var(--terracotta); color: var(--cream); border-color: var(--terracotta); }
+
+    /* PROCESS STEPS */
+    .steps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin: 28px 0;
+    }
+    .step {
+      background: var(--warm-white); border-radius: 16px; padding: 24px 20px;
+      text-align: center; border: 1px solid rgba(61,43,31,0.06);
+      box-shadow: 0 2px 12px rgba(61,43,31,0.04);
+      transition: transform 0.2s ease;
+    }
+    .step:hover { transform: translateY(-3px); }
+    .step-num {
+      font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700;
+      color: var(--terracotta); opacity: 0.3; margin-bottom: 4px;
+    }
+    .step-emoji { font-size: 28px; margin-bottom: 8px; }
+    .step-title {
+      font-family: 'Vollkorn', serif; font-size: 15px; font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .step-desc {
+      font-family: 'Source Sans 3', sans-serif; font-size: 12px;
+      color: var(--warm-brown); opacity: 0.6; line-height: 1.5;
+    }
+
+    /* STROOMTOORTS CARD */
+    .st-card {
+      background: linear-gradient(135deg, var(--warm-white) 0%, var(--sand-light) 100%);
+      border-radius: 20px; padding: 36px; margin: 28px 0;
+      border: 1px solid rgba(61,43,31,0.08);
+      box-shadow: 0 4px 24px rgba(61,43,31,0.06);
+      display: flex; gap: 24px; align-items: center;
+    }
+    .st-card .st-icon {
+      font-size: 48px; flex-shrink: 0;
+    }
+    .st-card .st-content { flex: 1; }
+    .st-card .st-title {
+      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700;
+      color: var(--warm-brown); margin-bottom: 8px;
+    }
+    .st-card .st-desc {
+      font-family: 'Source Sans 3', sans-serif; font-size: 14px;
+      color: var(--warm-brown); opacity: 0.7; line-height: 1.6; margin-bottom: 14px;
+    }
+    .st-card .st-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600;
+      color: var(--terracotta); text-decoration: none;
+      padding: 8px 20px; border-radius: 50px;
+      background: rgba(194,112,78,0.1); transition: all 0.2s ease;
+    }
+    .st-card .st-link:hover { background: rgba(194,112,78,0.18); }
+
+    /* COFFEE */
+    .coffee-section { text-align: center; padding: 40px 0; }
+    .coffee-emoji { font-size: 48px; margin-bottom: 12px; animation: pulse 3s ease infinite; }
+    .coffee-title {
+      font-family: 'Caveat', cursive; font-size: 26px; color: var(--warm-brown);
+      margin-bottom: 8px;
+    }
+    .coffee-desc {
+      font-family: 'Source Sans 3', sans-serif; font-size: 14px;
+      color: var(--warm-brown); opacity: 0.6; line-height: 1.6;
+      max-width: 400px; margin: 0 auto 20px;
+    }
+    .coffee-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 600;
+      color: var(--cream); background: var(--warm-brown); text-decoration: none;
+      padding: 12px 28px; border-radius: 50px;
+      box-shadow: 0 4px 16px rgba(61,43,31,0.2);
+      transition: all 0.3s ease;
+    }
+    .coffee-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(61,43,31,0.25); background: var(--terracotta); }
+
+    /* FOOTER */
+    .page-footer {
+      text-align: center; padding: 32px 0;
+      font-family: 'Source Sans 3', sans-serif; font-size: 12px;
+      color: var(--warm-brown); opacity: 0.3;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .st-card { flex-direction: column; text-align: center; padding: 28px 24px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .quote-card { padding: 20px 24px; }
+    }
+
+    /* PRINT */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      body::before { display: none; }
+    }
+
+    /* Scroll-triggered animations */
+    .reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav no-print" role="navigation" aria-label="Hoofdnavigatie">
+    <a href="index.html" class="home-link" aria-label="Startpagina">
+      <span class="logo-emoji" aria-hidden="true">🌱</span>
+      <span class="site-name">Leerhefboom</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links"><a href="over.html" style="background:rgba(194,112,78,0.08);">Over dit project</a></div>
+      <button class="hamburger" aria-label="Menu openen" aria-expanded="false" id="hamburger-btn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="5" x2="17" y2="5" style="color:var(--warm-brown)"/><line x1="3" y1="10" x2="17" y2="10" style="color:var(--warm-brown)"/><line x1="3" y1="15" x2="17" y2="15" style="color:var(--warm-brown)"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-menu no-print" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-panel" role="dialog" aria-label="Navigatiemenu">
+      <button class="mobile-close" aria-label="Menu sluiten" id="mobile-close-btn">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="4" x2="14" y2="14" style="color:var(--warm-brown)"/><line x1="14" y1="4" x2="4" y2="14" style="color:var(--warm-brown)"/>
+        </svg>
+      </button>
+      <div class="menu-label">Navigatie</div>
+      <a href="index.html"><span class="menu-emoji">🏠</span> Startpagina</a>
+      <a href="over.html"><span class="menu-emoji">💡</span> Over dit project</a>
+    </div>
+  </div>
+
+  <!-- PAGE -->
+  <div class="container">
+    <nav class="breadcrumb no-print" aria-label="Kruimelpad">
+      <a href="index.html">🌱</a><span class="sep" aria-hidden="true">›</span>
+      <span class="current">Over dit project</span>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+      <img src="Jorgo_profielfoto.jpeg" alt="Jorgo" class="hero-photo">
+      <div class="hero-text">
+        <h1>Hoi, ik ben Jorgo.</h1>
+        <p class="tagline">Ik ben een ouder die met AI interactieve oefeningen bouwt voor de klas van zijn zoon. Geen developer, geen leerkracht — gewoon een vader met een idee en een razend slimme digitale assistent.</p>
+      </div>
+    </div>
+
+    <!-- HET VERHAAL -->
+    <div class="section reveal">
+      <div class="section-title"><span class="section-emoji">📖</span> Het verhaal</div>
+      <div class="prose">
+        <p>Het begon simpel: Elmo kwam thuis van school met een schrift vol Franse woordjes, en ik dacht — <strong>kan dat niet leuker?</strong></p>
+        <p>Elmo zit in het eerste middelbaar op de Steinerschool in Turnhout. Elke week krijgt hij nieuwe leerstof voor allerlei vakken. En elke week zit ik 's avonds naast hem om te helpen oefenen. Niks mis mee — maar ik wou meer. Interactieve flashcards. Oefeningen die je antwoord controleren. Werkbladen die je kunt afdrukken. Een complete oefenomgeving, afgestemd op precies wat er die week in de klas is behandeld.</p>
+        <p>Probleem: ik ben geen programmeur. Oplossing: <strong>AI is dat wel.</strong></p>
+      </div>
+    </div>
+
+    <!-- LIVE DEMO -->
+    <div class="section reveal">
+      <div class="section-title"><span class="section-emoji">🤖</span> Zo werkt het</div>
+      <div class="prose">
+        <p>Ik praat. AI bouwt. Kijk maar mee — dit is hoe een oefenpagina ontstaat:</p>
+      </div>
+
+      <div class="chat-demo" id="chat-demo">
+        <div class="chat-demo-header">Live replay · een typische sessie</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-controls no-print">
+          <button class="chat-btn active" id="play-btn">▶ Afspelen</button>
+          <button class="chat-btn" id="skip-btn">⏭ Alles tonen</button>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <div class="step-emoji">📸</div>
+          <div class="step-title">Foto van het schrift</div>
+          <div class="step-desc">Ik fotografeer wat Elmo deze week heeft geleerd</div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">2</div>
+          <div class="step-emoji">💬</div>
+          <div class="step-title">Beschrijven</div>
+          <div class="step-desc">Ik vertel de AI wat ik wil: flashcards, invuloefeningen, een quiz</div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">3</div>
+          <div class="step-emoji">⚡</div>
+          <div class="step-title">AI bouwt</div>
+          <div class="step-desc">Binnen een paar minuten is de hele pagina klaar</div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">4</div>
+          <div class="step-emoji">🚀</div>
+          <div class="step-title">Online!</div>
+          <div class="step-desc">Ik sleep het bestand naar GitHub en het staat live</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUOTE -->
+    <div class="section reveal">
+      <div class="quote-card">
+        <p>„Je hoeft geen programmeur te zijn om iets moois te bouwen voor je kind, je klas, of je school. Je hebt alleen een goed idee nodig — en de bereidheid om het aan AI uit te leggen."</p>
+        <div class="attribution">— Jorgo</div>
+      </div>
+    </div>
+
+    <!-- STROOMTOORTS -->
+    <div class="section reveal">
+      <div class="section-title"><span class="section-emoji">🔥</span> Zelf leren bouwen?</div>
+      <div class="prose">
+        <p>Wat je hier ziet — deze hele website, elke oefenpagina, de agenda — is gemaakt door een ouder met AI. Geen technische achtergrond vereist. En ik leer het je graag.</p>
+      </div>
+
+      <div class="st-card">
+        <div class="st-icon">⚡</div>
+        <div class="st-content">
+          <div class="st-title">StroomToorts</div>
+          <div class="st-desc">Via StroomToorts geef ik workshops waarin ouders en leerkrachten leren hoe ze met AI-tools zelf dit soort websites, oefeningen en tools bouwen. Geen code, geen voorkennis — gewoon komen met een idee en vertrekken met een werkend resultaat.</div>
+          <a href="https://www.stroomtoorts.be" target="_blank" rel="noopener" class="st-link">🌐 Bekijk stroomtoorts.be →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COFFEE -->
+    <div class="section reveal">
+      <div class="coffee-section">
+        <div class="coffee-emoji">☕</div>
+        <div class="coffee-title">Dit project draait op koffie</div>
+        <div class="coffee-desc">Leerhefboom is gratis voor iedereen. Het kost me alleen tijd, liefde, en af en toe een late avond. Als je het waardeert, kun je me steunen met een koffie.</div>
+        <a href="https://buymeacoffee.com/jorgodegroof" target="_blank" rel="noopener" class="coffee-btn">☕ Koop me een koffie</a>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      Gemaakt met 🤎 voor de klas van Elmo · Schooljaar 2025–2026
+    </div>
+  </div>
+
+  <script>
+    /* Hamburger */
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuBtn = document.getElementById('mobile-close-btn');
+    function openMobileMenu() { mobileMenu.classList.add('open'); mobileMenu.setAttribute('aria-hidden','false'); hamburgerBtn.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; }
+    function closeMobileMenu() { mobileMenu.classList.remove('open'); mobileMenu.setAttribute('aria-hidden','true'); hamburgerBtn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; }
+    hamburgerBtn.addEventListener('click', openMobileMenu);
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMobileMenu(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
+
+    /* Scroll reveal */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => observer.observe(el));
+
+    /* Chat demo */
+    const chatMessages = [
+      { role: 'human', text: '📸 [stuurt een foto van Elmo\'s schrift met Franse bezittelijke voornaamwoorden]' },
+      { role: 'human', text: 'Kun je hier een oefenpagina van maken? Met theorie, flashcards, en invuloefeningen?' },
+      { role: 'ai', text: 'Ik zie het! Dit gaat over les adjectifs possessifs — mon/ma/mes, ton/ta/tes, son/sa/ses. Ik maak een pagina met vier tabs: theorie met een overzichtstabel, flashcards om de woordjes te oefenen, invulzinnen, en een multiple-choice quiz.' },
+      { role: 'human', text: 'Perfect. En zorg dat de printversie als werkblad bruikbaar is, zonder antwoorden.' },
+      { role: 'ai', text: 'Komt goed! Ik verberg alle antwoorden en inputvelden bij het printen, en zet de oplossingen op een aparte pagina. Even bouwen... 🔨' },
+      { role: 'ai', text: '✅ Klaar! Hier is je bestand: 2026-03-10_frans_les-adjectifs-possessifs.html — 4 tabs, 20 oefeningen, printklaar, responsive. Je kunt het zo naar GitHub slepen.' },
+    ];
+
+    const msgContainer = document.getElementById('chat-messages');
+    let currentMsg = 0;
+    let isPlaying = false;
+    let typeTimer = null;
+
+    function createMsgEl(msg) {
+      const div = document.createElement('div');
+      div.className = `chat-msg ${msg.role}`;
+      div.innerHTML = `
+        <div class="avatar">${msg.role === 'human' ? '👨' : '🤖'}</div>
+        <div class="bubble"><span class="typing"></span></div>
+      `;
+      return div;
+    }
+
+    function typeText(el, text, callback) {
+      const typingSpan = el.querySelector('.typing');
+      let i = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor';
+      typingSpan.after(cursor);
+
+      function tick() {
+        if (i < text.length) {
+          // Add characters in chunks for speed
+          const chunk = Math.min(3, text.length - i);
+          typingSpan.textContent += text.substring(i, i + chunk);
+          i += chunk;
+          typeTimer = setTimeout(tick, 25 + Math.random() * 15);
+        } else {
+          cursor.remove();
+          if (callback) callback();
+        }
+      }
+      tick();
+    }
+
+    function showNextMsg() {
+      if (currentMsg >= chatMessages.length) {
+        isPlaying = false;
+        document.getElementById('play-btn').textContent = '🔄 Opnieuw';
+        document.getElementById('play-btn').classList.add('active');
+        return;
+      }
+
+      const msg = chatMessages[currentMsg];
+      const el = createMsgEl(msg);
+      msgContainer.appendChild(el);
+
+      // Trigger visibility animation
+      requestAnimationFrame(() => {
+        el.classList.add('visible');
+      });
+
+      // Pause before AI "types"
+      const delay = msg.role === 'ai' ? 800 : 300;
+
+      setTimeout(() => {
+        typeText(el, msg.text, () => {
+          currentMsg++;
+          if (isPlaying) {
+            setTimeout(showNextMsg, msg.role === 'ai' ? 600 : 400);
+          }
+        });
+      }, delay);
+    }
+
+    function startChat() {
+      if (currentMsg >= chatMessages.length) {
+        // Reset
+        msgContainer.innerHTML = '';
+        currentMsg = 0;
+      }
+      isPlaying = true;
+      document.getElementById('play-btn').textContent = '⏸ Pauzeren';
+      showNextMsg();
+    }
+
+    function pauseChat() {
+      isPlaying = false;
+      clearTimeout(typeTimer);
+      document.getElementById('play-btn').textContent = '▶ Verder';
+    }
+
+    function showAll() {
+      clearTimeout(typeTimer);
+      isPlaying = false;
+      msgContainer.innerHTML = '';
+      chatMessages.forEach(msg => {
+        const el = createMsgEl(msg);
+        el.classList.add('visible');
+        el.querySelector('.typing').textContent = msg.text;
+        msgContainer.appendChild(el);
+      });
+      document.getElementById('play-btn').textContent = '🔄 Opnieuw';
+      document.getElementById('play-btn').classList.add('active');
+      currentMsg = chatMessages.length;
+    }
+
+    document.getElementById('play-btn').addEventListener('click', () => {
+      if (isPlaying) { pauseChat(); }
+      else { startChat(); }
+    });
+
+    document.getElementById('skip-btn').addEventListener('click', showAll);
+
+    // Auto-start the chat when it scrolls into view
+    const chatObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && currentMsg === 0 && !isPlaying) {
+          setTimeout(startChat, 500);
+          chatObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    chatObserver.observe(document.getElementById('chat-demo'));
+  </script>
+</body>
+</html>
