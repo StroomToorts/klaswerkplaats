@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les verbes irréguliers — Klaswerkplaats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #F7F2E8;
+            --warm-white: #FFFDF7;
+            --terracotta: #C2704E;
+            --terracotta-light: #D4916F;
+            --ochre: #D4A843;
+            --olive: #7A8B6F;
+            --olive-dark: #5E6D53;
+            --warm-brown: #5C4033;
+            --dark-brown: #3D2B1F;
+            --sand: #E8DCC8;
+            --sand-light: #F0E8D8;
+            --parchment: #F5EDE0;
+            --rust: #B7553D;
+            --sage: #A8B89A;
+            --dusty-rose: #C9A0A0;
+            --sky-blue: #6A9BB5;
+            --vak-color: #C2704E;
+            --vak-light: #D4916F;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Vollkorn', Georgia, serif;
+            background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+            color: var(--dark-brown);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C2704E' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--warm-brown);
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        .breadcrumb a {
+            color: var(--warm-brown);
+            text-decoration: none;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* Header */
+        .exercise-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 8px;
+            animation: fadeSlideUp 0.6s ease-out;
+        }
+        .exercise-icon {
+            width: 52px; height: 52px;
+            background: var(--vak-color);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+        .exercise-title {
+            font-family: 'Vollkorn', serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-brown);
+        }
+        .exercise-date {
+            font-family: 'Caveat', cursive;
+            font-size: 18px;
+            color: var(--vak-color);
+            margin-left: 68px;
+            margin-bottom: 6px;
+        }
+        .exercise-intro {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 15px;
+            color: var(--warm-brown);
+            margin-left: 68px;
+            margin-bottom: 24px;
+            opacity: 0.8;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--sand);
+            background: var(--warm-white);
+            color: var(--warm-brown);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .tab:hover {
+            border-color: var(--vak-light);
+            background: var(--sand-light);
+        }
+        .tab.active {
+            background: var(--vak-color);
+            color: white;
+            border-color: var(--vak-color);
+        }
+
+        .tab-content { display: none; animation: fadeSlideUp 0.4s ease-out; }
+        .tab-content.active { display: block; }
+
+        /* Score bar */
+        .score-bar {
+            display: none;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--warm-brown);
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            background: var(--sand-light);
+            border-radius: 12px;
+            align-items: center;
+            gap: 12px;
+        }
+        .score-bar.visible { display: flex; flex-wrap: wrap; }
+        .progress-bar-container {
+            flex: 1;
+            min-width: 120px;
+            height: 8px;
+            background: var(--sand);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--terracotta), var(--ochre));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .reset-btn {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--sand);
+            background: white;
+            color: var(--warm-brown);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .reset-btn:hover { background: var(--sand-light); }
+
+        /* Celebration */
+        .celebration {
+            display: none;
+            text-align: center;
+            padding: 24px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--sand-light), var(--cream));
+            border-radius: 16px;
+            border: 2px solid var(--sand);
+            animation: pop 0.5s ease-out;
+        }
+        .celebration.visible { display: block; }
+        .celebration .emoji { font-size: 40px; margin-bottom: 8px; }
+        .celebration .message {
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            color: var(--vak-color);
+        }
+
+        /* ======= THEORIE TAB ======= */
+        .theory-section {
+            margin-bottom: 24px;
+        }
+        .theory-section h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: var(--vak-color);
+            margin-bottom: 12px;
+        }
+        .theory-card {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--sand);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(92,64,51,0.06);
+        }
+        .verb-group-title {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--vak-color);
+            margin-bottom: 12px;
+        }
+        .conjugation-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        .conjugation-table th {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 10px;
+            background: var(--sand-light);
+            color: var(--warm-brown);
+            border-bottom: 2px solid var(--sand);
+        }
+        .conjugation-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid var(--sand-light);
+        }
+        .conjugation-table .pronoun {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--warm-brown);
+            font-weight: 500;
+            width: 80px;
+        }
+        .conjugation-table .fr-word {
+            font-weight: 600;
+            color: var(--dark-brown);
+            font-size: 16px;
+        }
+        .conjugation-table .ending {
+            color: var(--vak-color);
+            font-weight: 700;
+        }
+        .conjugation-table .nl-meaning {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--warm-brown);
+            opacity: 0.7;
+        }
+        .attention-box {
+            background: linear-gradient(135deg, #FFF8F0, #FFF3E8);
+            border-left: 4px solid var(--ochre);
+            border-radius: 0 12px 12px 0;
+            padding: 14px 18px;
+            margin-top: 12px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            color: var(--warm-brown);
+        }
+        .attention-box strong { color: var(--ochre); }
+        .derivative-note {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--warm-brown);
+            opacity: 0.75;
+            margin-top: 6px;
+            padding-left: 4px;
+        }
+
+        /* ======= FLASHCARDS TAB ======= */
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+        .flashcard {
+            height: 120px;
+            perspective: 600px;
+            cursor: pointer;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 12px;
+            text-align: center;
+        }
+        .flashcard-front {
+            background: var(--warm-white);
+            border: 2px solid var(--sand);
+            box-shadow: 0 2px 8px rgba(92,64,51,0.08);
+        }
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--vak-color), var(--vak-light));
+            color: var(--cream);
+            transform: rotateY(180deg);
+        }
+        .question-word {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-brown);
+        }
+        .answer-word {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .flashcard-hint {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 11px;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+        .flashcard-shuffle-btn {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--sand);
+            background: var(--warm-white);
+            color: var(--warm-brown);
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: all 0.2s;
+        }
+        .flashcard-shuffle-btn:hover {
+            background: var(--sand-light);
+            border-color: var(--vak-light);
+        }
+
+        /* ======= WHATSAPP CHAT TAB ======= */
+        .chat-container {
+            background: var(--sand-light);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--sand);
+            box-shadow: 0 2px 12px rgba(92,64,51,0.08);
+        }
+        .chat-header {
+            background: var(--vak-color);
+            color: white;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chat-header-icon {
+            width: 38px; height: 38px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .chat-header-info {
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .chat-header-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .chat-header-members {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .chat-messages {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .chat-timestamp {
+            text-align: center;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 11px;
+            color: var(--warm-brown);
+            opacity: 0.5;
+            margin: 8px 0;
+            background: rgba(232,220,200,0.5);
+            padding: 3px 12px;
+            border-radius: 8px;
+            width: fit-content;
+            align-self: center;
+        }
+        .chat-bubble {
+            max-width: 82%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            position: relative;
+            align-self: flex-start;
+        }
+        .chat-bubble .sender-name {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .chat-bubble .msg-text {
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .chat-bubble .msg-time {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 10px;
+            text-align: right;
+            opacity: 0.45;
+            margin-top: 2px;
+        }
+        .chat-bubble .msg-time .checkmarks { color: var(--sky-blue); }
+
+        /* Sender colors */
+        .sender-lea { color: var(--terracotta); }
+        .sender-nico { color: var(--olive); }
+        .sender-yasmine { color: var(--ochre); }
+        .sender-hugo { color: var(--sky-blue); }
+
+        .bubble-lea { background: var(--warm-white); border: 1px solid #f0ddd3; }
+        .bubble-nico { background: var(--warm-white); border: 1px solid #d8e0d3; }
+        .bubble-yasmine { background: var(--warm-white); border: 1px solid #efe0c0; }
+        .bubble-hugo { background: var(--warm-white); border: 1px solid #c8dde6; }
+
+        /* Inline input in chat */
+        .chat-gap {
+            display: inline-block;
+            position: relative;
+        }
+        .chat-gap input {
+            font-family: 'Vollkorn', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--vak-color);
+            background: var(--cream);
+            border: 2px dashed var(--sand);
+            border-radius: 8px;
+            padding: 2px 8px;
+            width: 110px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .chat-gap input:focus {
+            border-color: var(--vak-color);
+            background: white;
+        }
+        .chat-gap input.correct-input {
+            border-color: var(--olive);
+            background: #f0f5ed;
+            color: var(--olive-dark);
+        }
+        .chat-gap input.wrong-input {
+            border-color: var(--rust);
+            background: #fdf0ee;
+        }
+        .chat-gap .chat-hint {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 11px;
+            color: var(--warm-brown);
+            opacity: 0.55;
+        }
+        .chat-gap .chat-check {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 12px;
+            background: var(--vak-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 2px 8px;
+            cursor: pointer;
+            margin-left: 4px;
+            vertical-align: middle;
+            transition: all 0.2s;
+        }
+        .chat-gap .chat-check:hover { background: var(--vak-light); }
+        .chat-gap .chat-feedback {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 12px;
+            margin-left: 4px;
+            font-weight: 600;
+        }
+        .chat-gap .chat-feedback.correct { color: var(--olive); }
+        .chat-gap .chat-feedback.incorrect { color: var(--rust); }
+        .chat-solved {
+            font-weight: 700;
+            color: var(--olive-dark);
+        }
+
+        /* ======= VERVOEGEN TAB ======= */
+        .translate-card {
+            background: var(--warm-white);
+            border: 2px solid var(--sand);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+            animation: fadeSlideUp 0.4s ease-out;
+        }
+        .translate-card.correct { border-color: var(--olive); background: #f8faf6; }
+        .translate-card.incorrect { border-color: var(--rust); background: #fdf8f7; }
+        .translate-number {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--vak-color);
+            margin-bottom: 4px;
+        }
+        .translate-prompt {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-brown);
+        }
+        .translate-prompt .verb-infinitive {
+            color: var(--vak-color);
+            font-style: italic;
+        }
+        .translate-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .translate-input {
+            flex: 1;
+            font-family: 'Vollkorn', serif;
+            font-size: 16px;
+            padding: 8px 14px;
+            border-radius: 12px;
+            border: 2px solid var(--sand);
+            background: var(--cream);
+            color: var(--dark-brown);
+            outline: none;
+            transition: all 0.3s;
+        }
+        .translate-input:focus {
+            border-color: var(--vak-color);
+            background: white;
+        }
+        .translate-input.correct-input { border-color: var(--olive); background: #f0f5ed; }
+        .translate-input.wrong-input { border-color: var(--rust); background: #fdf0ee; }
+        .check-btn {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 12px;
+            border: none;
+            background: var(--vak-color);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .check-btn:hover { background: var(--vak-light); transform: translateY(-1px); }
+        .translate-feedback {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+        .translate-feedback.correct { color: var(--olive); font-weight: 600; }
+        .translate-feedback.incorrect { color: var(--rust); }
+
+        /* ======= KIES JUIST TAB ======= */
+        .choose-card {
+            background: var(--warm-white);
+            border: 2px solid var(--sand);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        .choose-card.correct { border-color: var(--olive); background: #f8faf6; }
+        .choose-card.incorrect { border-color: var(--rust); background: #fdf8f7; }
+        .choose-number {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--vak-color);
+            margin-bottom: 4px;
+        }
+        .choose-sentence {
+            font-size: 17px;
+            margin-bottom: 4px;
+            line-height: 1.6;
+        }
+        .choose-blank {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px dashed var(--vak-color);
+            text-align: center;
+            font-weight: 600;
+            color: var(--vak-color);
+            padding: 0 4px;
+        }
+        .choose-context {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            color: var(--warm-brown);
+            opacity: 0.6;
+            margin-bottom: 10px;
+        }
+        .choose-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .choose-option {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 7px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--sand);
+            background: white;
+            color: var(--dark-brown);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .choose-option:hover:not(.disabled) {
+            border-color: var(--vak-light);
+            background: var(--sand-light);
+            transform: translateY(-1px);
+        }
+        .choose-option.selected-correct {
+            background: var(--olive);
+            color: white;
+            border-color: var(--olive);
+            animation: pop 0.3s ease-out;
+        }
+        .choose-option.selected-wrong {
+            background: var(--rust);
+            color: white;
+            border-color: var(--rust);
+            animation: shake 0.4s ease-out;
+        }
+        .choose-option.show-correct {
+            background: var(--olive);
+            color: white;
+            border-color: var(--olive);
+        }
+        .choose-option.disabled { cursor: default; opacity: 0.6; }
+        .choose-feedback {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 18px;
+        }
+        .choose-feedback.correct { color: var(--olive); font-weight: 600; }
+        .choose-feedback.incorrect { color: var(--rust); }
+
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 22px;
+            border-radius: 14px;
+            border: 2px solid var(--sand);
+            background: var(--warm-white);
+            color: var(--warm-brown);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s;
+        }
+        .action-btn:hover {
+            background: var(--sand-light);
+            border-color: var(--vak-light);
+            transform: translateY(-1px);
+        }
+
+        /* Print only */
+        .print-only { display: none; }
+
+        /* Animations */
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pop {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        /* ======= RESPONSIVE ======= */
+        @media (max-width: 600px) {
+            .container { padding: 14px; }
+            .exercise-title { font-size: 20px; }
+            .exercise-date, .exercise-intro { margin-left: 0; }
+            .exercise-header { gap: 12px; }
+            .exercise-icon { width: 44px; height: 44px; font-size: 22px; }
+            .tabs { gap: 4px; }
+            .tab { font-size: 12px; padding: 6px 12px; }
+            .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .translate-row { flex-direction: column; }
+            .translate-input { width: 100%; }
+            .check-btn { width: 100%; text-align: center; }
+            .chat-bubble { max-width: 90%; }
+            .chat-gap input { width: 90px; font-size: 14px; }
+            .conjugation-table { font-size: 13px; }
+            .conjugation-table .fr-word { font-size: 15px; }
+            .conjugation-table th { font-size: 10px; padding: 8px 6px; }
+            .conjugation-table td { padding: 5px 6px; }
+            .conjugation-table .example { display: none; }
+        }
+
+        /* ======= PRINT ======= */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; font-size: 11pt; }
+            body::before { display: none; }
+            .print-only { display: block !important; }
+            .tab-content { display: block !important; }
+            .container { max-width: 100%; padding: 10px; }
+            .exercise-icon { display: none; }
+            .score-bar, .progress-bar-container, .celebration { display: none !important; }
+
+            /* Flashcards print */
+            .flashcard { height: auto; perspective: none; }
+            .flashcard-inner { transform: none !important; }
+            .flashcard-front { position: relative; box-shadow: none; border-color: #ddd; }
+            .flashcard-back { display: none !important; }
+            .flashcard .question-word { display: block !important; }
+            .flashcard .answer-word { display: none !important; }
+            .flashcard.flipped .flashcard-inner { transform: none !important; }
+            .flashcard.flipped .flashcard-front { background: white !important; }
+            .flashcard-hint { display: none; }
+            .flashcard-shuffle-btn { display: none; }
+
+            /* Translate print */
+            .translate-input { color: transparent !important; -webkit-text-fill-color: transparent !important; border-color: #ccc !important; background: var(--cream) !important; }
+            .translate-input::placeholder { color: transparent !important; }
+            .translate-feedback { display: none !important; }
+            .translate-card.correct, .translate-card.incorrect { border-color: #ddd !important; background: var(--warm-white) !important; }
+            .translate-input.correct-input, .translate-input.wrong-input { border-color: #ccc !important; background: var(--cream) !important; }
+            .check-btn { display: none !important; }
+
+            /* Choose print */
+            .choose-blank { color: transparent !important; }
+            .choose-options { display: none !important; }
+            .choose-feedback { display: none !important; }
+            .choose-card.correct, .choose-card.incorrect { border-color: #ddd !important; background: var(--warm-white) !important; }
+
+            /* Chat print */
+            .chat-container { box-shadow: none; border-color: #ddd; }
+            .chat-header { background: #eee !important; color: var(--dark-brown) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .chat-gap input { color: transparent !important; -webkit-text-fill-color: transparent !important; border-color: #ccc !important; background: #f5f5f5 !important; }
+            .chat-gap .chat-check { display: none !important; }
+            .chat-gap .chat-feedback { display: none !important; }
+            .chat-gap .chat-hint { display: inline !important; }
+            .chat-solved { color: transparent !important; -webkit-text-fill-color: transparent !important; }
+
+            .print-answers { page-break-before: always; }
+
+            /* General cleanup */
+            .theory-card, .translate-card, .choose-card {
+                box-shadow: none !important;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb no-print">
+            <a href="../../index.html">🌱</a> ›
+            <a href="../index.html">1e Middelbaar</a> ›
+            Les verbes irréguliers
+        </div>
+
+        <!-- Header -->
+        <div class="exercise-header">
+            <div class="exercise-icon no-print">🇫🇷</div>
+            <div class="exercise-title">Les verbes irréguliers à l'indicatif présent</div>
+        </div>
+        <div class="exercise-date">18 maart 2026</div>
+        <div class="exercise-intro">Onregelmatige werkwoorden in de tegenwoordige tijd: faire, aller, venir, tenir, lire, dire, voir, boire — en hun afgeleiden.</div>
+
+        <!-- Tabs -->
+        <div class="tabs no-print">
+            <button class="tab active" onclick="switchTab('theorie')">📚 Theorie</button>
+            <button class="tab" onclick="switchTab('flashcards')">🎴 Flashcards</button>
+            <button class="tab" onclick="switchTab('chat')">💬 WhatsApp</button>
+            <button class="tab" onclick="switchTab('vervoegen')">✏️ Vervoegen</button>
+            <button class="tab" onclick="switchTab('kies')">🎯 Kies juist</button>
+        </div>
+
+        <!-- ==================== THEORIE ==================== -->
+        <div id="tab-theorie" class="tab-content active">
+            <div class="theory-section">
+                <h3>Patronen herkennen</h3>
+                <p style="font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px;">
+                    Deze werkwoorden zijn onregelmatig, maar er zitten wél patronen in. Werkwoorden uit dezelfde "familie" vervoeg je op dezelfde manier.
+                </p>
+            </div>
+
+            <!-- faire & aller -->
+            <div class="theory-card">
+                <div class="verb-group-title">🔴 Elk apart — faire & aller</div>
+                <table class="conjugation-table">
+                    <tr>
+                        <th></th><th>faire <span class="nl-meaning">(doen/maken)</span></th><th>aller <span class="nl-meaning">(gaan)</span></th>
+                    </tr>
+                    <tr><td class="pronoun">je</td><td class="fr-word">fai<span class="ending">s</span></td><td class="fr-word"><span class="ending">vais</span></td></tr>
+                    <tr><td class="pronoun">tu</td><td class="fr-word">fai<span class="ending">s</span></td><td class="fr-word"><span class="ending">vas</span></td></tr>
+                    <tr><td class="pronoun">il/elle/on</td><td class="fr-word">fai<span class="ending">t</span></td><td class="fr-word"><span class="ending">va</span></td></tr>
+                    <tr><td class="pronoun">nous</td><td class="fr-word">fai<span class="ending">sons</span></td><td class="fr-word"><span class="ending">allons</span></td></tr>
+                    <tr><td class="pronoun">vous</td><td class="fr-word">fai<span class="ending">tes</span></td><td class="fr-word"><span class="ending">allez</span></td></tr>
+                    <tr><td class="pronoun">ils/elles</td><td class="fr-word"><span class="ending">font</span></td><td class="fr-word"><span class="ending">vont</span></td></tr>
+                </table>
+                <div class="attention-box">
+                    <strong>⚡ Let op:</strong> Bij <em>faire</em> verandert de stam niet (fai-), maar <em>vous faites</em> is onregelmatig (niet *faisez). Bij <em>aller</em> verandert de hele stam per persoon!
+                </div>
+            </div>
+
+            <!-- venir & tenir -->
+            <div class="theory-card">
+                <div class="verb-group-title">🟠 Zelfde familie — venir & tenir</div>
+                <table class="conjugation-table">
+                    <tr>
+                        <th></th><th>venir <span class="nl-meaning">(komen)</span></th><th>tenir <span class="nl-meaning">(vasthouden)</span></th>
+                    </tr>
+                    <tr><td class="pronoun">je</td><td class="fr-word">vien<span class="ending">s</span></td><td class="fr-word">tien<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">tu</td><td class="fr-word">vien<span class="ending">s</span></td><td class="fr-word">tien<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">il/elle/on</td><td class="fr-word">vien<span class="ending">t</span></td><td class="fr-word">tien<span class="ending">t</span></td></tr>
+                    <tr><td class="pronoun">nous</td><td class="fr-word">ven<span class="ending">ons</span></td><td class="fr-word">ten<span class="ending">ons</span></td></tr>
+                    <tr><td class="pronoun">vous</td><td class="fr-word">ven<span class="ending">ez</span></td><td class="fr-word">ten<span class="ending">ez</span></td></tr>
+                    <tr><td class="pronoun">ils/elles</td><td class="fr-word">vienn<span class="ending">ent</span></td><td class="fr-word">tienn<span class="ending">ent</span></td></tr>
+                </table>
+                <div class="derivative-note">↳ Zelfde patroon: <strong>devenir</strong> (worden), <strong>revenir</strong> (terugkomen), <strong>retenir</strong> (onthouden/behouden)</div>
+                <div class="attention-box">
+                    <strong>⚡ Patroon:</strong> Enkelvoud + ils/elles hebben <strong>-ie-</strong> in de stam (viens, tiens, viennent). Bij nous/vous verdwijnt die -ie- (venons, tenez).
+                </div>
+            </div>
+
+            <!-- lire & dire -->
+            <div class="theory-card">
+                <div class="verb-group-title">🟢 Zelfde familie — lire & dire</div>
+                <table class="conjugation-table">
+                    <tr>
+                        <th></th><th>lire <span class="nl-meaning">(lezen)</span></th><th>dire <span class="nl-meaning">(zeggen)</span></th>
+                    </tr>
+                    <tr><td class="pronoun">je</td><td class="fr-word">li<span class="ending">s</span></td><td class="fr-word">di<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">tu</td><td class="fr-word">li<span class="ending">s</span></td><td class="fr-word">di<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">il/elle/on</td><td class="fr-word">li<span class="ending">t</span></td><td class="fr-word">di<span class="ending">t</span></td></tr>
+                    <tr><td class="pronoun">nous</td><td class="fr-word">lis<span class="ending">ons</span></td><td class="fr-word">dis<span class="ending">ons</span></td></tr>
+                    <tr><td class="pronoun">vous</td><td class="fr-word">lis<span class="ending">ez</span></td><td class="fr-word">di<span class="ending">tes</span></td></tr>
+                    <tr><td class="pronoun">ils/elles</td><td class="fr-word">lis<span class="ending">ent</span></td><td class="fr-word">dis<span class="ending">ent</span></td></tr>
+                </table>
+                <div class="derivative-note">↳ Zelfde patroon: <strong>relire</strong> (herlezen)</div>
+                <div class="attention-box">
+                    <strong>⚡ Let op:</strong> Bijna identiek patroon, maar <em>vous dites</em> is onregelmatig (niet *disez). Vergelijk met <em>vous faites</em> — dezelfde uitzondering!
+                </div>
+            </div>
+
+            <!-- voir & boire -->
+            <div class="theory-card">
+                <div class="verb-group-title">🔵 Zelfde patroon — voir & boire</div>
+                <table class="conjugation-table">
+                    <tr>
+                        <th></th><th>voir <span class="nl-meaning">(zien)</span></th><th>boire <span class="nl-meaning">(drinken)</span></th>
+                    </tr>
+                    <tr><td class="pronoun">je</td><td class="fr-word">voi<span class="ending">s</span></td><td class="fr-word">boi<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">tu</td><td class="fr-word">voi<span class="ending">s</span></td><td class="fr-word">boi<span class="ending">s</span></td></tr>
+                    <tr><td class="pronoun">il/elle/on</td><td class="fr-word">voi<span class="ending">t</span></td><td class="fr-word">boi<span class="ending">t</span></td></tr>
+                    <tr><td class="pronoun">nous</td><td class="fr-word">voy<span class="ending">ons</span></td><td class="fr-word">buv<span class="ending">ons</span></td></tr>
+                    <tr><td class="pronoun">vous</td><td class="fr-word">voy<span class="ending">ez</span></td><td class="fr-word">buv<span class="ending">ez</span></td></tr>
+                    <tr><td class="pronoun">ils/elles</td><td class="fr-word">voi<span class="ending">ent</span></td><td class="fr-word">boiv<span class="ending">ent</span></td></tr>
+                </table>
+                <div class="attention-box">
+                    <strong>⚡ Patroon:</strong> Enkelvoud: korte stam (voi-, boi-). Bij nous/vous verandert de stam (voy-, buv-). Bij ils/elles: voir houdt voi-, maar boire krijgt boiv-.
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== FLASHCARDS ==================== -->
+        <div id="tab-flashcards" class="tab-content">
+            <button class="flashcard-shuffle-btn no-print" onclick="shuffleFlashcards()">🔀 Schud de kaarten</button>
+            <div class="flashcard-grid" id="flashcard-grid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- ==================== WHATSAPP CHAT ==================== -->
+        <div id="tab-chat" class="tab-content">
+            <div class="score-bar" id="chat-score-bar">
+                <span id="chat-score-text">Score: 0/0</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="chat-progress"></div>
+                </div>
+                <button class="reset-btn" onclick="resetChat()">🔄 Opnieuw</button>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-header-icon">🏀</div>
+                    <div class="chat-header-info">
+                        <div class="chat-header-title">Mercredi après-midi</div>
+                        <div class="chat-header-members">Léa, Nico, Yasmine, Hugo</div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <div class="celebration" id="chat-celebration">
+                <div class="emoji"></div>
+                <div class="message"></div>
+            </div>
+        </div>
+
+        <!-- ==================== VERVOEGEN ==================== -->
+        <div id="tab-vervoegen" class="tab-content">
+            <div class="score-bar" id="vervoegen-score-bar">
+                <span id="vervoegen-score-text">Score: 0/0</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="vervoegen-progress"></div>
+                </div>
+                <button class="reset-btn" onclick="resetVervoegen()">🔄 Opnieuw</button>
+            </div>
+            <div id="vervoegen-cards">
+                <!-- Generated by JS -->
+            </div>
+            <div class="celebration" id="vervoegen-celebration">
+                <div class="emoji"></div>
+                <div class="message"></div>
+            </div>
+        </div>
+
+        <!-- ==================== KIES JUIST ==================== -->
+        <div id="tab-kies" class="tab-content">
+            <div class="score-bar" id="kies-score-bar">
+                <span id="kies-score-text">Score: 0/0</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="kies-progress"></div>
+                </div>
+                <button class="reset-btn" onclick="resetKies()">🔄 Opnieuw</button>
+            </div>
+            <div id="kies-cards">
+                <!-- Generated by JS -->
+            </div>
+            <div class="celebration" id="kies-celebration">
+                <div class="emoji"></div>
+                <div class="message"></div>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons no-print">
+            <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+            <a href="../index.html" class="action-btn">← Terug naar overzicht</a>
+        </div>
+
+        <!-- ==================== PRINT ANSWERS ==================== -->
+        <div class="print-only print-answers">
+            <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color); margin-bottom: 16px;">Oplossingen</h2>
+
+            <h3 style="font-family: 'Caveat', cursive; font-size: 20px; color: var(--vak-color); margin-bottom: 8px;">💬 WhatsApp Chat</h3>
+            <div id="print-chat-answers" style="font-size: 13px; line-height: 1.8;"></div>
+
+            <h3 style="font-family: 'Caveat', cursive; font-size: 20px; color: var(--vak-color); margin-top: 20px; margin-bottom: 8px;">✏️ Vervoegen</h3>
+            <div id="print-vervoegen-answers" style="font-size: 13px; line-height: 1.8;"></div>
+
+            <h3 style="font-family: 'Caveat', cursive; font-size: 20px; color: var(--vak-color); margin-top: 20px; margin-bottom: 8px;">🎯 Kies juist</h3>
+            <div id="print-kies-answers" style="font-size: 13px; line-height: 1.8;"></div>
+        </div>
+    </div>
+
+<script>
+// ==================== UTILITIES ====================
+function normalize(s) {
+    return s.trim().toLowerCase()
+        .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+        .replace(/[\u2013\u2014]/g, '-')
+        .replace(/\s+/g, ' ')
+        .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+        .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+        .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+        .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+const correctPhrases = ['Correct!', 'Juist!', 'Goed zo!', 'Parfait!', 'Top!', 'Très bien!'];
+function randomCorrect() { return correctPhrases[Math.floor(Math.random() * correctPhrases.length)]; }
+
+function showCelebration(id, score, total) {
+    const el = document.getElementById(id);
+    const pct = Math.round((score / total) * 100);
+    let emoji, msg;
+    if (pct === 100) { emoji = '🌟'; msg = 'Alles juist — fantastisch!'; }
+    else if (pct >= 80) { emoji = '🎉'; msg = 'Heel goed! Bijna alles juist.'; }
+    else if (pct >= 60) { emoji = '💪'; msg = 'Goed bezig! Bekijk de fouten nog eens.'; }
+    else { emoji = '📚'; msg = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+    el.querySelector('.emoji').textContent = emoji;
+    el.querySelector('.message').textContent = msg;
+    el.classList.add('visible');
+}
+
+// ==================== TAB SWITCHING ====================
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tabName).classList.add('active');
+    const tabs = document.querySelectorAll('.tab');
+    const tabMap = ['theorie', 'flashcards', 'chat', 'vervoegen', 'kies'];
+    const idx = tabMap.indexOf(tabName);
+    if (idx >= 0) tabs[idx].classList.add('active');
+}
+
+// ==================== FLASHCARDS ====================
+const flashcardData = [
+    { q: 'je + faire', a: 'fais' }, { q: 'tu + faire', a: 'fais' }, { q: 'il + faire', a: 'fait' },
+    { q: 'nous + faire', a: 'faisons' }, { q: 'vous + faire', a: 'faites' }, { q: 'ils + faire', a: 'font' },
+    { q: 'je + aller', a: 'vais' }, { q: 'tu + aller', a: 'vas' }, { q: 'il + aller', a: 'va' },
+    { q: 'nous + aller', a: 'allons' }, { q: 'vous + aller', a: 'allez' }, { q: 'ils + aller', a: 'vont' },
+    { q: 'je + venir', a: 'viens' }, { q: 'tu + venir', a: 'viens' }, { q: 'elle + venir', a: 'vient' },
+    { q: 'nous + venir', a: 'venons' }, { q: 'vous + venir', a: 'venez' }, { q: 'ils + venir', a: 'viennent' },
+    { q: 'je + tenir', a: 'tiens' }, { q: 'tu + tenir', a: 'tiens' }, { q: 'on + tenir', a: 'tient' },
+    { q: 'nous + tenir', a: 'tenons' }, { q: 'vous + tenir', a: 'tenez' }, { q: 'elles + tenir', a: 'tiennent' },
+    { q: 'je + lire', a: 'lis' }, { q: 'tu + lire', a: 'lis' }, { q: 'il + lire', a: 'lit' },
+    { q: 'nous + lire', a: 'lisons' }, { q: 'vous + lire', a: 'lisez' }, { q: 'ils + lire', a: 'lisent' },
+    { q: 'je + dire', a: 'dis' }, { q: 'tu + dire', a: 'dis' }, { q: 'elle + dire', a: 'dit' },
+    { q: 'nous + dire', a: 'disons' }, { q: 'vous + dire', a: 'dites' }, { q: 'ils + dire', a: 'disent' },
+    { q: 'je + voir', a: 'vois' }, { q: 'tu + voir', a: 'vois' }, { q: 'il + voir', a: 'voit' },
+    { q: 'nous + voir', a: 'voyons' }, { q: 'vous + voir', a: 'voyez' }, { q: 'elles + voir', a: 'voient' },
+    { q: 'je + boire', a: 'bois' }, { q: 'tu + boire', a: 'bois' }, { q: 'on + boire', a: 'boit' },
+    { q: 'nous + boire', a: 'buvons' }, { q: 'vous + boire', a: 'buvez' }, { q: 'ils + boire', a: 'boivent' },
+];
+
+function renderFlashcards(data) {
+    const grid = document.getElementById('flashcard-grid');
+    grid.innerHTML = '';
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'flashcard';
+        card.onclick = () => card.classList.toggle('flipped');
+        card.innerHTML = `
+            <div class="flashcard-inner">
+                <div class="flashcard-front">
+                    <div class="question-word">${item.q}</div>
+                    <div class="flashcard-hint">klik om te draaien</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="answer-word">${item.a}</div>
+                    <div class="flashcard-hint" style="color: rgba(255,255,255,0.6);">klik om terug te draaien</div>
+                </div>
+            </div>`;
+        grid.appendChild(card);
+    });
+}
+
+function shuffleFlashcards() {
+    renderFlashcards(shuffle(flashcardData));
+}
+
+// ==================== WHATSAPP CHAT ====================
+const chatMessages = [
+    { sender: 'lea', name: 'Léa', time: '14:02', text: 'Salut ! Vous {faire|faites} quoi cet après-midi ? 🤔' },
+    { sender: 'yasmine', name: 'Yasmine', time: '14:03', text: 'Moi, je {venir|viens} au parc après mes devoirs ! 🌳' },
+    { sender: 'nico', name: 'Nico', time: '14:04', text: 'Bof, je {lire|lis} un livre super intéressant... 📚' },
+    { sender: 'hugo', name: 'Hugo', time: '14:04', text: 'Tu {lire|lis} ?? Un mercredi ??? 😂😂' },
+    { sender: 'lea', name: 'Léa', time: '14:05', text: 'Nico, tu {faire|fais} toujours ça lol' },
+    { sender: 'nico', name: 'Nico', time: '14:06', text: 'Vous ne {voir|voyez} pas que c\'est un bon livre !' },
+    { sender: 'yasmine', name: 'Yasmine', time: '14:07', text: 'Nous {aller|allons} au parc, tu {venir|viens} ou pas ? 🏃‍♀️' },
+    { sender: 'hugo', name: 'Hugo', time: '14:07', text: 'Moi je {boire|bois} un coca au parc 🥤' },
+    { sender: 'lea', name: 'Léa', time: '14:08', text: 'On {dire|dit} 15h au banc près du terrain de basket ?' },
+    { sender: 'yasmine', name: 'Yasmine', time: '14:09', text: 'Oui ! Les autres {venir|viennent} aussi ?' },
+    { sender: 'hugo', name: 'Hugo', time: '14:09', text: 'Je ne {tenir|tiens} pas en place, on y va ! 🏃' },
+    { sender: 'nico', name: 'Nico', time: '14:10', text: 'Bon... je {venir|viens}. Mais nous {boire|buvons} quelque chose de chaud, il {faire|fait} froid 🥶' },
+    { sender: 'lea', name: 'Léa', time: '14:11', text: 'Parfait ! Hugo, tu {tenir|tiens} la balle de basket ? 🏀' },
+    { sender: 'hugo', name: 'Hugo', time: '14:11', text: 'Oui oui ! On {aller|va} bien s\'amuser 💪' },
+];
+
+let chatScore = 0;
+let chatTotal = 0;
+let chatAnswered = 0;
+
+function buildChat() {
+    const container = document.getElementById('chat-messages');
+    container.innerHTML = '';
+    chatScore = 0;
+    chatAnswered = 0;
+    chatTotal = 0;
+
+    // Count total gaps
+    chatMessages.forEach(m => {
+        const gaps = m.text.match(/\{[^}]+\}/g);
+        if (gaps) chatTotal += gaps.length;
+    });
+
+    let gapIndex = 0;
+
+    chatMessages.forEach((m, msgIdx) => {
+        // Add timestamp occasionally
+        if (msgIdx === 0 || msgIdx === 4 || msgIdx === 8 || msgIdx === 12) {
+            const ts = document.createElement('div');
+            ts.className = 'chat-timestamp';
+            ts.textContent = msgIdx === 0 ? 'Aujourd\'hui' : m.time;
+            container.appendChild(ts);
+        }
+
+        const bubble = document.createElement('div');
+        bubble.className = `chat-bubble bubble-${m.sender}`;
+
+        const senderDiv = document.createElement('div');
+        senderDiv.className = `sender-name sender-${m.sender}`;
+        senderDiv.textContent = m.name;
+        bubble.appendChild(senderDiv);
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'msg-text';
+
+        // Parse text for gaps
+        const parts = m.text.split(/(\{[^}]+\})/);
+        parts.forEach(part => {
+            const match = part.match(/^\{(.+)\|(.+)\}$/);
+            if (match) {
+                const infinitive = match[1];
+                const answer = match[2];
+                const currentGap = gapIndex++;
+
+                const span = document.createElement('span');
+                span.className = 'chat-gap';
+                span.innerHTML = `<input type="text" id="chat-input-${currentGap}" placeholder="..." data-answer="${answer}" data-infinitive="${infinitive}" autocomplete="off" autocapitalize="off">
+                    <span class="chat-hint">(${infinitive})</span>
+                    <button class="chat-check" onclick="checkChatGap(${currentGap})">✓</button>
+                    <span class="chat-feedback" id="chat-fb-${currentGap}"></span>`;
+                msgDiv.appendChild(span);
+            } else {
+                msgDiv.appendChild(document.createTextNode(part));
+            }
+        });
+
+        bubble.appendChild(msgDiv);
+
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'msg-time';
+        timeDiv.innerHTML = `${m.time} <span class="checkmarks">✓✓</span>`;
+        bubble.appendChild(timeDiv);
+
+        container.appendChild(bubble);
+    });
+
+    // Setup enter key listeners
+    document.querySelectorAll('[id^="chat-input-"]').forEach(input => {
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                const idx = parseInt(input.id.replace('chat-input-', ''));
+                checkChatGap(idx);
+            }
+        });
+    });
+
+    updateChatScore();
+    document.getElementById('chat-score-bar').classList.remove('visible');
+    document.getElementById('chat-celebration').classList.remove('visible');
+
+    // Print answers
+    let printHTML = '';
+    let printIdx = 1;
+    chatMessages.forEach(m => {
+        const gaps = m.text.match(/\{[^}]+\}/g);
+        if (gaps) {
+            gaps.forEach(g => {
+                const parts = g.match(/^\{(.+)\|(.+)\}$/);
+                printHTML += `<div>${printIdx}. ${parts[1]} → <strong style="color: var(--vak-color);">${parts[2]}</strong></div>`;
+                printIdx++;
+            });
+        }
+    });
+    document.getElementById('print-chat-answers').innerHTML = printHTML;
+}
+
+function checkChatGap(idx) {
+    const input = document.getElementById('chat-input-' + idx);
+    const fb = document.getElementById('chat-fb-' + idx);
+    if (input.disabled) return;
+
+    const answer = input.dataset.answer;
+    const userAnswer = input.value.trim();
+    if (!userAnswer) return;
+
+    document.getElementById('chat-score-bar').classList.add('visible');
+
+    if (normalize(userAnswer) === normalize(answer)) {
+        input.classList.add('correct-input');
+        input.disabled = true;
+        fb.className = 'chat-feedback correct';
+        fb.textContent = '✓';
+        chatScore++;
+        // Hide the check button
+        input.parentElement.querySelector('.chat-check').style.display = 'none';
+    } else {
+        input.classList.add('wrong-input');
+        input.disabled = true;
+        fb.className = 'chat-feedback incorrect';
+        fb.textContent = answer;
+        input.parentElement.querySelector('.chat-check').style.display = 'none';
+    }
+
+    chatAnswered++;
+    updateChatScore();
+
+    if (chatAnswered >= chatTotal) {
+        showCelebration('chat-celebration', chatScore, chatTotal);
+    }
+
+    // Focus next unanswered input
+    const nextInput = document.querySelector('[id^="chat-input-"]:not(:disabled)');
+    if (nextInput) nextInput.focus();
+}
+
+function updateChatScore() {
+    document.getElementById('chat-score-text').textContent = `Score: ${chatScore}/${chatTotal}`;
+    document.getElementById('chat-progress').style.width = chatTotal > 0 ? `${(chatAnswered / chatTotal) * 100}%` : '0%';
+}
+
+function resetChat() {
+    buildChat();
+}
+
+// ==================== VERVOEGEN ====================
+const vervoegenData = shuffle([
+    { prompt: 'je + faire', answers: ['fais'] },
+    { prompt: 'vous + aller', answers: ['allez'] },
+    { prompt: 'ils + venir', answers: ['viennent'] },
+    { prompt: 'nous + tenir', answers: ['tenons'] },
+    { prompt: 'tu + lire', answers: ['lis'] },
+    { prompt: 'elle + dire', answers: ['dit'] },
+    { prompt: 'nous + voir', answers: ['voyons'] },
+    { prompt: 'je + boire', answers: ['bois'] },
+    { prompt: 'vous + faire', answers: ['faites'] },
+    { prompt: 'ils + aller', answers: ['vont'] },
+    { prompt: 'tu + venir', answers: ['viens'] },
+    { prompt: 'on + tenir', answers: ['tient'] },
+    { prompt: 'nous + lire', answers: ['lisons'] },
+    { prompt: 'vous + dire', answers: ['dites'] },
+    { prompt: 'elles + voir', answers: ['voient'] },
+    { prompt: 'nous + boire', answers: ['buvons'] },
+    { prompt: 'ils + faire', answers: ['font'] },
+    { prompt: 'je + aller', answers: ['vais'] },
+    { prompt: 'elles + tenir', answers: ['tiennent'] },
+    { prompt: 'ils + boire', answers: ['boivent'] },
+]);
+
+let vervoegenScore = 0;
+let vervoegenAnswered = 0;
+const vervoegenTotal = vervoegenData.length;
+
+function buildVervoegen() {
+    const container = document.getElementById('vervoegen-cards');
+    container.innerHTML = '';
+    vervoegenScore = 0;
+    vervoegenAnswered = 0;
+    document.getElementById('vervoegen-score-bar').classList.remove('visible');
+    document.getElementById('vervoegen-celebration').classList.remove('visible');
+
+    vervoegenData.forEach((item, i) => {
+        const parts = item.prompt.split(' + ');
+        const card = document.createElement('div');
+        card.className = 'translate-card';
+        card.innerHTML = `
+            <div class="translate-number">Vraag ${i + 1}/${vervoegenTotal}</div>
+            <div class="translate-prompt">${parts[0]} + <span class="verb-infinitive">${parts[1]}</span></div>
+            <div class="translate-row">
+                <input type="text" class="translate-input" id="verv-input-${i}" placeholder="Typ de vervoeging..." data-answers='${JSON.stringify(item.answers)}' autocomplete="off" autocapitalize="off">
+                <button class="check-btn" onclick="checkVervoegen(${i})">Controleer</button>
+            </div>
+            <div class="translate-feedback" id="verv-fb-${i}"></div>`;
+        container.appendChild(card);
+    });
+
+    document.querySelectorAll('[id^="verv-input-"]').forEach(input => {
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                const idx = parseInt(input.id.replace('verv-input-', ''));
+                checkVervoegen(idx);
+            }
+        });
+    });
+
+    // Print answers
+    let printHTML = '';
+    vervoegenData.forEach((item, i) => {
+        printHTML += `<div>${i + 1}. ${item.prompt} → <strong style="color: var(--vak-color);">${item.answers[0]}</strong></div>`;
+    });
+    document.getElementById('print-vervoegen-answers').innerHTML = printHTML;
+}
+
+function checkVervoegen(idx) {
+    const input = document.getElementById('verv-input-' + idx);
+    const fb = document.getElementById('verv-fb-' + idx);
+    const card = input.closest('.translate-card');
+    if (input.disabled) return;
+
+    const answers = JSON.parse(input.dataset.answers);
+    const userAnswer = input.value.trim();
+    if (!userAnswer) return;
+
+    document.getElementById('vervoegen-score-bar').classList.add('visible');
+
+    const isCorrect = answers.some(a => normalize(userAnswer) === normalize(a));
+
+    if (isCorrect) {
+        input.classList.add('correct-input');
+        card.classList.add('correct');
+        fb.className = 'translate-feedback correct';
+        fb.textContent = '✓ ' + randomCorrect();
+        vervoegenScore++;
+    } else {
+        input.classList.add('wrong-input');
+        card.classList.add('incorrect');
+        fb.className = 'translate-feedback incorrect';
+        fb.textContent = '✗ Het juiste antwoord: ' + answers[0];
+    }
+
+    input.disabled = true;
+    vervoegenAnswered++;
+    document.getElementById('vervoegen-score-text').textContent = `Score: ${vervoegenScore}/${vervoegenTotal}`;
+    document.getElementById('vervoegen-progress').style.width = `${(vervoegenAnswered / vervoegenTotal) * 100}%`;
+
+    if (vervoegenAnswered >= vervoegenTotal) {
+        showCelebration('vervoegen-celebration', vervoegenScore, vervoegenTotal);
+    }
+
+    // Focus next
+    const nextInput = document.querySelector('[id^="verv-input-"]:not(:disabled)');
+    if (nextInput) nextInput.focus();
+}
+
+function resetVervoegen() {
+    buildVervoegen();
+}
+
+// ==================== KIES JUIST ====================
+const kiesData = [
+    { sentence: 'Nous ___ un film ce soir.', hint: '(wij zien)', answer: 'voyons', options: ['voyons', 'voient', 'vois', 'voyez'] },
+    { sentence: 'Tu ___ toujours des bêtises !', hint: '(jij doet/maakt)', answer: 'fais', options: ['fais', 'fait', 'faites', 'font'] },
+    { sentence: 'Ils ___ au parc après l\'école.', hint: '(zij gaan)', answer: 'vont', options: ['vont', 'allons', 'vas', 'allez'] },
+    { sentence: 'Vous ___ la vérité ?', hint: '(jullie zeggen)', answer: 'dites', options: ['dites', 'disent', 'disons', 'dis'] },
+    { sentence: 'Elle ___ un roman de 300 pages.', hint: '(zij leest)', answer: 'lit', options: ['lit', 'lis', 'lisons', 'lisent'] },
+    { sentence: 'Je ___ du jus d\'orange le matin.', hint: '(ik drink)', answer: 'bois', options: ['bois', 'boit', 'buvons', 'boivent'] },
+    { sentence: 'Les enfants ___ de l\'école à 16h.', hint: '(de kinderen komen)', answer: 'viennent', options: ['viennent', 'venons', 'viens', 'venez'] },
+    { sentence: 'On ___ bien son chien en laisse.', hint: '(men houdt vast)', answer: 'tient', options: ['tient', 'tiens', 'tenons', 'tiennent'] },
+    { sentence: 'Vous ___ souvent au cinéma ?', hint: '(jullie gaan)', answer: 'allez', options: ['allez', 'allons', 'vont', 'va'] },
+    { sentence: 'Nous ___ un gâteau pour la fête.', hint: '(wij maken)', answer: 'faisons', options: ['faisons', 'font', 'faites', 'fait'] },
+    { sentence: 'Tu ___ avec nous samedi ?', hint: '(jij komt)', answer: 'viens', options: ['viens', 'vient', 'venons', 'viennent'] },
+    { sentence: 'Elles ___ du thé après le dîner.', hint: '(zij drinken)', answer: 'boivent', options: ['boivent', 'buvons', 'bois', 'buvez'] },
+];
+
+let kiesScore = 0;
+let kiesAnswered = 0;
+const kiesTotal = kiesData.length;
+
+function buildKies() {
+    const container = document.getElementById('kies-cards');
+    container.innerHTML = '';
+    kiesScore = 0;
+    kiesAnswered = 0;
+    document.getElementById('kies-score-bar').classList.remove('visible');
+    document.getElementById('kies-celebration').classList.remove('visible');
+
+    kiesData.forEach((item, i) => {
+        const shuffledOptions = shuffle(item.options);
+        const parts = item.sentence.split('___');
+
+        const card = document.createElement('div');
+        card.className = 'choose-card';
+        card.id = 'kies-card-' + i;
+        card.innerHTML = `
+            <div class="choose-number">Vraag ${i + 1}/${kiesTotal}</div>
+            <div class="choose-sentence">${parts[0]}<span class="choose-blank" id="kies-blank-${i}">???</span>${parts[1] || ''}</div>
+            <div class="choose-context">${item.hint}</div>
+            <div class="choose-options" id="kies-options-${i}">
+                ${shuffledOptions.map(opt => `<button class="choose-option" onclick="checkKies(${i}, '${opt}', this)">${opt}</button>`).join('')}
+            </div>
+            <div class="choose-feedback" id="kies-fb-${i}"></div>`;
+        container.appendChild(card);
+    });
+
+    // Print answers
+    let printHTML = '';
+    kiesData.forEach((item, i) => {
+        printHTML += `<div>${i + 1}. <strong style="color: var(--vak-color);">${item.answer}</strong> — ${item.sentence.replace('___', item.answer)}</div>`;
+    });
+    document.getElementById('print-kies-answers').innerHTML = printHTML;
+}
+
+function checkKies(idx, chosen, btn) {
+    const card = document.getElementById('kies-card-' + idx);
+    const blank = document.getElementById('kies-blank-' + idx);
+    const fb = document.getElementById('kies-fb-' + idx);
+    const options = document.getElementById('kies-options-' + idx);
+
+    if (card.classList.contains('correct') || card.classList.contains('incorrect')) return;
+
+    document.getElementById('kies-score-bar').classList.add('visible');
+
+    const correctAnswer = kiesData[idx].answer;
+    const isCorrect = normalize(chosen) === normalize(correctAnswer);
+
+    // Disable all options
+    options.querySelectorAll('.choose-option').forEach(o => o.classList.add('disabled'));
+
+    if (isCorrect) {
+        btn.classList.add('selected-correct');
+        card.classList.add('correct');
+        blank.textContent = correctAnswer;
+        blank.style.color = 'var(--olive)';
+        fb.className = 'choose-feedback correct';
+        fb.textContent = '✓ ' + randomCorrect();
+        kiesScore++;
+    } else {
+        btn.classList.add('selected-wrong');
+        card.classList.add('incorrect');
+        blank.textContent = correctAnswer;
+        blank.style.color = 'var(--rust)';
+        fb.className = 'choose-feedback incorrect';
+        fb.textContent = '✗ Het juiste antwoord: ' + correctAnswer;
+        // Highlight correct option
+        options.querySelectorAll('.choose-option').forEach(o => {
+            if (o.textContent === correctAnswer) o.classList.add('show-correct');
+        });
+    }
+
+    kiesAnswered++;
+    document.getElementById('kies-score-text').textContent = `Score: ${kiesScore}/${kiesTotal}`;
+    document.getElementById('kies-progress').style.width = `${(kiesAnswered / kiesTotal) * 100}%`;
+
+    if (kiesAnswered >= kiesTotal) {
+        showCelebration('kies-celebration', kiesScore, kiesTotal);
+    }
+}
+
+function resetKies() {
+    buildKies();
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+    renderFlashcards(shuffle(flashcardData));
+    buildChat();
+    buildVervoegen();
+    buildKies();
+});
+</script>
+</body>
+</html>
