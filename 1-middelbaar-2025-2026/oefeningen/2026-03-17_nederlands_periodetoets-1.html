@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nederlands: Periodetoets 1 — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #A8B89A;
+  --vak-color-light: #c4d4b8;
+  --vak-color-dark: #7a9468;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23A8B89A' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  animation: fadeSlideUp 0.6s ease;
+}
+.exercise-icon {
+  width: 56px; height: 56px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.exercise-title {
+  font-family: 'Vollkorn', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+}
+.exercise-date {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--warm-brown);
+  opacity: 0.8;
+  margin-bottom: 18px;
+}
+.exercise-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+/* Tabs */
+.tabs {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 24px;
+  background: var(--sand-light);
+  padding: 6px;
+  border-radius: 16px;
+}
+.tab-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px; font-weight: 500;
+  padding: 8px 16px;
+  border: none; border-radius: 12px;
+  background: transparent;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(168,184,154,0.2); }
+.tab-btn.active {
+  background: var(--vak-color);
+  color: white;
+  box-shadow: 0 2px 8px rgba(168,184,154,0.3);
+}
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease; }
+.tab-content.active { display: block; }
+
+/* Score bar */
+.score-bar {
+  display: none;
+  background: var(--sand-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-family: 'Source Sans 3', sans-serif;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.score-bar.visible { display: flex; }
+.score-text { font-weight: 600; color: var(--dark-brown); font-size: 15px; white-space: nowrap; }
+.progress-bar-container {
+  flex: 1; min-width: 120px; height: 10px;
+  background: var(--sand);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; padding: 6px 14px;
+  border: none; border-radius: 10px;
+  background: var(--sand);
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.reset-btn:hover { background: var(--vak-color); color: white; }
+
+/* Celebration */
+.celebration {
+  display: none; text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--sand-light), var(--cream));
+  border-radius: 18px;
+  margin-top: 20px;
+  animation: pop 0.5s ease;
+}
+.celebration.visible { display: block; }
+.celebration-emoji { font-size: 42px; margin-bottom: 8px; }
+.celebration-text { font-family: 'Caveat', cursive; font-size: 24px; color: var(--dark-brown); }
+
+/* ====== THEORIE ====== */
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  border-left: 4px solid var(--vak-color);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-bottom: 10px;
+}
+.theory-card p, .theory-card li {
+  font-size: 15px; line-height: 1.7; margin-bottom: 8px;
+}
+.theory-card ul { padding-left: 20px; }
+.theory-card li { margin-bottom: 4px; }
+
+.attention-box {
+  background: linear-gradient(135deg, rgba(168,184,154,0.12), rgba(168,184,154,0.05));
+  border: 1px dashed var(--vak-color);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.attention-box strong { color: var(--vak-color-dark); }
+
+.comparison-table {
+  width: 100%; border-collapse: collapse;
+  margin-top: 12px; font-size: 14px;
+}
+.comparison-table th {
+  background: var(--vak-color);
+  color: white;
+  padding: 10px 14px; text-align: left;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+}
+.comparison-table th:first-child { border-radius: 10px 0 0 0; }
+.comparison-table th:last-child { border-radius: 0 10px 0 0; }
+.comparison-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--sand);
+  vertical-align: top;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.comparison-table tr:nth-child(even) { background: rgba(168,184,154,0.06); }
+
+/* ====== FLASHCARDS ====== */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px;
+}
+.flashcard {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 22px 16px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  min-height: 130px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+}
+.flashcard:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.flashcard.flipped {
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-color-dark));
+  color: var(--cream);
+}
+.flashcard .question-word {
+  font-family: 'Vollkorn', serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--dark-brown);
+}
+.flashcard .answer-word {
+  display: none;
+  font-family: 'Vollkorn', serif;
+  font-size: 14px; color: var(--cream);
+  line-height: 1.5;
+}
+.flashcard.flipped .question-word { display: none; }
+.flashcard.flipped .answer-word { display: block; }
+.flashcard-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px; color: var(--warm-brown);
+  opacity: 0.5; margin-top: 8px;
+}
+.flashcard.flipped .flashcard-hint { color: var(--cream); opacity: 0.6; }
+
+/* ====== KIES JUIST / QUIZ / FNF shared ====== */
+.choose-card, .quiz-card, .fnf-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+.choose-card.answered-correct, .quiz-card.answered-correct, .fnf-card.answered-correct { border-left: 4px solid var(--olive); }
+.choose-card.answered-wrong, .quiz-card.answered-wrong, .fnf-card.answered-wrong { border-left: 4px solid var(--rust); }
+
+.q-number {
+  font-family: 'Caveat', cursive;
+  font-size: 16px; color: var(--vak-color);
+  margin-bottom: 6px;
+}
+.q-text {
+  font-family: 'Vollkorn', serif;
+  font-size: 16px; line-height: 1.7;
+  margin-bottom: 10px;
+}
+.q-text.bold { font-weight: 600; }
+
+.choose-blank {
+  display: inline-block;
+  min-width: 80px;
+  border-bottom: 2px dotted var(--vak-color);
+  text-align: center;
+  font-weight: 600;
+  color: var(--vak-color-dark);
+  padding: 0 4px;
+}
+.choose-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; color: var(--warm-brown);
+  opacity: 0.6; margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Pill options (kies juist, fnf) */
+.pill-options {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 8px;
+}
+.pill-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px; font-weight: 500;
+  padding: 8px 18px;
+  border: 2px solid var(--sand);
+  border-radius: 25px;
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pill-option:hover:not(.disabled) {
+  border-color: var(--vak-color);
+  background: rgba(168,184,154,0.1);
+  transform: translateY(-1px);
+}
+
+/* Stacked options (quiz) */
+.stack-options { display: flex; flex-direction: column; gap: 8px; }
+.stack-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px; padding: 10px 16px;
+  border: 2px solid var(--sand);
+  border-radius: 12px;
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.stack-option:hover:not(.disabled) {
+  border-color: var(--vak-color);
+  background: rgba(168,184,154,0.08);
+}
+
+/* Shared option states */
+.pill-option.correct, .stack-option.correct {
+  background: var(--olive); border-color: var(--olive);
+  color: white; animation: pop 0.3s ease;
+}
+.pill-option.wrong, .stack-option.wrong {
+  background: var(--rust); border-color: var(--rust);
+  color: white; animation: shake 0.4s ease;
+}
+.pill-option.show-correct, .stack-option.show-correct {
+  background: rgba(122,139,111,0.15);
+  border-color: var(--olive);
+  color: var(--olive-dark);
+}
+.pill-option.disabled, .stack-option.disabled { cursor: default; opacity: 0.6; }
+
+/* Feedback */
+.q-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px; margin-top: 8px;
+  display: none; line-height: 1.5;
+}
+.q-feedback.visible { display: block; }
+.q-feedback.correct-fb { color: var(--olive-dark); }
+.q-feedback.wrong-fb { color: var(--rust); }
+
+/* FNF fragment */
+.fnf-fragment {
+  font-family: 'Vollkorn', serif;
+  font-size: 15px; font-style: italic;
+  line-height: 1.7; margin-bottom: 12px;
+  padding: 14px 16px;
+  background: rgba(168,184,154,0.06);
+  border-radius: 12px;
+  border-left: 3px solid var(--sand);
+}
+.fnf-followup {
+  display: none; margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--sand);
+}
+.fnf-followup.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+
+/* Action buttons */
+.action-buttons {
+  display: flex; gap: 12px;
+  margin-top: 28px; flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px; font-weight: 500;
+  padding: 10px 22px;
+  border: 2px solid var(--sand);
+  border-radius: 14px;
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.action-btn:hover {
+  border-color: var(--vak-color);
+  background: rgba(168,184,154,0.08);
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Print-only */
+.print-only { display: none !important; }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 22px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .flashcard { padding: 16px 12px; min-height: 110px; }
+  .flashcard .question-word { font-size: 15px; }
+  .flashcard .answer-word { font-size: 13px; }
+  .tab-btn { font-size: 13px; padding: 7px 12px; }
+  .q-text { font-size: 15px; }
+  .fnf-fragment { font-size: 14px; padding: 12px; }
+  .comparison-table { font-size: 13px; }
+  .comparison-table th, .comparison-table td { padding: 8px 6px; }
+}
+
+/* Print */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none; }
+  .print-only { display: block !important; }
+  .container { padding: 0; max-width: 100%; }
+  .exercise-icon { display: none; }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+
+  /* Flashcards: always show question side */
+  .flashcard .question-word { display: block !important; }
+  .flashcard .answer-word { display: none !important; }
+  .flashcard.flipped { background: white !important; color: var(--dark-brown) !important; }
+  .flashcard-hint { display: none !important; }
+
+  /* Kies juist: blank stays blank, options hidden */
+  .choose-blank { color: transparent !important; }
+  .pill-options { display: none !important; }
+  .choose-hint { display: block !important; }
+
+  /* Quiz: options hidden */
+  .stack-options { display: none !important; }
+
+  /* FNF: options hidden */
+  .fnf-followup { display: none !important; }
+
+  /* Feedback hidden */
+  .q-feedback { display: none !important; }
+
+  /* Cards: reset borders */
+  .choose-card, .quiz-card, .fnf-card {
+    border-left-color: transparent !important;
+    box-shadow: none !important;
+    border: 1px solid #ddd;
+  }
+  .flashcard { box-shadow: none !important; border: 1px solid #ddd; }
+
+  .print-answers { page-break-before: always; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Periodetoets 1
+  </div>
+
+  <!-- Header -->
+  <div class="exercise-header">
+    <div class="exercise-icon">📖</div>
+    <div class="exercise-title">Nederlands: Periodetoets 1</div>
+  </div>
+  <div class="exercise-date">17 maart 2026</div>
+  <div class="exercise-intro">
+    Voorbereiding op de periodetoets: de Gudrun-sage, personages, verhaallijn, en het verschil tussen fictie en non-fictie.
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('flashcards')">🎴 Wie is wie?</button>
+    <button class="tab-btn" onclick="switchTab('kiesjuist')">🎯 Verhaalkennis</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
+    <button class="tab-btn" onclick="switchTab('fnf')">🔍 Fictie of non-fictie?</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 1: THEORIE -->
+  <!-- ============================================================ -->
+  <div id="tab-theorie" class="tab-content active">
+
+    <div class="theory-card">
+      <h3>📜 Wat is een sage?</h3>
+      <p>Een <strong>sage</strong> is een traditioneel volksverhaal dat zich afspeelt op een <strong>bekende plaats</strong> en op een <strong>bekend moment in de tijd</strong>. Het is een soort legende met een <strong>kern van waarheid</strong>.</p>
+      <p>Sagen bevatten spannende en bovennatuurlijke elementen. Ze vertellen over moedige en sterke helden, maar ook over tovenaars en weerwolven.</p>
+      <p><strong>Troubadours</strong> en <strong>minstrelen</strong> vertelden de sagen mondeling van stad tot stad, kasteel tot kasteel. Pas in de <strong>12e en 13e eeuw</strong> werden deze verhalen voor het eerst opgeschreven.</p>
+      <div class="attention-box">
+        <strong>💡 Onthoud:</strong> Het verhaal van Gudrun is een sage — een verhaal van <strong>liefde en trouw</strong>. Het speelt zich af rond de 5e en 6e eeuw.
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>👥 Personages — Sociogram</h3>
+      <p>Het verhaal draait om <strong>Gudrun</strong>, de koningsdochter van Denemarken. Drie mannen willen met haar trouwen:</p>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Personage</th><th>Wie?</th><th>Relatie tot Gudrun</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Gudrun</strong></td><td>Koningsdochter van Denemarken</td><td>Hoofdpersonage</td></tr>
+          <tr><td><strong>Hettel</strong></td><td>Koning van Denemarken</td><td>Vader — wijst alle kandidaten af</td></tr>
+          <tr><td><strong>Hilde</strong></td><td>Koningin van Denemarken</td><td>Moeder</td></tr>
+          <tr><td><strong>Ortwin</strong></td><td>Prins van Denemarken</td><td>Broer</td></tr>
+          <tr><td><strong>Horant</strong></td><td>Hofzanger aan het Deense hof</td><td>Zingt voor Gudrun over de liefde</td></tr>
+          <tr><td><strong>Herwig van Seeland</strong></td><td>Jonge koning — groot, mooi, sterk, eenvoudig</td><td>❤️ Gudruns ware liefde</td></tr>
+          <tr><td><strong>Hartmoet van Normandië</strong></td><td>Sluwe prins</td><td>💔 Afgewezen — bedenkt een plan</td></tr>
+          <tr><td><strong>Chlodovech</strong></td><td>Koning van Normandië</td><td>Vader van Hartmoet</td></tr>
+          <tr><td><strong>Gerlind</strong></td><td>Koningin van Normandië — haatdragend</td><td>Moeder van Hartmoet — wil wraak</td></tr>
+          <tr><td><strong>Chilperik</strong></td><td>Gezant van Chlodovech</td><td>Gestuurd met geschenken, krijgt 'nee'</td></tr>
+          <tr><td><strong>Siegfried van Moorland</strong></td><td>Krijgsheer</td><td>💔 Gemanipuleerd door Hartmoet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="theory-card">
+      <h3>📖 Het verhaal tot nu toe</h3>
+      <p><strong>Hoofdstuk 1 — De ontmoeting van Gudrun en Herwig:</strong> Gudrun is verdrietig omdat haar vader Hettel elke koningszoon die naar haar hand vraagt naar huis stuurt. Dan verschijnt Herwig van Seeland — groot, mooi, sterk en toch eenvoudig. Ze ontmoeten elkaar stiekem in de burcht en beloven elkaar trouw. Maar Hettel stuurt ook Herwig weg. Herwig belooft terug te keren.</p>
+      <p><strong>Hoofdstuk 2 — Prins Hartmoet van Normandië:</strong> Koning Chlodovech stuurt gezant Chilperik met kostbare geschenken, maar krijgt een 'nee'. Gerlind is woedend en wil wraak. Hartmoet gaat zelf naar de burcht maar wordt ook afgewezen — Gudrun heeft haar trouw al aan Herwig gezworen. Hartmoet trekt naar Siegfried van Moorland en manipuleert hem om een leger klaar te maken tegen de Denen. Stiekem wil Hartmoet van de chaos gebruikmaken om Gudrun te schaken.</p>
+      <div class="attention-box">
+        <strong>🐕 Spreekwoord:</strong> "Als twee honden vechten om een been, loopt de derde ermee heen." — Dit beschrijft precies Hartmoets plan: terwijl Herwig en Siegfried strijden, wil hij Gudrun meenemen.
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>📚 Fictie vs. Non-fictie</h3>
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Fictie</th><th>Non-fictie</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Verzonnen verhalen, ontstaan uit de <strong>fantasie</strong> van de schrijver</td>
+            <td>Gebaseerd op <strong>feiten</strong> of ware gebeurtenissen</td>
+          </tr>
+          <tr>
+            <td>Doel: de lezer <strong>amuseren</strong></td>
+            <td>Doel: betrouwbare <strong>informatie</strong> geven</td>
+          </tr>
+          <tr>
+            <td>Voorbeelden: roman, gedicht, sprookje, stripverhaal</td>
+            <td>Voorbeelden: wetenschappelijke tekst, biografie, documentaire</td>
+          </tr>
+          <tr>
+            <td>Je herkent het aan: dialogen, gedachten, emoties, beschrijving van de omgeving</td>
+            <td>Je herkent het aan: feiten, uitleg, informatieve toon</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="attention-box">
+        <strong>⚠️ Let op:</strong> Soms is fictie gebaseerd op waargebeurde feiten (bv. een historisch verhaal). Toch blijft het dan fictie! De Gudrun-sage is hier een mooi voorbeeld van.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: FLASHCARDS — WIE IS WIE? -->
+  <!-- ============================================================ -->
+  <div id="tab-flashcards" class="tab-content">
+    <div class="flashcard-grid" id="flashcardGrid">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 3: KIES JUIST — VERHAALKENNIS -->
+  <!-- ============================================================ -->
+  <div id="tab-kiesjuist" class="tab-content">
+    <div class="score-bar no-print" id="kj-scorebar">
+      <span class="score-text" id="kj-score-text">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="kj-progress"></div></div>
+      <button class="reset-btn" onclick="resetKiesJuist()">🔄 Opnieuw</button>
+    </div>
+    <div id="kj-questions"></div>
+    <div class="celebration no-print" id="kj-celebration">
+      <div class="celebration-emoji" id="kj-celeb-emoji"></div>
+      <div class="celebration-text" id="kj-celeb-text"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 4: QUIZ — DIEPERE VRAGEN -->
+  <!-- ============================================================ -->
+  <div id="tab-quiz" class="tab-content">
+    <div class="score-bar no-print" id="quiz-scorebar">
+      <span class="score-text" id="quiz-score-text">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="quiz-progress"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+    <div id="quiz-questions"></div>
+    <div class="celebration no-print" id="quiz-celebration">
+      <div class="celebration-emoji" id="quiz-celeb-emoji"></div>
+      <div class="celebration-text" id="quiz-celeb-text"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TAB 5: FICTIE OF NON-FICTIE? -->
+  <!-- ============================================================ -->
+  <div id="tab-fnf" class="tab-content">
+    <div class="score-bar no-print" id="fnf-scorebar">
+      <span class="score-text" id="fnf-score-text">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="fnf-progress"></div></div>
+      <button class="reset-btn" onclick="resetFnf()">🔄 Opnieuw</button>
+    </div>
+    <div id="fnf-questions"></div>
+    <div class="celebration no-print" id="fnf-celebration">
+      <div class="celebration-emoji" id="fnf-celeb-emoji"></div>
+      <div class="celebration-text" id="fnf-celeb-text"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PRINT: ALLE OEFENINGEN + OPLOSSINGEN -->
+  <!-- ============================================================ -->
+  <div class="print-only">
+    <div style="page-break-before: always;"></div>
+    <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color-dark); margin-bottom: 16px;">🎴 Wie is wie? — Flashcards</h2>
+    <div id="print-flashcards"></div>
+  </div>
+
+  <div class="print-only">
+    <div style="page-break-before: always;"></div>
+    <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color-dark); margin-bottom: 16px;">🎯 Verhaalkennis — Vul de naam in</h2>
+    <div id="print-kj-questions"></div>
+  </div>
+
+  <div class="print-only">
+    <div style="page-break-before: always;"></div>
+    <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color-dark); margin-bottom: 16px;">📝 Quiz — Diepere vragen</h2>
+    <div id="print-quiz-questions"></div>
+  </div>
+
+  <div class="print-only">
+    <div style="page-break-before: always;"></div>
+    <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color-dark); margin-bottom: 16px;">🔍 Fictie of non-fictie?</h2>
+    <div id="print-fnf-questions"></div>
+  </div>
+
+  <div class="print-only print-answers">
+    <h2 style="font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color-dark); margin-bottom: 16px;">Oplossingen</h2>
+    <div id="print-solutions"></div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const flashcardsData = [
+  { q: "Gudrun", a: "Koningsdochter van Denemarken. Hoofdpersonage van de sage. Verdrietig omdat haar vader alle kandidaten afwijst." },
+  { q: "Hettel", a: "Koning van Denemarken. Vader van Gudrun. Stuurt elke koningszoon die naar Gudruns hand vraagt naar huis." },
+  { q: "Hilde", a: "Koningin van Denemarken. Moeder van Gudrun." },
+  { q: "Ortwin", a: "Broer van Gudrun. Prins van Denemarken." },
+  { q: "Horant", a: "Hofzanger aan het Deense hof. Zingt voor Gudrun over de liefde." },
+  { q: "Herwig van Seeland", a: "Jonge koning. Groot, mooi, sterk, zelfverzekerd en toch eenvoudig. Gudruns ware liefde. ❤️" },
+  { q: "Hartmoet van Normandië", a: "Sluwe prins. Werd afgewezen door Gudrun. Bedenkt een sluw plan om haar te schaken. 💔" },
+  { q: "Chlodovech", a: "Koning van Normandië. Vader van Hartmoet. Stuurde gezant Chilperik naar Hettel." },
+  { q: "Gerlind", a: "Koningin van Normandië. Moeder van Hartmoet. Haatdragend — wil wraak na de afwijzing." },
+  { q: "Chilperik", a: "Gezant van koning Chlodovech. Trok met kostbare geschenken naar Denemarken maar kreeg 'nee'." },
+  { q: "Siegfried van Moorland", a: "Krijgsheer. Gemanipuleerd door Hartmoet om een leger tegen de Denen klaar te maken." }
+];
+
+const kiesJuistData = [
+  {
+    before: "De hofzanger ",
+    blank: "Horant",
+    after: " zong graag over de liefde voor de verdrietige Gudrun.",
+    hint: "(naam van de zanger)",
+    options: ["Horant", "Ortwin", "Chilperik", "Siegfried"],
+    correct: "Horant"
+  },
+  {
+    before: "Koning ",
+    blank: "Chlodovech",
+    after: " stuurde een gezant naar Hettel om zijn zoon te laten verloven met Gudrun.",
+    hint: "(koning van Normandië)",
+    options: ["Hettel", "Chlodovech", "Herwig", "Siegfried"],
+    correct: "Chlodovech"
+  },
+  {
+    before: "",
+    blank: "Chilperik",
+    after: " was de gezant die met kostbare geschenken naar Denemarken trok.",
+    hint: "(naam van de gezant)",
+    options: ["Horant", "Ortwin", "Chilperik", "Hartmoet"],
+    correct: "Chilperik"
+  },
+  {
+    before: "Gudrun had haar trouw al gezworen aan ",
+    blank: "Herwig",
+    after: ".",
+    hint: "(Gudruns ware liefde)",
+    options: ["Hartmoet", "Herwig", "Siegfried", "Ortwin"],
+    correct: "Herwig"
+  },
+  {
+    before: "Vooral de haatdragende ",
+    blank: "Gerlind",
+    after: " wilde wraak na de afwijzing.",
+    hint: "(moeder van Hartmoet)",
+    options: ["Hilde", "Gudrun", "Gerlind", "Chilperik"],
+    correct: "Gerlind"
+  },
+  {
+    before: "Hartmoet trok naar ",
+    blank: "Siegfried van Moorland",
+    after: " om samen een plan te bedenken.",
+    hint: "(een krijgsheer)",
+    options: ["Herwig van Seeland", "Siegfried van Moorland", "Horant", "Chilperik"],
+    correct: "Siegfried van Moorland"
+  },
+  {
+    before: "",
+    blank: "Ortwin",
+    after: " is de broer van Gudrun.",
+    hint: "(een familielid)",
+    options: ["Horant", "Herwig", "Ortwin", "Hartmoet"],
+    correct: "Ortwin"
+  },
+  {
+    before: "Herwig en Gudrun ontmoetten elkaar stiekem in de ",
+    blank: "burcht",
+    after: " en beloofden elkaar trouw.",
+    hint: "(een gebouw)",
+    options: ["kerk", "burcht", "tuin", "stal"],
+    correct: "burcht"
+  },
+  {
+    before: "Koning ",
+    blank: "Hettel",
+    after: " stuurde elke koningszoon die naar Gudruns hand vroeg naar huis.",
+    hint: "(vader van Gudrun)",
+    options: ["Hettel", "Chlodovech", "Herwig", "Siegfried"],
+    correct: "Hettel"
+  },
+  {
+    before: "Hartmoet wilde van de chaos gebruikmaken om Gudrun te ",
+    blank: "schaken",
+    after: ".",
+    hint: "(ontvoeren)",
+    options: ["schaken", "troosten", "beschermen", "bezoeken"],
+    correct: "schaken"
+  }
+];
+
+const quizData = [
+  {
+    question: "Wat is een sage?",
+    options: [
+      "Een sprookje met dieren die kunnen praten",
+      "Een traditioneel volksverhaal met een kern van waarheid, op een bekende plaats en tijd",
+      "Een wetenschappelijk artikel over de middeleeuwen",
+      "Een gedicht dat gezongen wordt door troubadours"
+    ],
+    correct: 1,
+    feedback_correct: "Juist! Een sage speelt zich af op een bekende plaats en tijd, en bevat een kern van waarheid.",
+    feedback_wrong: "Niet helemaal. Een sage is een traditioneel volksverhaal met een kern van waarheid, op een bekende plaats en tijd."
+  },
+  {
+    question: "Wanneer werden sagen voor het eerst opgeschreven?",
+    options: [
+      "In de 5e en 6e eeuw",
+      "In de 8e en 9e eeuw",
+      "In de 12e en 13e eeuw",
+      "In de 15e en 16e eeuw"
+    ],
+    correct: 2,
+    feedback_correct: "Goed zo! Troubadours vertelden ze al veel eerder mondeling, maar opgeschreven werd het pas in de 12e en 13e eeuw.",
+    feedback_wrong: "Het juiste antwoord is de 12e en 13e eeuw. Daarvoor werden sagen alleen mondeling doorverteld."
+  },
+  {
+    question: "Waarom was Gudrun verdrietig aan het begin van het verhaal?",
+    options: [
+      "Haar moeder Hilde was ziek",
+      "Horant zong droevige liederen",
+      "Haar vader wees elke koningszoon af die naar haar hand vroeg",
+      "Herwig was naar de oorlog vertrokken"
+    ],
+    correct: 2,
+    feedback_correct: "Precies! Hettel stuurde alle kandidaten weg, of ze nu rijk, machtig, moedig of krachtig waren.",
+    feedback_wrong: "Gudrun was verdrietig omdat haar vader Hettel élke koningszoon die naar haar hand vroeg naar huis stuurde."
+  },
+  {
+    question: "Hoe wordt Herwig van Seeland beschreven?",
+    options: [
+      "Klein, sluw en mysterieus",
+      "Groot, mooi, sterk, zelfverzekerd en toch eenvoudig",
+      "Oud, wijs en machtig",
+      "Rijk, arrogant en moedig"
+    ],
+    correct: 1,
+    feedback_correct: "Klopt! Herwig was groot, mooi, sterk en zelfverzekerd — en toch eenvoudig.",
+    feedback_wrong: "Herwig wordt beschreven als groot, mooi, sterk, zelfverzekerd en toch eenvoudig."
+  },
+  {
+    question: "Waarom wilde Gerlind wraak?",
+    options: [
+      "Gudrun had haar beledigd",
+      "Hettel had Normandië aangevallen",
+      "Gezant Chilperik werd afgewezen — haar zoon Hartmoet kreeg 'nee'",
+      "Herwig had Hartmoet in een gevecht verslagen"
+    ],
+    correct: 2,
+    feedback_correct: "Juist! Gerlind was woedend dat Chilperik met een 'nee' naar huis was gestuurd.",
+    feedback_wrong: "Gerlind was woedend omdat gezant Chilperik een pijnlijke 'nee' kreeg — haar zoon Hartmoet mocht niet met Gudrun trouwen."
+  },
+  {
+    question: "Wat was het slimme plan van Hartmoet?",
+    options: [
+      "Gudrun overtuigen met mooie geschenken",
+      "Siegfried manipuleren om een leger tegen de Denen te sturen, en dan Gudrun schaken",
+      "Herwig uitdagen voor een duel",
+      "Stiekem Denemarken binnenvallen met zijn eigen leger"
+    ],
+    correct: 1,
+    feedback_correct: "Precies! Hartmoet bracht Siegfried zo ver dat die een leger klaarmaakt — en wilde dan van de chaos gebruikmaken.",
+    feedback_wrong: "Hartmoet manipuleerde Siegfried om een leger klaar te maken tegen de Denen. Stiekem wilde hij van die chaos gebruikmaken om Gudrun te schaken."
+  },
+  {
+    question: "Wat betekent 'Als twee honden vechten om een been, loopt de derde ermee heen' in dit verhaal?",
+    options: [
+      "Gudrun kiest uiteindelijk geen van de drie mannen",
+      "Terwijl Herwig en Siegfried strijden, wil Hartmoet Gudrun meenemen",
+      "De honden staan symbool voor de Vikingen",
+      "Hettel profiteert van het conflict tussen de koningen"
+    ],
+    correct: 1,
+    feedback_correct: "Goed begrepen! De 'twee honden' zijn Herwig en Siegfried, en de 'derde' is de sluwe Hartmoet.",
+    feedback_wrong: "In dit verhaal: Herwig en Siegfried (de twee honden) strijden, en Hartmoet (de derde) wil van die chaos profiteren om Gudrun te schaken."
+  },
+  {
+    question: "Wie vertelden de sagen mondeling door, van stad tot stad?",
+    options: [
+      "Monniken en priesters",
+      "Koningen en prinsen",
+      "Troubadours en minstrelen",
+      "Ridders en schildknapen"
+    ],
+    correct: 2,
+    feedback_correct: "Juist! Troubadours en minstrelen reisden van kasteel tot kasteel om verhalen te vertellen.",
+    feedback_wrong: "Het juiste antwoord is troubadours en minstrelen. Zij vertelden de sagen mondeling van stad tot stad."
+  },
+  {
+    question: "Waarom wees Gudrun Hartmoet af toen hij zelf naar de burcht kwam?",
+    options: [
+      "Ze vond hem lelijk",
+      "Haar vader verbood het",
+      "Ze had haar trouw al aan Herwig gezworen",
+      "Hartmoet was niet van koninklijke afkomst"
+    ],
+    correct: 2,
+    feedback_correct: "Klopt! Gudrun had haar trouw al aan Herwig beloofd — ze liet Hartmoet horen dat hij niet moest hopen.",
+    feedback_wrong: "Gudrun had haar trouw al aan Herwig gezworen. Ze liet Hartmoet horen dat hij niet moest hopen."
+  },
+  {
+    question: "Het verhaal van Gudrun is vooral een verhaal over...",
+    options: [
+      "Oorlog en veroveringen",
+      "Magie en bovennatuurlijke krachten",
+      "Liefde en trouw",
+      "Handel en rijkdom"
+    ],
+    correct: 2,
+    feedback_correct: "Precies! Het verhaal van Gudrun is een verhaal van liefde en trouw.",
+    feedback_wrong: "De kern van het Gudrun-verhaal is liefde en trouw."
+  }
+];
+
+const fnfData = [
+  {
+    fragment: "\"Als het onweer hier losbarst...\", zei hij. Hij maakte zijn zin niet af, maar Kirsten begreep hem zo ook wel. Als het koren vandaag niet droog binnenkwam, betekende dat in het beste geval nog dagen extra werk.",
+    bron: "Uit: Paul Kustermans, Wraak van een koningsdochter",
+    correct: "Fictie",
+    followup_question: "Waaraan herken je dat dit fictie is?",
+    followup_options: ["Er staan dialogen en gedachten van personages in", "Er staan feiten en cijfers in", "Het is informatief geschreven", "Het gaat over een historisch onderwerp"],
+    followup_correct: 0,
+    feedback: "Je herkent fictie aan de dialogen (\"Als het onweer hier losbarst...\") en het beschrijven van wat personages denken en voelen."
+  },
+  {
+    fragment: "De Vikingen waren moedig, creatief en echte ontdekkingsreizigers. Zo reisden ze de wereld rond tot aan Noord-Amerika en Azië. Een van de voornaamste redenen dat de Vikingen zo ver wisten te komen was omdat hun langschepen makkelijk te maken en snel waren.",
+    bron: "Informatieve tekst over Vikingen",
+    correct: "Non-fictie",
+    followup_question: "Waaraan herken je dat dit non-fictie is?",
+    followup_options: ["Er staan veel dialogen in", "Het geeft feitelijke informatie en uitleg", "Er worden emoties beschreven", "De schrijver heeft alles verzonnen"],
+    followup_correct: 1,
+    feedback: "Dit is non-fictie: de tekst geeft feitelijke informatie over de Vikingen en hun scheepsbouw. Er zijn geen verzonnen personages of dialogen."
+  },
+  {
+    fragment: "Gudrun begon te twijfelen of ze wel ooit toestemming zou krijgen om te huwen. Een nieuwe kandidaat: de jonge koning Herwig van Seeland. Hij was groot, mooi, sterk en zelfverzekerd en toch eenvoudig.",
+    bron: "Uit de Gudrun-sage",
+    correct: "Fictie",
+    followup_question: "Maar de sage is toch gebaseerd op de werkelijkheid?",
+    followup_options: ["Klopt, daarom is het non-fictie", "Ja, maar de gedachten en beschrijvingen zijn verzonnen — het blijft fictie", "Het is half fictie, half non-fictie", "Sagen zijn altijd non-fictie"],
+    followup_correct: 1,
+    feedback: "Goed! Soms is fictie gebaseerd op waargebeurde feiten (zoals een historisch verhaal of een sage). Maar de gedachten, dialogen en beschrijvingen zijn verzonnen — het blijft fictie."
+  },
+  {
+    fragment: "De meeste Vikingen waren boeren. Het boerenleven tijdens het Vikingtijdperk was voornamelijk gebaseerd op veehouderij. Aanvankelijk waren de Noormannen zeer primitief, maar door hun veroveringstochten kwamen ze in contact met rijke culturen.",
+    bron: "Informatieve tekst over Vikingen",
+    correct: "Non-fictie",
+    followup_question: "Wat is het doel van deze tekst?",
+    followup_options: ["De lezer amuseren met een spannend verhaal", "Betrouwbare informatie geven over het leven van Vikingen", "De lezer laten inleven in een personage", "Een morele les vertellen"],
+    followup_correct: 1,
+    feedback: "Juist! Het doel van non-fictie is om betrouwbare informatie te geven. De lezer leert iets bij over het onderwerp."
+  },
+  {
+    fragment: "Ze kneep haar ogen tot spleetjes en toen zag ze het ook, kleine rode vlekken, dansend boven het water. \"Noormannen\", fluisterde Koerd. De vlekken werden strepen en Kirsten onderscheidde de rood-wit gestreepte zeilen.",
+    bron: "Uit: Paul Kustermans, Wraak van een koningsdochter",
+    correct: "Fictie",
+    followup_question: "Welk kenmerk van fictie zie je hier het duidelijkst?",
+    followup_options: ["Beschrijving van de omgeving en wat personages zien/voelen", "Opsomming van historische feiten", "Uitleg over scheepsbouwtechnieken", "Een wetenschappelijke toon"],
+    followup_correct: 0,
+    feedback: "Precies! De schrijver beschrijft levendig wat Kirsten ziet (rode vlekken, gestreepte zeilen) en laat Koerd fluisteren — typische fictie-kenmerken."
+  },
+  {
+    fragment: "Naast het verbouwen van gewassen en het houden van dieren, waren Vikingen erg ambachtelijk ingesteld. Het waren goede zilversmeden en ze droegen graag juwelen en sieraden van zilver, goud en andere metalen.",
+    bron: "Informatieve tekst over Vikingen",
+    correct: "Non-fictie",
+    followup_question: "Waaraan merk je dat de schrijver wil informeren?",
+    followup_options: ["Er wordt spanning opgebouwd", "Er worden feiten opgesomd over ambachten en materialen", "De personages praten met elkaar", "De schrijver beschrijft emoties"],
+    followup_correct: 1,
+    feedback: "Goed! De tekst somt feitelijke informatie op over de ambachten van de Vikingen — typisch voor non-fictie."
+  }
+];
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ============================================================
+// FLASHCARDS
+// ============================================================
+function buildFlashcards() {
+  const grid = document.getElementById('flashcardGrid');
+  flashcardsData.forEach((card, i) => {
+    const div = document.createElement('div');
+    div.className = 'flashcard';
+    div.onclick = () => div.classList.toggle('flipped');
+    div.innerHTML = `
+      <div class="question-word">${card.q}</div>
+      <div class="answer-word">${card.a}</div>
+      <div class="flashcard-hint">${div.classList.contains('flipped') ? 'klik om terug te draaien' : 'klik om te draaien'}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ============================================================
+// KIES JUIST
+// ============================================================
+let kjScore = 0, kjAnswered = 0, kjTotal = kiesJuistData.length;
+
+function buildKiesJuist() {
+  const container = document.getElementById('kj-questions');
+  kiesJuistData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'choose-card';
+    card.id = 'kj-card-' + idx;
+
+    const shuffled = shuffle([...item.options]);
+    card.innerHTML = `
+      <div class="q-number">Vraag ${idx + 1}</div>
+      <div class="q-text">${item.before}<span class="choose-blank" id="kj-blank-${idx}">???</span>${item.after}</div>
+      <div class="choose-hint">${item.hint}</div>
+      <div class="pill-options" id="kj-opts-${idx}">
+        ${shuffled.map(o => `<button class="pill-option" onclick="checkKJ(${idx}, '${o.replace(/'/g, "\\'")}')">${o}</button>`).join('')}
+      </div>
+      <div class="q-feedback" id="kj-fb-${idx}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function checkKJ(idx, answer) {
+  const item = kiesJuistData[idx];
+  const card = document.getElementById('kj-card-' + idx);
+  const blank = document.getElementById('kj-blank-' + idx);
+  const opts = document.getElementById('kj-opts-' + idx);
+  const fb = document.getElementById('kj-fb-' + idx);
+
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  const buttons = opts.querySelectorAll('.pill-option');
+  const isCorrect = answer === item.correct;
+
+  buttons.forEach(btn => {
+    btn.classList.add('disabled');
+    if (btn.textContent === item.correct) {
+      btn.classList.add(isCorrect ? 'correct' : 'show-correct');
+    }
+    if (btn.textContent === answer && !isCorrect) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  blank.textContent = item.correct;
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+
+  if (isCorrect) {
+    kjScore++;
+    fb.className = 'q-feedback visible correct-fb';
+    fb.textContent = randomCorrect();
+  } else {
+    fb.className = 'q-feedback visible wrong-fb';
+    fb.textContent = 'Het juiste antwoord is: ' + item.correct;
+  }
+
+  kjAnswered++;
+  updateScore('kj', kjScore, kjAnswered, kjTotal);
+}
+
+function resetKiesJuist() {
+  kjScore = 0; kjAnswered = 0;
+  document.getElementById('kj-questions').innerHTML = '';
+  document.getElementById('kj-scorebar').classList.remove('visible');
+  document.getElementById('kj-celebration').classList.remove('visible');
+  buildKiesJuist();
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+let quizScore = 0, quizAnswered = 0, quizTotal = quizData.length;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-questions');
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = 'quiz-card-' + idx;
+
+    card.innerHTML = `
+      <div class="q-number">Vraag ${idx + 1}</div>
+      <div class="q-text bold">${item.question}</div>
+      <div class="stack-options" id="quiz-opts-${idx}">
+        ${item.options.map((o, oi) => `<button class="stack-option" onclick="checkQuiz(${idx}, ${oi})">${o}</button>`).join('')}
+      </div>
+      <div class="q-feedback" id="quiz-fb-${idx}"></div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function checkQuiz(idx, chosen) {
+  const item = quizData[idx];
+  const card = document.getElementById('quiz-card-' + idx);
+  const opts = document.getElementById('quiz-opts-' + idx);
+  const fb = document.getElementById('quiz-fb-' + idx);
+
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  const buttons = opts.querySelectorAll('.stack-option');
+  const isCorrect = chosen === item.correct;
+
+  buttons.forEach((btn, bi) => {
+    btn.classList.add('disabled');
+    if (bi === item.correct) {
+      btn.classList.add(isCorrect ? 'correct' : 'show-correct');
+    }
+    if (bi === chosen && !isCorrect) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  fb.className = 'q-feedback visible ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  fb.textContent = isCorrect ? item.feedback_correct : item.feedback_wrong;
+
+  quizScore += isCorrect ? 1 : 0;
+  quizAnswered++;
+  updateScore('quiz', quizScore, quizAnswered, quizTotal);
+}
+
+function resetQuiz() {
+  quizScore = 0; quizAnswered = 0;
+  document.getElementById('quiz-questions').innerHTML = '';
+  document.getElementById('quiz-scorebar').classList.remove('visible');
+  document.getElementById('quiz-celebration').classList.remove('visible');
+  buildQuiz();
+}
+
+// ============================================================
+// FICTIE OF NON-FICTIE
+// ============================================================
+let fnfScore = 0, fnfAnswered = 0, fnfTotal = fnfData.length * 2; // main + followup per question
+
+function buildFnf() {
+  const container = document.getElementById('fnf-questions');
+  fnfData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'fnf-card';
+    card.id = 'fnf-card-' + idx;
+
+    card.innerHTML = `
+      <div class="q-number">Fragment ${idx + 1}</div>
+      <div class="fnf-fragment">${item.fragment}<br><span style="font-size:12px;font-style:normal;opacity:0.6;font-family:'Source Sans 3',sans-serif;">${item.bron}</span></div>
+      <div class="q-text bold" style="font-size:14px;font-family:'Source Sans 3',sans-serif;">Is dit fictie of non-fictie?</div>
+      <div class="pill-options" id="fnf-main-opts-${idx}">
+        <button class="pill-option" onclick="checkFnfMain(${idx}, 'Fictie')">📕 Fictie</button>
+        <button class="pill-option" onclick="checkFnfMain(${idx}, 'Non-fictie')">📘 Non-fictie</button>
+      </div>
+      <div class="q-feedback" id="fnf-main-fb-${idx}"></div>
+      <div class="fnf-followup" id="fnf-followup-${idx}">
+        <div class="q-text bold" style="font-size:14px;font-family:'Source Sans 3',sans-serif;">${item.followup_question}</div>
+        <div class="pill-options" id="fnf-fu-opts-${idx}">
+          ${item.followup_options.map((o, oi) => `<button class="pill-option" onclick="checkFnfFollowup(${idx}, ${oi})">${o}</button>`).join('')}
+        </div>
+        <div class="q-feedback" id="fnf-fu-fb-${idx}"></div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function checkFnfMain(idx, answer) {
+  const item = fnfData[idx];
+  const opts = document.getElementById('fnf-main-opts-' + idx);
+  const fb = document.getElementById('fnf-main-fb-' + idx);
+  const followup = document.getElementById('fnf-followup-' + idx);
+
+  if (opts.classList.contains('done')) return;
+  opts.classList.add('done');
+
+  const isCorrect = answer === item.correct;
+  const buttons = opts.querySelectorAll('.pill-option');
+  buttons.forEach(btn => {
+    btn.classList.add('disabled');
+    if (btn.textContent.includes(item.correct)) {
+      btn.classList.add(isCorrect ? 'correct' : 'show-correct');
+    }
+    if (btn.textContent.includes(answer) && !isCorrect) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  if (isCorrect) {
+    fnfScore++;
+    fb.className = 'q-feedback visible correct-fb';
+    fb.textContent = randomCorrect() + ' Nu de vervolgvraag:';
+  } else {
+    fb.className = 'q-feedback visible wrong-fb';
+    fb.textContent = 'Dit is ' + item.correct.toLowerCase() + '. Probeer nu de vervolgvraag:';
+  }
+  fnfAnswered++;
+  updateScore('fnf', fnfScore, fnfAnswered, fnfTotal);
+
+  // Show follow-up
+  followup.classList.add('visible');
+}
+
+function checkFnfFollowup(idx, chosen) {
+  const item = fnfData[idx];
+  const card = document.getElementById('fnf-card-' + idx);
+  const opts = document.getElementById('fnf-fu-opts-' + idx);
+  const fb = document.getElementById('fnf-fu-fb-' + idx);
+
+  if (opts.classList.contains('done')) return;
+  opts.classList.add('done');
+
+  const isCorrect = chosen === item.followup_correct;
+  const buttons = opts.querySelectorAll('.pill-option');
+  buttons.forEach((btn, bi) => {
+    btn.classList.add('disabled');
+    if (bi === item.followup_correct) {
+      btn.classList.add(isCorrect ? 'correct' : 'show-correct');
+    }
+    if (bi === chosen && !isCorrect) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  fb.className = 'q-feedback visible ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
+  fb.textContent = item.feedback;
+
+  if (isCorrect) fnfScore++;
+  fnfAnswered++;
+
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  updateScore('fnf', fnfScore, fnfAnswered, fnfTotal);
+}
+
+function resetFnf() {
+  fnfScore = 0; fnfAnswered = 0;
+  document.getElementById('fnf-questions').innerHTML = '';
+  document.getElementById('fnf-scorebar').classList.remove('visible');
+  document.getElementById('fnf-celebration').classList.remove('visible');
+  buildFnf();
+}
+
+// ============================================================
+// SHARED UTILITIES
+// ============================================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function randomCorrect() {
+  const msgs = ["Correct!", "Juist!", "Goed zo!", "Helemaal goed!", "Knap!", "Uitstekend!"];
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+function updateScore(prefix, score, answered, total) {
+  const bar = document.getElementById(prefix + '-scorebar');
+  const text = document.getElementById(prefix + '-score-text');
+  const progress = document.getElementById(prefix + '-progress');
+  const celeb = document.getElementById(prefix + '-celebration');
+  const celebEmoji = document.getElementById(prefix + '-celeb-emoji');
+  const celebText = document.getElementById(prefix + '-celeb-text');
+
+  bar.classList.add('visible');
+  text.textContent = `Score: ${score}/${answered}`;
+  progress.style.width = (answered / total * 100) + '%';
+
+  if (answered === total) {
+    celeb.classList.add('visible');
+    const pct = score / total * 100;
+    if (pct === 100) { celebEmoji.textContent = '🌟'; celebText.textContent = 'Alles juist — fantastisch!'; }
+    else if (pct >= 80) { celebEmoji.textContent = '🎉'; celebText.textContent = 'Heel goed! Bijna alles juist.'; }
+    else if (pct >= 60) { celebEmoji.textContent = '💪'; celebText.textContent = 'Goed bezig! Bekijk de fouten nog eens.'; }
+    else { celebEmoji.textContent = '📚'; celebText.textContent = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+  }
+}
+
+// ============================================================
+// PRINT CONTENT
+// ============================================================
+function buildPrintContent() {
+  // Flashcards print
+  const pfDiv = document.getElementById('print-flashcards');
+  let pfHTML = '<table style="width:100%;border-collapse:collapse;font-size:11pt;">';
+  pfHTML += '<tr><th style="text-align:left;padding:6px 10px;border-bottom:2px solid #A8B89A;font-family:Source Sans 3,sans-serif;">Naam</th><th style="text-align:left;padding:6px 10px;border-bottom:2px solid #A8B89A;font-family:Source Sans 3,sans-serif;">Wie is dit?</th></tr>';
+  flashcardsData.forEach((c, i) => {
+    pfHTML += `<tr><td style="padding:6px 10px;border-bottom:1px solid #eee;font-weight:bold;">${c.q}</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">____________________</td></tr>`;
+  });
+  pfHTML += '</table>';
+  pfDiv.innerHTML = pfHTML;
+
+  // KJ print
+  const pkjDiv = document.getElementById('print-kj-questions');
+  let pkjHTML = '';
+  kiesJuistData.forEach((item, i) => {
+    pkjHTML += `<p style="margin-bottom:10px;"><strong>${i+1}.</strong> ${item.before}<span style="border-bottom:2px dotted #A8B89A;padding:0 20px;">________</span>${item.after} <em style="color:#888;font-size:10pt;">${item.hint}</em></p>`;
+  });
+  pkjDiv.innerHTML = pkjHTML;
+
+  // Quiz print
+  const pqDiv = document.getElementById('print-quiz-questions');
+  let pqHTML = '';
+  quizData.forEach((item, i) => {
+    pqHTML += `<p style="margin-bottom:4px;"><strong>${i+1}. ${item.question}</strong></p>`;
+    item.options.forEach((o, oi) => {
+      pqHTML += `<p style="margin-left:18px;margin-bottom:2px;font-family:'Source Sans 3',sans-serif;font-size:10pt;">☐ ${o}</p>`;
+    });
+    pqHTML += '<br>';
+  });
+  pqDiv.innerHTML = pqHTML;
+
+  // FNF print
+  const pfnfDiv = document.getElementById('print-fnf-questions');
+  let pfnfHTML = '';
+  fnfData.forEach((item, i) => {
+    pfnfHTML += `<div style="margin-bottom:14px;padding:10px;border:1px solid #ddd;border-radius:8px;">`;
+    pfnfHTML += `<p style="margin-bottom:4px;font-weight:bold;">Fragment ${i+1}:</p>`;
+    pfnfHTML += `<p style="font-style:italic;margin-bottom:6px;font-size:10pt;">"${item.fragment.substring(0, 120)}..."</p>`;
+    pfnfHTML += `<p style="font-family:'Source Sans 3',sans-serif;font-size:10pt;">☐ Fictie &nbsp;&nbsp; ☐ Non-fictie</p>`;
+    pfnfHTML += `<p style="font-family:'Source Sans 3',sans-serif;font-size:10pt;margin-top:4px;">${item.followup_question} _______________</p>`;
+    pfnfHTML += '</div>';
+  });
+  pfnfDiv.innerHTML = pfnfHTML;
+
+  // Solutions
+  const solDiv = document.getElementById('print-solutions');
+  let solHTML = '<h3 style="font-family:Caveat,cursive;font-size:20px;color:#7a9468;margin:12px 0 8px;">🎴 Wie is wie?</h3>';
+  flashcardsData.forEach((c, i) => {
+    solHTML += `<p style="font-size:10pt;margin-bottom:3px;"><strong>${i+1}. ${c.q}</strong> — ${c.a}</p>`;
+  });
+
+  solHTML += '<h3 style="font-family:Caveat,cursive;font-size:20px;color:#7a9468;margin:16px 0 8px;">🎯 Verhaalkennis</h3>';
+  kiesJuistData.forEach((item, i) => {
+    solHTML += `<p style="font-size:10pt;margin-bottom:3px;"><strong>${i+1}.</strong> ${item.correct}</p>`;
+  });
+
+  solHTML += '<h3 style="font-family:Caveat,cursive;font-size:20px;color:#7a9468;margin:16px 0 8px;">📝 Quiz</h3>';
+  quizData.forEach((item, i) => {
+    solHTML += `<p style="font-size:10pt;margin-bottom:3px;"><strong>${i+1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+
+  solHTML += '<h3 style="font-family:Caveat,cursive;font-size:20px;color:#7a9468;margin:16px 0 8px;">🔍 Fictie of non-fictie?</h3>';
+  fnfData.forEach((item, i) => {
+    solHTML += `<p style="font-size:10pt;margin-bottom:3px;"><strong>Fragment ${i+1}:</strong> ${item.correct} — ${item.followup_options[item.followup_correct]}</p>`;
+  });
+
+  solDiv.innerHTML = solHTML;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  buildFlashcards();
+  buildKiesJuist();
+  buildQuiz();
+  buildFnf();
+  buildPrintContent();
+});
+</script>
+
+</body>
+</html>
