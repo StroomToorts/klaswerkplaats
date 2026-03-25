@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Periodetoets: Gudrun, Fictie & Non-fictie — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --sage: #A8B89A;
+  --vak-color: #A8B89A;
+  --vak-color-light: #c5d4b8;
+  --vak-color-dark: #8a9e7a;
+  --vak-color-bg: #f2f5ef;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q35 15 30 25 Q25 15 30 5z' fill='%238B7355' opacity='0.04'/%3E%3Cpath d='M10 35 Q15 45 10 55 Q5 45 10 35z' fill='%238B7355' opacity='0.03'/%3E%3Cpath d='M50 30 Q55 40 50 50 Q45 40 50 30z' fill='%238B7355' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+  animation: fadeSlideUp 0.6s ease;
+}
+.exercise-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-color-dark));
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(168,184,154,0.3);
+}
+.exercise-title {
+  font-family: 'Vollkorn', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-brown);
+}
+.exercise-date {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--vak-color-dark);
+  margin-top: 2px;
+}
+.exercise-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 24px;
+  opacity: 0.8;
+  animation: fadeSlideUp 0.6s ease 0.1s both;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  animation: fadeSlideUp 0.6s ease 0.15s both;
+}
+.tab-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.tab-btn:hover {
+  border-color: var(--vak-color);
+  background: var(--vak-color-bg);
+}
+.tab-btn.active {
+  background: var(--vak-color);
+  color: white;
+  border-color: var(--vak-color);
+  box-shadow: 0 2px 8px rgba(168,184,154,0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease; }
+.tab-content.active { display: block; }
+
+/* Score bar */
+.score-bar {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.score-bar.visible { display: flex; flex-wrap: wrap; }
+.score-text { font-weight: 600; color: var(--dark-brown); white-space: nowrap; }
+.progress-bar-container {
+  flex: 1;
+  min-width: 120px;
+  height: 10px;
+  background: var(--sand-light);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  padding: 5px 12px;
+  border: 1.5px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 15px;
+  cursor: pointer;
+  color: var(--warm-brown);
+  transition: all 0.2s;
+}
+.reset-btn:hover { border-color: var(--vak-color); background: var(--vak-color-bg); }
+
+/* Celebration */
+.celebration {
+  display: none;
+  text-align: center;
+  padding: 24px;
+  margin-top: 20px;
+  background: linear-gradient(135deg, var(--vak-color-bg), var(--warm-white));
+  border: 2px solid var(--vak-color);
+  border-radius: 18px;
+}
+.celebration.visible { display: block; animation: pop 0.5s ease; }
+.celebration-emoji { font-size: 40px; margin-bottom: 8px; }
+.celebration-text { font-family: 'Caveat', cursive; font-size: 24px; color: var(--vak-color-dark); }
+
+/* ===== OVERZICHT TAB ===== */
+.theory-card {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-bottom: 10px;
+}
+.theory-card p, .theory-card li {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+.theory-card ul { padding-left: 20px; }
+.theory-card li { margin-bottom: 4px; }
+
+.attention-box {
+  background: linear-gradient(135deg, #fef9e7, #fdf2d5);
+  border-left: 4px solid var(--ochre);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.attention-box strong { color: var(--ochre); }
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.comparison-card {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 18px;
+}
+.comparison-card h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.comparison-card.fictie-card { border-left: 4px solid var(--vak-color); }
+.comparison-card.fictie-card h4 { color: var(--vak-color-dark); }
+.comparison-card.nonfictie-card { border-left: 4px solid var(--ochre); }
+.comparison-card.nonfictie-card h4 { color: #b8942e; }
+.comparison-card .label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--warm-brown);
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+.comparison-card p { font-size: 14px; line-height: 1.6; }
+
+/* Character map */
+.char-map {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 14px 0;
+}
+.char-group {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 16px;
+}
+.char-group h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--sand-light);
+}
+.char-group.denmark h4 { color: var(--vak-color-dark); }
+.char-group.normandy h4 { color: var(--terracotta); }
+.char-group.other h4 { color: var(--ochre); }
+.char-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.char-item {
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 6px 10px;
+  background: var(--vak-color-bg);
+  border-radius: 10px;
+}
+.char-group.normandy .char-item { background: #fdf2ec; }
+.char-group.other .char-item { background: #fdf8ec; }
+.char-item strong { color: var(--dark-brown); }
+.char-item .role {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  color: var(--warm-brown);
+  opacity: 0.7;
+}
+
+/* ===== FLASHCARDS ===== */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+.flashcard {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.flashcard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.flashcard.flipped {
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-color-dark));
+  color: var(--cream);
+  border-color: var(--vak-color-dark);
+}
+.flashcard .question-word {
+  font-size: 18px;
+  font-weight: 700;
+}
+.flashcard .question-emoji {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+.flashcard .answer-word {
+  display: none;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.flashcard.flipped .question-word { display: none; }
+.flashcard.flipped .question-emoji { display: none; }
+.flashcard.flipped .answer-word { display: block; }
+.flashcard .flip-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  opacity: 0.5;
+  position: absolute;
+  bottom: 8px;
+}
+
+/* ===== KIES JUIST (Fictie/Non-fictie) ===== */
+.choose-card {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+.choose-card.correct { border-color: var(--vak-color) !important; background: var(--vak-color-bg) !important; }
+.choose-card.incorrect { border-color: var(--terracotta) !important; background: #fdf2ec !important; }
+.choose-number {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--vak-color-dark);
+  margin-bottom: 6px;
+}
+.choose-sentence {
+  font-size: 15px;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.choose-context {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  opacity: 0.65;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.choose-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.choose-pill {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.choose-pill:hover { border-color: var(--vak-color); background: var(--vak-color-bg); }
+.choose-pill.selected-correct {
+  background: var(--vak-color); color: white; border-color: var(--vak-color);
+}
+.choose-pill.selected-wrong {
+  background: var(--terracotta); color: white; border-color: var(--terracotta);
+}
+.choose-pill.show-correct {
+  background: var(--vak-color); color: white; border-color: var(--vak-color);
+}
+.choose-pill.disabled { pointer-events: none; opacity: 0.5; }
+.choose-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  margin-top: 8px;
+  display: none;
+}
+.choose-feedback.visible { display: block; }
+.choose-feedback.correct-fb { color: var(--vak-color-dark); }
+.choose-feedback.incorrect-fb { color: var(--terracotta); }
+
+/* ===== TIJDLIJN ===== */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--vak-color), var(--ochre));
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 16px 18px;
+  transition: all 0.3s ease;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -32px;
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  background: var(--vak-color);
+  border: 3px solid var(--warm-white);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--vak-color);
+}
+.timeline-item.correct { border-color: var(--vak-color); background: var(--vak-color-bg); }
+.timeline-item.incorrect { border-color: var(--terracotta); background: #fdf2ec; }
+.timeline-chapter {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--vak-color-dark);
+  margin-bottom: 4px;
+}
+.timeline-question {
+  font-size: 14px;
+  margin-bottom: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--warm-brown);
+}
+.timeline-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.timeline-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.timeline-option:hover { border-color: var(--vak-color); background: var(--vak-color-bg); }
+.timeline-option.selected-correct { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.timeline-option.selected-wrong { background: var(--terracotta); color: white; border-color: var(--terracotta); }
+.timeline-option.show-correct { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.timeline-option.disabled { pointer-events: none; opacity: 0.5; }
+.timeline-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  margin-top: 8px;
+  display: none;
+}
+.timeline-feedback.visible { display: block; }
+.timeline-feedback.correct-fb { color: var(--vak-color-dark); }
+.timeline-feedback.incorrect-fb { color: var(--terracotta); }
+
+/* ===== QUIZ ===== */
+.quiz-card {
+  background: var(--warm-white);
+  border: 2px solid var(--sand);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  transition: all 0.3s ease;
+}
+.quiz-card.correct { border-color: var(--vak-color); background: var(--vak-color-bg); }
+.quiz-card.incorrect { border-color: var(--terracotta); background: #fdf2ec; }
+.quiz-number {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  color: var(--vak-color-dark);
+  margin-bottom: 6px;
+}
+.quiz-question {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.quiz-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.quiz-option:hover { border-color: var(--vak-color); background: var(--vak-color-bg); }
+.quiz-option.selected-correct { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.quiz-option.selected-wrong { background: var(--terracotta); color: white; border-color: var(--terracotta); }
+.quiz-option.show-correct { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.quiz-option.disabled { pointer-events: none; opacity: 0.5; }
+.quiz-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  margin-top: 8px;
+  display: none;
+}
+.quiz-feedback.visible { display: block; }
+.quiz-feedback.correct-fb { color: var(--vak-color-dark); }
+.quiz-feedback.incorrect-fb { color: var(--terracotta); }
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 25px;
+  cursor: pointer;
+  color: var(--warm-brown);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.action-btn:hover {
+  border-color: var(--vak-color);
+  background: var(--vak-color-bg);
+  transform: translateY(-1px);
+}
+
+/* ===== PRINT ===== */
+.print-only { display: none; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 10px; }
+  .print-only { display: block !important; }
+  .exercise-icon { display: none; }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+
+  .theory-card, .comparison-card, .char-group { border-color: #ddd; box-shadow: none; }
+
+  /* Flashcards: always show question side */
+  .flashcard { box-shadow: none; border-color: #ddd; }
+  .flashcard .question-word { display: block !important; }
+  .flashcard .question-emoji { display: block !important; }
+  .flashcard .answer-word { display: none !important; }
+  .flashcard.flipped { background: white !important; color: var(--dark-brown) !important; border-color: #ddd !important; }
+  .flashcard .flip-hint { display: none !important; }
+
+  /* Choose (fictie/non-fictie): hide pills, show blank */
+  .choose-options { display: none !important; }
+  .choose-feedback { display: none !important; }
+  .choose-card.correct, .choose-card.incorrect { border-color: #ddd !important; background: white !important; }
+  .choose-card::after {
+    content: 'Antwoord: ____________________';
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    color: #999;
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* Timeline: hide options, show blank */
+  .timeline-options { display: none !important; }
+  .timeline-feedback { display: none !important; }
+  .timeline-item.correct, .timeline-item.incorrect { border-color: #ddd !important; background: white !important; }
+  .timeline-item::after {
+    content: 'Antwoord: ____________________';
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    color: #999;
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* Quiz: hide options selection state */
+  .quiz-options { display: flex !important; }
+  .quiz-option { border-color: #ddd !important; background: white !important; color: var(--dark-brown) !important; pointer-events: none; }
+  .quiz-option.selected-correct, .quiz-option.selected-wrong, .quiz-option.show-correct { background: white !important; color: var(--dark-brown) !important; border-color: #ddd !important; }
+  .quiz-feedback { display: none !important; }
+  .quiz-card.correct, .quiz-card.incorrect { border-color: #ddd !important; background: white !important; }
+
+  .print-answers { page-break-before: always; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 20px; }
+  .exercise-icon { width: 46px; height: 46px; font-size: 22px; }
+  .comparison-grid { grid-template-columns: 1fr; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); }
+  .char-list { grid-template-columns: 1fr; }
+  .tab-btn { font-size: 13px; padding: 7px 12px; }
+  .timeline { padding-left: 32px; }
+  .timeline::before { left: 12px; }
+  .timeline-item::before { left: -28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Periodetoets: Gudrun, Fictie &amp; Non-fictie
+  </div>
+
+  <!-- Header -->
+  <div class="exercise-header">
+    <div class="exercise-icon">📖</div>
+    <div>
+      <div class="exercise-title">Periodetoets: Gudrun, Fictie &amp; Non-fictie</div>
+      <div class="exercise-date">25 maart 2026</div>
+    </div>
+  </div>
+  <div class="exercise-intro">Oefen alles voor de periodetoets Nederlands: fictie vs. non-fictie, de Gudrun-saga, personages en belangrijke gebeurtenissen.</div>
+
+  <!-- Tabs -->
+  <div class="tabs no-print">
+    <button class="tab-btn active" onclick="switchTab('overzicht')">📚 Overzicht</button>
+    <button class="tab-btn" onclick="switchTab('personages')">🎴 Personages</button>
+    <button class="tab-btn" onclick="switchTab('fictienonfictie')">🎯 Fictie of non-fictie?</button>
+    <button class="tab-btn" onclick="switchTab('tijdlijn')">📰 Tijdlijn</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
+  </div>
+
+  <!-- ==================== OVERZICHT TAB ==================== -->
+  <div id="tab-overzicht" class="tab-content active">
+
+    <div class="comparison-grid">
+      <div class="comparison-card fictie-card">
+        <h4>📗 Fictie</h4>
+        <div class="label">Wat?</div>
+        <p>Verzonnen verhalen die ontstaan uit de <strong>fantasie</strong> van de schrijver.</p>
+        <div class="label" style="margin-top:10px">Doel?</div>
+        <p>De lezer <strong>amuseren</strong>.</p>
+        <div class="label" style="margin-top:10px">Inleving door:</div>
+        <p>Dialogen, gedachten en emoties van personages, beschrijving van de omgeving.</p>
+        <div class="label" style="margin-top:10px">Voorbeelden</div>
+        <p>Roman, gedicht, sprookje, stripverhaal</p>
+      </div>
+      <div class="comparison-card nonfictie-card">
+        <h4>📙 Non-fictie</h4>
+        <div class="label">Wat?</div>
+        <p>Gebaseerd op <strong>feiten</strong> of ware gebeurtenissen.</p>
+        <div class="label" style="margin-top:10px">Doel?</div>
+        <p>Betrouwbare <strong>informatie</strong> geven — de lezer leert iets bij.</p>
+        <div class="label" style="margin-top:10px">Kenmerken:</div>
+        <p>Feitelijke beschrijvingen, objectieve toon, informatief.</p>
+        <div class="label" style="margin-top:10px">Voorbeelden</div>
+        <p>Wetenschappelijke tekst, biografie, documentaire</p>
+      </div>
+    </div>
+
+    <div class="attention-box">
+      <strong>⚡ Let op!</strong> Soms is fictie gebaseerd op <em>voorgebeurde feiten</em>, bijvoorbeeld een historisch verhaal. Toch blijft het dan <strong>fictie</strong>, want de schrijver heeft er elementen bij verzonnen.
+    </div>
+
+    <div class="theory-card">
+      <h3>🏰 Wat is een sage?</h3>
+      <ul>
+        <li>Een <strong>traditioneel volksverhaal</strong> dat zich afspeelt op een <strong>bekende plaats</strong> en op een <strong>bekend moment</strong> in de tijd.</li>
+        <li>Een soort legende met een <strong>kern van waarheid</strong>.</li>
+        <li>Bevat <strong>spannende</strong> en <strong>bovennatuurlijke</strong> elementen.</li>
+        <li>Personages: moedige helden, maar ook tovenaars en weerwolven.</li>
+        <li><strong>Troubadours en minstreels</strong> vertelden sagen mondeling van stad tot stad, kasteel tot kasteel.</li>
+        <li>Pas in de <strong>12de en 13de eeuw</strong> werden ze opgeschreven.</li>
+      </ul>
+    </div>
+
+    <div class="theory-card">
+      <h3>📜 De Gudrun-sage</h3>
+      <p>Een oud <strong>middeleeuws</strong> verhaal dat zich afspeelt rond de <strong>5de en 6de eeuw</strong>. Het is een voorbeeld van een sage.</p>
+      <p style="margin-top:8px">Het centrale thema is <strong>liefde en trouw</strong>. Gudrun blijft ondanks alle beproevingen trouw aan haar geliefde Herwig.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>👥 Personages &amp; relaties</h3>
+      <div class="char-map">
+        <div class="char-group denmark">
+          <h4>🇩🇰 Deens kamp</h4>
+          <div class="char-list">
+            <div class="char-item"><strong>Gudrun</strong> — koningsdochter van Denemarken <span class="role">• hoofdpersonage</span></div>
+            <div class="char-item"><strong>Hettel</strong> — koning van Denemarken <span class="role">• vader van Gudrun</span></div>
+            <div class="char-item"><strong>Hilde</strong> — koningin van Denemarken <span class="role">• moeder van Gudrun</span></div>
+            <div class="char-item"><strong>Ortwin</strong> — broer van Gudrun</div>
+            <div class="char-item"><strong>Horant</strong> — hofzanger <span class="role">• aan het Deense hof</span></div>
+            <div class="char-item"><strong>Hildegard</strong> — trouwe vriendin <span class="role">• van Gudrun</span></div>
+            <div class="char-item"><strong>Wate van Stürmen</strong> — legeraanvoerder <span class="role">• van de Denen</span></div>
+          </div>
+        </div>
+        <div class="char-group" style="border-left: 4px solid var(--vak-color);">
+          <h4 style="color: var(--vak-color-dark);">💚 Gudruns geliefde</h4>
+          <div class="char-list">
+            <div class="char-item"><strong>Herwig van Seeland</strong> — jonge koning, geliefde van Gudrun <span class="role">• groot, mooi, sterk, zelfverzekerd, eenvoudig</span></div>
+          </div>
+        </div>
+        <div class="char-group normandy">
+          <h4>⚔️ Normandisch kamp</h4>
+          <div class="char-list">
+            <div class="char-item"><strong>Hartmoet</strong> — prins van Normandië <span class="role">• ontvoerder van Gudrun, sluw</span></div>
+            <div class="char-item"><strong>Clodowech</strong> — koning van Normandië <span class="role">• vader van Hartmoet</span></div>
+            <div class="char-item"><strong>Gerlind</strong> — koningin van Normandië <span class="role">• moeder van Hartmoet, haatdragend &amp; gemeen</span></div>
+            <div class="char-item"><strong>Ortrun</strong> — zus van Hartmoet <span class="role">• altijd vriendelijk tegen Gudrun</span></div>
+            <div class="char-item"><strong>Chilperik</strong> — gezant van Clodowech</div>
+          </div>
+        </div>
+        <div class="char-group other">
+          <h4>🗡️ Overig</h4>
+          <div class="char-list">
+            <div class="char-item"><strong>Siegfried van Moorland</strong> — gemanipuleerd door Hartmoet <span class="role">• viel Seeland binnen</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>📖 Samenvatting per hoofdstuk</h3>
+      <p><strong>1. De ontmoeting van Gudrun en Herwig</strong> — Hettel wijst alle huwelijkskandidaten af. Herwig ontmoet Gudrun stiekem. Hettel stuurt hem weg. Herwig belooft terug te keren.</p>
+      <p><strong>2. Prins Hartmoet van Normandië</strong> — Chilperik probeert tevergeefs Gudrun voor Hartmoet te winnen. Hartmoet bezoekt haar zelf, maar wordt ook afgewezen. Hij manipuleert Siegfried van Moorland om een leger klaar te maken.</p>
+      <p><strong>3. Herwig van Seeland</strong> — Herwig bestormt de burcht met zijn leger. Er volgt een duel met Hettel. Gudrun gaat ertussen staan. Hettel geeft toe; Herwig en Gudrun worden verloofd.</p>
+      <p><strong>4. De overval</strong> — Siegfried valt Seeland aan. Hettel trekt op aandringen van Gudrun naar Seeland om te helpen. Hartmoet en Clodowech plunderen de onbeschermde burcht Matelan en ontvoeren Gudrun en Hildegard.</p>
+      <p><strong>5. Op het Wulpenstrand</strong> — Hartmoet probeert Gudrun voor zich te winnen op het schip. Hettel en Herwig komen aanstormen. In de strijd doodt Clodowech Hettel, maar wordt zelf ook dodelijk gewond. Hartmoet vlucht met Gudrun.</p>
+      <p><strong>6. Gerlind</strong> — In Normandië ontvangt Gerlind Gudrun als een slang haar prooi. Ze wil Gudrun vernederen en breken. Hartmoet is afwisselend lief en boos, maar niets helpt. Zelfs de vriendelijke Ortrun kan Gudrun niet op andere gedachten brengen.</p>
+      <p><strong>7. Gudruns trouw</strong> — Hilde neemt de leiding over na Hettels dood. Ze kiest ervoor te wachten met de reddingsmissie. Gudrun ondergaat Gerlinds kwellingen: haar kleren worden afgenomen, ze moet in de kou de was doen en op blote voeten varkensdrek opkuisen. Hildegard steunt haar: gedeelde smart is halve smart.</p>
+      <p><strong>8. De zwaan</strong> — Gudrun raakt uitgeput en ziek. Na haar herstel wordt ze eenzaam op het strand achtergelaten. Ze ziet een zwaan die haar vertelt dat Herwig haar komt redden. Gerlind vraagt één laatste keer of ze wil huwen; Gudrun zegt: alleen met Herwig. De alarmklokken luiden.</p>
+    </div>
+  </div>
+
+  <!-- ==================== PERSONAGES TAB ==================== -->
+  <div id="tab-personages" class="tab-content">
+    <div class="flashcard-grid" id="flashcardGrid">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+
+  <!-- ==================== FICTIE OF NON-FICTIE TAB ==================== -->
+  <div id="tab-fictienonfictie" class="tab-content">
+    <div id="fnfScoreBar" class="score-bar no-print">
+      <span class="score-text" id="fnfScoreText">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="fnfProgressBar"></div></div>
+      <button class="reset-btn" onclick="resetFnf()">🔄 Opnieuw</button>
+    </div>
+    <div id="fnfContainer"></div>
+    <div id="fnfCelebration" class="celebration no-print">
+      <div class="celebration-emoji" id="fnfCelebEmoji"></div>
+      <div class="celebration-text" id="fnfCelebText"></div>
+    </div>
+  </div>
+
+  <!-- ==================== TIJDLIJN TAB ==================== -->
+  <div id="tab-tijdlijn" class="tab-content">
+    <div id="tlScoreBar" class="score-bar no-print">
+      <span class="score-text" id="tlScoreText">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="tlProgressBar"></div></div>
+      <button class="reset-btn" onclick="resetTimeline()">🔄 Opnieuw</button>
+    </div>
+    <div class="timeline" id="timelineContainer"></div>
+    <div id="tlCelebration" class="celebration no-print">
+      <div class="celebration-emoji" id="tlCelebEmoji"></div>
+      <div class="celebration-text" id="tlCelebText"></div>
+    </div>
+  </div>
+
+  <!-- ==================== QUIZ TAB ==================== -->
+  <div id="tab-quiz" class="tab-content">
+    <div id="quizScoreBar" class="score-bar no-print">
+      <span class="score-text" id="quizScoreText">Score: 0/0</span>
+      <div class="progress-bar-container"><div class="progress-bar" id="quizProgressBar"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+    <div id="quizContainer"></div>
+    <div id="quizCelebration" class="celebration no-print">
+      <div class="celebration-emoji" id="quizCelebEmoji"></div>
+      <div class="celebration-text" id="quizCelebText"></div>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn">← Terug naar overzicht</a>
+  </div>
+
+  <!-- ==================== PRINT ANSWERS ==================== -->
+  <div class="print-only print-answers">
+    <h2 style="font-family:'Caveat',cursive; font-size:28px; color:var(--vak-color-dark); margin-bottom:18px;">Oplossingen</h2>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20px; color:var(--vak-color-dark); margin:16px 0 8px;">🎴 Personages (flashcards)</h3>
+    <div id="printFlashcardAnswers" style="font-size:12px; line-height:1.8;"></div>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20px; color:var(--vak-color-dark); margin:16px 0 8px;">🎯 Fictie of non-fictie?</h3>
+    <div id="printFnfAnswers" style="font-size:12px; line-height:1.8;"></div>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20px; color:var(--vak-color-dark); margin:16px 0 8px;">📰 Tijdlijn</h3>
+    <div id="printTlAnswers" style="font-size:12px; line-height:1.8;"></div>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20px; color:var(--vak-color-dark); margin:16px 0 8px;">📝 Quiz</h3>
+    <div id="printQuizAnswers" style="font-size:12px; line-height:1.8;"></div>
+  </div>
+
+</div>
+
+<script>
+// ===== TAB SWITCHING =====
+function switchTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  const tabs = ['overzicht','personages','fictienonfictie','tijdlijn','quiz'];
+  document.querySelectorAll('.tab-btn')[tabs.indexOf(id)].classList.add('active');
+}
+
+// ===== HELPERS =====
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function celebrate(prefix, score, total) {
+  const pct = Math.round(score / total * 100);
+  const el = document.getElementById(prefix + 'Celebration');
+  const emoji = document.getElementById(prefix + 'CelebEmoji');
+  const text = document.getElementById(prefix + 'CelebText');
+  if (pct === 100) { emoji.textContent = '🌟'; text.textContent = 'Alles juist — fantastisch!'; }
+  else if (pct >= 80) { emoji.textContent = '🎉'; text.textContent = 'Heel goed! Bijna alles juist.'; }
+  else if (pct >= 60) { emoji.textContent = '💪'; text.textContent = 'Goed bezig! Bekijk de fouten nog eens.'; }
+  else { emoji.textContent = '📚'; text.textContent = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+  el.classList.add('visible');
+}
+
+const correctPhrases = ['Correct!', 'Juist!', 'Goed zo!', 'Uitstekend!'];
+function randomCorrect() { return correctPhrases[Math.floor(Math.random() * correctPhrases.length)]; }
+
+// ===== FLASHCARDS DATA =====
+const flashcards = [
+  { emoji: '👸', name: 'Gudrun', answer: 'Koningsdochter van Denemarken. Hoofdpersonage. Blijft trouw aan Herwig ondanks alle beproevingen.' },
+  { emoji: '👑', name: 'Hettel', answer: 'Koning van Denemarken, vader van Gudrun. Wijst alle huwelijkskandidaten af. Gedood door Clodowech op het Wulpenstrand.' },
+  { emoji: '👸', name: 'Hilde', answer: 'Koningin van Denemarken, moeder van Gudrun. Neemt de leiding over na Hettels dood. Kiest ervoor te wachten met de reddingsmissie.' },
+  { emoji: '🎵', name: 'Horant', answer: 'Hofzanger aan het Deense hof. Bezong de liefde voor Gudrun. Stelde voor om te wachten tot het voorjaar.' },
+  { emoji: '🛡️', name: 'Ortwin', answer: 'Broer van Gudrun. Hield haar samen met Horant tegen bij het duel tussen Hettel en Herwig.' },
+  { emoji: '👭', name: 'Hildegard', answer: 'Trouwe vriendin van Gudrun. Werd samen met haar ontvoerd. Onderging samen de vernederingen van Gerlind: gedeelde smart is halve smart.' },
+  { emoji: '💚', name: 'Herwig van Seeland', answer: 'Geliefde van Gudrun. Jonge koning: groot, mooi, sterk, zelfverzekerd en toch eenvoudig. Toonde zijn moed door te vechten voor haar.' },
+  { emoji: '⚔️', name: 'Wate van Stürmen', answer: 'Legeraanvoerder van de Denen. Wilde zo snel mogelijk naar Normandië zeilen om Gudrun te bevrijden.' },
+  { emoji: '🐍', name: 'Hartmoet', answer: 'Prins van Normandië. Sluwe ontvoerder van Gudrun. Probeerde haar afwisselend lief en boos voor zich te winnen.' },
+  { emoji: '🗡️', name: 'Clodowech', answer: 'Koning van Normandië, vader van Hartmoet. Doodde Hettel op het Wulpenstrand, maar raakte zelf ook dodelijk gewond.' },
+  { emoji: '🐉', name: 'Gerlind', answer: 'Koningin van Normandië, moeder van Hartmoet. Haatdragend en gemeen. Kwelde en vernederde Gudrun om haar trots te breken.' },
+  { emoji: '🕊️', name: 'Ortrun', answer: 'Zus van Hartmoet. Altijd vriendelijk tegen Gudrun, maar kon haar niet op andere gedachten brengen.' },
+  { emoji: '📜', name: 'Chilperik', answer: 'Gezant van koning Clodowech. Probeerde met kostbare geschenken Gudrun voor Hartmoet te winnen. Kreeg een pijnlijke "nee" als antwoord.' },
+  { emoji: '🏴', name: 'Siegfried van Moorland', answer: 'Werd door Hartmoet gemanipuleerd om een leger klaar te maken en viel het Seelandse rijk binnen.' },
+];
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcardGrid');
+  grid.innerHTML = '';
+  flashcards.forEach(fc => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML = `
+      <div class="question-emoji">${fc.emoji}</div>
+      <div class="question-word">${fc.name}</div>
+      <div class="answer-word">${fc.answer}</div>
+      <div class="flip-hint no-print">klik om te draaien</div>
+    `;
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      const hint = card.querySelector('.flip-hint');
+      hint.textContent = card.classList.contains('flipped') ? 'klik om terug te draaien' : 'klik om te draaien';
+    });
+    grid.appendChild(card);
+  });
+
+  // Print answers
+  let html = '';
+  flashcards.forEach((fc, i) => {
+    html += `<p><strong>${i + 1}. ${fc.name}:</strong> ${fc.answer}</p>`;
+  });
+  document.getElementById('printFlashcardAnswers').innerHTML = html;
+}
+
+// ===== FICTIE / NON-FICTIE DATA =====
+const fnfQuestions = [
+  {
+    text: 'Het fragment over Kirsten en Koerd die Noormannen-schepen zien naderen op de rivier.',
+    context: 'Uit: Paul Kustermans, "Wraak van een koningsdochter"',
+    answer: 'Fictie',
+    explanation: 'Dit is een roman — een verzonnen verhaal met dialogen, gedachten en emoties van personages.'
+  },
+  {
+    text: 'Een tekst die uitlegt dat de meeste Vikingen boeren waren en dat vrouwen de leiding hadden over de boerderijen.',
+    context: 'Informatieve tekst over het dagelijks leven van Vikingen',
+    answer: 'Non-fictie',
+    explanation: 'Dit is een informatieve tekst gebaseerd op feiten over het leven van Vikingen.'
+  },
+  {
+    text: 'Het verhaal van Gudrun, die ondanks de kwellingen van Gerlind trouw blijft aan Herwig.',
+    context: 'Een middeleeuwse sage',
+    answer: 'Fictie',
+    explanation: 'Een sage is fictie: het is een verzonnen verhaal, ook al speelt het zich af op een bekende plaats en tijd.'
+  },
+  {
+    text: 'Een tekst die beschrijft hoe Vikingenschepen werden gebouwd en dat ze technieken van de Romeinen overnamen.',
+    context: 'Informatieve tekst over scheepsbouw',
+    answer: 'Non-fictie',
+    explanation: 'Dit is een feitelijke beschrijving van historische scheepsbouwtechnieken.'
+  },
+  {
+    text: 'Een historisch verhaal over het leven van Karel de Grote, met verzonnen dialogen en scènes.',
+    context: 'Gebaseerd op echte feiten, maar met verzonnen elementen',
+    answer: 'Fictie',
+    explanation: 'Soms is fictie gebaseerd op echte feiten — het blijft dan toch fictie, want de schrijver heeft elementen verzonnen.'
+  },
+  {
+    text: 'Een encyclopedie-artikel dat uitlegt wat een sage is en wanneer sagen voor het eerst werden opgeschreven.',
+    context: 'Naslagwerk',
+    answer: 'Non-fictie',
+    explanation: 'Een encyclopedie-artikel geeft feitelijke informatie — dat is non-fictie.'
+  },
+  {
+    text: 'Een gedicht over een eenzame ridder die vecht tegen een draak.',
+    context: 'Uit een dichtbundel',
+    answer: 'Fictie',
+    explanation: 'Een gedicht is een verzonnen tekst uit de fantasie van de schrijver.'
+  },
+  {
+    text: 'Een documentaire over de Vikingtochten naar Noord-Amerika.',
+    context: 'Uitgezonden op televisie',
+    answer: 'Non-fictie',
+    explanation: 'Een documentaire is gebaseerd op feiten en heeft als doel om te informeren.'
+  },
+  {
+    text: 'Een stripverhaal over een Vikingjongen die een magisch zwaard vindt.',
+    context: 'Met tekeningen en tekstballonnen',
+    answer: 'Fictie',
+    explanation: 'Een stripverhaal is een verzonnen verhaal — ook al gaat het over Vikingen.'
+  },
+  {
+    text: 'Een biografie over de historische Viking Leif Erikson.',
+    context: 'Geschreven door een historicus',
+    answer: 'Non-fictie',
+    explanation: 'Een biografie beschrijft het echte leven van een persoon — dat is non-fictie.'
+  },
+];
+
+let fnfState = { score: 0, answered: 0, total: fnfQuestions.length };
+
+function buildFnf() {
+  fnfState = { score: 0, answered: 0, total: fnfQuestions.length };
+  const container = document.getElementById('fnfContainer');
+  container.innerHTML = '';
+  document.getElementById('fnfScoreBar').classList.remove('visible');
+  document.getElementById('fnfCelebration').classList.remove('visible');
+
+  fnfQuestions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'choose-card';
+    card.id = 'fnf-card-' + i;
+    const options = shuffle(['Fictie', 'Non-fictie']);
+    card.innerHTML = `
+      <div class="choose-number">Vraag ${i + 1}</div>
+      <div class="choose-sentence">${q.text}</div>
+      <div class="choose-context">${q.context}</div>
+      <div class="choose-options" id="fnf-opts-${i}">
+        ${options.map(o => `<button class="choose-pill" onclick="checkFnf(${i},'${o}')">${o}</button>`).join('')}
+      </div>
+      <div class="choose-feedback" id="fnf-fb-${i}"></div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Print answers
+  let html = '';
+  fnfQuestions.forEach((q, i) => {
+    html += `<p><strong>${i + 1}.</strong> ${q.answer} — ${q.explanation}</p>`;
+  });
+  document.getElementById('printFnfAnswers').innerHTML = html;
+}
+
+function checkFnf(idx, chosen) {
+  const q = fnfQuestions[idx];
+  const card = document.getElementById('fnf-card-' + idx);
+  const opts = document.getElementById('fnf-opts-' + idx);
+  const fb = document.getElementById('fnf-fb-' + idx);
+  const pills = opts.querySelectorAll('.choose-pill');
+
+  pills.forEach(p => {
+    p.classList.add('disabled');
+    if (p.textContent === chosen && chosen === q.answer) p.classList.add('selected-correct');
+    else if (p.textContent === chosen && chosen !== q.answer) p.classList.add('selected-wrong');
+    if (p.textContent === q.answer && chosen !== q.answer) p.classList.add('show-correct');
+  });
+
+  const isCorrect = chosen === q.answer;
+  card.classList.add(isCorrect ? 'correct' : 'incorrect');
+  fb.className = 'choose-feedback visible ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+  fb.textContent = isCorrect ? randomCorrect() + ' ' + q.explanation : '✗ ' + q.explanation;
+
+  if (isCorrect) fnfState.score++;
+  fnfState.answered++;
+
+  const bar = document.getElementById('fnfScoreBar');
+  bar.classList.add('visible');
+  document.getElementById('fnfScoreText').textContent = `Score: ${fnfState.score}/${fnfState.answered}`;
+  document.getElementById('fnfProgressBar').style.width = (fnfState.answered / fnfState.total * 100) + '%';
+
+  if (fnfState.answered === fnfState.total) celebrate('fnf', fnfState.score, fnfState.total);
+}
+
+function resetFnf() { buildFnf(); }
+
+// ===== TIJDLIJN DATA =====
+const timelineQuestions = [
+  {
+    chapter: '1. De ontmoeting van Gudrun en Herwig',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Herwig ontmoet Gudrun stiekem, maar Hettel stuurt hem weg.',
+      'Hartmoet probeert Gudrun voor zich te winnen met geschenken.',
+      'Gudrun wordt ontvoerd uit burcht Matelan.',
+      'Herwig bestormt de Deense burcht met zijn leger.'
+    ],
+    answer: 0,
+    explanation: 'Hettel wijst alle kandidaten af. Herwig en Gudrun ontmoeten elkaar stiekem, maar Hettel stuurt hem weg. Herwig belooft terug te komen.'
+  },
+  {
+    chapter: '2. Prins Hartmoet van Normandië',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Gerlind kwelt Gudrun met zware taken.',
+      'Hartmoet wordt afgewezen en manipuleert Siegfried van Moorland om een leger klaar te maken.',
+      'De Normandiërs vallen het Wulpenstrand aan.',
+      'Herwig en Gudrun worden verloofd na een duel.'
+    ],
+    answer: 1,
+    explanation: 'Chilperik en daarna Hartmoet zelf worden afgewezen. Hartmoet manipuleert Siegfried om een afleidingsoorlog te beginnen.'
+  },
+  {
+    chapter: '3. Herwig van Seeland',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Gudrun ziet een zwaan die haar hoop geeft.',
+      'Hettel staakt de strijd tegen Siegfried en stelt vrede voor.',
+      'Herwig bestormt de burcht, duelliert met Hettel, en Gudrun gaat ertussen staan. Ze worden verloofd.',
+      'Hartmoet ontvoert Gudrun tijdens een verrassingsaanval.'
+    ],
+    answer: 2,
+    explanation: 'Herwig vecht voor zijn liefde. Gudrun stopt het duel. Omdat Herwig zijn moed heeft getoond, geeft Hettel toestemming voor de verloving.'
+  },
+  {
+    chapter: '4. De overval',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Hartmoet probeert Gudrun voor zich te winnen op het schip.',
+      'Siegfried valt Seeland aan. Hettel trekt naar Seeland. Hartmoet en Clodowech overvallen de onbeschermde burcht Matelan en ontvoeren Gudrun.',
+      'De Denen strijden tegen de Normandiërs op het Wulpenstrand.',
+      'Gudrun wordt gedwongen zware taken uit te voeren.'
+    ],
+    answer: 1,
+    explanation: 'Terwijl Hettel Herwig te hulp schiet tegen Siegfried, grijpt Hartmoet zijn kans en ontvoert Gudrun en Hildegard uit het onbeschermde Matelan.'
+  },
+  {
+    chapter: '5. Op het Wulpenstrand',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Gudrun raakt uitgeput en ziek door de kwellingen.',
+      'Hettel en Herwig achtervolgen de Normandiërs. In de strijd doden Hettel en Clodowech elkaar. Hartmoet vlucht met Gudrun.',
+      'Herwig toont zijn moed in een duel met Hettel.',
+      'Hilde besluit om te wachten met de reddingsmissie.'
+    ],
+    answer: 1,
+    explanation: 'Op het Wulpenstrand volgt een bloedige strijd. Clodowech doodt Hettel, maar raakt zelf ook dodelijk gewond. Hartmoet vlucht \'s nachts met Gudrun.'
+  },
+  {
+    chapter: '6. Gerlind',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Gudrun wordt eenzaam op het strand achtergelaten.',
+      'Gerlind ontvangt Gudrun in Normandië en wil haar vernederen en breken. Niets kan Gudrun op andere gedachten brengen.',
+      'Herwig verzamelt een leger om Gudrun te bevrijden.',
+      'Chilperik biedt geschenken aan het Deense hof.'
+    ],
+    answer: 1,
+    explanation: 'Gerlind keek "als een slang die haar prooi in haar macht voelde." Maar noch Hartmoets wisselende houding, noch de vriendelijke Ortrun kan Gudrun van gedachte doen veranderen.'
+  },
+  {
+    chapter: '7. Gudruns trouw',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Hilde neemt de leiding over. Ze kiest ervoor te wachten. Gerlind kwelt Gudrun: kleren afgenomen, was in de kou, varkensdrek op blote voeten. Hildegard steunt haar.',
+      'Gudrun ziet een zwaan en hoort dat Herwig haar komt redden.',
+      'De Normandiërs plunderen burcht Matelan.',
+      'Hartmoet duelliert met Herwig op het Wulpenstrand.'
+    ],
+    answer: 0,
+    explanation: 'Hilde kiest Horants raad: wachten tot het voorjaar. Gudrun ondergaat de ergste vernederingen maar houdt vol — gedeelde smart is halve smart.'
+  },
+  {
+    chapter: '8. De zwaan',
+    question: 'Wat is de kern van dit hoofdstuk?',
+    options: [
+      'Hartmoet en Gerlind beramen een plan om Seeland aan te vallen.',
+      'Herwig bestormt de burcht Cassiane en bevrijdt Gudrun.',
+      'Gudrun raakt uitgeput en ziek. Op het strand ziet ze een zwaan die zegt dat Herwig haar komt redden. De alarmklokken luiden.',
+      'Hettel geeft toestemming voor het huwelijk van Gudrun en Herwig.'
+    ],
+    answer: 2,
+    explanation: 'Gudrun wordt eenzaam op het strand achtergelaten. De zwaan brengt hoop. Gerlind vraagt een laatste keer of ze wil huwen — "alleen met Herwig." Dan luiden de alarmklokken.'
+  },
+];
+
+let tlState = { score: 0, answered: 0, total: timelineQuestions.length };
+
+function buildTimeline() {
+  tlState = { score: 0, answered: 0, total: timelineQuestions.length };
+  const container = document.getElementById('timelineContainer');
+  container.innerHTML = '';
+  document.getElementById('tlScoreBar').classList.remove('visible');
+  document.getElementById('tlCelebration').classList.remove('visible');
+
+  timelineQuestions.forEach((q, i) => {
+    const item = document.createElement('div');
+    item.className = 'timeline-item';
+    item.id = 'tl-item-' + i;
+    const shuffledOpts = shuffle(q.options.map((o, idx) => ({ text: o, idx })));
+    item.innerHTML = `
+      <div class="timeline-chapter">${q.chapter}</div>
+      <div class="timeline-question">${q.question}</div>
+      <div class="timeline-options" id="tl-opts-${i}">
+        ${shuffledOpts.map(o => `<button class="timeline-option" onclick="checkTimeline(${i},${o.idx})">${o.text}</button>`).join('')}
+      </div>
+      <div class="timeline-feedback" id="tl-fb-${i}"></div>
+    `;
+    container.appendChild(item);
+  });
+
+  // Print answers
+  let html = '';
+  timelineQuestions.forEach((q, i) => {
+    html += `<p><strong>${q.chapter}:</strong> ${q.options[q.answer]}</p>`;
+  });
+  document.getElementById('printTlAnswers').innerHTML = html;
+}
+
+function checkTimeline(idx, chosen) {
+  const q = timelineQuestions[idx];
+  const item = document.getElementById('tl-item-' + idx);
+  const opts = document.getElementById('tl-opts-' + idx);
+  const fb = document.getElementById('tl-fb-' + idx);
+  const buttons = opts.querySelectorAll('.timeline-option');
+
+  const isCorrect = chosen === q.answer;
+  buttons.forEach(b => {
+    b.classList.add('disabled');
+    if (b.textContent === q.options[chosen] && isCorrect) b.classList.add('selected-correct');
+    else if (b.textContent === q.options[chosen] && !isCorrect) b.classList.add('selected-wrong');
+    if (b.textContent === q.options[q.answer] && !isCorrect) b.classList.add('show-correct');
+  });
+
+  item.classList.add(isCorrect ? 'correct' : 'incorrect');
+  fb.className = 'timeline-feedback visible ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+  fb.textContent = isCorrect ? randomCorrect() : '✗ ' + q.explanation;
+
+  if (isCorrect) tlState.score++;
+  tlState.answered++;
+
+  document.getElementById('tlScoreBar').classList.add('visible');
+  document.getElementById('tlScoreText').textContent = `Score: ${tlState.score}/${tlState.answered}`;
+  document.getElementById('tlProgressBar').style.width = (tlState.answered / tlState.total * 100) + '%';
+
+  if (tlState.answered === tlState.total) celebrate('tl', tlState.score, tlState.total);
+}
+
+function resetTimeline() { buildTimeline(); }
+
+// ===== QUIZ DATA =====
+const quizQuestions = [
+  {
+    question: 'Wat is het doel van fictie?',
+    options: ['De lezer informeren', 'De lezer amuseren', 'De lezer overtuigen', 'De lezer opvoeden'],
+    answer: 1
+  },
+  {
+    question: 'Wat is het doel van non-fictie?',
+    options: ['De lezer amuseren', 'De lezer laten dromen', 'Betrouwbare informatie geven', 'De lezer aan het lachen maken'],
+    answer: 2
+  },
+  {
+    question: 'Waardoor kan de lezer zich inleven in een fictieverhaal?',
+    options: ['Door grafieken en tabellen', 'Door dialogen, gedachten, emoties en beschrijving van de omgeving', 'Door voetnoten met bronvermeldingen', 'Door een inhoudsopgave'],
+    answer: 1
+  },
+  {
+    question: 'Een historisch verhaal gebaseerd op echte feiten met verzonnen scènes is ...',
+    options: ['Non-fictie', 'Fictie', 'Zowel fictie als non-fictie', 'Geen van beide'],
+    answer: 1
+  },
+  {
+    question: 'Wat is een sage?',
+    options: [
+      'Een wetenschappelijk artikel over de middeleeuwen',
+      'Een traditioneel volksverhaal op een bekende plaats en tijd, met een kern van waarheid en bovennatuurlijke elementen',
+      'Een dagboek van een historisch persoon',
+      'Een sprookje met dieren als hoofdpersonages'
+    ],
+    answer: 1
+  },
+  {
+    question: 'Wie vertelden sagen mondeling door van stad tot stad?',
+    options: ['Monniken en priesters', 'Koningen en koninginnen', 'Troubadours en minstreels', 'Ridders en schildknapen'],
+    answer: 2
+  },
+  {
+    question: 'Wanneer werden sagen voor het eerst opgeschreven?',
+    options: ['In de 5de en 6de eeuw', 'In de 8ste en 9de eeuw', 'In de 12de en 13de eeuw', 'In de 15de en 16de eeuw'],
+    answer: 2
+  },
+  {
+    question: 'Rond welke eeuwen speelt het verhaal van Gudrun zich af?',
+    options: ['3de en 4de eeuw', '5de en 6de eeuw', '9de en 10de eeuw', '12de en 13de eeuw'],
+    answer: 1
+  },
+  {
+    question: 'Wat is het centrale thema van de Gudrun-sage?',
+    options: ['Wraak en geweld', 'Rijkdom en macht', 'Liefde en trouw', 'Avontuur en ontdekking'],
+    answer: 2
+  },
+  {
+    question: 'Waarom werd Herwig de eerste keer door Hettel weggestuurd?',
+    options: ['Herwig was niet rijk genoeg', 'Hettel wees álle kandidaten af', 'Gudrun wilde hem niet', 'Herwig had een slecht karakter'],
+    answer: 1
+  },
+  {
+    question: 'Hoe wordt Herwig van Seeland beschreven?',
+    options: [
+      'Klein, sluw en gewelddadig',
+      'Oud, wijs en streng',
+      'Groot, mooi, sterk, zelfverzekerd en toch eenvoudig',
+      'Rijk, arrogant en machtig'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Wie is Chilperik?',
+    options: ['De hofzanger van Hettel', 'De broer van Gudrun', 'De gezant van Clodowech', 'De legeraanvoerder van Seeland'],
+    answer: 2
+  },
+  {
+    question: 'Welk spreekwoord past bij Hartmoets plan?',
+    options: [
+      'Wie het laatst lacht, lacht het best',
+      'Als twee honden vechten om een been, loopt de derde ermee heen',
+      'De aanhouder wint',
+      'Beter laat dan nooit'
+    ],
+    answer: 1
+  },
+  {
+    question: 'Waarom mocht Herwig uiteindelijk trouwen met Gudrun?',
+    options: [
+      'Hij bood de meeste geschenken aan',
+      'Gudrun smeekte haar vader',
+      'Hij toonde zijn moed en zette zijn leven op het spel',
+      'Hilde overtuigde Hettel'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Hoe stopte het duel tussen Hettel en Herwig?',
+    options: [
+      'Herwig gaf zich over',
+      'Horant zong een lied dat hen kalmeerde',
+      'Het begon te regenen',
+      'Gudrun ging tussen hen staan en smeekte hen te stoppen'
+    ],
+    answer: 3
+  },
+  {
+    question: 'Wie viel het Seelandse rijk binnen als afleiding?',
+    options: ['Clodowech van Normandië', 'Siegfried van Moorland', 'Wate van Stürmen', 'Chilperik'],
+    answer: 1
+  },
+  {
+    question: 'Waarom was burcht Matelan kwetsbaar voor de overval?',
+    options: [
+      'De muren waren ingestort',
+      'Hettel was met zijn leger naar Seeland getrokken om Herwig te helpen',
+      'Er was een feest aan de gang',
+      'De bewakers sliepen'
+    ],
+    answer: 1
+  },
+  {
+    question: 'Wie doodde koning Hettel?',
+    options: ['Hartmoet', 'Siegfried', 'Clodowech', 'Gerlind'],
+    answer: 2
+  },
+  {
+    question: 'Wat gebeurde er met Clodowech na de strijd op het Wulpenstrand?',
+    options: [
+      'Hij vluchtte naar Seeland',
+      'Hij werd gevangen genomen door de Denen',
+      'Hij raakte dodelijk gewond en gaf Hartmoet de raad om te vluchten',
+      'Hij sloot vrede met Herwig'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Hoe wordt Gerlind beschreven bij haar ontvangst van Gudrun?',
+    options: [
+      'Als een vriendelijke moeder',
+      'Als een strenge maar rechtvaardige koningin',
+      'Als een slang die haar prooi in haar macht voelde',
+      'Als een verdrietige vrouw'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Wie is Ortrun?',
+    options: [
+      'De vriendin van Gudrun',
+      'De zus van Hartmoet, altijd vriendelijk tegen Gudrun',
+      'De moeder van Herwig',
+      'De gezant van Clodowech'
+    ],
+    answer: 1
+  },
+  {
+    question: 'Welke vernederingen moest Gudrun ondergaan van Gerlind?',
+    options: [
+      'Ze moest koken en naaien',
+      'Ze moest zingen voor het hof',
+      'Kleren afgenomen, was ophangen in de kou, op blote voeten varkensdrek opkuisen',
+      'Ze moest het kasteel schoonmaken'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Welk spreekwoord past bij Gudrun en Hildegard?',
+    options: [
+      'Uit het oog, uit het hart',
+      'Wie niet waagt, wie niet wint',
+      'Gedeelde smart is halve smart',
+      'Oost west, thuis best'
+    ],
+    answer: 2
+  },
+  {
+    question: 'Waarom koos Hilde ervoor om te wachten met de reddingsmissie?',
+    options: [
+      'Ze was boos op Gudrun',
+      'Ze volgde Horants raad om te wachten tot het voorjaar, als de knapen tot strijders zijn opgeleid',
+      'Ze had geen schepen meer',
+      'Ze wist niet waar Gudrun was'
+    ],
+    answer: 1
+  },
+  {
+    question: 'Wat zag Gudrun op het strand dat haar hoop gaf?',
+    options: ['Een schip van Herwig', 'Een zwaan die zei dat Herwig haar zou komen redden', 'Een brief van Hildegard', 'Een regenboog'],
+    answer: 1
+  },
+  {
+    question: 'Wat antwoordde Gudrun toen Gerlind haar voor de laatste keer vroeg of ze wilde huwen?',
+    options: [
+      'Ze zweeg en keek weg',
+      'Ze zei dat ze wilde huwen, maar alleen met Herwig',
+      'Ze stemde eindelijk in met Hartmoet',
+      'Ze vroeg om meer bedenktijd'
+    ],
+    answer: 1
+  },
+];
+
+let quizState = { score: 0, answered: 0, total: quizQuestions.length };
+
+function buildQuiz() {
+  quizState = { score: 0, answered: 0, total: quizQuestions.length };
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  document.getElementById('quizScoreBar').classList.remove('visible');
+  document.getElementById('quizCelebration').classList.remove('visible');
+
+  quizQuestions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = 'quiz-card-' + i;
+    const shuffledOpts = shuffle(q.options.map((o, idx) => ({ text: o, idx })));
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${i + 1} / ${quizQuestions.length}</div>
+      <div class="quiz-question">${q.question}</div>
+      <div class="quiz-options" id="quiz-opts-${i}">
+        ${shuffledOpts.map(o => `<button class="quiz-option" onclick="checkQuiz(${i},${o.idx})">${o.text}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="quiz-fb-${i}"></div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Print answers
+  let html = '';
+  quizQuestions.forEach((q, i) => {
+    html += `<p><strong>${i + 1}.</strong> ${q.options[q.answer]}</p>`;
+  });
+  document.getElementById('printQuizAnswers').innerHTML = html;
+}
+
+function checkQuiz(idx, chosen) {
+  const q = quizQuestions[idx];
+  const card = document.getElementById('quiz-card-' + idx);
+  const opts = document.getElementById('quiz-opts-' + idx);
+  const fb = document.getElementById('quiz-fb-' + idx);
+  const buttons = opts.querySelectorAll('.quiz-option');
+
+  const isCorrect = chosen === q.answer;
+  buttons.forEach(b => {
+    b.classList.add('disabled');
+    if (b.textContent === q.options[chosen] && isCorrect) b.classList.add('selected-correct');
+    else if (b.textContent === q.options[chosen] && !isCorrect) b.classList.add('selected-wrong');
+    if (b.textContent === q.options[q.answer] && !isCorrect) b.classList.add('show-correct');
+  });
+
+  card.classList.add(isCorrect ? 'correct' : 'incorrect');
+  fb.className = 'quiz-feedback visible ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+  fb.textContent = isCorrect ? randomCorrect() : '✗ Het juiste antwoord is: ' + q.options[q.answer];
+
+  if (isCorrect) quizState.score++;
+  quizState.answered++;
+
+  document.getElementById('quizScoreBar').classList.add('visible');
+  document.getElementById('quizScoreText').textContent = `Score: ${quizState.score}/${quizState.answered}`;
+  document.getElementById('quizProgressBar').style.width = (quizState.answered / quizState.total * 100) + '%';
+
+  if (quizState.answered === quizState.total) celebrate('quiz', quizState.score, quizState.total);
+}
+
+function resetQuiz() { buildQuiz(); }
+
+// ===== INIT =====
+buildFlashcards();
+buildFnf();
+buildTimeline();
+buildQuiz();
+</script>
+
+</body>
+</html>
