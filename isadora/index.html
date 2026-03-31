@@ -1,1 +1,425 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isadora's Atelier</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear-gradient(170deg,#FFF8EE 0%,#FFFDF7 40%,#F5EDE0 100%);color:#4A3728;min-height:100vh;padding:0 0 30px}
+
+/* Screens */
+.screen{display:none}.screen.active{display:block}
+
+/* Shared topbar */
+.topbar{display:flex;align-items:center;padding:16px 16px 8px;gap:10px}
+.home-btn{display:flex;align-items:center;justify-content:center;width:44px;height:44px;background:white;border-radius:14px;font-size:20px;box-shadow:0 2px 8px rgba(120,90,60,0.07);-webkit-tap-highlight-color:transparent;cursor:pointer;text-decoration:none}
+.go-back{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:14px;font-size:22px;font-weight:700;box-shadow:0 2px 8px rgba(120,90,60,0.07);-webkit-tap-highlight-color:transparent;cursor:pointer;transition:transform 0.15s}
+.go-back:active{transform:scale(0.9)}
+.topbar-title{font-size:20px;font-weight:700}
+
+/* Stepper */
+.stepper-area{display:flex;justify-content:center;padding:12px 20px 4px}
+.stepper{display:flex;align-items:center;gap:16px;background:white;border-radius:20px;padding:10px 20px;box-shadow:0 2px 10px rgba(120,90,60,0.07)}
+.stepper-label{font-size:13px;color:#9A8A7B;margin-right:4px}
+.step-btn{width:44px;height:44px;border-radius:50%;border:2px solid #E0D8D0;background:white;font-size:22px;font-weight:700;color:#6B5E52;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;user-select:none}
+.step-btn:active{transform:scale(0.9);background:#F5EDE0}
+.step-btn.disabled{opacity:0.3;pointer-events:none}
+.stepper-val{font-size:32px;font-weight:800;min-width:44px;text-align:center}
+
+/* Progress */
+.progress{display:flex;justify-content:center;gap:6px;padding:10px 20px 16px;flex-wrap:wrap}
+.progress-dot{width:28px;height:28px;border-radius:50%;background:#EDE8E0;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.3s}
+.progress-dot.correct{background:#D4EDDC;animation:popIn 0.3s}
+.progress-dot.wrong{background:#F5DDD8;animation:popIn 0.3s}
+
+/* Options grid */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:300px;margin:0 auto;padding:0 20px}
+.option-btn{padding:16px;background:white;border:2px solid #E8E0D8;border-radius:16px;font-size:24px;font-weight:700;color:#4A3728;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.option-btn:active{transform:scale(0.95)}
+.option-btn.correct{background:#D4EDDC;border-color:#A8D5BA;animation:popIn 0.3s}
+.option-btn.wrong{background:#F5DDD8;border-color:#E8A598;animation:shake 0.4s}
+.option-btn.disabled{pointer-events:none;opacity:0.5}
+
+/* Celebration */
+.celebration{display:none;text-align:center;padding:30px 20px}
+.celebration.show{display:block;animation:fadeIn 0.4s}
+.celeb-emoji{font-size:72px;display:block;margin-bottom:12px}
+.celebration h2{font-size:22px;margin-bottom:8px}
+.celebration p{font-size:15px;color:#9A8A7B;margin-bottom:20px}
+.restart-btn{display:inline-block;padding:14px 32px;color:white;border:none;border-radius:30px;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.back-to-hub-link{display:block;text-align:center;margin-top:4px;color:#9A8A7B;font-size:14px;cursor:pointer;text-decoration:underline}
+
+/* === HUB === */
+.header{text-align:center;padding:44px 20px 16px}
+.header-emoji{font-size:64px;display:block;margin-bottom:8px}
+.header h1{font-size:28px;font-weight:700;color:#6B4F7A;margin-bottom:4px}
+.header p{font-size:15px;color:#9A8A7B}
+.divider{text-align:center;font-size:20px;letter-spacing:12px;color:#D4C4A8;margin:12px 0 20px}
+.exercises{display:flex;flex-direction:column;gap:14px;max-width:400px;margin:0 auto;padding:0 20px}
+.exercise-card{display:flex;align-items:center;gap:16px;background:white;border-radius:20px;padding:18px 20px;cursor:pointer;box-shadow:0 2px 12px rgba(120,90,60,0.07);transition:transform 0.15s;-webkit-tap-highlight-color:transparent}
+.exercise-card:active{transform:scale(0.97)}
+.card-emoji{font-size:44px;flex-shrink:0;width:56px;text-align:center}
+.card-text h2{font-size:18px;font-weight:700;margin-bottom:2px}
+.card-text p{font-size:13px;color:#9A8A7B;line-height:1.3}
+.card-splitsen{border-left:4px solid #B8A9D4}
+.card-reeksen{border-left:4px solid #E8A598}
+.card-vergelijken{border-left:4px solid #A8D5BA}
+.card-aanvullen{border-left:4px solid #F2D98B}
+.card-lezen{border-left:4px solid #C4B5DE}
+.footer{text-align:center;margin-top:32px;font-size:12px;color:#C4B8A8}
+
+/* === SPLITSEN === */
+.split-area{display:flex;justify-content:center;padding:10px 20px 20px}
+.split-card{background:white;border-radius:24px;padding:24px;box-shadow:0 3px 16px rgba(120,90,60,0.08);width:260px}
+
+/* === REEKSEN === */
+.seq-area{display:flex;justify-content:center;padding:10px 16px 8px}
+.seq-card{background:white;border-radius:24px;padding:20px 16px;box-shadow:0 3px 16px rgba(120,90,60,0.08);width:340px;text-align:center}
+.seq-hint{font-size:14px;color:#B0A090;margin-bottom:14px}
+.seq-hint strong{color:#C2704E}
+.seq-row{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap}
+.seq-num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;background:#F5EDE0;color:#4A3728;border:2px solid #E0D8D0}
+.seq-num.unknown{background:#FFF8EE;border:2.5px dashed #E8A598;color:#E8A598;font-size:18px}
+.seq-arrow{font-size:16px;color:#D4C4A8}
+
+/* === VERGELIJKEN === */
+.mini-hub{max-width:400px;margin:0 auto;padding:20px}
+.mini-hub h2{text-align:center;font-size:18px;margin-bottom:16px}
+.mini-card{display:flex;align-items:center;gap:14px;background:white;border-radius:18px;padding:16px 18px;margin-bottom:12px;cursor:pointer;box-shadow:0 2px 10px rgba(120,90,60,0.07);-webkit-tap-highlight-color:transparent;transition:transform 0.15s}
+.mini-card:active{transform:scale(0.97)}
+.mini-card-emoji{font-size:36px;flex-shrink:0}
+.mini-card-text h3{font-size:16px;font-weight:700;margin-bottom:2px}
+.mini-card-text p{font-size:12px;color:#9A8A7B}
+.question-card{background:white;border-radius:24px;padding:24px 20px;box-shadow:0 3px 16px rgba(120,90,60,0.08);max-width:340px;margin:0 auto 16px;text-align:center}
+.q-label{font-size:13px;color:#B0A090;margin-bottom:12px}
+.q-nums{font-size:36px;font-weight:800;color:#4A3728;margin-bottom:4px;letter-spacing:4px}
+.q-nums .unknown{color:#A8D5BA}
+.sym-options{display:flex;gap:10px;justify-content:center;max-width:300px;margin:0 auto;padding:0 20px}
+.sym-btn{flex:1;padding:16px 8px;background:white;border:2px solid #E8E0D8;border-radius:16px;font-size:28px;font-weight:700;color:#4A3728;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.sym-btn:active{transform:scale(0.95)}
+.sym-btn.correct{background:#D4EDDC;border-color:#A8D5BA;animation:popIn 0.3s}
+.sym-btn.wrong{background:#F5DDD8;border-color:#E8A598;animation:shake 0.4s}
+.sym-btn.disabled{pointer-events:none;opacity:0.5}
+.num-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:300px;margin:0 auto;padding:0 20px}
+.num-options.three-col{grid-template-columns:1fr 1fr 1fr}
+.num-btn{padding:16px;background:white;border:2px solid #E8E0D8;border-radius:16px;font-size:24px;font-weight:700;color:#4A3728;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.num-btn:active{transform:scale(0.95)}
+.num-btn.correct{background:#D4EDDC;border-color:#A8D5BA;animation:popIn 0.3s}
+.num-btn.wrong{background:#F5DDD8;border-color:#E8A598;animation:shake 0.4s}
+.num-btn.disabled{pointer-events:none;opacity:0.5}
+.num-btn.highlight{border-color:#A8D5BA}
+
+/* === AANVULLEN === */
+.beads-area{display:flex;justify-content:center;padding:10px 20px 6px}
+.beads-card{background:white;border-radius:24px;padding:24px 20px;box-shadow:0 3px 16px rgba(120,90,60,0.08);width:340px;text-align:center}
+.beads-question{font-size:16px;color:#6B5E52;margin-bottom:16px;line-height:1.4}
+.beads-question strong{font-size:20px}
+.beads-row{display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.bead{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 -3px 0 rgba(0,0,0,0.12),0 1px 3px rgba(0,0,0,0.08);transition:all 0.3s;flex-shrink:0}
+.bead.sz-m{width:24px;height:24px}.bead.sz-s{width:20px;height:20px}
+.bead.reward{animation:popIn 0.3s}
+.dots-hint{display:flex;align-items:center;margin-left:6px;font-size:20px;font-weight:700;color:#D4C4A8;letter-spacing:2px}
+.question-big{text-align:center;font-size:18px;font-weight:600;color:#4A3728;padding:12px 20px 16px}
+.question-big .num{font-size:24px;font-weight:800}
+
+/* === LEZEN === */
+.story-picker{max-width:400px;margin:0 auto;padding:0 20px 20px}
+.story-picker h2{text-align:center;font-size:17px;margin-bottom:14px}
+.story-pick-card{display:flex;align-items:center;gap:12px;background:white;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(120,90,60,0.06);-webkit-tap-highlight-color:transparent;transition:transform 0.15s;border-left:3px solid #D4C4A8}
+.story-pick-card:active{transform:scale(0.97)}
+.story-pick-card.done{border-left-color:#A8D5BA}
+.story-pick-emoji{font-size:30px;flex-shrink:0}
+.story-pick-text h3{font-size:15px;font-weight:700;margin-bottom:2px}
+.story-pick-text p{font-size:12px;color:#9A8A7B;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.story-pick-check{margin-left:auto;font-size:18px;flex-shrink:0}
+.back-link{display:block;text-align:center;margin-top:8px;color:#9A8A7B;font-size:14px;cursor:pointer;text-decoration:underline}
+.reading-area{display:flex;justify-content:center;padding:8px 16px 12px}
+.reading-card{background:white;border-radius:24px;padding:22px 20px;box-shadow:0 3px 16px rgba(120,90,60,0.08);width:350px;text-align:center}
+.r-type{font-size:12px;color:#B0A090;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.r-sentence{font-size:20px;font-weight:600;color:#4A3728;line-height:1.45;margin-bottom:4px}
+.r-hint{font-size:13px;color:#9A8A7B;margin-top:8px}
+.r-story{font-size:17px;line-height:1.55;color:#4A3728;text-align:left;margin-bottom:12px}
+.r-story-title{font-size:14px;font-weight:700;color:#7B6B9A;margin-bottom:8px;text-align:left}
+.r-question{font-size:16px;font-weight:600;color:#5A4A6A;margin-top:8px}
+.r-qcount{font-size:12px;color:#B0A090;margin-bottom:6px}
+.opts-area{max-width:350px;margin:0 auto;padding:0 16px}
+.opts-col{display:flex;flex-direction:column;gap:8px}
+.opts-emoji-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.opt-btn{padding:14px 16px;background:white;border:2px solid #E8E0D8;border-radius:16px;font-size:17px;font-weight:600;color:#4A3728;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.opt-btn:active{transform:scale(0.97)}
+.opt-btn.correct{background:#D4EDDC;border-color:#A8D5BA;animation:popIn 0.3s}
+.opt-btn.wrong{background:#F5DDD8;border-color:#E8A598;animation:shake 0.4s}
+.opt-btn.disabled{pointer-events:none;opacity:0.5}
+.opt-emoji{padding:14px 8px;background:white;border:2px solid #E8E0D8;border-radius:16px;font-size:38px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s}
+.opt-emoji:active{transform:scale(0.95)}
+.opt-emoji.correct{background:#D4EDDC;border-color:#A8D5BA;animation:popIn 0.3s}
+.opt-emoji.wrong{background:#F5DDD8;border-color:#E8A598;animation:shake 0.4s}
+.opt-emoji.disabled{pointer-events:none;opacity:0.5}
+
+/* Colored mini-hub borders */
+.verg-border{border-left:4px solid #A8D5BA}
+.lees-border{border-left:4px solid #C4B5DE}
+
+@keyframes popIn{0%{transform:scale(0.8)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ==================== HUB ==================== -->
+<div class="screen active" id="screen-hub">
+  <div class="header">
+    <span class="header-emoji">🎨</span>
+    <h1>Isadora's Atelier</h1>
+    <p>Kies een oefening!</p>
+  </div>
+  <div class="divider">✦ ✦ ✦</div>
+  <div class="exercises">
+    <div class="exercise-card card-splitsen" onclick="go('splitsen')"><span class="card-emoji">✂️</span><div class="card-text"><h2>Splitsen</h2><p>Knip getallen in twee stukken</p></div></div>
+    <div class="exercise-card card-reeksen" onclick="go('reeksen')"><span class="card-emoji">🦘</span><div class="card-text"><h2>Reeksen</h2><p>Spring door de getallen!</p></div></div>
+    <div class="exercise-card card-vergelijken" onclick="go('vergelijken')"><span class="card-emoji">⚖️</span><div class="card-text"><h2>Vergelijken</h2><p>Groter, kleiner of gelijk?</p></div></div>
+    <div class="exercise-card card-aanvullen" onclick="go('aanvullen')"><span class="card-emoji">🧮</span><div class="card-text"><h2>Aanvullen</h2><p>Hoeveel moet er nog bij?</p></div></div>
+    <div class="exercise-card card-lezen" onclick="go('lezen')"><span class="card-emoji">📖</span><div class="card-text"><h2>Lezen</h2><p>Lees en kies het antwoord</p></div></div>
+  </div>
+  <div class="footer">Gemaakt met 💜 door papa</div>
+</div>
+
+<!-- ==================== SPLITSEN ==================== -->
+<div class="screen" id="screen-splitsen">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="topbar-title" style="color:#6B4F7A">✂️ Splitsen</div>
+  </div>
+  <div class="stepper-area"><div class="stepper"><span class="stepper-label">Tot</span><button class="step-btn" id="sp-minus" onclick="SP.changeMax(-1)">−</button><div class="stepper-val" id="sp-display" style="color:#6B4F7A">10</div><button class="step-btn" id="sp-plus" onclick="SP.changeMax(1)">+</button></div></div>
+  <div class="progress" id="sp-progress"></div>
+  <div id="sp-area"><div class="split-area"><div class="split-card"><svg id="sp-svg" viewBox="0 0 212 160" fill="none"></svg></div></div><div class="options" id="sp-options"></div></div>
+  <div class="celebration" id="sp-celeb"><span class="celeb-emoji" id="sp-cE"></span><h2 id="sp-cT" style="color:#6B4F7A"></h2><p id="sp-cP"></p><button class="restart-btn" style="background:#B8A9D4" onclick="SP.start()">🔄 Nog een keer!</button></div>
+</div>
+
+<!-- ==================== REEKSEN ==================== -->
+<div class="screen" id="screen-reeksen">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="topbar-title" style="color:#C2704E">🦘 Reeksen</div>
+  </div>
+  <div class="stepper-area"><div class="stepper"><span class="stepper-label">Sprongen van</span><button class="step-btn" id="rk-minus" onclick="RK.changeStep(-1)">−</button><div class="stepper-val" id="rk-display" style="color:#C2704E">1</div><button class="step-btn" id="rk-plus" onclick="RK.changeStep(1)">+</button></div></div>
+  <div class="progress" id="rk-progress"></div>
+  <div id="rk-area"><div class="seq-area"><div class="seq-card"><div class="seq-hint" id="rk-hint"></div><div class="seq-row" id="rk-row"></div></div></div><div class="options" id="rk-options" style="margin-top:16px"></div></div>
+  <div class="celebration" id="rk-celeb"><span class="celeb-emoji" id="rk-cE"></span><h2 id="rk-cT" style="color:#C2704E"></h2><p id="rk-cP"></p><button class="restart-btn" style="background:#E8A598" onclick="RK.start()">🔄 Nog een keer!</button></div>
+</div>
+
+<!-- ==================== VERGELIJKEN ==================== -->
+<div class="screen" id="screen-vergelijken">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="go-back" id="vg-back" style="background:#E8F5EC;color:#5A7A60;display:none" onclick="VG.goBack()">←</div>
+    <div class="topbar-title" style="color:#5A7A60">⚖️ Vergelijken</div>
+  </div>
+  <div id="vg-hub" class="mini-hub"><h2 style="color:#5A7A60">Kies een oefening</h2>
+    <div class="mini-card verg-border" onclick="VG.startEx('symbols')"><span class="mini-card-emoji">🔣</span><div class="mini-card-text"><h3>Welk teken?</h3><p>Kies &lt; of &gt; of =</p></div></div>
+    <div class="mini-card verg-border" onclick="VG.startEx('biggest')"><span class="mini-card-emoji">👑</span><div class="mini-card-text"><h3>De grootste</h3><p>Welk van de drie is het grootst?</p></div></div>
+    <div class="mini-card verg-border" onclick="VG.startEx('chain')"><span class="mini-card-emoji">🔗</span><div class="mini-card-text"><h3>Wat past ertussen?</h3><p>Vind het getal dat past</p></div></div>
+  </div>
+  <div id="vg-ex" style="display:none"><div class="progress" id="vg-progress"></div><div id="vg-qarea"></div><div id="vg-oarea"></div>
+    <div class="celebration" id="vg-celeb"><span class="celeb-emoji" id="vg-cE"></span><h2 id="vg-cT" style="color:#5A7A60"></h2><p id="vg-cP"></p><button class="restart-btn" style="background:#A8D5BA" onclick="VG.start()">🔄 Nog een keer!</button><div class="back-to-hub-link" onclick="VG.goBack()">← Andere oefening kiezen</div></div>
+  </div>
+</div>
+
+<!-- ==================== AANVULLEN ==================== -->
+<div class="screen" id="screen-aanvullen">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="topbar-title" style="color:#A08830">🧮 Aanvullen</div>
+  </div>
+  <div class="stepper-area"><div class="stepper"><span class="stepper-label">Tot</span><button class="step-btn" id="av-minus" onclick="AV.changeTarget(-1)">−</button><div class="stepper-val" id="av-display" style="color:#A08830">10</div><button class="step-btn" id="av-plus" onclick="AV.changeTarget(1)">+</button></div></div>
+  <div class="progress" id="av-progress"></div>
+  <div id="av-area"><div class="beads-area"><div class="beads-card"><div class="beads-question" id="av-q"></div><div class="beads-row" id="av-row"></div></div></div><div class="question-big" id="av-qbig"></div><div class="options" id="av-options"></div></div>
+  <div class="celebration" id="av-celeb"><span class="celeb-emoji" id="av-cE"></span><h2 id="av-cT" style="color:#A08830"></h2><p id="av-cP"></p><button class="restart-btn" style="background:#F2D98B;color:#5C4033" onclick="AV.start()">🔄 Nog een keer!</button></div>
+</div>
+
+<!-- ==================== LEZEN ==================== -->
+<div class="screen" id="screen-lezen">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="go-back" id="lz-back" style="background:#F0ECF7;color:#7B6B9A;display:none" onclick="LZ.goBack()">←</div>
+    <div class="topbar-title" style="color:#7B6B9A">📖 Lezen</div>
+  </div>
+  <div id="lz-hub" class="mini-hub"><h2 style="color:#7B6B9A">Kies een oefening</h2>
+    <div class="mini-card lees-border" onclick="LZ.startEx('picture')"><span class="mini-card-emoji">📸</span><div class="mini-card-text"><h3>Plaatje kiezen</h3><p>Lees de zin, tik op het juiste plaatje</p></div></div>
+    <div class="mini-card lees-border" onclick="LZ.startEx('complete')"><span class="mini-card-emoji">✏️</span><div class="mini-card-text"><h3>Zin afmaken</h3><p>Welk woord past in de zin?</p></div></div>
+    <div class="mini-card lees-border" onclick="LZ.startEx('instruction')"><span class="mini-card-emoji">🔧</span><div class="mini-card-text"><h3>Knutselinstructies</h3><p>Lees de instructie en beantwoord de vraag</p></div></div>
+    <div class="mini-card lees-border" onclick="LZ.showStoryPicker()"><span class="mini-card-emoji">📚</span><div class="mini-card-text"><h3>Verhaaltjes</h3><p>Kies een verhaaltje en beantwoord vragen</p></div></div>
+  </div>
+  <div id="lz-stories" class="story-picker" style="display:none"></div>
+  <div id="lz-ex" style="display:none"><div class="progress" id="lz-progress"></div><div class="reading-area"><div class="reading-card" id="lz-card"></div></div><div class="opts-area" id="lz-opts"></div>
+    <div class="celebration" id="lz-celeb"><span class="celeb-emoji" id="lz-cE"></span><h2 id="lz-cT" style="color:#7B6B9A"></h2><p id="lz-cP"></p><button class="restart-btn" style="background:#C4B5DE" id="lz-celebBtn">🔄 Nog een keer!</button><div class="back-to-hub-link" id="lz-celebBack"></div></div>
+  </div>
+</div>
+
+<script>
+// ===== NAVIGATION =====
+function go(screen){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+screen).classList.add('active');if(screen==='splitsen')SP.start();if(screen==='reeksen')RK.start();if(screen==='aanvullen')AV.start();}
+function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function celebrate(eId,tId,pId,sc,total,color){
+  const p=Math.round(sc/total*100);
+  document.getElementById(eId).textContent=p===100?'🌟':p>=80?'🎉':p>=60?'💪':'💜';
+  document.getElementById(tId).textContent=p===100?'Alles juist!':p>=80?'Heel goed!':p>=60?'Goed bezig!':'Blijven oefenen!';
+  document.getElementById(pId).textContent=sc+' van de '+total+' goed.'+(p===100?' Fantastisch!':p>=80?' Super!':' Probeer nog eens!');
+}
+function buildProgress(id,n){const p=document.getElementById(id);p.innerHTML='';for(let i=0;i<n;i++){const d=document.createElement('div');d.className='progress-dot';d.textContent='·';p.appendChild(d);}}
+function markDot(id,i,ok){const d=document.querySelectorAll('#'+id+' .progress-dot');d[i].classList.add(ok?'correct':'wrong');if(ok)d[i].textContent='⭐';}
+function disableAll(sel){document.querySelectorAll(sel).forEach(b=>{if(!b.classList.contains('correct')&&!b.classList.contains('wrong'))b.classList.add('disabled');});}
+
+// ===== SPLITSEN =====
+const SP={max:10,cur:0,sc:0,ans:0,done:false,T:10,
+  changeMax(d){const n=this.max+d;if(n<3||n>20)return;this.max=n;this.updateUI();this.start();},
+  updateUI(){document.getElementById('sp-display').textContent=this.max;document.getElementById('sp-minus').classList.toggle('disabled',this.max<=3);document.getElementById('sp-plus').classList.toggle('disabled',this.max>=20);},
+  start(){this.cur=0;this.sc=0;this.done=false;this.updateUI();document.getElementById('sp-celeb').classList.remove('show');document.getElementById('sp-area').style.display='block';buildProgress('sp-progress',this.T);this.next();},
+  next(){if(this.cur>=this.T){document.getElementById('sp-area').style.display='none';celebrate('sp-cE','sp-cT','sp-cP',this.sc,this.T);document.getElementById('sp-celeb').classList.add('show');return;}this.done=false;
+    const t=2+Math.floor(Math.random()*(this.max-1)),g=1+Math.floor(Math.random()*(t-1));this.ans=t-g;const left=Math.random()<0.5;
+    const lq=left?'?':g,rq=left?g:'?',lIsQ=lq==='?',rIsQ=rq==='?';
+    document.getElementById('sp-svg').innerHTML=`<circle cx="106" cy="32" r="28" fill="#B8A9D4" opacity="0.2" stroke="#B8A9D4" stroke-width="2.5"/><text x="106" y="41" text-anchor="middle" font-size="30" font-weight="bold" fill="#6B4F7A" font-family="system-ui">${t}</text><path d="M85 54Q62 85,52 105" stroke="#D4C4A8" stroke-width="2.5" fill="none"/><path d="M127 54Q150 85,160 105" stroke="#D4C4A8" stroke-width="2.5" fill="none"/><circle cx="52" cy="128" r="26" fill="${lIsQ?'#F2D98B':'#A8D5BA'}" opacity="0.2" stroke="${lIsQ?'#F2D98B':'#A8D5BA'}" stroke-width="2.5"/><text x="52" y="137" text-anchor="middle" font-size="28" font-weight="bold" fill="${lIsQ?'#A08830':'#5A7A60'}" font-family="system-ui">${lq}</text><circle cx="160" cy="128" r="26" fill="${rIsQ?'#F2D98B':'#A8D5BA'}" opacity="0.2" stroke="${rIsQ?'#F2D98B':'#A8D5BA'}" stroke-width="2.5"/><text x="160" y="137" text-anchor="middle" font-size="28" font-weight="bold" fill="${rIsQ?'#A08830':'#5A7A60'}" font-family="system-ui">${rq}</text>`;
+    let o=new Set([this.ans]),a=0;while(o.size<4&&a<50){let d=this.ans+(Math.random()<0.5?1:-1)*(1+Math.floor(Math.random()*2));if(d>=0&&d<=t&&d!==this.ans)o.add(d);a++;}for(let i=0;o.size<4&&i<=t;i++)if(i!==this.ans)o.add(i);
+    const s=shuffle([...o].slice(0,4)),c=document.getElementById('sp-options');c.innerHTML='';s.forEach(v=>{const b=document.createElement('button');b.className='option-btn';b.textContent=v;b.onclick=()=>this.check(v,b);c.appendChild(b);});},
+  check(v,btn){if(this.done)return;this.done=true;const all=document.querySelectorAll('#sp-options .option-btn');
+    if(v===this.ans){btn.classList.add('correct');this.sc++;markDot('sp-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('sp-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('#sp-options .option-btn');this.cur++;setTimeout(()=>this.next(),900);}
+};
+
+// ===== REEKSEN =====
+const RK={step:1,cur:0,sc:0,ans:0,done:false,T:10,
+  changeStep(d){const n=this.step+d;if(n<1||n>10)return;this.step=n;this.updateUI();this.start();},
+  updateUI(){document.getElementById('rk-display').textContent=this.step;document.getElementById('rk-minus').classList.toggle('disabled',this.step<=1);document.getElementById('rk-plus').classList.toggle('disabled',this.step>=10);},
+  start(){this.cur=0;this.sc=0;this.done=false;this.updateUI();document.getElementById('rk-celeb').classList.remove('show');document.getElementById('rk-area').style.display='block';buildProgress('rk-progress',this.T);this.next();},
+  next(){if(this.cur>=this.T){document.getElementById('rk-area').style.display='none';celebrate('rk-cE','rk-cT','rk-cP',this.sc,this.T);document.getElementById('rk-celeb').classList.add('show');return;}this.done=false;
+    let ms=this.step<=2?15:this.step<=5?10:5;const st=Math.floor(Math.random()*(ms+1)),seq=[];for(let i=0;i<5;i++)seq.push(st+i*this.step);
+    const hi=1+Math.floor(Math.random()*3);this.ans=seq[hi];
+    document.getElementById('rk-hint').innerHTML='Telkens <strong>+'+this.step+'</strong> erbij — welk getal ontbreekt?';
+    const row=document.getElementById('rk-row');row.innerHTML='';seq.forEach((n,i)=>{if(i>0){const ar=document.createElement('span');ar.className='seq-arrow';ar.textContent='›';row.appendChild(ar);}const el=document.createElement('div');el.className='seq-num'+(i===hi?' unknown':'');el.textContent=i===hi?'?':n;row.appendChild(el);});
+    let o=new Set([this.ans]),a=0;while(o.size<4&&a<50){let d=this.ans+[-this.step,this.step,-1,1,this.step*2,-this.step*2][Math.floor(Math.random()*6)];if(d>=0&&d!==this.ans)o.add(d);a++;}for(let i=0;o.size<4;i++)if(i!==this.ans&&i>=0)o.add(i);
+    const s=shuffle([...o].slice(0,4)),c=document.getElementById('rk-options');c.innerHTML='';s.forEach(v=>{const b=document.createElement('button');b.className='option-btn';b.textContent=v;b.onclick=()=>this.check(v,b);c.appendChild(b);});},
+  check(v,btn){if(this.done)return;this.done=true;const all=document.querySelectorAll('#rk-options .option-btn');
+    if(v===this.ans){btn.classList.add('correct');this.sc++;markDot('rk-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('rk-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('#rk-options .option-btn');this.cur++;setTimeout(()=>this.next(),900);}
+};
+
+// ===== VERGELIJKEN =====
+const VG={mode:'',cur:0,sc:0,ans:null,done:false,T:10,view:'hub',
+  goBack(){this.showHub();},
+  showHub(){document.getElementById('vg-hub').style.display='block';document.getElementById('vg-ex').style.display='none';document.getElementById('vg-back').style.display='none';this.view='hub';},
+  startEx(m){this.mode=m;document.getElementById('vg-hub').style.display='none';document.getElementById('vg-ex').style.display='block';document.getElementById('vg-back').style.display='flex';this.view='ex';this.start();},
+  start(){this.cur=0;this.sc=0;this.done=false;document.getElementById('vg-celeb').classList.remove('show');document.getElementById('vg-qarea').style.display='block';document.getElementById('vg-oarea').style.display='block';buildProgress('vg-progress',this.T);this.next();},
+  next(){if(this.cur>=this.T){document.getElementById('vg-qarea').style.display='none';document.getElementById('vg-oarea').style.display='none';celebrate('vg-cE','vg-cT','vg-cP',this.sc,this.T);document.getElementById('vg-celeb').classList.add('show');return;}this.done=false;
+    if(this.mode==='symbols')this.genSym();else if(this.mode==='biggest')this.genBig();else this.genChain();},
+  genSym(){let a,b;if(Math.random()<0.15){a=Math.floor(Math.random()*21);b=a;}else{a=Math.floor(Math.random()*21);do{b=Math.floor(Math.random()*21)}while(b===a);}this.ans=a<b?'<':a>b?'>':'=';
+    document.getElementById('vg-qarea').innerHTML=`<div class="question-card"><div class="q-label">Welk teken hoort ertussen?</div><div class="q-nums">${a} <span class="unknown">?</span> ${b}</div></div>`;
+    document.getElementById('vg-oarea').innerHTML=`<div class="sym-options"><button class="sym-btn" onclick="VG.checkSym(this,'<')">&lt;</button><button class="sym-btn" onclick="VG.checkSym(this,'=')">=</button><button class="sym-btn" onclick="VG.checkSym(this,'>')">&gt;</button></div>`;},
+  checkSym(btn,val){if(this.done)return;this.done=true;const all=document.querySelectorAll('.sym-btn');
+    if(val===this.ans){btn.classList.add('correct');this.sc++;markDot('vg-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('vg-progress',this.cur,false);all.forEach(b=>{const t=b.textContent.trim();if(t===this.ans||(this.ans==='<'&&t==='<')||(this.ans==='>'&&t==='>'))b.classList.add('correct');});}
+    disableAll('.sym-btn');this.cur++;setTimeout(()=>this.next(),900);},
+  genBig(){const nums=new Set();while(nums.size<3)nums.add(Math.floor(Math.random()*21));const arr=[...nums];this.ans=Math.max(...arr);
+    document.getElementById('vg-qarea').innerHTML=`<div class="question-card"><div class="q-label">Welk getal is het grootst?</div><div class="q-nums">👑</div></div>`;
+    const s=shuffle(arr);document.getElementById('vg-oarea').innerHTML='<div class="num-options three-col">'+s.map(n=>`<button class="num-btn" onclick="VG.checkNum(this,${n})">${n}</button>`).join('')+'</div>';},
+  checkNum(btn,val){if(this.done)return;this.done=true;const all=document.querySelectorAll('.num-btn');
+    if(val===this.ans){btn.classList.add('correct');this.sc++;markDot('vg-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('vg-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('.num-btn');this.cur++;setTimeout(()=>this.next(),900);},
+  genChain(){const a=Math.floor(Math.random()*18),gap=2+Math.floor(Math.random()*4),b=a+gap;const possible=[];for(let i=a+1;i<b;i++)possible.push(i);this.ans=possible[Math.floor(Math.random()*possible.length)];
+    document.getElementById('vg-qarea').innerHTML=`<div class="question-card"><div class="q-label">Welk getal past ertussen?</div><div class="q-nums">${a} &lt; <span class="unknown">?</span> &lt; ${b}</div></div>`;
+    let wrongs=new Set(),at=0;while(wrongs.size<3&&at<80){let d;if(Math.random()<0.5)d=a-Math.floor(Math.random()*5);else d=b+Math.floor(Math.random()*5);if(d>=0&&d!==this.ans&&(d<=a||d>=b))wrongs.add(d);at++;}for(let i=0;wrongs.size<3;i++){if(i<=a&&i!==this.ans)wrongs.add(i);if(wrongs.size<3&&(b+i)<=25)wrongs.add(b+i);}
+    const opts=shuffle([this.ans,...[...wrongs].slice(0,3)]);document.getElementById('vg-oarea').innerHTML='<div class="num-options">'+opts.map(n=>`<button class="num-btn" onclick="VG.checkChain(this,${n})">${n}</button>`).join('')+'</div>';},
+  checkChain(btn,val){if(this.done)return;this.done=true;const all=document.querySelectorAll('.num-btn');
+    if(val===this.ans){btn.classList.add('correct');this.sc++;markDot('vg-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('vg-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('.num-btn');this.cur++;setTimeout(()=>this.next(),900);}
+};
+
+// ===== AANVULLEN =====
+const AV={target:10,cur:0,sc:0,ans:0,done:false,T:10,
+  colors:['#E8A598','#B8A9D4','#A8D5BA','#F2D98B','#C4B5DE','#E8C8A0','#A0C8D8','#D4A8B8','#B8D4A0','#D4C890','#D4A0A0','#A0B8D4','#C8D4A0','#D4C0E0','#E0C8A0','#A8C0C8','#C8A8D0','#B0D0B0','#D0B8A0','#A8D0D0'],
+  sz(){return this.target<=10?'':this.target<=15?'sz-m':'sz-s';},
+  changeTarget(d){const n=this.target+d;if(n<5||n>20)return;this.target=n;this.updateUI();this.start();},
+  updateUI(){document.getElementById('av-display').textContent=this.target;document.getElementById('av-minus').classList.toggle('disabled',this.target<=5);document.getElementById('av-plus').classList.toggle('disabled',this.target>=20);},
+  start(){this.cur=0;this.sc=0;this.done=false;this.updateUI();document.getElementById('av-celeb').classList.remove('show');document.getElementById('av-area').style.display='block';buildProgress('av-progress',this.T);this.next();},
+  next(){if(this.cur>=this.T){document.getElementById('av-area').style.display='none';celebrate('av-cE','av-cT','av-cP',this.sc,this.T);document.getElementById('av-celeb').classList.add('show');return;}this.done=false;
+    const have=1+Math.floor(Math.random()*(this.target-1));this.ans=this.target-have;
+    document.getElementById('av-q').innerHTML='Je hebt <strong style="color:#A08830">'+have+'</strong> kraal'+(have>1?'tjes':'tje')+':';
+    document.getElementById('av-qbig').innerHTML='Hoeveel er nog bij tot <span class="num" style="color:#A08830">'+this.target+'</span>?';
+    const row=document.getElementById('av-row');row.innerHTML='';const colors=shuffle([...this.colors]),sz=this.sz();
+    for(let i=0;i<have;i++){const b=document.createElement('div');b.className='bead'+(sz?' '+sz:'');b.style.background=colors[i%colors.length];row.appendChild(b);}
+    const dots=document.createElement('div');dots.className='dots-hint';dots.textContent='… ?';row.appendChild(dots);
+    let o=new Set([this.ans]),a=0;while(o.size<4&&a<50){let d=this.ans+[-2,-1,1,2,-3,3][Math.floor(Math.random()*6)];if(d>=1&&d<this.target&&d!==this.ans)o.add(d);a++;}for(let i=1;o.size<4&&i<this.target;i++)if(i!==this.ans)o.add(i);
+    const s=shuffle([...o].slice(0,4)),c=document.getElementById('av-options');c.innerHTML='';s.forEach(v=>{const b=document.createElement('button');b.className='option-btn';b.textContent=v;b.onclick=()=>this.check(v,b);c.appendChild(b);});},
+  check(v,btn){if(this.done)return;this.done=true;const all=document.querySelectorAll('#av-options .option-btn');
+    if(v===this.ans){btn.classList.add('correct');this.sc++;markDot('av-progress',this.cur,true);
+      const row=document.getElementById('av-row'),hint=row.querySelector('.dots-hint');if(hint)hint.remove();const colors=shuffle([...this.colors]),sz=this.sz();
+      for(let i=0;i<this.ans;i++){setTimeout(()=>{const b=document.createElement('div');b.className='bead reward'+(sz?' '+sz:'');b.style.background=colors[i%colors.length];row.appendChild(b);},i*80);}
+    }else{btn.classList.add('wrong');markDot('av-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('#av-options .option-btn');this.cur++;setTimeout(()=>this.next(),1200);}
+};
+
+// ===== LEZEN =====
+const LZ={mode:'',cur:0,sc:0,done:false,roundQs:[],T:10,view:'hub',storyIdx:-1,storyQIdx:0,storyDone:new Array(10).fill(false),
+  pictureQs:[
+    {s:'De kat slaapt op het kussen.',h:'Welk dier slaapt er?',c:'🐱',o:['🐱','🐶','🐟']},{s:'De vlinder vliegt in de tuin.',h:'Wat vliegt er?',c:'🦋',o:['🦋','🐝','🐛']},{s:'Mama knipt met de schaar.',h:'Waarmee knipt mama?',c:'✂️',o:['✂️','🖊️','🔑']},{s:'Het konijn eet een wortel.',h:'Welk dier eet er?',c:'🐰',o:['🐰','🐸','🐭']},{s:'De bloem staat in een vaas.',h:'Wat staat er in de vaas?',c:'🌸',o:['🌸','🌲','🍄']},{s:'Ze draagt een strik in het haar.',h:'Wat zit er in het haar?',c:'🎀',o:['🎀','👒','🧤']},{s:'De zon schijnt aan de hemel.',h:'Wat schijnt er?',c:'☀️',o:['☀️','🌙','⭐']},{s:'Het vogeltje zingt in de boom.',h:'Welk dier zingt er?',c:'🐦',o:['🐦','🐸','🐱']},{s:'Papa leest een boek op de bank.',h:'Wat doet papa?',c:'📖',o:['📖','🎸','🍳']},{s:'De hond rent in het park.',h:'Welk dier rent er?',c:'🐶',o:['🐶','🐱','🐰']},{s:'Isadora tekent met potloden.',h:'Waarmee tekent ze?',c:'✏️',o:['✏️','🔨','🪥']},{s:'Het regent buiten.',h:'Wat voor weer is het?',c:'🌧️',o:['🌧️','☀️','❄️']},{s:'De vis zwemt in het water.',h:'Welk dier zwemt er?',c:'🐟',o:['🐟','🐦','🐛']},{s:'Isadora eet een appel.',h:'Wat eet ze?',c:'🍎',o:['🍎','🍕','🍦']},{s:'De bij vliegt van bloem naar bloem.',h:'Welk beestje is het?',c:'🐝',o:['🐝','🦋','🐛']},{s:'Mama bakt een taart.',h:'Wat bakt mama?',c:'🎂',o:['🎂','🍕','🍞']},{s:'Het sneeuwt in de winter.',h:'Wat voor weer is het?',c:'❄️',o:['❄️','☀️','🌧️']},{s:'De schildpad kruipt langzaam.',h:'Welk dier is het?',c:'🐢',o:['🐢','🐸','🐍']},{s:'Papa speelt gitaar.',h:'Welk instrument?',c:'🎸',o:['🎸','🥁','🎹']},{s:'Isadora drinkt een glas melk.',h:'Wat drinkt ze?',c:'🥛',o:['🥛','🧃','☕']},{s:'De maan schijnt in de nacht.',h:'Wat schijnt er?',c:'🌙',o:['🌙','☀️','⭐']},{s:'Ze rijdt op haar fiets.',h:'Waarop rijdt ze?',c:'🚲',o:['🚲','🛴','🚗']},{s:'Oma breit met wol.',h:'Waarmee breit oma?',c:'🧶',o:['🧶','📿','🧵']},{s:'De eekhoorn zit in de boom.',h:'Welk dier is het?',c:'🐿️',o:['🐿️','🐦','🐱']},{s:'Isadora maakt een foto.',h:'Wat doet ze?',c:'📷',o:['📷','📖','🎨']},{s:'Het lieveheersbeestje zit op een blad.',h:'Welk beestje?',c:'🐞',o:['🐞','🐝','🐛']},{s:'Papa eet een boterham met kaas.',h:'Wat eet papa?',c:'🧀',o:['🧀','🍎','🍕']},{s:'De regenboog staat aan de hemel.',h:'Wat zie je?',c:'🌈',o:['🌈','☀️','🌙']},{s:'De spin maakt een web.',h:'Welk beestje?',c:'🕷️',o:['🕷️','🐛','🐜']},{s:'Isadora speelt met haar pop.',h:'Waarmee speelt ze?',c:'🧸',o:['🧸','🎸','📖']},{s:'Mama plant bloemen in de tuin.',h:'Wat plant mama?',c:'🌷',o:['🌷','🌲','🍄']},{s:'De slak kruipt over het pad.',h:'Welk dier?',c:'🐌',o:['🐌','🐛','🐸']},{s:'We eten pizza vanavond.',h:'Wat eten we?',c:'🍕',o:['🍕','🍎','🎂']},{s:'De uil zit in de boom.',h:'Welk dier?',c:'🦉',o:['🦉','🐦','🐔']},{s:'Isadora schildert een tekening.',h:'Wat doet ze?',c:'🎨',o:['🎨','📷','✂️']},{s:'De ster twinkelt aan de hemel.',h:'Wat twinkelt er?',c:'⭐',o:['⭐','🌙','☀️']},{s:'Papa drinkt koffie.',h:'Wat drinkt papa?',c:'☕',o:['☕','🥛','🧃']},{s:'De kikker zit op een blad in de vijver.',h:'Welk dier?',c:'🐸',o:['🐸','🐢','🐟']},{s:'Isadora eet een ijsje in de zon.',h:'Wat eet ze?',c:'🍦',o:['🍦','🍎','🎂']},{s:'De boot vaart op het meer.',h:'Wat vaart er?',c:'⛵',o:['⛵','🚗','🚲']},{s:'Mama geeft de bloemen water.',h:'Wat krijgen de bloemen?',c:'💧',o:['💧','☀️','❄️']},{s:'De kip legt een ei.',h:'Welk dier?',c:'🐔',o:['🐔','🐦','🦉']},{s:'Isadora speelt muziek op de fluit.',h:'Welk instrument?',c:'🎵',o:['🎵','📖','🎨']},{s:'Er staat een grote boom in de tuin.',h:'Wat staat er?',c:'🌳',o:['🌳','🌸','🍄']},{s:'De rups eet van het blad.',h:'Welk beestje?',c:'🐛',o:['🐛','🐝','🐞']},{s:'Papa draagt een paraplu.',h:'Wat draagt hij?',c:'☂️',o:['☂️','👒','🧤']},{s:'De auto rijdt op de weg.',h:'Wat rijdt er?',c:'🚗',o:['🚗','🚲','⛵']},{s:'Isadora vindt een schelp op het strand.',h:'Wat vindt ze?',c:'🐚',o:['🐚','🪨','🌸']},{s:'De paddenstoel staat in het bos.',h:'Wat staat er?',c:'🍄',o:['🍄','🌸','🌳']},{s:'Mama steekt de kaarsjes aan op de taart.',h:'Wat steekt ze aan?',c:'🕯️',o:['🕯️','💡','⭐']}
+  ],
+  completeQs:[
+    {s:'Isadora maakt een armband van ___.',c:'kralen',o:['kralen','boeken','borden']},{s:'De kat drinkt graag ___.',c:'melk',o:['melk','soep','koffie']},{s:'Mama vlecht het ___.',c:'haar',o:['haar','gras','papier']},{s:'Het is koud, pak je ___ aan.',c:'jas',o:['jas','bril','paraplu']},{s:'We kleuren met ___.',c:'potloden',o:['potloden','lepels','sleutels']},{s:'De vis zwemt in het ___.',c:'water',o:['water','bos','zand']},{s:'De vogel zit in de ___.',c:'boom',o:['boom','auto','kast']},{s:'Isadora naait met ___ en draad.',c:'naald',o:['naald','vork','pen']},{s:'We eten ___ bij het ontbijt.',c:'brood',o:['brood','soep','sla']},{s:'De baby slaapt in de ___.',c:'wieg',o:['wieg','auto','keuken']},{s:'Je kijkt door het ___.',c:'raam',o:['raam','boek','bord']},{s:'Isadora plakt de sticker op het ___.',c:'papier',o:['papier','plafond','gras']},{s:'De hond slaapt in zijn ___.',c:'mand',o:['mand','tas','doos']},{s:'We gaan naar school met de ___.',c:'fiets',o:['fiets','boot','trein']},{s:'Papa bakt ___ in de pan.',c:'eieren',o:['eieren','soep','brood']},{s:'De muis zit in een ___.',c:'holletje',o:['holletje','boom','kast']},{s:'Oma breit een warme ___.',c:'sjaal',o:['sjaal','tafel','muur']},{s:'Het paard eet ___ uit de bak.',c:'hooi',o:['hooi','snoep','soep']},{s:'Isadora schrijft met een ___.',c:'pen',o:['pen','lepel','kam']},{s:'De kok roert in de ___.',c:'pot',o:['pot','vaas','emmer']},{s:'We spelen in de ___.',c:'tuin',o:['tuin','keuken','douche']},{s:'De slak draagt een ___ op zijn rug.',c:'huisje',o:['huisje','pet','deken']},{s:'Mama hangt de was aan de ___.',c:'lijn',o:['lijn','muur','boom']},{s:'Je poetst je tanden met een ___.',c:'tandenborstel',o:['tandenborstel','vork','sleutel']},{s:'De clown heeft een rode ___.',c:'neus',o:['neus','schoen','hoed']},{s:'Isadora drinkt ___ na het sporten.',c:'water',o:['water','soep','melk']},{s:'Het boek ligt op de ___.',c:'tafel',o:['tafel','muur','deur']},{s:'De kikker zit op een ___.',c:'blad',o:['blad','steen','wolk']},{s:'We slapen in een warm ___.',c:'bed',o:['bed','bad','bos']},{s:'De trein rijdt op de ___.',c:'rails',o:['rails','weg','zee']},{s:'Isadora kamt haar ___ voor de spiegel.',c:'haar',o:['haar','jas','schoenen']},{s:'De bij maakt heerlijke ___.',c:'honing',o:['honing','melk','kaas']},{s:'Papa leest de ___ aan tafel.',c:'krant',o:['krant','klok','lamp']},{s:'De schildpad heeft een hard ___.',c:'schild',o:['schild','been','oog']},{s:'Mama doet de ___ op slot.',c:'deur',o:['deur','tafel','stoel']},{s:'De spin weeft een ___.',c:'web',o:['web','nest','hol']},{s:'Isadora draagt ___ aan haar voeten.',c:'schoenen',o:['schoenen','handschoenen','oorbellen']},{s:'De ster schijnt aan de ___.',c:'hemel',o:['hemel','grond','zee']},{s:'We varen in een ___.',c:'boot',o:['boot','auto','fiets']},{s:'De uil slaapt overdag in een ___.',c:'boom',o:['boom','bed','huis']},{s:'Isadora plakt de foto in haar ___.',c:'schrift',o:['schrift','jas','tas']},{s:'De sneeuwman heeft een ___ als neus.',c:'wortel',o:['wortel','bal','steen']},{s:'Mama snijdt het brood met een ___.',c:'mes',o:['mes','lepel','vork']},{s:'De vlieg zit op het ___.',c:'raam',o:['raam','dak','gras']},{s:'Isadora zingt een ___ voor het slapengaan.',c:'liedje',o:['liedje','boek','brief']},{s:'De boot vaart op het ___.',c:'water',o:['water','gras','zand']},{s:'Papa draagt een ___ op zijn hoofd.',c:'pet',o:['pet','schoen','sjaal']},{s:'We kijken naar de ___ in de lucht.',c:'wolken',o:['wolken','vissen','bloemen']},{s:'De konijn woont in een ___.',c:'hol',o:['hol','nest','kooi']},{s:'Isadora wast haar handen met ___.',c:'zeep',o:['zeep','melk','verf']}
+  ],
+  instructionQs:[
+    {s:'Knip de cirkel uit het papier.',q:'Wat heb je nodig?',c:'Een schaar',o:['Een schaar','Een kwast','Een liniaal']},{s:'Rijg 5 kralen aan het draad.',q:'Hoeveel kralen?',c:'5',o:['5','3','10']},{s:'Plak de ster bovenaan de kaart.',q:'Waar komt de ster?',c:'Bovenaan',o:['Bovenaan','Onderaan','In het midden']},{s:'Teken een hart en kleur het rood.',q:'Welke kleur?',c:'Rood',o:['Rood','Blauw','Geel']},{s:'Vouw het papier in de helft.',q:'Wat doe je met het papier?',c:'Vouwen',o:['Vouwen','Knippen','Scheuren']},{s:'Naai de 2 lapjes aan elkaar.',q:'Hoeveel lapjes?',c:'2',o:['2','3','1']},{s:'Pak 3 knoopjes uit de doos.',q:'Hoeveel knoopjes?',c:'3',o:['3','5','1']},{s:'Knoop het lint vast met een strik.',q:'Wat maak je?',c:'Een strik',o:['Een strik','Een knoop','Een lus']},{s:'Plak de foto in het midden van het blad.',q:'Waar komt de foto?',c:'In het midden',o:['In het midden','Bovenaan','Onderaan']},{s:'Haak 10 steken en keer dan om.',q:'Hoeveel steken?',c:'10',o:['10','5','8']},{s:'Teken 4 bloemen op het papier.',q:'Hoeveel bloemen?',c:'4',o:['4','2','6']},{s:'Kleur de zon geel en de lucht blauw.',q:'Welke kleur krijgt de zon?',c:'Geel',o:['Geel','Blauw','Rood']},{s:'Knip het vierkant langs de lijn.',q:'Welke vorm knip je?',c:'Een vierkant',o:['Een vierkant','Een cirkel','Een driehoek']},{s:'Plak de glitters op de lijm.',q:'Wat plak je?',c:'Glitters',o:['Glitters','Verf','Stickers']},{s:'Neem het rode potlood en teken een hart.',q:'Welke kleur potlood?',c:'Rood',o:['Rood','Blauw','Groen']},{s:'Leg de kralen op volgorde: groot, klein, groot, klein.',q:'Wat voor patroon?',c:'Groot en klein',o:['Groot en klein','Alleen groot','Alleen klein']},{s:'Knip 6 strookjes papier.',q:'Hoeveel strookjes?',c:'6',o:['6','4','8']},{s:'Plak het hartje links op de kaart.',q:'Waar komt het hartje?',c:'Links',o:['Links','Rechts','In het midden']},{s:'Gebruik de blauwe verf voor de lucht.',q:'Welke kleur verf?',c:'Blauw',o:['Blauw','Groen','Geel']},{s:'Maak een ketting van 8 kralen.',q:'Hoeveel kralen?',c:'8',o:['8','6','10']},{s:'Vouw de hoeken naar het midden.',q:'Waar vouw je de hoeken naartoe?',c:'Naar het midden',o:['Naar het midden','Naar buiten','Naar boven']},{s:'Teken een gezichtje op de steen.',q:'Waar teken je op?',c:'De steen',o:['De steen','Het papier','Het hout']},{s:'Rijg eerst een rode kraal, dan een witte.',q:'Welke kleur komt eerst?',c:'Rood',o:['Rood','Wit','Blauw']},{s:'Knip de vlinder uit en vouw de vleugels.',q:'Wat knip je uit?',c:'Een vlinder',o:['Een vlinder','Een bloem','Een ster']},{s:'Gebruik de dikke naald voor het vilt.',q:'Welke naald?',c:'De dikke',o:['De dikke','De dunne','De lange']},{s:'Maak 3 pompons van wol.',q:'Hoeveel pompons?',c:'3',o:['3','5','1']},{s:'Lijm de ogen bovenaan het gezicht.',q:'Waar komen de ogen?',c:'Bovenaan',o:['Bovenaan','Onderaan','In het midden']},{s:'Teken een boom en kleur de blaadjes groen.',q:'Welke kleur worden de blaadjes?',c:'Groen',o:['Groen','Rood','Geel']},{s:'Wikkel het draad 7 keer rond je vinger.',q:'Hoe vaak wikkelen?',c:'7',o:['7','5','10']},{s:'Stempel de sterren met gouden verf.',q:'Welke kleur verf?',c:'Goud',o:['Goud','Zilver','Rood']},{s:'Scheur het papier in kleine stukjes.',q:'Wat doe je met het papier?',c:'Scheuren',o:['Scheuren','Knippen','Vouwen']},{s:'Plak de veren onderaan de tekening.',q:'Waar komen de veren?',c:'Onderaan',o:['Onderaan','Bovenaan','Links']},{s:'Maak een slinger van 9 vlaggetjes.',q:'Hoeveel vlaggetjes?',c:'9',o:['9','7','12']},{s:'Verf de doos eerst wit, dan mag je versieren.',q:'Welke kleur komt eerst?',c:'Wit',o:['Wit','Rood','Blauw']},{s:'Knoop de draad vast aan het einde.',q:'Waar maak je de knoop?',c:'Aan het einde',o:['Aan het einde','In het midden','Aan het begin']},{s:'Prik gaatjes langs de rand met een prikpen.',q:'Waarmee prik je?',c:'Een prikpen',o:['Een prikpen','Een potlood','Een naald']},{s:'Teken een regenboog met 5 kleuren.',q:'Hoeveel kleuren?',c:'5',o:['5','3','7']},{s:'Vouw het papier tot een waaier.',q:'Wat maak je?',c:'Een waaier',o:['Een waaier','Een vliegtuig','Een bootje']},{s:'Pak de grote kralen voor de ketting.',q:'Welke kralen pak je?',c:'De grote',o:['De grote','De kleine','De middelste']},{s:'Plak 2 ogen en 1 neus op het gezicht.',q:'Hoeveel ogen?',c:'2',o:['2','1','3']},{s:'Kleur binnen de lijntjes met waskrijt.',q:'Waarmee kleur je?',c:'Waskrijt',o:['Waskrijt','Verf','Potlood']},{s:'Bind de 2 stokjes kruislings vast.',q:'Hoe leg je de stokjes?',c:'Kruislings',o:['Kruislings','Naast elkaar','Op een rij']},{s:'Teken eerst met potlood, dan met stift.',q:'Waarmee begin je?',c:'Potlood',o:['Potlood','Stift','Verf']},{s:'Knip de rand van het papier met een kartelschaar.',q:'Welke schaar gebruik je?',c:'Een kartelschaar',o:['Een kartelschaar','Een gewone schaar','Een grote schaar']},{s:'Maak een armband van 12 kralen.',q:'Hoeveel kralen?',c:'12',o:['12','10','15']},{s:'Plak de sticker rechts naast de tekening.',q:'Waar komt de sticker?',c:'Rechts',o:['Rechts','Links','Boven']},{s:'Gebruik de groene stof voor het blad.',q:'Welke kleur stof?',c:'Groen',o:['Groen','Rood','Blauw']},{s:'Maak een vlecht van 3 draden.',q:'Hoeveel draden?',c:'3',o:['3','2','4']},{s:'Stempel met de ronde spons.',q:'Welke vorm heeft de spons?',c:'Rond',o:['Rond','Vierkant','Driehoekig']},{s:'Laat de verf 5 minuten drogen.',q:'Hoe lang drogen?',c:'5 minuten',o:['5 minuten','2 minuten','10 minuten']}
+  ],
+  stories:[
+    {emoji:'🧁',title:'Koekjes bakken',preview:'Isadora bakt koekjes met mama…',text:'Isadora bakt koekjes met mama. Ze rollen het deeg uit en drukken er sterretjes uit. De koekjes gaan 10 minuten in de oven. Daarna versieren ze de koekjes met roze glazuur. Isadora eet er stiekem eentje op!',qs:[{q:'Welke vorm hebben de koekjes?',c:'Sterretjes',o:['Sterretjes','Hartjes','Rondjes']},{q:'Hoe lang gaan ze in de oven?',c:'10 minuten',o:['10 minuten','5 minuten','20 minuten']},{q:'Welke kleur is het glazuur?',c:'Roze',o:['Roze','Blauw','Wit']}]},
+    {emoji:'🐱',title:'Poes en het bolletje',preview:'Poes speelt met een bolletje wol…',text:'Poes speelt met een bolletje wol. Ze rolt het door de kamer. Het bolletje rolt onder de kast. Poes kan er niet bij. Isadora helpt en pakt het bolletje. Poes is weer blij!',qs:[{q:'Waarmee speelt poes?',c:'Een bolletje wol',o:['Een bolletje wol','Een bal','Een muis']},{q:'Waar rolt het naartoe?',c:'Onder de kast',o:['Onder de kast','Onder het bed','In de tuin']},{q:'Wie helpt poes?',c:'Isadora',o:['Isadora','Mama','Papa']}]},
+    {emoji:'💌',title:'Een kaart voor oma',preview:'Isadora maakt een kaart voor oma…',text:'Isadora maakt een kaart voor oma. Ze tekent een grote bloem met gele blaadjes. Ze schrijft "Lieve oma" op de kaart. Dan plakt ze er een sticker bij. Oma vindt het heel mooi!',qs:[{q:'Voor wie is de kaart?',c:'Oma',o:['Oma','Mama','De juf']},{q:'Welke kleur zijn de blaadjes?',c:'Geel',o:['Geel','Rood','Blauw']},{q:'Wat plakt ze erbij?',c:'Een sticker',o:['Een sticker','Een foto','Een knoop']}]},
+    {emoji:'👗',title:'Kleren voor de pop',preview:'Isadora naait een rokje voor haar pop…',text:'Isadora naait een rokje voor haar pop. Het rokje is van paarse stof. Ze knipt het netjes uit en naait het dicht. Nu past het rokje precies! De pop ziet er prachtig uit.',qs:[{q:'Wat naait ze?',c:'Een rokje',o:['Een rokje','Een trui','Een sjaal']},{q:'Welke kleur is de stof?',c:'Paars',o:['Paars','Roze','Blauw']},{q:'Voor wie is het?',c:'De pop',o:['De pop','De kat','Haar vriendin']}]},
+    {emoji:'🍎',title:'Op de markt',preview:'Mama en Isadora gaan naar de markt…',text:'Mama en Isadora gaan naar de markt. Er zijn kramen met bloemen en fruit. Isadora kiest 3 rode appels. Mama koopt een bos tulpen. Ze lopen samen naar huis.',qs:[{q:'Hoeveel appels kiest Isadora?',c:'3',o:['3','5','2']},{q:'Wat koopt mama?',c:'Tulpen',o:['Tulpen','Rozen','Appels']},{q:'Met wie gaat Isadora?',c:'Met mama',o:['Met mama','Met papa','Met oma']}]},
+    {emoji:'📿',title:'Het armbandje',preview:'Isadora maakt een armband voor haar vriendin…',text:'Isadora maakt een armband voor haar vriendin. Ze gebruikt kleine kraaltjes: rood, wit, rood, wit. Steeds hetzelfde patroon. Het armbandje is klaar! Haar vriendin is er heel blij mee.',qs:[{q:'Voor wie is de armband?',c:'Haar vriendin',o:['Haar vriendin','Haar zus','Haar mama']},{q:'Welke kleuren gebruikt ze?',c:'Rood en wit',o:['Rood en wit','Blauw en geel','Groen en roze']},{q:'Wat voor patroon is het?',c:'Steeds hetzelfde',o:['Steeds hetzelfde','Steeds anders','Willekeurig']}]},
+    {emoji:'🦋',title:'De mooie vlinder',preview:'In de klas tekent Isadora een vlinder…',text:'In de klas tekent Isadora een vlinder. De vlinder heeft blauwe vleugels met rode stippen. Ze kleurt alles voorzichtig in. De juf zegt: "Wat mooi!" Isadora hangt de tekening aan de muur.',qs:[{q:'Wat tekent ze?',c:'Een vlinder',o:['Een vlinder','Een bloem','Een kat']},{q:'Welke kleur zijn de vleugels?',c:'Blauw',o:['Blauw','Groen','Geel']},{q:'Waar hangt ze de tekening?',c:'Aan de muur',o:['Aan de muur','Op de deur','In haar tas']}]},
+    {emoji:'🧶',title:'Haken met mama',preview:'Mama leert Isadora haken…',text:'Mama leert Isadora haken. Ze gebruiken een dikke haaknaald en witte wol. Isadora haakt een lang snoer. Het wordt een sjaal voor haar knuffelkonijn! Het lukt al best goed.',qs:[{q:'Wie leert haar haken?',c:'Mama',o:['Mama','Oma','De juf']},{q:'Wat maakt ze?',c:'Een sjaal',o:['Een sjaal','Een muts','Een sok']},{q:'Voor wie is het?',c:'Haar knuffelkonijn',o:['Haar knuffelkonijn','Haar pop','Haar kat']}]},
+    {emoji:'🏪',title:'De kralenwinkel',preview:'Isadora speelt winkeltje met kralen…',text:'Isadora speelt winkeltje. Ze legt al haar kralen op tafel. Haar vriendin Lotte komt "kopen". Lotte wil 4 blauwe kralen. Isadora telt ze netjes af en stopt ze in een zakje. "Dat is dan 4 euro!" zegt ze.',qs:[{q:'Wat verkoopt Isadora?',c:'Kralen',o:['Kralen','Bloemen','Koekjes']},{q:'Hoeveel blauwe kralen wil Lotte?',c:'4',o:['4','6','2']},{q:'Wie is haar vriendin?',c:'Lotte',o:['Lotte','Sara','Emma']}]},
+    {emoji:'💐',title:'Bloemen voor de vaas',preview:'Isadora plukt bloemen in de tuin…',text:'Isadora plukt bloemen in de tuin. Ze vindt 2 gele bloemen en 3 paarse. Ze bindt ze samen met een lint. Papa geeft haar een vaas met water. Nu staan de bloemen mooi op tafel!',qs:[{q:'Hoeveel gele bloemen vindt ze?',c:'2',o:['2','4','5']},{q:'Waarmee bindt ze de bloemen?',c:'Een lint',o:['Een lint','Een touw','Een draad']},{q:'Wie geeft haar een vaas?',c:'Papa',o:['Papa','Mama','Oma']}]}
+  ],
+  goBack(){if(this.view==='exercise'){if(this.mode==='story')this.showStoryPicker();else this.showHub();}else if(this.view==='storyPicker')this.showHub();},
+  updateBack(){document.getElementById('lz-back').style.display=this.view==='hub'?'none':'flex';},
+  showHub(){document.getElementById('lz-hub').style.display='block';document.getElementById('lz-stories').style.display='none';document.getElementById('lz-ex').style.display='none';this.view='hub';this.updateBack();},
+  showStoryPicker(){document.getElementById('lz-hub').style.display='none';document.getElementById('lz-stories').style.display='block';document.getElementById('lz-ex').style.display='none';this.view='storyPicker';this.updateBack();
+    let h='<h2 style="color:#7B6B9A">Kies een verhaaltje</h2>';this.stories.forEach((st,i)=>{h+=`<div class="story-pick-card${this.storyDone[i]?' done':''}" onclick="LZ.startStory(${i})"><span class="story-pick-emoji">${st.emoji}</span><div class="story-pick-text"><h3>${st.title}</h3><p>${st.preview}</p></div><span class="story-pick-check">${this.storyDone[i]?'⭐':'›'}</span></div>`;});h+='<div class="back-link" onclick="LZ.showHub()">← Terug</div>';document.getElementById('lz-stories').innerHTML=h;},
+  startEx(m){this.mode=m;document.getElementById('lz-hub').style.display='none';document.getElementById('lz-ex').style.display='block';this.view='exercise';this.updateBack();this.startRound();},
+  startStory(i){this.mode='story';this.storyIdx=i;this.storyQIdx=0;document.getElementById('lz-hub').style.display='none';document.getElementById('lz-stories').style.display='none';document.getElementById('lz-ex').style.display='block';this.view='exercise';this.updateBack();
+    this.T=this.stories[i].qs.length;this.cur=0;this.sc=0;this.done=false;document.getElementById('lz-celeb').classList.remove('show');this.showExAreas(true);buildProgress('lz-progress',this.T);this.nextStoryQ();},
+  startRound(){this.cur=0;this.sc=0;this.done=false;document.getElementById('lz-celeb').classList.remove('show');this.showExAreas(true);
+    if(this.mode==='picture'){this.T=10;this.roundQs=shuffle([...this.pictureQs]).slice(0,10);}
+    else if(this.mode==='complete'){this.T=10;this.roundQs=shuffle([...this.completeQs]).slice(0,10);}
+    else{this.T=10;this.roundQs=shuffle([...this.instructionQs]).slice(0,10);}
+    buildProgress('lz-progress',this.T);this.next();},
+  showExAreas(s){document.querySelector('#lz-ex .reading-area').style.display=s?'flex':'none';document.getElementById('lz-opts').style.display=s?'block':'none';},
+  next(){if(this.cur>=this.T){this.showCeleb();return;}this.done=false;if(this.mode==='story'){this.nextStoryQ();return;}
+    const q=this.roundQs[this.cur],card=document.getElementById('lz-card'),oa=document.getElementById('lz-opts');
+    if(this.mode==='picture'){card.innerHTML=`<div class="r-type">Lees en kies het plaatje</div><div class="r-sentence">${q.s}</div><div class="r-hint">${q.h}</div>`;const s=shuffle([...q.o]);oa.innerHTML='<div class="opts-emoji-row">'+s.map(e=>`<button class="opt-emoji" onclick="LZ.chk(this,'${e}','${q.c}','opt-emoji')">${e}</button>`).join('')+'</div>';}
+    else if(this.mode==='complete'){card.innerHTML=`<div class="r-type">Maak de zin af</div><div class="r-sentence">${q.s}</div>`;const s=shuffle([...q.o]);oa.innerHTML='<div class="opts-col">'+s.map(o=>`<button class="opt-btn" onclick="LZ.chk(this,'${this.esc(o)}','${this.esc(q.c)}','opt-btn')">${o}</button>`).join('')+'</div>';}
+    else{card.innerHTML=`<div class="r-type">Lees de instructie</div><div class="r-sentence">${q.s}</div><div class="r-hint">${q.q}</div>`;const s=shuffle([...q.o]);oa.innerHTML='<div class="opts-col">'+s.map(o=>`<button class="opt-btn" onclick="LZ.chk(this,'${this.esc(o)}','${this.esc(q.c)}','opt-btn')">${o}</button>`).join('')+'</div>';}},
+  nextStoryQ(){const st=this.stories[this.storyIdx],sq=st.qs[this.storyQIdx];document.getElementById('lz-card').innerHTML=`<div class="r-type">${st.emoji} ${st.title}</div><div class="r-story">${st.text}</div><div class="r-qcount">Vraag ${this.storyQIdx+1} van ${st.qs.length}</div><div class="r-question">${sq.q}</div>`;
+    const s=shuffle([...sq.o]);document.getElementById('lz-opts').innerHTML='<div class="opts-col">'+s.map(o=>`<button class="opt-btn" onclick="LZ.chk(this,'${this.esc(o)}','${this.esc(sq.c)}','opt-btn')">${o}</button>`).join('')+'</div>';},
+  chk(btn,val,correct,cls){if(this.done)return;this.done=true;const all=document.querySelectorAll('#lz-opts .'+cls);
+    if(val===correct){btn.classList.add('correct');this.sc++;markDot('lz-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('lz-progress',this.cur,false);all.forEach(b=>{const bv=cls==='opt-emoji'?b.textContent:this.esc(b.textContent);if(bv===correct)b.classList.add('correct');else if(!b.classList.contains('wrong'))b.classList.add('disabled');});}
+    all.forEach(b=>{if(!b.classList.contains('correct')&&!b.classList.contains('wrong'))b.classList.add('disabled');});
+    this.cur++;if(this.mode==='story')this.storyQIdx++;setTimeout(()=>this.next(),1000);},
+  showCeleb(){this.showExAreas(false);celebrate('lz-cE','lz-cT','lz-cP',this.sc,this.T);
+    const btn=document.getElementById('lz-celebBtn'),back=document.getElementById('lz-celebBack');
+    if(this.mode==='story'){this.storyDone[this.storyIdx]=true;btn.textContent='🔄 Opnieuw lezen';btn.onclick=()=>this.startStory(this.storyIdx);back.textContent='← Kies een ander verhaaltje';back.onclick=()=>this.showStoryPicker();}
+    else{btn.textContent='🔄 Nog een keer!';btn.onclick=()=>this.startRound();back.textContent='← Andere oefening kiezen';back.onclick=()=>this.showHub();}
+    back.style.display='block';document.getElementById('lz-celeb').classList.add('show');},
+  esc(s){return s.replace(/'/g,"\\'");}
+};
+</script>
+</body>
+</html>
 
