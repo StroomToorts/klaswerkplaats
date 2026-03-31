@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚙️ Katrollen — Fysica</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --sky-blue: #6A9BB5;
+  --vak-color: #B07A4B;
+  --vak-light: #C9956A;
+  --vak-bg: rgba(176,122,75,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+.container { max-width: 800px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.7; }
+.breadcrumb a { color: var(--vak-color); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.exercise-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; animation: fadeSlideUp 0.6s ease; }
+.vak-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--vak-color), var(--vak-light)); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 3px 12px rgba(176,122,75,0.25); }
+.exercise-title { font-family: 'Vollkorn', serif; font-size: 24px; font-weight: 700; color: var(--dark-brown); }
+.exercise-date { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); margin-top: 2px; }
+.intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 24px; opacity: 0.8; animation: fadeSlideUp 0.6s ease 0.1s both; }
+.mode-tabs { display: flex; gap: 6px; margin-bottom: 24px; flex-wrap: wrap; animation: fadeSlideUp 0.6s ease 0.2s both; }
+.mode-tab { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 25px; border: 2px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; transition: all 0.3s ease; }
+.mode-tab:hover { border-color: var(--vak-color); color: var(--vak-color); }
+.mode-tab.active { background: linear-gradient(135deg, var(--vak-color), var(--vak-light)); color: white; border-color: var(--vak-color); }
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease; }
+.tab-content.active { display: block; }
+.theory-section { background: var(--warm-white); border-radius: 16px; padding: 24px; margin-bottom: 16px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.theory-section h3 { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); margin-bottom: 12px; }
+.theory-section p { margin-bottom: 10px; font-size: 16px; }
+.theory-section .highlight { background: var(--vak-bg); border-left: 3px solid var(--vak-color); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 12px 0; font-style: italic; }
+.proef-label { font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--vak-color); margin-bottom: 6px; }
+.theory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.theory-fact { background: var(--sand-light); border-radius: 12px; padding: 14px; text-align: center; }
+.theory-fact .label { font-family: 'Source Sans 3', sans-serif; font-size: 12px; color: var(--warm-brown); opacity: 0.7; }
+.theory-fact .value { font-size: 20px; font-weight: 700; color: var(--vak-color); }
+.attention-box { background: linear-gradient(135deg, rgba(176,122,75,0.1), rgba(212,168,67,0.08)); border: 2px solid var(--vak-color); border-radius: 14px; padding: 16px 20px; margin-top: 16px; }
+.attention-box .attention-title { font-family: 'Caveat', cursive; font-size: 20px; color: var(--vak-color); margin-bottom: 6px; }
+.sim-container { background: var(--warm-white); border-radius: 16px; padding: 20px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.sim-mode-buttons { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.sim-mode-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 20px; border: 2px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; transition: all 0.3s; }
+.sim-mode-btn:hover { border-color: var(--vak-color); }
+.sim-mode-btn.active { background: var(--vak-color); color: white; border-color: var(--vak-color); }
+.sim-canvas-wrap { width: 100%; display: flex; justify-content: center; margin-bottom: 16px; }
+canvas#simCanvas { border-radius: 12px; max-width: 100%; touch-action: none; }
+.sim-controls { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+.sim-controls label { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; color: var(--warm-brown); }
+.sim-controls input[type="range"] { flex: 1; min-width: 120px; accent-color: var(--vak-color); }
+.sim-controls .weight-val { font-family: 'Vollkorn', serif; font-weight: 700; color: var(--vak-color); min-width: 50px; }
+.sim-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.sim-info-card { background: var(--sand-light); border-radius: 12px; padding: 12px; text-align: center; }
+.sim-info-card .info-label { font-family: 'Source Sans 3', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--warm-brown); opacity: 0.7; margin-bottom: 4px; }
+.sim-info-card .info-value { font-family: 'Vollkorn', serif; font-size: 22px; font-weight: 700; color: var(--vak-color); }
+.sim-info-card .info-unit { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); }
+.sim-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.6; text-align: center; margin-top: 12px; }
+.sim-reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 6px 16px; border-radius: 20px; border: 2px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; margin: 10px auto 0; display: block; }
+.sim-reset-btn:hover { border-color: var(--vak-color); color: var(--vak-color); }
+.quiz-card { background: var(--warm-white); border-radius: 16px; padding: 20px; margin-bottom: 14px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: border-color 0.3s; }
+.quiz-card.correct { border-color: var(--olive); }
+.quiz-card.incorrect { border-color: var(--rust); }
+.quiz-number { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); margin-bottom: 6px; }
+.quiz-question { font-size: 16px; margin-bottom: 12px; font-weight: 600; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-option { font-family: 'Source Sans 3', sans-serif; font-size: 15px; padding: 10px 16px; border-radius: 12px; border: 2px solid var(--sand); background: var(--warm-white); color: var(--dark-brown); cursor: pointer; transition: all 0.3s; text-align: left; }
+.quiz-option:hover:not(.disabled) { border-color: var(--vak-color); background: var(--vak-bg); }
+.quiz-option.selected-correct { border-color: var(--olive); background: rgba(122,139,111,0.12); color: var(--olive-dark); }
+.quiz-option.selected-wrong { border-color: var(--rust); background: rgba(183,85,61,0.1); }
+.quiz-option.show-correct { border-color: var(--olive); background: rgba(122,139,111,0.12); }
+.quiz-option.disabled { cursor: default; opacity: 0.7; }
+.quiz-feedback { font-family: 'Source Sans 3', sans-serif; font-size: 14px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: rgba(122,139,111,0.1); color: var(--olive-dark); }
+.quiz-feedback.incorrect-fb { background: rgba(183,85,61,0.08); color: var(--rust); }
+.exercise-card { background: var(--warm-white); border-radius: 16px; padding: 20px; margin-bottom: 14px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: border-color 0.3s; }
+.exercise-card.correct { border-color: var(--olive); }
+.exercise-card.incorrect { border-color: var(--rust); }
+.exercise-number { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); margin-bottom: 6px; }
+.exercise-question { font-size: 16px; margin-bottom: 12px; font-weight: 600; }
+.exercise-input-row { display: flex; gap: 10px; align-items: center; }
+.exercise-input { font-family: 'Vollkorn', serif; font-size: 16px; padding: 8px 14px; border-radius: 12px; border: 2px solid var(--sand); background: var(--cream); color: var(--dark-brown); width: 120px; outline: none; transition: border-color 0.3s; }
+.exercise-input:focus { border-color: var(--vak-color); }
+.exercise-input.correct-input { border-color: var(--olive); background: rgba(122,139,111,0.08); }
+.exercise-input.wrong-input { border-color: var(--rust); background: rgba(183,85,61,0.06); }
+.exercise-unit { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); font-weight: 500; }
+.check-btn { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 18px; border-radius: 20px; border: none; background: linear-gradient(135deg, var(--vak-color), var(--vak-light)); color: white; cursor: pointer; transition: all 0.3s; }
+.check-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(176,122,75,0.3); }
+.exercise-feedback { font-family: 'Source Sans 3', sans-serif; font-size: 14px; margin-top: 10px; display: none; }
+.exercise-feedback.show { display: block; }
+.score-bar { background: var(--warm-white); border-radius: 16px; padding: 14px 20px; margin-bottom: 20px; border: 1px solid var(--sand); display: none; align-items: center; gap: 14px; animation: fadeSlideUp 0.3s ease; }
+.score-bar.visible { display: flex; }
+.score-text { font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 600; color: var(--dark-brown); white-space: nowrap; }
+.progress-bar-container { flex: 1; height: 8px; background: var(--sand); border-radius: 4px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vak-color), var(--ochre)); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 4px 14px; border-radius: 14px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; }
+.reset-btn:hover { border-color: var(--vak-color); }
+.celebration { text-align: center; padding: 20px; margin-top: 16px; border-radius: 16px; background: linear-gradient(135deg, var(--vak-bg), rgba(212,168,67,0.08)); border: 2px solid var(--vak-color); display: none; animation: pop 0.5s ease; }
+.celebration.show { display: block; }
+.celebration-emoji { font-size: 36px; margin-bottom: 8px; }
+.celebration-text { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); }
+.action-buttons { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 22px; border-radius: 25px; border: 2px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; text-decoration: none; transition: all 0.3s; }
+.action-btn:hover { border-color: var(--vak-color); color: var(--vak-color); transform: translateY(-1px); }
+.print-only { display: none; }
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none !important; }
+  .container { padding: 0; max-width: 100%; }
+  .print-only { display: block !important; }
+  .vak-icon { display: none; }
+  .tab-content { display: none !important; }
+  .tab-content.print-show { display: block !important; }
+  .theory-section, .quiz-card, .exercise-card { box-shadow: none !important; border-color: #ddd !important; break-inside: avoid; }
+  .score-bar, .celebration { display: none !important; }
+  .exercise-input { color: transparent !important; -webkit-text-fill-color: transparent !important; border-color: #ccc !important; background: white !important; }
+  .exercise-input::placeholder { color: transparent !important; }
+  .exercise-feedback { display: none !important; }
+  .exercise-card.correct, .exercise-card.incorrect { border-color: #ddd !important; background: white !important; }
+  .exercise-input.correct-input, .exercise-input.wrong-input { border-color: #ccc !important; background: white !important; }
+  .check-btn { display: none !important; }
+  .quiz-option { border-color: #ddd !important; background: white !important; color: var(--dark-brown) !important; }
+  .quiz-option.selected-correct, .quiz-option.selected-wrong, .quiz-option.show-correct { border-color: #ddd !important; background: white !important; color: var(--dark-brown) !important; }
+  .quiz-feedback { display: none !important; }
+  .quiz-card.correct, .quiz-card.incorrect { border-color: #ddd !important; }
+  .print-answers { page-break-before: always; }
+  .print-section-title { font-family: 'Caveat', cursive; font-size: 22pt; color: var(--vak-color); margin-bottom: 16px; }
+  .sim-container { display: none !important; }
+}
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-4px); } 40%,80% { transform: translateX(4px); } }
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 20px; }
+  .exercise-input-row { flex-wrap: wrap; }
+  .exercise-input { width: 100%; }
+  .sim-info { grid-template-columns: 1fr 1fr; }
+  .theory-grid { grid-template-columns: 1fr; }
+  .sim-mode-buttons { gap: 4px; }
+  .sim-mode-btn { font-size: 12px; padding: 5px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="breadcrumb no-print"><a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Katrollen</div>
+  <div class="exercise-header">
+    <div class="vak-icon no-print">⚙️</div>
+    <div>
+      <div class="exercise-title">Katrollen</div>
+      <div class="exercise-date">31 maart 2026 — Fysica</div>
+    </div>
+  </div>
+  <p class="intro-text">Hoofdstuk III: Hoe katrollen kracht en richting veranderen — van touwtrekken tot takels.</p>
+
+  <div class="mode-tabs no-print">
+    <button class="mode-tab active" onclick="switchTab('theorie',this)">📚 Theorie</button>
+    <button class="mode-tab" onclick="switchTab('simulatie',this)">⚙️ Simulatie</button>
+    <button class="mode-tab" onclick="switchTab('quiz',this)">🧩 Quiz</button>
+    <button class="mode-tab" onclick="switchTab('oefeningen',this)">✏️ Oefeningen</button>
+  </div>
+
+  <!-- THEORIE -->
+  <div id="tab-theorie" class="tab-content active print-show">
+    <div class="theory-section">
+      <div class="proef-label">Proef 1</div>
+      <h3>Touwtrekken zonder katrol</h3>
+      <p>Twee leerlingen trekken rechtstreeks aan een touw. De sterkste wint, want er is <strong>geen hulpmiddel</strong>. De kracht gaat rechtstreeks naar de andere persoon.</p>
+      <div class="theory-grid">
+        <div class="theory-fact"><div class="label">Trekkracht</div><div class="value">= Last</div></div>
+        <div class="theory-fact"><div class="label">Richting</div><div class="value">Recht</div></div>
+      </div>
+      <div class="highlight">Geen kracht gewonnen, geen richting veranderd. Je moet evenveel kracht leveren als je tegenstander.</div>
+    </div>
+    <div class="theory-section">
+      <div class="proef-label">Proef 2</div>
+      <h3>Vaste katrol</h3>
+      <p>Een <strong>vaste katrol</strong> hangt aan een vast punt. Het touw loopt erover. Je trekt naar <em>beneden</em> om iets <em>omhoog</em> te tillen.</p>
+      <p>De kracht wordt <strong>niet</strong> kleiner, maar de <strong>richting</strong> verandert — en dat kan een groot voordeel zijn!</p>
+      <div class="theory-grid">
+        <div class="theory-fact"><div class="label">Trekkracht</div><div class="value">= Last</div></div>
+        <div class="theory-fact"><div class="label">Richting</div><div class="value">Veranderd ↕</div></div>
+      </div>
+      <div class="highlight">Een vaste katrol verandert alleen de <strong>richting</strong> van de kracht. Naar beneden trekken is makkelijker dan omhoog duwen!</div>
+    </div>
+    <div class="theory-section">
+      <div class="proef-label">Proef 3</div>
+      <h3>Losse katrol</h3>
+      <p>Een <strong>losse katrol</strong> zit vast aan de last. Het touw loopt van een vast punt, onder de katrol door, en terug omhoog naar jou.</p>
+      <p>De kracht wordt <strong>verdeeld over twee touwdelen</strong>. Je hebt maar de <strong>helft</strong> van de kracht nodig! Maar je moet <strong>dubbel zoveel touw</strong> binnenhalen.</p>
+      <div class="theory-grid">
+        <div class="theory-fact"><div class="label">Trekkracht</div><div class="value">= Last ÷ 2</div></div>
+        <div class="theory-fact"><div class="label">Touw trekken</div><div class="value">× 2</div></div>
+      </div>
+      <div class="highlight">Met een losse katrol win je aan kracht, maar je moet meer touw binnenhalen.</div>
+    </div>
+    <div class="theory-section">
+      <div class="proef-label">Proef 4</div>
+      <h3>Takel</h3>
+      <p>Een <strong>takel</strong> combineert een vaste en een losse katrol. Zo verander je de richting én win je kracht.</p>
+      <p>Met meer katrollen win je nog meer: 4 dragende touwdelen = maar een kwart van de kracht nodig!</p>
+      <div class="theory-grid">
+        <div class="theory-fact"><div class="label">Eenvoudige takel</div><div class="value">Last ÷ 2</div></div>
+        <div class="theory-fact"><div class="label">Dubbele takel</div><div class="value">Last ÷ 4</div></div>
+      </div>
+      <div class="attention-box">
+        <div class="attention-title">⚡ De gouden regel van de mechanica</div>
+        <p><strong>Wat je wint aan kracht, verlies je aan afstand.</strong></p>
+        <p>Halve kracht = dubbel touw. Kwart kracht = vier keer zoveel touw.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATIE -->
+  <div id="tab-simulatie" class="tab-content">
+    <div class="sim-container">
+      <div class="sim-mode-buttons no-print">
+        <button class="sim-mode-btn active" onclick="setSimMode(0)">Geen katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(1)">Vaste katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(2)">Losse katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(3)">Takel</button>
+      </div>
+      <div class="sim-canvas-wrap"><canvas id="simCanvas" width="460" height="420"></canvas></div>
+      <div class="sim-controls no-print">
+        <label>Last:</label>
+        <input type="range" id="weightSlider" min="20" max="200" value="100" step="10" oninput="updateWeight()">
+        <span class="weight-val" id="weightDisplay">100 N</span>
+      </div>
+      <div class="sim-info">
+        <div class="sim-info-card"><div class="info-label">Trekkracht</div><div class="info-value" id="infoForce">100</div><div class="info-unit">Newton</div></div>
+        <div class="sim-info-card"><div class="info-label">Touw getrokken</div><div class="info-value" id="infoRope">0.0</div><div class="info-unit">meter</div></div>
+        <div class="sim-info-card"><div class="info-label">Last gestegen</div><div class="info-value" id="infoRise">0.0</div><div class="info-unit">meter</div></div>
+        <div class="sim-info-card"><div class="info-label">Krachtvoordeel</div><div class="info-value" id="infoAdv">1×</div><div class="info-unit">&nbsp;</div></div>
+      </div>
+      <p class="sim-hint no-print" id="simHint">🖐️ Sleep het handvat omhoog om de last op te tillen</p>
+      <button class="sim-reset-btn no-print" onclick="resetSim()">🔄 Reset</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab-quiz" class="tab-content print-show">
+    <div class="score-bar no-print" id="qBar"><span class="score-text" id="qScTxt">Score: 0/0</span><div class="progress-bar-container"><div class="progress-bar" id="qProg"></div></div><button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button></div>
+    <div id="quizC"></div>
+    <div class="celebration" id="qCel"><div class="celebration-emoji" id="qCelE"></div><div class="celebration-text" id="qCelT"></div></div>
+  </div>
+
+  <!-- OEFENINGEN -->
+  <div id="tab-oefeningen" class="tab-content print-show">
+    <div class="score-bar no-print" id="eBar"><span class="score-text" id="eScTxt">Score: 0/0</span><div class="progress-bar-container"><div class="progress-bar" id="eProg"></div></div><button class="reset-btn" onclick="resetEx()">🔄 Opnieuw</button></div>
+    <div id="exC"></div>
+    <div class="celebration" id="eCel"><div class="celebration-emoji" id="eCelE"></div><div class="celebration-text" id="eCelT"></div></div>
+  </div>
+
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn">← Terug naar overzicht</a>
+  </div>
+
+  <div class="print-only print-answers">
+    <div class="print-section-title">Oplossingen — Quiz</div>
+    <div id="pQA"></div>
+    <div class="print-section-title" style="margin-top:24px;">Oplossingen — Oefeningen</div>
+    <div id="pEA"></div>
+  </div>
+</div>
+
+<script>
+// ===== TABS =====
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'simulatie') { initCanvas(); draw(); updateInfo(); }
+}
+
+// ===== CELEBRATION =====
+function celebrate(prefix, score, total) {
+  const pct = score/total*100, c = document.getElementById(prefix+'Cel'), e = document.getElementById(prefix+'CelE'), t = document.getElementById(prefix+'CelT');
+  if (pct===100) { e.textContent='🌟'; t.textContent='Alles juist — fantastisch!'; }
+  else if (pct>=80) { e.textContent='🎉'; t.textContent='Heel goed! Bijna alles juist.'; }
+  else if (pct>=60) { e.textContent='💪'; t.textContent='Goed bezig! Bekijk de fouten nog eens.'; }
+  else { e.textContent='📚'; t.textContent='Bekijk de theorie nog eens en probeer opnieuw!'; }
+  c.classList.add('show');
+}
+
+// ===== QUIZ =====
+const QD = [
+  { q:"Wat verandert een vaste katrol?", o:["De grootte van de kracht","De richting van de kracht","Zowel richting als grootte","Niets"], c:1, x:"Een vaste katrol verandert alleen de richting. De kracht blijft even groot." },
+  { q:"Hoeveel trekkracht heb je nodig om 100 N op te tillen met een losse katrol?", o:["100 N","50 N","200 N","25 N"], c:1, x:"Een losse katrol halveert de kracht: 100 ÷ 2 = 50 N." },
+  { q:"Wat is de gouden regel van de mechanica?", o:["Kracht × snelheid = vermogen","Wat je wint aan kracht, verlies je aan afstand","Elke actie heeft een gelijke reactie","Zwaardere voorwerpen vallen sneller"], c:1, x:"Wat je wint aan kracht, verlies je aan afstand." },
+  { q:"Een takel is een combinatie van…", o:["Twee vaste katrollen","Twee losse katrollen","Een vaste en een losse katrol","Een katrol en een hefboom"], c:2, x:"Een takel combineert een vaste katrol (richting) met een losse katrol (kracht)." },
+  { q:"Je tilt 100 N met een losse katrol. Hoeveel touw voor 1 meter tillen?", o:["0,5 meter","1 meter","2 meter","4 meter"], c:2, x:"Bij een losse katrol: 2× zoveel touw. Voor 1 m tillen = 2 m touw." },
+  { q:"Waarom is een vaste katrol handig bij het hijsen van een vlag?", o:["Je hebt minder kracht nodig","Je kunt naar beneden trekken i.p.v. omhoog","De vlag gaat sneller omhoog","Het touw wordt korter"], c:1, x:"Je trekt naar beneden (met je gewicht mee) om de vlag omhoog te krijgen." }
+];
+let qS=0,qD=0;
+
+function buildQ() {
+  const c=document.getElementById('quizC'); let p='';
+  c.innerHTML = QD.map((q,i) => {
+    p += `<p style="margin-bottom:8px"><strong>${i+1}.</strong> ${q.q}<br>→ <span style="color:var(--vak-color);font-weight:700">${q.o[q.c]}</span></p>`;
+    return `<div class="quiz-card" id="qc${i}"><div class="quiz-number">Vraag ${i+1} van ${QD.length}</div><div class="quiz-question">${q.q}</div><div class="quiz-options">${q.o.map((o,j)=>`<button class="quiz-option" onclick="aQ(${i},${j})">${o}</button>`).join('')}</div><div class="quiz-feedback" id="qf${i}"></div></div>`;
+  }).join('');
+  document.getElementById('pQA').innerHTML = p;
+}
+
+function aQ(i,j) {
+  const card=document.getElementById('qc'+i); if(card.dataset.d) return; card.dataset.d='1';
+  const os=card.querySelectorAll('.quiz-option'), q=QD[i], ok=j===q.c;
+  os.forEach((o,k)=>{ o.classList.add('disabled'); if(k===q.c) o.classList.add('show-correct'); if(k===j&&!ok) o.classList.add('selected-wrong'); if(k===j&&ok) o.classList.add('selected-correct'); });
+  card.classList.add(ok?'correct':'incorrect');
+  const fb=document.getElementById('qf'+i);
+  fb.className='quiz-feedback show '+(ok?'correct-fb':'incorrect-fb');
+  fb.textContent=(ok?['Correct! ','Juist! ','Goed zo! ','Precies! '][Math.random()*4|0]:'Niet helemaal. ')+q.x;
+  qD++; if(ok)qS++;
+  document.getElementById('qBar').classList.add('visible');
+  document.getElementById('qScTxt').textContent=`Score: ${qS}/${qD}`;
+  document.getElementById('qProg').style.width=(qD/QD.length*100)+'%';
+  if(qD===QD.length) celebrate('q',qS,QD.length);
+}
+
+function resetQuiz() { qS=0;qD=0; document.getElementById('qBar').classList.remove('visible'); document.getElementById('qCel').classList.remove('show'); buildQ(); }
+
+// ===== EXERCISES =====
+const ED = [
+  { q:"Een last weegt 80 N. Je gebruikt <strong>geen katrol</strong>. Hoeveel kracht moet je leveren?", a:80, u:"N" },
+  { q:"Een last weegt 80 N. Je gebruikt een <strong>vaste katrol</strong>. Hoeveel trekkracht heb je nodig?", a:80, u:"N" },
+  { q:"Een last weegt 120 N. Je gebruikt een <strong>losse katrol</strong>. Hoeveel trekkracht heb je nodig?", a:60, u:"N" },
+  { q:"Een last weegt 200 N. Je gebruikt een <strong>takel met 2 dragende touwdelen</strong>. Hoeveel trekkracht?", a:100, u:"N" },
+  { q:"Een last weegt 200 N. Je gebruikt een <strong>takel met 4 dragende touwdelen</strong>. Hoeveel trekkracht?", a:50, u:"N" },
+  { q:"Je trekt 6 meter touw door een <strong>losse katrol</strong>. Hoeveel meter stijgt de last?", a:3, u:"m" },
+  { q:"Je wilt een last 2 meter optillen met een <strong>losse katrol</strong>. Hoeveel meter touw moet je trekken?", a:4, u:"m" },
+  { q:"Je trekt met 25 N aan een takel met <strong>4 dragende touwdelen</strong>. Hoe zwaar is de last?", a:100, u:"N" }
+];
+let eS=0,eD=0;
+
+function buildE() {
+  const c=document.getElementById('exC'); let p='';
+  c.innerHTML = ED.map((e,i) => {
+    p += `<p style="margin-bottom:8px"><strong>${i+1}.</strong> ${e.q.replace(/<[^>]+>/g,'')}<br>→ <span style="color:var(--vak-color);font-weight:700">${e.a} ${e.u}</span></p>`;
+    return `<div class="exercise-card" id="ec${i}"><div class="exercise-number">Oefening ${i+1} van ${ED.length}</div><div class="exercise-question">${e.q}</div><div class="exercise-input-row"><input class="exercise-input" type="text" id="ei${i}" placeholder="?" onkeydown="if(event.key==='Enter')cE(${i})"><span class="exercise-unit">${e.u}</span><button class="check-btn" onclick="cE(${i})">Controleer</button></div><div class="exercise-feedback" id="ef${i}"></div></div>`;
+  }).join('');
+  document.getElementById('pEA').innerHTML = p;
+}
+
+function cE(i) {
+  const card=document.getElementById('ec'+i); if(card.dataset.d) return;
+  const inp=document.getElementById('ei'+i), v=parseFloat(inp.value.replace(',','.').trim());
+  if(isNaN(v)){inp.style.animation='shake 0.4s';setTimeout(()=>inp.style.animation='',400);return;}
+  card.dataset.d='1';
+  const e=ED[i], ok=Math.abs(v-e.a)<0.1;
+  card.classList.add(ok?'correct':'incorrect');
+  inp.classList.add(ok?'correct-input':'wrong-input');
+  const fb=document.getElementById('ef'+i);
+  fb.className='exercise-feedback show'; fb.style.color=ok?'var(--olive-dark)':'var(--rust)';
+  fb.innerHTML=ok?['✓ Correct!','✓ Juist!','✓ Goed zo!','✓ Precies!'][Math.random()*4|0]:`✗ Het juiste antwoord is <strong>${e.a} ${e.u}</strong>`;
+  eD++; if(ok)eS++;
+  document.getElementById('eBar').classList.add('visible');
+  document.getElementById('eScTxt').textContent=`Score: ${eS}/${eD}`;
+  document.getElementById('eProg').style.width=(eD/ED.length*100)+'%';
+  if(eD===ED.length) celebrate('e',eS,ED.length);
+}
+
+function resetEx() { eS=0;eD=0; document.getElementById('eBar').classList.remove('visible'); document.getElementById('eCel').classList.remove('show'); buildE(); }
+
+// ============================================
+// INTERACTIVE PULLEY SIMULATION
+// ============================================
+let canvas, ctx, evReady = false;
+let sMode = 0;    // 0=geen, 1=vast, 2=los, 3=takel
+let loadN = 100;
+let pull = 0;     // rope pulled in px (0..MAX)
+const MAX = 160;
+let drag = false, dragY0 = 0, pull0 = 0;
+
+// Layout
+const BM = 38, PR = 18, WW = 58, WH = 44, GR = 385, CX = 230;
+
+function mRatio() { return sMode <= 1 ? 1 : 2; }
+function mDir()   { return (sMode===0||sMode===2) ? -1 : 1; } // -1=pull up, +1=pull down
+function wRise()  { return pull / mRatio(); }
+
+// Handle position per mode
+function hXY() {
+  const r = wRise(), wb = GR - WH;
+  switch(sMode) {
+    case 0: return { x: CX, y: wb - r - 40 };
+    case 1: return { x: CX + 50, y: BM + 12 + PR + PR + 25 + pull };
+    case 2: return { x: CX + 40, y: BM + 30 + (MAX - pull) * 0.95 };
+    case 3: return { x: CX + 60, y: BM + 12 + PR + PR + 25 + pull };
+  }
+}
+
+function initCanvas() {
+  canvas = document.getElementById('simCanvas');
+  ctx = canvas.getContext('2d');
+  const w = Math.min(460, canvas.parentElement.clientWidth - 10);
+  canvas.style.width = w + 'px';
+  canvas.style.height = (w * 420 / 460) + 'px';
+  if (!evReady) {
+    canvas.addEventListener('mousedown', mD);
+    canvas.addEventListener('mousemove', mM);
+    canvas.addEventListener('mouseup', mU);
+    canvas.addEventListener('mouseleave', mU);
+    canvas.addEventListener('touchstart', tD, {passive:false});
+    canvas.addEventListener('touchmove', tM, {passive:false});
+    canvas.addEventListener('touchend', mU);
+    evReady = true;
+  }
+}
+
+function pt(e) { const r=canvas.getBoundingClientRect(); return {x:(e.clientX-r.left)*canvas.width/r.width, y:(e.clientY-r.top)*canvas.height/r.height}; }
+function nearH(p) { const h=hXY(); return Math.hypot(p.x-h.x,p.y-h.y)<35; }
+
+function mD(e) { const p=pt(e); if(nearH(p)){drag=true;dragY0=p.y;pull0=pull;canvas.style.cursor='grabbing';} }
+function mM(e) { if(!drag){canvas.style.cursor=nearH(pt(e))?'grab':'default';return;} const p=pt(e); pull=Math.max(0,Math.min(MAX,pull0+(p.y-dragY0)*mDir())); draw();updateInfo(); }
+function mU() { drag=false; canvas.style.cursor='default'; }
+function tD(e) { e.preventDefault(); const p=pt(e.touches[0]); if(nearH(p)){drag=true;dragY0=p.y;pull0=pull;} }
+function tM(e) { e.preventDefault(); if(!drag)return; const p=pt(e.touches[0]); pull=Math.max(0,Math.min(MAX,pull0+(p.y-dragY0)*mDir())); draw();updateInfo(); }
+
+// ===== DRAWING =====
+function draw() {
+  if(!ctx) return;
+  const W=canvas.width, H=canvas.height;
+  // BG
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#f0ead6'); bg.addColorStop(1,'#e4d8c4');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+  // Beam
+  ctx.fillStyle='#8B7355'; ctx.fillRect(50,BM-4,W-100,12);
+  ctx.strokeStyle='#6B5840';ctx.lineWidth=1;ctx.strokeRect(50,BM-4,W-100,12);
+  ctx.strokeStyle='rgba(107,88,64,0.25)';ctx.lineWidth=0.5;
+  for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(55,BM-1+i*3.5);ctx.lineTo(W-55,BM-1+i*3.5);ctx.stroke();}
+
+  // Floor
+  ctx.fillStyle='#d4c8b0';ctx.fillRect(0,GR+8,W,H-GR-8);
+  ctx.strokeStyle='#b0a48c';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,GR+8);ctx.lineTo(W,GR+8);ctx.stroke();
+
+  const rise=wRise(), wY=GR-WH-rise;
+  if(sMode===0) drawM0(wY);
+  else if(sMode===1) drawM1(wY);
+  else if(sMode===2) drawM2(wY);
+  else drawM3(wY);
+
+  // Label
+  const lb=['Zonder katrol','Vaste katrol','Losse katrol','Takel (vast + los)'];
+  ctx.font="bold 16px Vollkorn,serif";ctx.fillStyle='#3D2B1F';ctx.textAlign='center';
+  ctx.fillText(lb[sMode],CX,H-10);
+}
+
+function rope(pts) {
+  ctx.strokeStyle='#C2704E';ctx.lineWidth=3.5;ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);
+  ctx.stroke();
+}
+
+function arcRope(cx,cy,r,startA,endA,ccw) {
+  ctx.strokeStyle='#C2704E';ctx.lineWidth=3.5;ctx.lineCap='round';
+  ctx.beginPath();ctx.arc(cx,cy,r,startA,endA,ccw);ctx.stroke();
+}
+
+function pulley(x,y,fixed) {
+  if(fixed){ctx.fillStyle='#5C4033';ctx.fillRect(x-3,BM+8,6,y-PR-BM-8);}
+  ctx.beginPath();ctx.arc(x,y,PR,0,Math.PI*2);ctx.fillStyle=fixed?'#7A6B5D':'#8B7D6B';ctx.fill();
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.beginPath();ctx.arc(x,y,PR-4,0,Math.PI*2);ctx.fillStyle=fixed?'#A89880':'#B8A890';ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle='#5C4033';ctx.fill();
+}
+
+function weight(x,y) {
+  ctx.fillStyle='rgba(0,0,0,0.08)';fRR(x+3,y+3,WW,WH,6);
+  const g=ctx.createLinearGradient(x,y,x,y+WH);g.addColorStop(0,'#6B5B4F');g.addColorStop(1,'#4A3C32');
+  ctx.fillStyle=g;fRR(x,y,WW,WH,6);
+  ctx.strokeStyle='#3D2B1F';ctx.lineWidth=1.5;sRR(x,y,WW,WH,6);
+  ctx.fillStyle='#F0E8D8';ctx.font="bold 14px 'Source Sans 3',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(loadN+' N',x+WW/2,y+WH/2);
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x+WW/2,y);ctx.lineTo(x+WW/2,y-10);ctx.stroke();
+}
+
+function handle(x,y) {
+  ctx.beginPath();ctx.arc(x,y,16,0,Math.PI*2);ctx.fillStyle=drag?'rgba(212,168,67,0.25)':'rgba(176,122,75,0.15)';ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);ctx.fillStyle=drag?'#D4A843':'#B07A4B';ctx.fill();
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='white';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(mDir()===1?'↓':'↑',x,y);
+}
+
+function fArrow(x,y,dir,f) {
+  const len=28,ey=y+dir*len;
+  ctx.strokeStyle='#C2704E';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,ey);ctx.stroke();
+  ctx.fillStyle='#C2704E';ctx.beginPath();ctx.moveTo(x,ey+dir*8);ctx.lineTo(x-5,ey);ctx.lineTo(x+5,ey);ctx.fill();
+  ctx.font="bold 12px 'Source Sans 3',sans-serif";ctx.textAlign='center';ctx.textBaseline=dir>0?'top':'bottom';
+  ctx.fillText(Math.round(f)+' N',x,y-dir*12);
+}
+
+function lArrow(x,y) {
+  ctx.strokeStyle='#6A9BB5';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+25);ctx.stroke();
+  ctx.fillStyle='#6A9BB5';ctx.beginPath();ctx.moveTo(x,y+33);ctx.lineTo(x-5,y+25);ctx.lineTo(x+5,y+25);ctx.fill();
+  ctx.font="bold 12px 'Source Sans 3',sans-serif";ctx.textAlign='left';ctx.textBaseline='middle';
+  ctx.fillText(loadN+' N',x+8,y+22);
+}
+
+function anchor(x,y) {
+  ctx.fillStyle='#5C4033';ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#3D2B1F';ctx.lineWidth=1;ctx.stroke();
+}
+
+// Mode 0: no pulley
+function drawM0(wY) {
+  const h=hXY();
+  weight(CX-WW/2,wY);
+  rope([[CX,wY-10],[CX,h.y]]);
+  handle(h.x,h.y);
+  fArrow(h.x+24,h.y,-1,loadN);
+  lArrow(CX+WW/2+12,wY+WH/2);
+}
+
+// Mode 1: fixed pulley
+function drawM1(wY) {
+  const pY=BM+12+PR, lx=CX-40, rx=CX+40, h=hXY();
+  pulley(CX,pY,true);
+  weight(lx-WW/2,wY);
+  rope([[lx,wY-10],[lx,pY]]);
+  arcRope(CX,pY,PR+1,Math.PI,0,false);
+  rope([[rx,pY],[rx,h.y]]);
+  handle(h.x,h.y);
+  fArrow(h.x+24,h.y,1,loadN);
+  lArrow(lx-WW/2+WW+12,wY+WH/2);
+}
+
+// Mode 2: loose pulley
+function drawM2(wY) {
+  const lpY=wY-PR-8, fx=CX-35, px=CX+35, h=hXY();
+  anchor(fx,BM+8);
+  pulley(CX,lpY,false);
+  // Rod from pulley to weight
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
+  weight(CX-WW/2,wY);
+  rope([[fx,BM+8],[fx,lpY]]);
+  arcRope(CX,lpY,PR+1,Math.PI,0,false);
+  rope([[px,lpY],[px,h.y]]);
+  handle(h.x,h.y);
+  fArrow(h.x+24,h.y,-1,loadN/2);
+  lArrow(CX+WW/2+12,wY+WH/2);
+}
+
+// Mode 3: takel
+function drawM3(wY) {
+  const fpY=BM+12+PR, lpY=wY-PR-8, ax=CX-30, ix=CX+20, ox=CX+55, h=hXY();
+  pulley(CX,fpY,true);
+  pulley(CX,lpY,false);
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
+  weight(CX-WW/2,wY);
+  anchor(ax,BM+8);
+
+  // Rope: anchor → down to loose → under loose → up to fixed → over fixed → out to handle
+  rope([[ax,BM+8],[ax,lpY]]);
+  arcRope(CX,lpY,PR+1,Math.PI,0,false);
+  rope([[ix,lpY],[ix,fpY]]);
+  arcRope(CX,fpY,PR+1,0,-Math.PI*0.5,true);
+  rope([[CX,fpY-PR-1],[ox,fpY-PR-1],[ox,h.y]]);
+
+  handle(h.x,h.y);
+  fArrow(h.x+24,h.y,1,loadN/2);
+  lArrow(CX+WW/2+12,wY+WH/2);
+}
+
+// Rounded rect helpers
+function fRR(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();}
+function sRR(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.stroke();}
+
+// Info panel
+function updateInfo() {
+  const r=mRatio();
+  document.getElementById('infoForce').textContent=Math.round(loadN/r);
+  document.getElementById('infoRope').textContent=(pull/100).toFixed(1);
+  document.getElementById('infoRise').textContent=(wRise()/100).toFixed(1);
+  document.getElementById('infoAdv').textContent=r+'×';
+}
+
+function setSimMode(m) {
+  sMode=m; pull=0; drag=false;
+  document.querySelectorAll('.sim-mode-btn').forEach((b,i)=>b.classList.toggle('active',i===m));
+  document.getElementById('simHint').textContent=[
+    '🖐️ Sleep het handvat omhoog om de last op te tillen',
+    '🖐️ Sleep het handvat omlaag — de katrol keert de richting om',
+    '🖐️ Sleep het handvat omhoog — halve kracht, dubbel touw!',
+    '🖐️ Sleep het handvat omlaag — richting én kracht voordeel'
+  ][m];
+  draw(); updateInfo();
+}
+
+function updateWeight() {
+  loadN=parseInt(document.getElementById('weightSlider').value);
+  document.getElementById('weightDisplay').textContent=loadN+' N';
+  draw(); updateInfo();
+}
+
+function resetSim() { pull=0;drag=false;draw();updateInfo(); }
+
+// ===== INIT =====
+buildQ(); buildE();
+</script>
+</body>
+</html>
