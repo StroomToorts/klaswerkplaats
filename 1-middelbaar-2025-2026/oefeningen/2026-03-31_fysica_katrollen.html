@@ -412,12 +412,12 @@ function wRise()  { return pull / mRatio(); }
 
 // Handle position per mode
 function hXY() {
-  const r = wRise(), wb = GR - WH;
+  const r = wRise(), wb = GR - WH, ar = PR + 1;
   switch(sMode) {
     case 0: return { x: CX, y: wb - r - 40 };
-    case 1: return { x: CX + 50, y: BM + 12 + PR + PR + 25 + pull };
-    case 2: return { x: CX + 40, y: BM + 30 + (MAX - pull) * 0.95 };
-    case 3: return { x: CX + 60, y: BM + 12 + PR + PR + 25 + pull };
+    case 1: return { x: CX + ar, y: BM + 12 + PR + PR + 25 + pull };
+    case 2: return { x: CX + ar, y: BM + 30 + (MAX - pull) * 0.95 };
+    case 3: return { x: CX + ar + 36, y: BM + 12 + PR + PR + 25 + pull };
   }
 }
 
@@ -549,11 +549,11 @@ function drawM0(wY) {
 
 // Mode 1: fixed pulley
 function drawM1(wY) {
-  const pY=BM+12+PR, lx=CX-40, rx=CX+40, h=hXY();
+  const pY=BM+12+PR, ar=PR+1, lx=CX-ar, rx=CX+ar, h=hXY();
   pulley(CX,pY,true);
   weight(lx-WW/2,wY);
   rope([[lx,wY-10],[lx,pY]]);
-  arcRope(CX,pY,PR+1,Math.PI,0,false);
+  arcRope(CX,pY,ar,Math.PI,0,false);
   rope([[rx,pY],[rx,h.y]]);
   handle(h.x,h.y);
   fArrow(h.x+24,h.y,1,loadN);
@@ -562,14 +562,13 @@ function drawM1(wY) {
 
 // Mode 2: loose pulley
 function drawM2(wY) {
-  const lpY=wY-PR-8, fx=CX-35, px=CX+35, h=hXY();
+  const lpY=wY-PR-8, ar=PR+1, fx=CX-ar, px=CX+ar, h=hXY();
   anchor(fx,BM+8);
   pulley(CX,lpY,false);
-  // Rod from pulley to weight
   ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
   weight(CX-WW/2,wY);
   rope([[fx,BM+8],[fx,lpY]]);
-  arcRope(CX,lpY,PR+1,Math.PI,0,false);
+  arcRope(CX,lpY,ar,Math.PI,0,false);
   rope([[px,lpY],[px,h.y]]);
   handle(h.x,h.y);
   fArrow(h.x+24,h.y,-1,loadN/2);
@@ -578,7 +577,7 @@ function drawM2(wY) {
 
 // Mode 3: takel
 function drawM3(wY) {
-  const fpY=BM+12+PR, lpY=wY-PR-8, ax=CX-30, ix=CX+20, ox=CX+55, h=hXY();
+  const fpY=BM+12+PR, lpY=wY-PR-8, ar=PR+1, ax=CX-ar, ox=CX+ar+36, h=hXY();
   pulley(CX,fpY,true);
   pulley(CX,lpY,false);
   ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
@@ -587,10 +586,10 @@ function drawM3(wY) {
 
   // Rope: anchor → down to loose → under loose → up to fixed → over fixed → out to handle
   rope([[ax,BM+8],[ax,lpY]]);
-  arcRope(CX,lpY,PR+1,Math.PI,0,false);
-  rope([[ix,lpY],[ix,fpY]]);
-  arcRope(CX,fpY,PR+1,0,-Math.PI*0.5,true);
-  rope([[CX,fpY-PR-1],[ox,fpY-PR-1],[ox,h.y]]);
+  arcRope(CX,lpY,ar,Math.PI,0,false);
+  rope([[CX+ar,lpY],[CX+ar,fpY]]);
+  arcRope(CX,fpY,ar,0,-Math.PI*0.5,true);
+  rope([[CX,fpY-ar],[ox,fpY-ar],[ox,h.y]]);
 
   handle(h.x,h.y);
   fArrow(h.x+24,h.y,1,loadN/2);
