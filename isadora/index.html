@@ -160,6 +160,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear
 /* Colored mini-hub borders */
 .verg-border{border-left:4px solid #A8D5BA}
 .lees-border{border-left:4px solid #C4B5DE}
+.tafel-border{border-left:4px solid #E8C8A0}
+.card-tafels{border-left:4px solid #E8C8A0}
 
 @keyframes popIn{0%{transform:scale(0.8)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
@@ -182,6 +184,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear
     <div class="exercise-card card-vergelijken" onclick="go('vergelijken')"><span class="card-emoji">⚖️</span><div class="card-text"><h2>Vergelijken</h2><p>Groter, kleiner of gelijk?</p></div></div>
     <div class="exercise-card card-aanvullen" onclick="go('aanvullen')"><span class="card-emoji">🧮</span><div class="card-text"><h2>Aanvullen</h2><p>Hoeveel moet er nog bij?</p></div></div>
     <div class="exercise-card card-lezen" onclick="go('lezen')"><span class="card-emoji">📖</span><div class="card-text"><h2>Lezen</h2><p>Lees en kies het antwoord</p></div></div>
+    <div class="exercise-card card-tafels" onclick="go('tafels')"><span class="card-emoji">🔢</span><div class="card-text"><h2>Tafels</h2><p>Vermenigvuldigen en delen</p></div></div>
   </div>
   <div class="footer">Gemaakt met 💜 door papa</div>
 </div>
@@ -258,6 +261,27 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear
   </div>
 </div>
 
+<!-- ==================== TAFELS ==================== -->
+<div class="screen" id="screen-tafels">
+  <div class="topbar">
+    <div class="home-btn" onclick="go('hub')">🏠</div>
+    <div class="go-back" id="tf-back" style="background:#FDF3E6;color:#A08050;display:none" onclick="TF.goBack()">←</div>
+    <div class="topbar-title" style="color:#A08050">🔢 Tafels</div>
+  </div>
+  <div id="tf-hub" class="mini-hub"><h2 style="color:#A08050">Kies een oefening</h2>
+    <div class="mini-card tafel-border" onclick="TF.startEx('multiply')"><span class="mini-card-emoji">⭐</span><div class="mini-card-text"><h3>Vermenigvuldigen</h3><p>Hoeveel is 3 × 4?</p></div></div>
+    <div class="mini-card tafel-border" onclick="TF.startEx('divide')"><span class="mini-card-emoji">🍰</span><div class="mini-card-text"><h3>Delen</h3><p>Hoeveel is 12 ÷ 3?</p></div></div>
+    <div class="mini-card tafel-border" onclick="TF.startEx('mix')"><span class="mini-card-emoji">🔀</span><div class="mini-card-text"><h3>Mix</h3><p>× en ÷ door elkaar!</p></div></div>
+  </div>
+  <div id="tf-ex" style="display:none">
+    <div class="stepper-area"><div class="stepper"><span class="stepper-label">Tafel van</span><button class="step-btn" id="tf-minus" onclick="TF.changeTable(-1)">−</button><div class="stepper-val" id="tf-display" style="color:#A08050">1</div><button class="step-btn" id="tf-plus" onclick="TF.changeTable(1)">+</button></div></div>
+    <div class="progress" id="tf-progress"></div>
+    <div id="tf-qarea"></div>
+    <div class="options" id="tf-options"></div>
+    <div class="celebration" id="tf-celeb"><span class="celeb-emoji" id="tf-cE"></span><h2 id="tf-cT" style="color:#A08050"></h2><p id="tf-cP"></p><button class="restart-btn" style="background:#E8C8A0;color:#5C4033" onclick="TF.start()">🔄 Nog een keer!</button><div class="back-to-hub-link" onclick="TF.goBack()">← Andere oefening kiezen</div></div>
+  </div>
+</div>
+
 <script>
 // ===== NAVIGATION =====
 function go(screen){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+screen).classList.add('active');if(screen==='splitsen')SP.start();if(screen==='reeksen')RK.start();if(screen==='aanvullen')AV.start();}
@@ -278,7 +302,7 @@ const SP={max:10,cur:0,sc:0,ans:0,done:false,T:10,
   updateUI(){document.getElementById('sp-display').textContent=this.max;document.getElementById('sp-minus').classList.toggle('disabled',this.max<=3);document.getElementById('sp-plus').classList.toggle('disabled',this.max>=20);},
   start(){this.cur=0;this.sc=0;this.done=false;this.updateUI();document.getElementById('sp-celeb').classList.remove('show');document.getElementById('sp-area').style.display='block';buildProgress('sp-progress',this.T);this.next();},
   next(){if(this.cur>=this.T){document.getElementById('sp-area').style.display='none';celebrate('sp-cE','sp-cT','sp-cP',this.sc,this.T);document.getElementById('sp-celeb').classList.add('show');return;}this.done=false;
-    const t=2+Math.floor(Math.random()*(this.max-1)),g=1+Math.floor(Math.random()*(t-1));this.ans=t-g;const left=Math.random()<0.5;
+    const t=3+Math.floor(Math.random()*(this.max-2)),g=1+Math.floor(Math.random()*(t-1));this.ans=t-g;const left=Math.random()<0.5;
     const lq=left?'?':g,rq=left?g:'?',lIsQ=lq==='?',rIsQ=rq==='?';
     document.getElementById('sp-svg').innerHTML=`<circle cx="106" cy="32" r="28" fill="#B8A9D4" opacity="0.2" stroke="#B8A9D4" stroke-width="2.5"/><text x="106" y="41" text-anchor="middle" font-size="30" font-weight="bold" fill="#6B4F7A" font-family="system-ui">${t}</text><path d="M85 54Q62 85,52 105" stroke="#D4C4A8" stroke-width="2.5" fill="none"/><path d="M127 54Q150 85,160 105" stroke="#D4C4A8" stroke-width="2.5" fill="none"/><circle cx="52" cy="128" r="26" fill="${lIsQ?'#F2D98B':'#A8D5BA'}" opacity="0.2" stroke="${lIsQ?'#F2D98B':'#A8D5BA'}" stroke-width="2.5"/><text x="52" y="137" text-anchor="middle" font-size="28" font-weight="bold" fill="${lIsQ?'#A08830':'#5A7A60'}" font-family="system-ui">${lq}</text><circle cx="160" cy="128" r="26" fill="${rIsQ?'#F2D98B':'#A8D5BA'}" opacity="0.2" stroke="${rIsQ?'#F2D98B':'#A8D5BA'}" stroke-width="2.5"/><text x="160" y="137" text-anchor="middle" font-size="28" font-weight="bold" fill="${rIsQ?'#A08830':'#5A7A60'}" font-family="system-ui">${rq}</text>`;
     let o=new Set([this.ans]),a=0;while(o.size<4&&a<50){let d=this.ans+(Math.random()<0.5?1:-1)*(1+Math.floor(Math.random()*2));if(d>=0&&d<=t&&d!==this.ans)o.add(d);a++;}for(let i=0;o.size<4&&i<=t;i++)if(i!==this.ans)o.add(i);
@@ -419,7 +443,72 @@ const LZ={mode:'',cur:0,sc:0,done:false,roundQs:[],T:10,view:'hub',storyIdx:-1,s
     back.style.display='block';document.getElementById('lz-celeb').classList.add('show');},
   esc(s){return s.replace(/'/g,"\\'");}
 };
+
+// ===== TAFELS =====
+const TF={mode:'',table:1,cur:0,sc:0,ans:0,done:false,T:10,view:'hub',
+  // Generate pool of questions for a given table and mode
+  genPool(tbl,mode){
+    const pool=[];
+    for(let i=1;i<=10;i++){
+      if(mode==='multiply'||mode==='mix'){
+        pool.push({q:tbl+' × '+i+' = ?',a:tbl*i,type:'m'});
+        pool.push({q:i+' × '+tbl+' = ?',a:tbl*i,type:'m'});
+        pool.push({q:'? × '+i+' = '+(tbl*i),a:tbl,type:'m'});
+        pool.push({q:tbl+' × ? = '+(tbl*i),a:i,type:'m'});
+      }
+      if(mode==='divide'||mode==='mix'){
+        pool.push({q:(tbl*i)+' ÷ '+tbl+' = ?',a:i,type:'d'});
+        pool.push({q:(tbl*i)+' ÷ '+i+' = ?',a:tbl,type:'d'});
+        pool.push({q:(tbl*i)+' ÷ ? = '+i,a:tbl,type:'d'});
+      }
+    }
+    return pool;
+  },
+  // Generate smart distractors
+  genDistr(correct,tbl){
+    let w=new Set(),at=0;
+    while(w.size<3&&at<60){
+      let d;
+      const r=Math.random();
+      if(r<0.25) d=correct+tbl; // next in table
+      else if(r<0.5) d=correct-tbl; // prev in table
+      else if(r<0.65) d=correct+1; // off by one
+      else if(r<0.8) d=correct-1;
+      else if(r<0.9) d=correct+Math.floor(Math.random()*5)+2; // random nearby
+      else d=correct-Math.floor(Math.random()*5)-2;
+      if(d>0&&d!==correct) w.add(d);
+      at++;
+    }
+    // Fallback
+    for(let i=1;w.size<3;i++){if(correct+i!==correct)w.add(correct+i);if(w.size<3&&correct-i>0)w.add(correct-i);}
+    return [...w].slice(0,3);
+  },
+  goBack(){this.showHub();},
+  showHub(){document.getElementById('tf-hub').style.display='block';document.getElementById('tf-ex').style.display='none';document.getElementById('tf-back').style.display='none';this.view='hub';},
+  startEx(m){this.mode=m;document.getElementById('tf-hub').style.display='none';document.getElementById('tf-ex').style.display='block';document.getElementById('tf-back').style.display='flex';this.view='ex';this.start();},
+  changeTable(d){const n=this.table+d;if(n<1||n>12)return;this.table=n;this.updateUI();this.start();},
+  updateUI(){document.getElementById('tf-display').textContent=this.table;document.getElementById('tf-minus').classList.toggle('disabled',this.table<=1);document.getElementById('tf-plus').classList.toggle('disabled',this.table>=12);},
+  start(){this.cur=0;this.sc=0;this.done=false;this.updateUI();
+    document.getElementById('tf-celeb').classList.remove('show');
+    document.getElementById('tf-qarea').style.display='block';
+    document.getElementById('tf-options').style.display='grid';
+    // Build pool and pick 10
+    const pool=this.genPool(this.table,this.mode);
+    this.roundQs=shuffle(pool).slice(0,this.T);
+    buildProgress('tf-progress',this.T);this.next();},
+  next(){if(this.cur>=this.T){document.getElementById('tf-qarea').style.display='none';document.getElementById('tf-options').style.display='none';celebrate('tf-cE','tf-cT','tf-cP',this.sc,this.T);document.getElementById('tf-celeb').classList.add('show');return;}
+    this.done=false;
+    const q=this.roundQs[this.cur];this.ans=q.a;
+    document.getElementById('tf-qarea').innerHTML=`<div class="question-card"><div class="q-label">${this.mode==='mix'?'× en ÷ door elkaar!':this.mode==='multiply'?'Vermenigvuldigen':'Delen'}</div><div class="q-nums">${q.q.replace('?','<span class="unknown">?</span>')}</div></div>`;
+    const distr=this.genDistr(this.ans,this.table);
+    const opts=shuffle([this.ans,...distr]);
+    const c=document.getElementById('tf-options');c.innerHTML='';
+    opts.forEach(v=>{const b=document.createElement('button');b.className='option-btn';b.textContent=v;b.onclick=()=>this.check(v,b);c.appendChild(b);});},
+  check(v,btn){if(this.done)return;this.done=true;const all=document.querySelectorAll('#tf-options .option-btn');
+    if(v===this.ans){btn.classList.add('correct');this.sc++;markDot('tf-progress',this.cur,true);}
+    else{btn.classList.add('wrong');markDot('tf-progress',this.cur,false);all.forEach(b=>{if(+b.textContent===this.ans)b.classList.add('correct');});}
+    disableAll('#tf-options .option-btn');this.cur++;setTimeout(()=>this.next(),900);}
+};
 </script>
 </body>
 </html>
-
