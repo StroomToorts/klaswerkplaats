@@ -372,12 +372,24 @@ function switchTab(tabId) {
   document.getElementById('tab-' + tabId).classList.add('active');
   event.target.classList.add('active');
   document.getElementById('quizScore').classList.toggle('show', tabId === 'quiz' && quizAnswered > 0);
-  if (tabId === 'katrollen') requestAnimationFrame(() => updatePulley());
+  if (tabId === 'katrollen') requestAnimationFrame(() => { updatePulley(); startPulleyAnim(); });
   if (tabId === 'tandwielen') requestAnimationFrame(() => { updateGears(); startGearAnimation(); });
 }
 
 // ==================== PULLEY SIMULATOR ====================
 let pulleyMode = 'none';
+let pulleyFrame = 0;
+let pulleyAnimId = null;
+
+function startPulleyAnim() {
+  if (pulleyAnimId) return;
+  function animate() {
+    pulleyFrame++;
+    updatePulley();
+    pulleyAnimId = requestAnimationFrame(animate);
+  }
+  animate();
+}
 
 function setPulleyMode(mode) {
   pulleyMode = mode;
@@ -438,7 +450,6 @@ function drawPulley(weight, force, ropeMultiplier) {
   const pulleyR = 22;
 
   if (pulleyMode === 'none') {
-    // Simple rope
     ctx.strokeStyle = '#8B7355';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -446,15 +457,13 @@ function drawPulley(weight, force, ropeMultiplier) {
     ctx.lineTo(cx, h * 0.65);
     ctx.stroke();
     drawWeight(ctx, cx, h * 0.65, weight);
-    // Person pulling up
     drawArrow(ctx, cx, h * 0.3, cx, h * 0.12, '#C2704E');
     drawLabel(ctx, cx + 40, h * 0.2, force + ' N ↑', '#C2704E');
     drawLabel(ctx, cx, h * 0.9, 'Touw: ×' + ropeMultiplier, '#5C4033');
+    drawRopeDots(ctx, [{x:cx,y:h*0.65},{x:cx,y:h*0.12}]);
   }
   else if (pulleyMode === 'fixed') {
-    // Fixed pulley at top
     drawPulleyWheel(ctx, cx, 40, pulleyR);
-    // Rope: weight up to pulley, then down to puller
     ctx.strokeStyle = '#8B7355';
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -472,34 +481,28 @@ function drawPulley(weight, force, ropeMultiplier) {
     drawArrow(ctx, cx + 60, h * 0.55, cx + 60, h * 0.75, '#C2704E');
     drawLabel(ctx, cx + 100, h * 0.65, force + ' N ↓', '#C2704E');
     drawLabel(ctx, cx, h * 0.9, 'Richting veranderd!', '#5C4033');
+    drawRopeDots(ctx, [{x:cx-5,y:h*0.6},{x:cx-5,y:40},{x:cx+pulleyR-8,y:40},{x:cx+60,y:h*0.75}]);
   }
   else if (pulleyMode === 'movable') {
-    // Fixed point at top left
     ctx.fillStyle = '#8B7355';
     ctx.beginPath();
     ctx.arc(cx - 60, 22, 6, 0, Math.PI * 2);
     ctx.fill();
-    // Movable pulley at middle
     const py = h * 0.45;
     drawPulleyWheel(ctx, cx, py, pulleyR);
-    // Rope
     ctx.strokeStyle = '#8B7355';
     ctx.lineWidth = 3;
-    // Left rope: fixed point down to left side of pulley
     ctx.beginPath();
     ctx.moveTo(cx - 60, 22);
     ctx.lineTo(cx - pulleyR + 5, py);
     ctx.stroke();
-    // Under pulley
     ctx.beginPath();
     ctx.arc(cx, py, pulleyR - 3, Math.PI, 0, true);
     ctx.stroke();
-    // Right rope: right side of pulley up to puller
     ctx.beginPath();
     ctx.moveTo(cx + pulleyR - 5, py);
     ctx.lineTo(cx + 70, h * 0.12);
     ctx.stroke();
-    // Weight hangs from pulley
     ctx.beginPath();
     ctx.moveTo(cx, py + pulleyR);
     ctx.lineTo(cx, py + pulleyR + 30);
@@ -509,19 +512,16 @@ function drawPulley(weight, force, ropeMultiplier) {
     drawLabel(ctx, cx + 110, h * 0.2, force + ' N ↑', '#C2704E');
     drawLabel(ctx, cx - 80, py, '2 touwdelen', '#6A9BB5');
     drawLabel(ctx, cx, h * 0.9, 'Kracht ÷ 2 | Touw × 2', '#5C4033');
+    drawRopeDots(ctx, [{x:cx-60,y:22},{x:cx-pulleyR+5,y:py},{x:cx+pulleyR-5,y:py},{x:cx+70,y:h*0.12}]);
   }
   else if (pulleyMode === 'block') {
-    // Two fixed pulleys at top, two movable at bottom
     const topY = 40;
     const botY = h * 0.48;
     const sp = 50;
-    // Fixed pulleys
     drawPulleyWheel(ctx, cx - sp, topY, pulleyR * 0.8);
     drawPulleyWheel(ctx, cx + sp, topY, pulleyR * 0.8);
-    // Movable pulleys
     drawPulleyWheel(ctx, cx - sp, botY, pulleyR * 0.8);
     drawPulleyWheel(ctx, cx + sp, botY, pulleyR * 0.8);
-    // Simplified rope representation with 4 vertical segments
     ctx.strokeStyle = '#8B7355';
     ctx.lineWidth = 2.5;
     const offsets = [-sp - 10, -sp + 10, sp - 10, sp + 10];
@@ -531,12 +531,10 @@ function drawPulley(weight, force, ropeMultiplier) {
       ctx.lineTo(cx + off, botY - 8);
       ctx.stroke();
     });
-    // Pull rope
     ctx.beginPath();
     ctx.moveTo(cx + sp + 18, topY);
     ctx.lineTo(cx + sp + 60, h * 0.7);
     ctx.stroke();
-    // Weight
     ctx.beginPath();
     ctx.moveTo(cx, botY + pulleyR * 0.8 + 5);
     ctx.lineTo(cx, botY + pulleyR * 0.8 + 30);
@@ -546,6 +544,39 @@ function drawPulley(weight, force, ropeMultiplier) {
     drawLabel(ctx, cx + sp + 100, h * 0.62, force + ' N ↓', '#C2704E');
     drawLabel(ctx, cx - sp - 50, (topY + botY) / 2, '4 touwdelen', '#6A9BB5');
     drawLabel(ctx, cx, h * 0.92, 'Kracht ÷ 4 | Touw × 4', '#5C4033');
+    // Animate each of the 4 rope segments
+    offsets.forEach((off,i) => {
+      drawRopeDots(ctx, [{x:cx+off,y:topY+8},{x:cx+off,y:botY-8}], i*5);
+    });
+    drawRopeDots(ctx, [{x:cx+sp+18,y:topY},{x:cx+sp+60,y:h*0.7}], 10);
+  }
+}
+
+function drawRopeDots(ctx, points, offset) {
+  offset = offset || 0;
+  ctx.fillStyle = 'rgba(212,168,67,0.75)';
+  let cumLen = 0;
+  const segs = [];
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i-1].x, dy = points[i].y - points[i-1].y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    cumLen += len;
+    segs.push({ len: cumLen });
+  }
+  const totalLen = cumLen;
+  const spacing = 25;
+  const phase = ((pulleyFrame + offset) * 1.2) % spacing;
+  for (let d = phase; d < totalLen; d += spacing) {
+    let seg = 0;
+    while (seg < segs.length - 1 && d > segs[seg].len) seg++;
+    const prevLen = seg > 0 ? segs[seg-1].len : 0;
+    const segLen = segs[seg].len - prevLen;
+    const t = segLen > 0 ? (d - prevLen) / segLen : 0;
+    const px = points[seg].x + (points[seg+1].x - points[seg].x) * t;
+    const py = points[seg].y + (points[seg+1].y - points[seg].y) * t;
+    ctx.beginPath();
+    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.fill();
   }
 }
 
@@ -558,6 +589,17 @@ function drawPulleyWheel(ctx, x, y, r) {
   ctx.beginPath();
   ctx.arc(x, y, r * 0.55, 0, Math.PI * 2);
   ctx.fill();
+  // Spinning spokes
+  ctx.strokeStyle = 'rgba(139,115,85,0.4)';
+  ctx.lineWidth = 2;
+  const spokeAngle = pulleyFrame * 0.04;
+  for (let i = 0; i < 4; i++) {
+    const a = spokeAngle + (i / 4) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(x + Math.cos(a) * r * 0.2, y + Math.sin(a) * r * 0.2);
+    ctx.lineTo(x + Math.cos(a) * r * 0.85, y + Math.sin(a) * r * 0.85);
+    ctx.stroke();
+  }
   ctx.fillStyle = '#8B7355';
   ctx.beginPath();
   ctx.arc(x, y, r * 0.15, 0, Math.PI * 2);
