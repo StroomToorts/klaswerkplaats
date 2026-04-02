@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elektriciteit — Fysica</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F2E8;--warm-white:#FFFDF7;--terracotta:#C2704E;--terracotta-light:#D4916F;--ochre:#D4A843;--olive:#7A8B6F;--warm-brown:#5C4033;--dark-brown:#3D2B1F;--sand:#E8DCC8;--sand-light:#F0E8D8;--parchment:#F5EDE0;--rust:#B7553D;--sage:#A8B89A;--dusty-rose:#C9A0A0;--sky-blue:#6A9BB5;--vak-color:#B07A4B;--vak-light:#C99A6B;--vak-bg:rgba(176,122,75,.08);--correct-green:#6B9E6B;--wrong-red:#C25E4E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Vollkorn',Georgia,serif;color:var(--dark-brown);background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);min-height:100vh;line-height:1.65}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.container{max-width:860px;margin:0 auto;padding:24px 20px 40px;position:relative;z-index:1}
+.breadcrumb{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:20px;opacity:.75}
+.breadcrumb a{color:var(--warm-brown);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.exercise-header{display:flex;align-items:center;gap:16px;margin-bottom:12px;animation:fadeSlideUp .5s ease-out}
+.exercise-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--vak-color),var(--vak-light));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 3px 10px rgba(176,122,75,.25)}
+.exercise-title{font-family:'Vollkorn',serif;font-size:26px;font-weight:700;color:var(--dark-brown);line-height:1.2}
+.exercise-date{font-family:'Caveat',cursive;color:var(--vak-color);font-size:18px;margin-bottom:16px}
+.exercise-intro{font-family:'Source Sans 3',sans-serif;color:var(--warm-brown);font-size:15px;margin-bottom:24px;line-height:1.5}
+.tab-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;background:var(--sand-light);padding:5px;border-radius:14px}
+.tab-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border:none;border-radius:10px;background:transparent;color:var(--warm-brown);cursor:pointer;transition:all .25s;white-space:nowrap}
+.tab-btn:hover{background:rgba(176,122,75,.1)}
+.tab-btn.active{background:white;color:var(--vak-color);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tab-content{display:none;animation:fadeSlideUp .35s ease-out}.tab-content.active{display:block}
+.theory-card{background:var(--warm-white);border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.theory-card h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+.theory-card h4{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;color:var(--warm-brown);margin:14px 0 6px}
+.theory-card p,.theory-card li{font-size:16px;margin-bottom:8px;line-height:1.7}
+.theory-card ul{padding-left:20px}
+.attention-box{background:linear-gradient(135deg,rgba(176,122,75,.1),rgba(212,168,67,.08));border-left:4px solid var(--vak-color);border-radius:0 12px 12px 0;padding:16px 18px;margin:16px 0;font-size:15px}
+.attention-box strong{color:var(--vak-color)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.compare-card{background:var(--warm-white);border-radius:14px;padding:16px;border:2px solid var(--sand);text-align:center}
+.compare-card h4{font-family:'Caveat',cursive;font-size:19px;color:var(--vak-color);margin-bottom:6px}
+.compare-card p{font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);line-height:1.5;margin-bottom:4px}
+.safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.safety-item{background:rgba(183,85,61,.06);border-radius:12px;padding:14px;border:1px solid rgba(183,85,61,.15);font-size:14px;line-height:1.5}
+.safety-item strong{color:var(--rust)}
+
+.sim-wrapper{background:var(--warm-white);border-radius:18px;padding:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:20px}
+.sim-wrapper h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+canvas#circuitSim{width:100%;height:400px;border-radius:12px;background:linear-gradient(180deg,#f0ead8,#e8dcc8);touch-action:none;cursor:pointer}
+.sim-mode-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.sim-mode-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border:2px solid var(--sand);border-radius:10px;background:var(--warm-white);color:var(--warm-brown);cursor:pointer;transition:all .2s}
+.sim-mode-btn:hover{border-color:var(--vak-color)}.sim-mode-btn.active{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color);font-weight:600}
+.sim-info{background:var(--sand-light);border-radius:12px;padding:14px 16px;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.6}
+.sim-info .hl{color:var(--vak-color);font-weight:600}
+.sim-buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.sim-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;border:2px solid var(--sand);border-radius:10px;background:var(--warm-white);color:var(--warm-brown);cursor:pointer;transition:all .2s}
+.sim-btn:hover{border-color:var(--vak-color);background:var(--vak-bg)}
+.sim-btn.on{border-color:var(--correct-green);background:rgba(107,158,107,.1);color:var(--correct-green)}
+
+.quiz-card{background:var(--warm-white);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--sand);box-shadow:0 2px 10px rgba(0,0,0,.04);transition:border-color .3s}
+.quiz-card.correct{border-color:var(--correct-green)}.quiz-card.incorrect{border-color:var(--wrong-red)}
+.quiz-number{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--vak-color);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.quiz-question{font-size:16px;font-weight:600;margin-bottom:4px;line-height:1.5}
+.quiz-options{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-option{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 18px;border:2px solid var(--sand);border-radius:25px;background:var(--warm-white);color:var(--dark-brown);cursor:pointer;transition:all .2s}
+.quiz-option:hover:not(.disabled){border-color:var(--vak-color);background:var(--vak-bg)}
+.quiz-option.selected-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.selected-wrong{border-color:var(--wrong-red);background:rgba(194,94,78,.1);color:var(--wrong-red);text-decoration:line-through}
+.quiz-option.show-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.disabled{cursor:default;opacity:.7}
+.quiz-feedback{font-family:'Source Sans 3',sans-serif;font-size:14px;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.correct-fb{background:rgba(107,158,107,.1);color:var(--correct-green)}
+.quiz-feedback.incorrect-fb{background:rgba(194,94,78,.08);color:var(--wrong-red)}
+.score-bar{background:var(--sand-light);border-radius:12px;padding:12px 18px;margin-bottom:20px;display:none;align-items:center;gap:14px;font-family:'Source Sans 3',sans-serif}
+.score-bar.show{display:flex}
+.score-text{font-weight:600;font-size:15px;color:var(--dark-brown);white-space:nowrap}
+.progress-bar-container{flex:1;height:10px;background:var(--sand);border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--vak-color),var(--ochre));border-radius:5px;transition:width .4s ease;width:0%}
+.reset-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;padding:5px 12px;border:1px solid var(--sand);border-radius:8px;background:white;color:var(--warm-brown);cursor:pointer}.reset-btn:hover{border-color:var(--vak-color)}
+.celebration{display:none;text-align:center;padding:24px;background:linear-gradient(135deg,rgba(176,122,75,.08),rgba(212,168,67,.06));border-radius:16px;margin-top:20px;animation:pop .4s ease-out}
+.celebration.show{display:block}.celebration .emoji{font-size:48px;margin-bottom:8px}
+.celebration .message{font-family:'Caveat',cursive;font-size:24px;color:var(--vak-color)}
+.action-buttons{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.action-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:10px 22px;border-radius:12px;border:1px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);text-decoration:none;cursor:pointer;transition:all .2s}
+.action-btn:hover{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.print-only{display:none}
+@media print{
+  .no-print{display:none!important}body{background:white!important;font-size:11pt}body::before{display:none}
+  .print-only{display:block!important}.container{padding:0;max-width:100%}.exercise-icon{display:none}
+  .theory-card,.quiz-card,.sim-wrapper{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+  .score-bar,.celebration{display:none!important}
+  .tab-content{display:block!important;margin-bottom:20px}
+  .tab-content::before{content:attr(data-print-title);display:block;font-family:'Caveat',cursive;font-size:22pt;color:var(--vak-color);margin-bottom:10px}
+  .tab-content:not(:first-of-type)::before{page-break-before:always}
+  canvas{display:none!important}.sim-mode-btns,.sim-info,.sim-buttons{display:none!important}
+  .quiz-option{border:1px solid #ccc}
+  .quiz-option.selected-correct,.quiz-option.selected-wrong,.quiz-option.show-correct{border-color:#ccc!important;background:white!important;color:var(--dark-brown)!important;text-decoration:none!important;font-weight:500!important}
+  .quiz-feedback{display:none!important}.quiz-card.correct,.quiz-card.incorrect{border-color:#ddd!important}
+  .print-answers{page-break-before:always}
+}
+@media(max-width:600px){
+  .container{padding:14px}.exercise-title{font-size:22px}
+  .exercise-icon{width:44px;height:44px;font-size:22px}.tab-btn{font-size:13px;padding:7px 12px}
+  .quiz-options{flex-direction:column}.quiz-option{width:100%;text-align:center}
+  canvas#circuitSim{height:320px}.compare-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <nav class="breadcrumb no-print"><a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Elektriciteit</nav>
+  <div class="exercise-header">
+    <div class="exercise-icon no-print">⚙️</div>
+    <div class="exercise-title">Elektriciteit</div>
+  </div>
+  <div class="exercise-date">Fysica — Elektriciteit</div>
+  <div class="exercise-intro">
+    Elektriciteit is overal: lampen, telefoons, koelkasten. Maar hoe werkt het? Wat is een stroomkring, en waarom gaan thuis niet alle lichten uit als er één lamp stukgaat?
+  </div>
+
+  <div class="tab-bar no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('simulatie')">🔌 Stroomkring</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
+  </div>
+
+  <div class="score-bar no-print" id="quizScore">
+    <span class="score-text" id="quizScoreText">Score: 0/0</span>
+    <div class="progress-bar-container"><div class="progress-bar" id="quizProgress"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+  </div>
+
+  <!-- ============ TAB 1: THEORIE ============ -->
+  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Elektriciteit">
+
+    <div class="theory-card">
+      <h3>De stroomkring</h3>
+      <p>Elektrische stroom kan alleen lopen in een <strong>gesloten stroomkring</strong>. Zo'n stroomkring bestaat uit minstens drie onderdelen:</p>
+      <ul>
+        <li><strong>Een energiebron</strong> — zoals een batterij, met een pluspool (+) en een minpool (−).</li>
+        <li><strong>Draden</strong> — om de stroom te geleiden.</li>
+        <li><strong>Een verbruiker</strong> — zoals een lamp, die de elektrische energie omzet in licht of warmte.</li>
+      </ul>
+      <p>Vaak zit er ook een <strong>schakelaar</strong> in. Als de schakelaar open staat, is de kring onderbroken en stopt de stroom. Als de schakelaar gesloten is, loopt de stroom en brandt de lamp.</p>
+      <div class="attention-box">
+        <strong>💡 Hoe werkt een gloeilamp?</strong> In de lamp zit een heel dun draadje (gloeidraad). Wanneer er stroom doorheen loopt, wordt het zo warm dat het begint te gloeien. Dat gloeiende draadje geeft het licht!
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>Serie- en parallelschakeling</h3>
+      <p>Onderdelen in een stroomkring kunnen op twee manieren worden aangesloten:</p>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <h4>Serieschakeling</h4>
+          <svg viewBox="0 0 240 100" style="width:100%;max-width:260px;margin:10px auto;display:block">
+            <!-- Wires -->
+            <path d="M30,30 L80,30" stroke="#A09080" stroke-width="3" fill="none"/>
+            <path d="M100,30 L140,30" stroke="#A09080" stroke-width="3" fill="none"/>
+            <path d="M160,30 L210,30 L210,70 L30,70 L30,30" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <!-- Battery -->
+            <rect x="10" y="20" width="22" height="20" rx="3" fill="#5E6D53"/>
+            <text x="21" y="34" text-anchor="middle" fill="white" font-size="9" font-family="Source Sans 3,sans-serif" font-weight="700">+ −</text>
+            <!-- Lamp 1 -->
+            <circle cx="90" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
+            <text x="90" y="34" text-anchor="middle" font-size="13">💡</text>
+            <!-- Lamp 2 -->
+            <circle cx="150" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
+            <text x="150" y="34" text-anchor="middle" font-size="13">💡</text>
+            <!-- Arrow -->
+            <polygon points="120,70 126,66 126,74" fill="#A09080"/>
+            <text x="120" y="90" text-anchor="middle" fill="#A09080" font-size="9" font-family="Source Sans 3,sans-serif">één pad</text>
+          </svg>
+          <p>Lampen staan <strong>achter elkaar</strong>.</p>
+          <p>Er is maar <strong>één pad</strong> voor de stroom.</p>
+          <p style="color:var(--wrong-red);font-weight:600">Eén lamp stuk → allemaal uit!</p>
+        </div>
+        <div class="compare-card">
+          <h4>Parallelschakeling</h4>
+          <svg viewBox="0 0 240 120" style="width:100%;max-width:260px;margin:10px auto;display:block">
+            <!-- Main wires -->
+            <path d="M30,60 L60,60" stroke="#A09080" stroke-width="3" fill="none"/>
+            <!-- Split -->
+            <path d="M60,60 L60,30 L90,30" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <path d="M60,60 L60,90 L90,90" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <!-- Branch 1 -->
+            <path d="M110,30 L170,30" stroke="#A09080" stroke-width="3" fill="none"/>
+            <!-- Branch 2 -->
+            <path d="M110,90 L170,90" stroke="#A09080" stroke-width="3" fill="none"/>
+            <!-- Merge -->
+            <path d="M170,30 L170,60" stroke="#A09080" stroke-width="3" fill="none"/>
+            <path d="M170,90 L170,60" stroke="#A09080" stroke-width="3" fill="none"/>
+            <!-- Return -->
+            <path d="M170,60 L210,60 L210,110 L30,110 L30,60" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
+            <!-- Battery -->
+            <rect x="10" y="50" width="22" height="20" rx="3" fill="#5E6D53"/>
+            <text x="21" y="64" text-anchor="middle" fill="white" font-size="9" font-family="Source Sans 3,sans-serif" font-weight="700">+ −</text>
+            <!-- Lamp 1 -->
+            <circle cx="100" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
+            <text x="100" y="34" text-anchor="middle" font-size="13">💡</text>
+            <!-- Lamp 2 -->
+            <circle cx="100" cy="90" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
+            <text x="100" y="94" text-anchor="middle" font-size="13">💡</text>
+            <!-- Junction dots -->
+            <circle cx="60" cy="60" r="3.5" fill="#A09080"/>
+            <circle cx="170" cy="60" r="3.5" fill="#A09080"/>
+            <!-- Labels -->
+            <text x="100" y="14" text-anchor="middle" fill="#6A9BB5" font-size="8" font-family="Source Sans 3,sans-serif">pad 1</text>
+            <text x="100" y="108" text-anchor="middle" fill="#6A9BB5" font-size="8" font-family="Source Sans 3,sans-serif">pad 2</text>
+          </svg>
+          <p>Lampen staan <strong>naast elkaar</strong>.</p>
+          <p>De stroom heeft <strong>meerdere paden</strong>.</p>
+          <p style="color:var(--correct-green);font-weight:600">Eén lamp stuk → de rest brandt door!</p>
+        </div>
+      </div>
+      <p>In huis gebruiken we <strong>parallelschakelingen</strong>. Daarom gaat niet alles uit als er één lamp stukgaat.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Wat kan elektriciteit?</h3>
+      <p>Elektrische stroom kan energie omzetten in verschillende vormen:</p>
+      <ul>
+        <li><strong>Licht</strong> — zoals bij een lamp of led.</li>
+        <li><strong>Warmte</strong> — zoals bij een broodrooster, haardroger of elektrische kachel.</li>
+        <li><strong>Beweging</strong> — via een <strong>elektromotor</strong>. Stroom door een spoel maakt een magnetisch veld. Dat veld duwt tegen een magneet en laat iets draaien. Zo werken ventilatoren, mixers en elektrische auto's.</li>
+        <li><strong>Detectie</strong> — zoals bij een rookmelder of bewegingssensor.</li>
+      </ul>
+    </div>
+
+    <div class="theory-card">
+      <h3>De elektromotor</h3>
+      <p>Een elektromotor zet <strong>elektrische energie om in beweging</strong>. Hoe?</p>
+      <p>Wanneer er stroom door een spoel (opgerolde draad) loopt, ontstaat er een magnetisch veld. Dit veld duwt of trekt tegen een permanente magneet in de motor. Daardoor begint de spoel te draaien. Die draaibeweging drijft het apparaat aan.</p>
+      <p>Elektromotoren zitten in heel veel alledaagse toestellen: een ventilator, een wasmachine, een mixer, een elektrische tandenborstel en zelfs een elektrische auto.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Veiligheid</h3>
+      <p>Elektriciteit is ontzettend nuttig, maar ook gevaarlijk als je er niet voorzichtig mee omgaat.</p>
+      <div class="safety-grid">
+        <div class="safety-item">
+          <strong>⚠️ Overbelasting</strong><br>
+          Te veel toestellen op één stopcontact → draden worden warm → brandgevaar!
+        </div>
+        <div class="safety-item">
+          <strong>⚡ Elektrocutie</strong><br>
+          Een elektrische schok door je lichaam. Kan heel gevaarlijk zijn!
+        </div>
+        <div class="safety-item">
+          <strong>🚫 Natte handen</strong><br>
+          Raak nooit elektrische toestellen of stopcontacten aan met natte handen.
+        </div>
+        <div class="safety-item">
+          <strong>🔌 Kapotte kabels</strong><br>
+          Raak nooit blote draden aan en steek niets in een stopcontact.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 2: SIMULATIE ============ -->
+  <div class="tab-content" id="tab-simulatie" data-print-title="🔌 Stroomkring-simulator">
+    <div class="sim-wrapper">
+      <h3>Stroomkring bouwen</h3>
+      <p style="font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:14px;">
+        Bekijk het verschil tussen een serie- en een parallelschakeling. Klik op de schakelaar om de stroom aan/uit te zetten. Klik op een lamp om die "stuk" te maken!
+      </p>
+
+      <div class="sim-mode-btns">
+        <button class="sim-mode-btn active" onclick="setCircuitMode('serie')">Serieschakeling</button>
+        <button class="sim-mode-btn" onclick="setCircuitMode('parallel')">Parallelschakeling</button>
+      </div>
+
+      <canvas id="circuitSim" width="800" height="400"></canvas>
+
+      <div class="sim-buttons">
+        <button class="sim-btn" id="switchBtn" onclick="toggleSwitch()">🔌 Schakelaar: UIT</button>
+        <button class="sim-btn" onclick="resetCircuit()">🔄 Herstel lampen</button>
+      </div>
+
+      <div class="sim-info" id="circuitInfo">
+        <strong>Serieschakeling</strong> — De lampen staan achter elkaar. Er is maar één pad voor de stroom. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten, en klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 3: QUIZ ============ -->
+  <div class="tab-content" id="tab-quiz" data-print-title="📝 Quiz: Elektriciteit">
+    <div id="quizContainer"></div>
+    <div class="celebration no-print" id="quizCelebration">
+      <div class="emoji" id="quizEmoji"></div>
+      <div class="message" id="quizMessage"></div>
+    </div>
+  </div>
+
+  <div class="print-only print-answers">
+    <h2 style="font-family:'Caveat',cursive;font-size:26pt;color:var(--vak-color);margin-bottom:16px;">Oplossingen</h2>
+    <div id="printQuizAnswers"></div>
+  </div>
+
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+</div>
+
+<script>
+// ==================== TABS ====================
+function switchTab(tabId){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+  document.getElementById('quizScore').classList.toggle('show',tabId==='quiz'&&quizAnswered>0);
+  if(tabId==='simulatie') requestAnimationFrame(drawCircuit);
+}
+
+// ==================== CIRCUIT SIMULATOR ====================
+let circuitMode='serie';
+let switchOn=false;
+let lamps=[{broken:false},{broken:false}];
+let animFrame=0;
+let circuitAnimId=null;
+
+function setCircuitMode(mode){
+  circuitMode=mode;
+  document.querySelectorAll('.sim-mode-btns .sim-mode-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  resetCircuit();
+  updateCircuitInfo();
+}
+
+function toggleSwitch(){
+  switchOn=!switchOn;
+  const btn=document.getElementById('switchBtn');
+  btn.textContent=switchOn?'🔌 Schakelaar: AAN':'🔌 Schakelaar: UIT';
+  btn.classList.toggle('on',switchOn);
+  if(switchOn&&!circuitAnimId) startCircuitAnim();
+  drawCircuit();
+  updateCircuitInfo();
+}
+
+function resetCircuit(){
+  lamps=[{broken:false},{broken:false}];
+  drawCircuit();
+  updateCircuitInfo();
+}
+
+function startCircuitAnim(){
+  function animate(){
+    animFrame++;
+    drawCircuit();
+    circuitAnimId=requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+function updateCircuitInfo(){
+  const info=document.getElementById('circuitInfo');
+  const anyBroken=lamps.some(l=>l.broken);
+  const allWork=!anyBroken;
+  if(circuitMode==='serie'){
+    if(!switchOn) info.innerHTML='<strong>Serieschakeling</strong> — Schakelaar staat uit. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten.';
+    else if(anyBroken) info.innerHTML='<strong>Serieschakeling</strong> — Een lamp is stuk! In een serieschakeling stopt de stroom <span class="hl">helemaal</span> als één lamp stukgaat. Alle lampen gaan uit, want er is maar één pad.';
+    else info.innerHTML='<strong>Serieschakeling</strong> — Beide lampen branden! Klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.';
+  } else {
+    if(!switchOn) info.innerHTML='<strong>Parallelschakeling</strong> — Schakelaar staat uit. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten.';
+    else if(anyBroken && !lamps.every(l=>l.broken)) info.innerHTML='<strong>Parallelschakeling</strong> — Een lamp is stuk, maar de andere <span class="hl">brandt gewoon door</span>! De stroom kan via het andere pad lopen. Daarom gebruiken we thuis parallelschakelingen.';
+    else if(lamps.every(l=>l.broken)) info.innerHTML='<strong>Parallelschakeling</strong> — Beide lampen zijn stuk. Klik <span class="hl">Herstel lampen</span> om opnieuw te beginnen.';
+    else info.innerHTML='<strong>Parallelschakeling</strong> — Beide lampen branden! Klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.';
+  }
+}
+
+function drawCircuit(){
+  const c=document.getElementById('circuitSim');
+  if(!c.clientWidth||!c.clientHeight) return;
+  const dpr=window.devicePixelRatio||1;
+  c.width=c.clientWidth*dpr;c.height=c.clientHeight*dpr;
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+  const w=c.clientWidth,h=c.clientHeight;
+  ctx.clearRect(0,0,w,h);
+
+  // Determine which lamps are lit
+  let lampsLit;
+  if(!switchOn){
+    lampsLit=[false,false];
+  } else if(circuitMode==='serie'){
+    const anyBroken=lamps.some(l=>l.broken);
+    lampsLit=[!anyBroken,!anyBroken];
+  } else {
+    lampsLit=[!lamps[0].broken,!lamps[1].broken];
+  }
+
+  const currentFlowing=switchOn&&lampsLit.some(l=>l);
+
+  if(circuitMode==='serie') drawSerieCircuit(ctx,w,h,lampsLit,currentFlowing);
+  else drawParallelCircuit(ctx,w,h,lampsLit,currentFlowing);
+}
+
+function drawSerieCircuit(ctx,w,h,lampsLit,currentFlowing){
+  const cx=w/2,cy=h/2;
+  const bw=70,bh=36; // battery
+  const wireColor=currentFlowing?'#8B6B45':'#A09080';
+  const wireWidth=currentFlowing?3:2.5;
+
+  // Circuit path: battery(left) -> top wire -> lamp1(top) -> middle wire -> lamp2(right) -> bottom wire -> switch(bottom) -> back to battery
+  const bx=60,by=cy; // battery position
+  const l1x=cx,l1y=70; // lamp 1
+  const l2x=cx,l2y=h-70; // lamp 2
+  const sx=w-80,sy=cy; // switch
+
+  // Draw wires
+  ctx.strokeStyle=wireColor;ctx.lineWidth=wireWidth;ctx.lineCap='round';ctx.lineJoin='round';
+
+  // Battery top → lamp 1
+  ctx.beginPath();ctx.moveTo(bx,by-bh/2);ctx.lineTo(bx,l1y);ctx.lineTo(l1x-25,l1y);ctx.stroke();
+  // Lamp 1 → right side → lamp 2
+  ctx.beginPath();ctx.moveTo(l1x+25,l1y);ctx.lineTo(sx,l1y);ctx.lineTo(sx,sy-20);ctx.stroke();
+  // Switch → lamp 2
+  ctx.beginPath();ctx.moveTo(sx,sy+20);ctx.lineTo(sx,l2y);ctx.lineTo(l2x+25,l2y);ctx.stroke();
+  // Lamp 2 → battery bottom
+  ctx.beginPath();ctx.moveTo(l2x-25,l2y);ctx.lineTo(bx,l2y);ctx.lineTo(bx,by+bh/2);ctx.stroke();
+
+  // Animated current dots
+  if(currentFlowing){
+    drawCurrentDots(ctx,[{x:bx,y:by-bh/2},{x:bx,y:l1y},{x:l1x,y:l1y},{x:sx,y:l1y},{x:sx,y:l2y},{x:l2x,y:l2y},{x:bx,y:l2y},{x:bx,y:by+bh/2}]);
+  }
+
+  // Battery
+  drawBattery(ctx,bx,by,bh);
+  // Lamps
+  drawLamp(ctx,l1x,l1y,lampsLit[0],lamps[0].broken,0);
+  drawLamp(ctx,l2x,l2y,lampsLit[1],lamps[1].broken,1);
+  // Switch
+  drawSwitch(ctx,sx,sy);
+
+  // Labels
+  ctx.fillStyle='#5C4033';ctx.font='12px Source Sans 3, sans-serif';ctx.textAlign='center';
+  ctx.fillText('Lamp 1',l1x,l1y+38);
+  ctx.fillText('Lamp 2',l2x,l2y-34);
+  ctx.fillText('SERIESCHAKELING',cx,h-12);
+}
+
+function drawParallelCircuit(ctx,w,h,lampsLit,currentFlowing){
+  const cx=w/2,cy=h/2;
+  const wireColor=currentFlowing?'#8B6B45':'#A09080';
+  const wireWidth=currentFlowing?3:2.5;
+
+  // Layout: Battery left → split → two branches with lamps → merge → switch → return to battery
+  const bx=50,by=cy; // battery
+  const splitX=bx+70; // where branches split
+  const mergeX=w-130; // where branches merge
+  const l1y=cy-55, l2y=cy+55; // lamp positions
+  const l1x=cx, l2x=cx;
+  const sx=w-65,sy=cy; // switch (in main return line)
+  const returnY=h-40; // return wire at bottom
+
+  ctx.strokeStyle=wireColor;ctx.lineWidth=wireWidth;ctx.lineCap='round';ctx.lineJoin='round';
+
+  // Battery+ → right to split junction
+  ctx.beginPath();ctx.moveTo(bx+18,by);ctx.lineTo(splitX,by);ctx.stroke();
+  // Split junction → up to branch 1
+  ctx.beginPath();ctx.moveTo(splitX,by);ctx.lineTo(splitX,l1y);ctx.lineTo(l1x-25,l1y);ctx.stroke();
+  // Split junction → down to branch 2
+  ctx.beginPath();ctx.moveTo(splitX,by);ctx.lineTo(splitX,l2y);ctx.lineTo(l2x-25,l2y);ctx.stroke();
+  // Branch 1 → merge junction
+  ctx.beginPath();ctx.moveTo(l1x+25,l1y);ctx.lineTo(mergeX,l1y);ctx.lineTo(mergeX,by);ctx.stroke();
+  // Branch 2 → merge junction
+  ctx.beginPath();ctx.moveTo(l2x+25,l2y);ctx.lineTo(mergeX,l2y);ctx.lineTo(mergeX,by);ctx.stroke();
+  // Merge → switch (horizontal)
+  ctx.beginPath();ctx.moveTo(mergeX,by);ctx.lineTo(sx-20,by);ctx.stroke();
+  // Switch → down to return wire → left to battery-
+  ctx.beginPath();ctx.moveTo(sx+20,by);ctx.lineTo(w-30,by);ctx.lineTo(w-30,returnY);ctx.lineTo(bx,returnY);ctx.lineTo(bx,by+18);ctx.stroke();
+
+  // Junction dots
+  ctx.fillStyle=wireColor;
+  ctx.beginPath();ctx.arc(splitX,by,4,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(mergeX,by,4,0,Math.PI*2);ctx.fill();
+
+  // Current dots for flowing branches
+  if(currentFlowing){
+    if(lampsLit[0]) drawCurrentDots(ctx,[{x:splitX,y:by},{x:splitX,y:l1y},{x:l1x,y:l1y},{x:mergeX,y:l1y},{x:mergeX,y:by}]);
+    if(lampsLit[1]) drawCurrentDots(ctx,[{x:splitX,y:by},{x:splitX,y:l2y},{x:l2x,y:l2y},{x:mergeX,y:l2y},{x:mergeX,y:by}]);
+    // Main line dots
+    drawCurrentDots(ctx,[{x:mergeX,y:by},{x:sx,y:by},{x:w-30,y:by},{x:w-30,y:returnY},{x:bx,y:returnY},{x:bx,y:by}]);
+  }
+
+  drawBattery(ctx,bx,by,36);
+  drawLamp(ctx,l1x,l1y,lampsLit[0],lamps[0].broken,0);
+  drawLamp(ctx,l2x,l2y,lampsLit[1],lamps[1].broken,1);
+  // Switch is now horizontal
+  drawSwitchH(ctx,sx,by);
+
+  ctx.fillStyle='#5C4033';ctx.font='12px Source Sans 3, sans-serif';ctx.textAlign='center';
+  ctx.fillText('Lamp 1',l1x,l1y+36);
+  ctx.fillText('Lamp 2',l2x,l2y+36);
+  ctx.fillText('PARALLELSCHAKELING',cx,h-12);
+}
+
+function drawCurrentDots(ctx,points){
+  ctx.fillStyle='rgba(212,168,67,0.7)';
+  const totalLen=[];
+  let cumLen=0;
+  for(let i=1;i<points.length;i++){
+    const dx=points[i].x-points[i-1].x,dy=points[i].y-points[i-1].y;
+    cumLen+=Math.sqrt(dx*dx+dy*dy);
+    totalLen.push(cumLen);
+  }
+  const spacing=30;
+  const offset=(animFrame*1.5)%spacing;
+  for(let d=offset;d<cumLen;d+=spacing){
+    let seg=0;
+    while(seg<totalLen.length-1&&d>totalLen[seg]) seg++;
+    const prevLen=seg>0?totalLen[seg-1]:0;
+    const segLen=totalLen[seg]-prevLen;
+    const t=segLen>0?(d-prevLen)/segLen:0;
+    const px=points[seg].x+(points[seg+1].x-points[seg].x)*t;
+    const py=points[seg].y+(points[seg+1].y-points[seg].y)*t;
+    ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+  }
+}
+
+function drawBattery(ctx,x,y,bh){
+  const bw=30;
+  // Body
+  ctx.fillStyle='#5C4033';
+  ctx.fillRect(x-bw/2,y-bh/2,bw,bh);
+  // Plus terminal (top)
+  ctx.fillStyle='#C2704E';
+  ctx.fillRect(x-bw/2-3,y-bh/2-6,bw+6,8);
+  // Minus terminal (bottom)
+  ctx.fillStyle='#4A7B99';
+  ctx.fillRect(x-bw/2+4,y+bh/2-2,bw-8,6);
+  // Labels
+  ctx.fillStyle='white';ctx.font='bold 13px Source Sans 3, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('+',x,y-bh/2+8);
+  ctx.fillText('−',x,y+bh/2-8);
+  // Label
+  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';
+  ctx.fillText('Batterij',x,y+bh/2+16);
+}
+
+function drawLamp(ctx,x,y,lit,broken,idx){
+  const r=20;
+  // Glow
+  if(lit&&!broken){
+    const grad=ctx.createRadialGradient(x,y,r*0.3,x,y,r*2.5);
+    grad.addColorStop(0,'rgba(255,230,130,0.5)');
+    grad.addColorStop(1,'rgba(255,230,130,0)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.arc(x,y,r*2.5,0,Math.PI*2);ctx.fill();
+  }
+  // Bulb
+  ctx.fillStyle=lit&&!broken?'#FFE882':broken?'#D0C0B0':'#E8DCC8';
+  ctx.strokeStyle=broken?'#C25E4E':'rgba(92,64,51,0.3)';
+  ctx.lineWidth=broken?2.5:1.5;
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // Filament
+  if(!broken){
+    ctx.strokeStyle=lit?'#D4A843':'#A09080';
+    ctx.lineWidth=lit?2:1.5;
+    ctx.beginPath();
+    ctx.moveTo(x-8,y+6);ctx.lineTo(x-4,y-6);ctx.lineTo(x,y+4);ctx.lineTo(x+4,y-6);ctx.lineTo(x+8,y+6);
+    ctx.stroke();
+  } else {
+    // X mark
+    ctx.strokeStyle='#C25E4E';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(x-8,y-8);ctx.lineTo(x+8,y+8);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x+8,y-8);ctx.lineTo(x-8,y+8);ctx.stroke();
+  }
+  // Store hitbox
+  lamps[idx].x=x;lamps[idx].y=y;lamps[idx].r=r;
+}
+
+function drawSwitch(ctx,x,y){
+  const sw=16;
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=3;
+  // Top contact
+  ctx.fillStyle='#8B6B45';
+  ctx.beginPath();ctx.arc(x,y-sw,4,0,Math.PI*2);ctx.fill();
+  // Bottom contact
+  ctx.beginPath();ctx.arc(x,y+sw,4,0,Math.PI*2);ctx.fill();
+  // Switch arm
+  if(switchOn){
+    ctx.strokeStyle='#6B9E6B';
+    ctx.beginPath();ctx.moveTo(x,y-sw);ctx.lineTo(x,y+sw);ctx.stroke();
+  } else {
+    ctx.strokeStyle='#C25E4E';
+    ctx.beginPath();ctx.moveTo(x,y+sw);ctx.lineTo(x+20,y-sw+5);ctx.stroke();
+  }
+  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
+  ctx.fillText(switchOn?'AAN':'UIT',x,y+sw+16);
+}
+
+// Horizontal switch for parallel circuit
+function drawSwitchH(ctx,x,y){
+  const sw=18;
+  ctx.fillStyle='#8B6B45';
+  ctx.beginPath();ctx.arc(x-sw,y,4,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(x+sw,y,4,0,Math.PI*2);ctx.fill();
+  if(switchOn){
+    ctx.strokeStyle='#6B9E6B';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(x-sw,y);ctx.lineTo(x+sw,y);ctx.stroke();
+  } else {
+    ctx.strokeStyle='#C25E4E';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(x-sw,y);ctx.lineTo(x+sw-5,y-18);ctx.stroke();
+  }
+  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
+  ctx.fillText(switchOn?'AAN':'UIT',x,y+22);
+}
+
+// Canvas click handler
+document.getElementById('circuitSim').addEventListener('click',function(e){
+  const rect=this.getBoundingClientRect();
+  const mx=(e.clientX-rect.left)*(this.width/(rect.width*(window.devicePixelRatio||1)));
+  const my=(e.clientY-rect.top)*(this.height/(rect.height*(window.devicePixelRatio||1)));
+  // Check lamp clicks
+  lamps.forEach((l,i)=>{
+    if(l.x&&!l.broken){
+      const dx=mx-l.x,dy=my-l.y;
+      if(dx*dx+dy*dy<(l.r+10)*(l.r+10)){
+        l.broken=true;
+        drawCircuit();
+        updateCircuitInfo();
+      }
+    }
+  });
+});
+
+// ==================== QUIZ ====================
+const quizData=[
+  {q:'Wat heb je minstens nodig voor een werkende stroomkring?',options:['Alleen een batterij','Een batterij, draden en een verbruiker','Alleen draden en een lamp','Een schakelaar en een lamp'],correct:1,explanation:'Een stroomkring heeft minstens een energiebron (batterij), geleiders (draden) en een verbruiker (lamp) nodig.'},
+  {q:'Wat gebeurt er als de schakelaar open staat?',options:['De lamp brandt feller','De stroom stopt en de lamp gaat uit','De batterij laadt op','De draad wordt warm'],correct:1,explanation:'Een open schakelaar onderbreekt de stroomkring. Er kan geen stroom lopen, dus de lamp gaat uit.'},
+  {q:'In een serieschakeling gaat lamp 1 stuk. Wat gebeurt er?',options:['Alleen lamp 1 gaat uit','Alle lampen gaan uit','De andere lampen branden feller','Er verandert niets'],correct:1,explanation:'In een serieschakeling is er maar één pad voor de stroom. Als dat pad onderbroken wordt, stopt alle stroom en gaan alle lampen uit.'},
+  {q:'In een parallelschakeling gaat lamp 1 stuk. Wat gebeurt er?',options:['Alle lampen gaan uit','Alleen lamp 1 gaat uit, de rest brandt door','De batterij ontploft','De andere lampen gaan knipperen'],correct:1,explanation:'In een parallelschakeling heeft de stroom meerdere paden. Als één pad onderbroken wordt, loopt de stroom gewoon door de andere paden.'},
+  {q:'Waarom gebruiken we thuis parallelschakelingen?',options:['Omdat ze goedkoper zijn','Zodat niet alles uitvalt als één apparaat stukgaat','Omdat ze mooier zijn','Omdat serieschakelingen verboden zijn'],correct:1,explanation:'Met parallelschakelingen werkt elk apparaat onafhankelijk. Als er één lamp stukgaat, werkt de rest gewoon door.'},
+  {q:'Hoe maakt een gloeilamp licht?',options:['Door een chemische reactie','Door een dun draadje zo warm te maken dat het gloeit','Door een magneet te laten draaien','Door lucht te verwarmen'],correct:1,explanation:'Stroom loopt door een heel dun draadje (gloeidraad) in de lamp. Het draadje wordt zo heet dat het gaat gloeien en licht geeft.'},
+  {q:'Wat doet een elektromotor?',options:['Maakt elektriciteit van licht','Zet elektrische energie om in beweging','Slaat elektriciteit op','Maakt geluid van stroom'],correct:1,explanation:'Een elektromotor gebruikt stroom om een magnetisch veld te maken. Dat veld duwt tegen een magneet en zorgt voor een draaibeweging.'},
+  {q:'In welk apparaat zit GEEN elektromotor?',options:['Ventilator','Wasmachine','Gloeilamp','Mixer'],correct:2,explanation:'Een gloeilamp zet stroom om in licht en warmte, niet in beweging. Er zit geen motor in. Een ventilator, wasmachine en mixer hebben wél een motor.'},
+  {q:'Wat is overbelasting?',options:['Als de batterij leeg is','Als er te veel toestellen op één stopcontact staan','Als de lamp te fel brandt','Als de schakelaar kapot is'],correct:1,explanation:'Overbelasting ontstaat als te veel apparaten op één stopcontact of groep zijn aangesloten. De draden worden dan te warm, wat brandgevaar oplevert.'},
+  {q:'Waarom mag je geen natte handen hebben bij stopcontacten?',options:['Omdat water elektriciteit goed geleidt en je een schok kunt krijgen','Omdat het stopcontact kan roesten','Omdat de stekker uit je handen glijdt','Omdat water de lamp kan doven'],correct:0,explanation:'Water geleidt elektriciteit. Met natte handen kan de stroom via het water door je lichaam lopen. Dat kan een gevaarlijke elektrische schok geven.'},
+  {q:'Welke omzetting vindt plaats in een broodrooster?',options:['Elektrische energie → licht','Elektrische energie → warmte','Elektrische energie → beweging','Elektrische energie → geluid'],correct:1,explanation:'Een broodrooster zet elektrische energie om in warmte. De verwarmingselementen worden gloeiend heet en roosteren het brood.'},
+  {q:'De stroom in een stroomkring loopt van:',options:['Minpool naar pluspool','Pluspool, door de verbruiker, terug naar de minpool','De lamp naar de batterij','De schakelaar naar de draad'],correct:1,explanation:'De stroom loopt van de pluspool (+) van de batterij, door de draden en de verbruiker (lamp), en terug naar de minpool (−). Dat is de stroomrichting.'}
+];
+
+let quizAnswered=0,quizCorrect=0;
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function buildQuiz(){
+  const c=document.getElementById('quizContainer');let ph='';c.innerHTML='';
+  quizData.forEach((item,idx)=>{
+    const opts=item.options.map((o,i)=>({text:o,origIdx:i}));
+    const sh=shuffle(opts);const ci=sh.findIndex(o=>o.origIdx===item.correct);
+    const card=document.createElement('div');card.className='quiz-card';card.id='quiz-'+idx;
+    let h=`<div class="quiz-number">Vraag ${idx+1} / ${quizData.length}</div>`;
+    h+=`<div class="quiz-question">${item.q}</div><div class="quiz-options">`;
+    sh.forEach((o,oi)=>{h+=`<button class="quiz-option" onclick="answerQuiz(${idx},${oi},${ci})">${o.text}</button>`;});
+    h+=`</div><div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
+    card.innerHTML=h;c.appendChild(card);
+    ph+=`<p style="margin:4px 0"><strong>${idx+1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+  document.getElementById('printQuizAnswers').innerHTML=ph;
+}
+
+function answerQuiz(ci,oi,corr){
+  const card=document.getElementById('quiz-'+ci);
+  if(card.classList.contains('correct')||card.classList.contains('incorrect'))return;
+  const opts=card.querySelectorAll('.quiz-option');opts.forEach(o=>o.classList.add('disabled'));
+  const fb=document.getElementById('quiz-fb-'+ci);quizAnswered++;
+  if(oi===corr){quizCorrect++;opts[oi].classList.add('selected-correct');card.classList.add('correct');fb.className='quiz-feedback show correct-fb';fb.textContent=['✓ Correct!','✓ Juist!','✓ Goed zo!','✓ Uitstekend!'][Math.floor(Math.random()*4)]+' '+quizData[ci].explanation;}
+  else{opts[oi].classList.add('selected-wrong');opts[corr].classList.add('show-correct');card.classList.add('incorrect');fb.className='quiz-feedback show incorrect-fb';fb.textContent='✗ '+quizData[ci].explanation;}
+  updateQuizScore();
+}
+
+function updateQuizScore(){
+  document.getElementById('quizScore').classList.add('show');
+  document.getElementById('quizScoreText').textContent=`Score: ${quizCorrect}/${quizAnswered}`;
+  document.getElementById('quizProgress').style.width=(quizCorrect/quizData.length*100)+'%';
+  if(quizAnswered===quizData.length){
+    const pct=quizCorrect/quizData.length*100;let e,m;
+    if(pct===100){e='🌟';m='Alles juist — fantastisch!';}
+    else if(pct>=80){e='🎉';m='Heel goed! Bijna alles juist.';}
+    else if(pct>=60){e='💪';m='Goed bezig! Bekijk de fouten nog eens.';}
+    else{e='📚';m='Bekijk de theorie nog eens en probeer opnieuw!';}
+    document.getElementById('quizEmoji').textContent=e;
+    document.getElementById('quizMessage').textContent=m;
+    document.getElementById('quizCelebration').classList.add('show');
+  }
+}
+
+function resetQuiz(){quizAnswered=0;quizCorrect=0;document.getElementById('quizScore').classList.remove('show');document.getElementById('quizCelebration').classList.remove('show');buildQuiz();}
+
+// ==================== INIT ====================
+buildQuiz();
+startCircuitAnim();
+window.addEventListener('resize',drawCircuit);
+</script>
+</body>
+</html>

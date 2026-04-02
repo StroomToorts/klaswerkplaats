@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warmte &amp; Uitzetting — Fysica</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8; --warm-white: #FFFDF7; --terracotta: #C2704E; --terracotta-light: #D4916F;
+  --ochre: #D4A843; --olive: #7A8B6F; --olive-dark: #5E6D53; --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F; --sand: #E8DCC8; --sand-light: #F0E8D8; --parchment: #F5EDE0;
+  --rust: #B7553D; --sage: #A8B89A; --dusty-rose: #C9A0A0; --sky-blue: #6A9BB5;
+  --vak-color: #B07A4B; --vak-light: #C99A6B; --vak-bg: rgba(176,122,75,0.08);
+  --correct-green: #6B9E6B; --wrong-red: #C25E4E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Vollkorn',Georgia,serif;color:var(--dark-brown);background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);min-height:100vh;line-height:1.65}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.container{max-width:860px;margin:0 auto;padding:24px 20px 40px;position:relative;z-index:1}
+.breadcrumb{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:20px;opacity:0.75}
+.breadcrumb a{color:var(--warm-brown);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.exercise-header{display:flex;align-items:center;gap:16px;margin-bottom:12px;animation:fadeSlideUp .5s ease-out}
+.exercise-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--vak-color),var(--vak-light));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 3px 10px rgba(176,122,75,.25)}
+.exercise-title{font-family:'Vollkorn',serif;font-size:26px;font-weight:700;color:var(--dark-brown);line-height:1.2}
+.exercise-date{font-family:'Caveat',cursive;color:var(--vak-color);font-size:18px;margin-bottom:16px}
+.exercise-intro{font-family:'Source Sans 3',sans-serif;color:var(--warm-brown);font-size:15px;margin-bottom:24px;line-height:1.5}
+.tab-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;background:var(--sand-light);padding:5px;border-radius:14px}
+.tab-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border:none;border-radius:10px;background:transparent;color:var(--warm-brown);cursor:pointer;transition:all .25s;white-space:nowrap}
+.tab-btn:hover{background:rgba(176,122,75,.1)}
+.tab-btn.active{background:white;color:var(--vak-color);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tab-content{display:none;animation:fadeSlideUp .35s ease-out}
+.tab-content.active{display:block}
+.theory-card{background:var(--warm-white);border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.theory-card h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+.theory-card h4{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;color:var(--warm-brown);margin:14px 0 6px}
+.theory-card p,.theory-card li{font-size:16px;margin-bottom:8px;line-height:1.7}
+.theory-card ul{padding-left:20px}
+.attention-box{background:linear-gradient(135deg,rgba(176,122,75,.1),rgba(212,168,67,.08));border-left:4px solid var(--vak-color);border-radius:0 12px 12px 0;padding:16px 18px;margin:16px 0;font-size:15px}
+.attention-box strong{color:var(--vak-color)}
+
+/* Experiment cards */
+.experiment-card{background:var(--warm-white);border-radius:18px;padding:22px;margin-bottom:18px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.experiment-card h3{font-family:'Caveat',cursive;font-size:20px;color:var(--vak-color);margin-bottom:10px}
+.exp-section{margin:10px 0;padding:10px 14px;border-radius:10px;font-size:15px;line-height:1.65}
+.exp-section.observe{background:rgba(106,155,181,.08);border-left:3px solid var(--sky-blue)}
+.exp-section.conclude{background:rgba(176,122,75,.08);border-left:3px solid var(--vak-color)}
+.exp-label{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.exp-label.obs{color:var(--sky-blue)}
+.exp-label.conc{color:var(--vak-color)}
+
+/* Sim */
+.sim-wrapper{background:var(--warm-white);border-radius:18px;padding:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:20px}
+.sim-wrapper h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+canvas#particleSim{width:100%;height:380px;border-radius:12px;background:linear-gradient(180deg,#f0ead8,#e8dcc8);touch-action:none}
+.sim-controls{margin-top:14px}
+.sim-controls label{font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.sim-controls input[type="range"]{flex:1;accent-color:var(--vak-color)}
+.sim-controls .val{font-weight:600;min-width:55px;text-align:right;color:var(--dark-brown)}
+.temp-display{text-align:center;margin:12px 0 6px;font-family:'Caveat',cursive;font-size:32px;font-weight:700}
+.temp-cold{color:var(--sky-blue)}
+.temp-warm{color:var(--ochre)}
+.temp-hot{color:var(--terracotta)}
+.sim-info{background:var(--sand-light);border-radius:12px;padding:14px 16px;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.6}
+.sim-info .hl{color:var(--vak-color);font-weight:600}
+
+/* Quiz */
+.quiz-card{background:var(--warm-white);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--sand);box-shadow:0 2px 10px rgba(0,0,0,.04);transition:border-color .3s}
+.quiz-card.correct{border-color:var(--correct-green)}
+.quiz-card.incorrect{border-color:var(--wrong-red)}
+.quiz-number{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--vak-color);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.quiz-question{font-size:16px;font-weight:600;margin-bottom:4px;line-height:1.5}
+.quiz-context{font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);margin-bottom:12px;font-style:italic}
+.quiz-options{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-option{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 18px;border:2px solid var(--sand);border-radius:25px;background:var(--warm-white);color:var(--dark-brown);cursor:pointer;transition:all .2s}
+.quiz-option:hover:not(.disabled){border-color:var(--vak-color);background:var(--vak-bg)}
+.quiz-option.selected-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.selected-wrong{border-color:var(--wrong-red);background:rgba(194,94,78,.1);color:var(--wrong-red);text-decoration:line-through}
+.quiz-option.show-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.disabled{cursor:default;opacity:.7}
+.quiz-feedback{font-family:'Source Sans 3',sans-serif;font-size:14px;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.correct-fb{background:rgba(107,158,107,.1);color:var(--correct-green)}
+.quiz-feedback.incorrect-fb{background:rgba(194,94,78,.08);color:var(--wrong-red)}
+
+.score-bar{background:var(--sand-light);border-radius:12px;padding:12px 18px;margin-bottom:20px;display:none;align-items:center;gap:14px;font-family:'Source Sans 3',sans-serif;animation:fadeSlideUp .3s ease-out}
+.score-bar.show{display:flex}
+.score-text{font-weight:600;font-size:15px;color:var(--dark-brown);white-space:nowrap}
+.progress-bar-container{flex:1;height:10px;background:var(--sand);border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--vak-color),var(--ochre));border-radius:5px;transition:width .4s ease;width:0%}
+.reset-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;padding:5px 12px;border:1px solid var(--sand);border-radius:8px;background:white;color:var(--warm-brown);cursor:pointer}
+.reset-btn:hover{border-color:var(--vak-color)}
+.celebration{display:none;text-align:center;padding:24px;background:linear-gradient(135deg,rgba(176,122,75,.08),rgba(212,168,67,.06));border-radius:16px;margin-top:20px;animation:pop .4s ease-out}
+.celebration.show{display:block}
+.celebration .emoji{font-size:48px;margin-bottom:8px}
+.celebration .message{font-family:'Caveat',cursive;font-size:24px;color:var(--vak-color)}
+.action-buttons{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.action-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:10px 22px;border-radius:12px;border:1px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);text-decoration:none;cursor:pointer;transition:all .2s}
+.action-btn:hover{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color)}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.print-only{display:none}
+@media print{
+  .no-print{display:none!important}body{background:white!important;font-size:11pt}body::before{display:none}
+  .print-only{display:block!important}.container{padding:0;max-width:100%}.exercise-icon{display:none}
+  .theory-card,.experiment-card,.quiz-card,.sim-wrapper{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+  .score-bar,.progress-bar-container,.celebration{display:none!important}
+  .tab-content{display:block!important;margin-bottom:20px}
+  .tab-content::before{content:attr(data-print-title);display:block;font-family:'Caveat',cursive;font-size:22pt;color:var(--vak-color);margin-bottom:10px}
+  .tab-content:not(:first-of-type)::before{page-break-before:always}
+  canvas{display:none!important}.sim-controls,.sim-info,.temp-display{display:none!important}
+  .quiz-option{border:1px solid #ccc}
+  .quiz-option.selected-correct,.quiz-option.selected-wrong,.quiz-option.show-correct{border-color:#ccc!important;background:white!important;color:var(--dark-brown)!important;text-decoration:none!important;font-weight:500!important}
+  .quiz-feedback{display:none!important}.quiz-card.correct,.quiz-card.incorrect{border-color:#ddd!important}
+  .print-answers{page-break-before:always}
+}
+@media(max-width:600px){
+  .container{padding:14px}.exercise-title{font-size:22px}
+  .exercise-icon{width:44px;height:44px;font-size:22px}.tab-btn{font-size:13px;padding:7px 12px}
+  .quiz-options{flex-direction:column}.quiz-option{width:100%;text-align:center}
+  canvas#particleSim{height:300px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Warmte &amp; Uitzetting
+  </nav>
+
+  <div class="exercise-header">
+    <div class="exercise-icon no-print">⚙️</div>
+    <div class="exercise-title">Warmte &amp; Uitzetting</div>
+  </div>
+  <div class="exercise-date">Fysica — Warmteleer</div>
+  <div class="exercise-intro">
+    Wat gebeurt er met stoffen als ze warm of koud worden? Vloeistoffen, gassen en vaste stoffen gedragen zich heel anders bij verschillende temperaturen. Water doet zelfs iets heel bijzonders bij 4°C.
+  </div>
+
+  <div class="tab-bar no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('simulatie')">🌡️ Simulatie</button>
+    <button class="tab-btn" onclick="switchTab('proeven')">🧪 Proeven</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
+  </div>
+
+  <div class="score-bar no-print" id="quizScore">
+    <span class="score-text" id="quizScoreText">Score: 0/0</span>
+    <div class="progress-bar-container"><div class="progress-bar" id="quizProgress"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+  </div>
+
+  <!-- ============ TAB 1: THEORIE ============ -->
+  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Warmte &amp; Uitzetting">
+
+    <div class="theory-card">
+      <h3>Waarom zetten stoffen uit?</h3>
+      <p>Alle stoffen bestaan uit heel kleine deeltjes (moleculen) die voortdurend in beweging zijn. Hoe <strong>warmer</strong> een stof wordt, hoe <strong>sneller</strong> de deeltjes bewegen. Ze botsen harder tegen elkaar en nemen daardoor meer ruimte in.</p>
+      <p>Dat noemen we <strong>uitzetting</strong>: de stof wordt groter zonder dat er iets bijkomt. Omgekeerd: als een stof afkoelt, bewegen de deeltjes trager en <strong>krimpt</strong> de stof.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Uitzetting van vloeistoffen</h3>
+      <p>Vloeistoffen zetten uit als ze warmer worden. Je kunt dit zien aan een thermometer: het kwik of de alcohol stijgt in het buisje omdat de vloeistof meer plaats inneemt.</p>
+      <p>Niet alle vloeistoffen zetten even snel uit. Alcohol zet sneller uit dan water bij dezelfde temperatuurstijging.</p>
+
+      <div class="attention-box">
+        <strong>🌊 De anomalie van water:</strong> Water gedraagt zich heel bijzonder. Het heeft zijn <strong>kleinste volume bij 4°C</strong>. Als water warmer wordt dan 4°C zet het uit (normaal). Maar als water kouder wordt dan 4°C zet het óók uit! Dat is waarom ijs drijft op water en waarom waterleiding kan barsten bij vorst.
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>Warm water stijgt op</h3>
+      <p>Omdat warm water uitzet, wordt het <strong>lichter</strong> dan koud water (het neemt meer plaats in bij hetzelfde gewicht). Daarom stijgt warm water naar boven en zakt koud water naar beneden.</p>
+      <p>Dit principe heet <strong>convectie</strong> en verklaart waarom verwarmingen onderaan in een kamer zitten: de warme lucht stijgt vanzelf omhoog.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Uitzetting van lucht (gassen)</h3>
+      <p>Gassen zetten veel sterker uit dan vloeistoffen. Als je lucht opwarmt, bewegen de deeltjes veel sneller en nemen ze flink meer ruimte in. Omgekeerd: als lucht afkoelt, krimpt ze en neemt de <strong>luchtdruk</strong> af.</p>
+      <p>Dit verklaar waarom een ballon groter wordt in de zon en kleiner in de koelkast, en waarom een glas water naar binnen zuigt als je er een kaarsje onder uitdooft.</p>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 2: SIMULATIE ============ -->
+  <div class="tab-content" id="tab-simulatie" data-print-title="🌡️ Simulatie">
+
+    <div class="sim-wrapper">
+      <h3>Deeltjes in beweging</h3>
+      <p style="font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:14px;">
+        Bekijk hoe de deeltjes (moleculen) zich gedragen bij verschillende temperaturen. Versleep de thermometer om de temperatuur te veranderen!
+      </p>
+
+      <div class="temp-display" id="tempDisplay">20°C</div>
+      <canvas id="particleSim" width="800" height="380"></canvas>
+
+      <div class="sim-controls">
+        <label>🌡️ Temperatuur: <input type="range" id="tempSlider" min="-20" max="100" value="20" oninput="updateTemp()"> <span class="val" id="tempVal">20°C</span></label>
+      </div>
+
+      <div class="sim-info" id="simInfo">
+        Bij <span class="hl">20°C</span> bewegen de deeltjes op een gemiddelde snelheid. De vloeistof neemt een normale hoeveelheid ruimte in.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 3: PROEVEN ============ -->
+  <div class="tab-content" id="tab-proeven" data-print-title="🧪 Proeven">
+
+    <div class="experiment-card">
+      <h3>🧪 Proef A: Uitzetten van vloeistoffen</h3>
+      <p>We plaatsen buisjes met verschillende vloeistoffen in warm water en kijken wat er gebeurt.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Na een tijdje merken we dat de vloeistoffen in de buisjes omhoog beginnen te stijgen. Bij de ene vloeistof gebeurt dit wat sneller dan bij de andere.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Vloeistoffen zetten uit wanneer ze warmer worden: ze nemen meer plaats in. Verschillende vloeistoffen zetten niet evenveel uit. Water is bijzonder: het heeft zijn kleinste volume bij 4°C. Zowel boven als onder 4°C neemt het volume toe.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef B: Het omgekeerde flesje</h3>
+      <p>We plaatsen een flesje met gekleurd warm water ondersteboven in een bak met koud water.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Het gekleurde warme water stijgt uit het flesje naar boven. Het blijft geconcentreerd aan het wateroppervlak.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Warm water is lichter dan koud water (het neemt meer ruimte in bij hetzelfde gewicht). Daarom stijgt het warme gekleurde water naar boven. Wanneer het afkoelt, zakt het weer naar beneden.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef C: Uitzetten van lucht</h3>
+      <p>We houden een glazen bol met een buisje vast met onze handen. In het buisje zit een druppel vloeistof.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Na korte tijd begint het vloeistofniveau in het buisje te veranderen. De vloeistof wordt naar boven geduwd.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Lucht zet uit wanneer ze warmer wordt. Door de warmte van onze handen wordt de lucht in de bol warmer. De lucht neemt meer plaats in en duwt daardoor de vloeistof in het buisje naar boven. Zo kunnen we zien dat lucht uitzet, ook al kunnen we lucht zelf niet zien.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef D: Krimpen van lucht (de kaarsproef)</h3>
+      <p>We zetten een brandend kaarsje op een bordje met water en plaatsen er een glas overheen.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Aan de glasrand zien we luchtbelletjes ontsnappen. Het kaarsje blijft even branden, maar dooft dan. Daarna merken we dat het water uit het bordje langzaam in het glas stijgt.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Eerst wordt de lucht in het glas warm (door de vlam) en zet ze uit — de luchtbelletjes ontsnappen. Wanneer de kaars uitgaat, koelt de lucht af en krimpt ze. Daardoor wordt de luchtdruk in het glas kleiner dan de luchtdruk erbuiten. De buitenlucht duwt het water het glas in. Zo stijgt het water.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 4: QUIZ ============ -->
+  <div class="tab-content" id="tab-quiz" data-print-title="📝 Quiz: Warmte &amp; Uitzetting">
+    <div id="quizContainer"></div>
+    <div class="celebration no-print" id="quizCelebration">
+      <div class="emoji" id="quizEmoji"></div>
+      <div class="message" id="quizMessage"></div>
+    </div>
+  </div>
+
+  <div class="print-only print-answers">
+    <h2 style="font-family:'Caveat',cursive;font-size:26pt;color:var(--vak-color);margin-bottom:16px;">Oplossingen</h2>
+    <h3 style="font-family:'Caveat',cursive;font-size:20pt;color:var(--vak-color);margin:12px 0 10px;">📝 Quiz</h3>
+    <div id="printQuizAnswers"></div>
+  </div>
+
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ==================== TABS ====================
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.target.classList.add('active');
+  document.getElementById('quizScore').classList.toggle('show', tabId === 'quiz' && quizAnswered > 0);
+  if (tabId === 'simulatie') requestAnimationFrame(() => { updateTemp(); startParticles(); });
+}
+
+// ==================== PARTICLE SIMULATION ====================
+let particles = [];
+let particleAnim = null;
+const PARTICLE_COUNT = 60;
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * 0.8 + 0.1,
+      y: Math.random() * 0.5 + 0.35,
+      vx: (Math.random() - 0.5) * 2,
+      vy: (Math.random() - 0.5) * 2,
+      r: 4 + Math.random() * 3
+    });
+  }
+}
+
+function updateTemp() {
+  const temp = +document.getElementById('tempSlider').value;
+  document.getElementById('tempVal').textContent = temp + '°C';
+
+  const display = document.getElementById('tempDisplay');
+  display.textContent = temp + '°C';
+  if (temp < 5) { display.className = 'temp-display temp-cold'; }
+  else if (temp < 50) { display.className = 'temp-display temp-warm'; }
+  else { display.className = 'temp-display temp-hot'; }
+
+  // Update info text
+  const info = document.getElementById('simInfo');
+  if (temp < 0) {
+    info.innerHTML = `Bij <span class="hl">${temp}°C</span> bewegen de deeltjes heel traag. De vloeistof krimpt en neemt weinig ruimte in. Bij deze temperatuur kan water bevriezen!`;
+  } else if (temp < 20) {
+    info.innerHTML = `Bij <span class="hl">${temp}°C</span> bewegen de deeltjes langzaam. De vloeistof neemt relatief weinig ruimte in.`;
+  } else if (temp < 50) {
+    info.innerHTML = `Bij <span class="hl">${temp}°C</span> bewegen de deeltjes op een gemiddelde snelheid. De vloeistof neemt een normale hoeveelheid ruimte in.`;
+  } else if (temp < 80) {
+    info.innerHTML = `Bij <span class="hl">${temp}°C</span> bewegen de deeltjes snel! De vloeistof zet flink uit en neemt meer ruimte in.`;
+  } else {
+    info.innerHTML = `Bij <span class="hl">${temp}°C</span> bewegen de deeltjes heel snel en hevig! De vloeistof is sterk uitgezet. Nog warmer en het wordt stoom!`;
+  }
+}
+
+function startParticles() {
+  if (particleAnim) return;
+  function animate() {
+    drawParticles();
+    particleAnim = requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+function drawParticles() {
+  const c = document.getElementById('particleSim');
+  if (!c.clientWidth || !c.clientHeight) return;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = c.clientWidth * dpr;
+  c.height = c.clientHeight * dpr;
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const w = c.clientWidth, h = c.clientHeight;
+
+  const temp = +document.getElementById('tempSlider').value;
+  const speed = 0.3 + (temp + 20) / 120 * 4; // speed scales with temperature
+  const fluidLevel = 0.55 - (temp + 20) / 240 * 0.3; // fluid rises with temp
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Draw container (beaker)
+  const bx = w * 0.25, by = h * 0.12, bw = w * 0.5, bh = h * 0.78;
+  ctx.strokeStyle = 'rgba(92,64,51,0.3)';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(bx, by);
+  ctx.lineTo(bx, by + bh);
+  ctx.lineTo(bx + bw, by + bh);
+  ctx.lineTo(bx + bw, by);
+  ctx.stroke();
+
+  // Fluid fill
+  const fluidTop = by + bh * fluidLevel;
+  const gradient = ctx.createLinearGradient(0, fluidTop, 0, by + bh);
+  if (temp < 5) {
+    gradient.addColorStop(0, 'rgba(106,155,181,0.25)');
+    gradient.addColorStop(1, 'rgba(106,155,181,0.4)');
+  } else if (temp < 50) {
+    gradient.addColorStop(0, 'rgba(176,122,75,0.2)');
+    gradient.addColorStop(1, 'rgba(176,122,75,0.35)');
+  } else {
+    gradient.addColorStop(0, 'rgba(194,112,78,0.25)');
+    gradient.addColorStop(1, 'rgba(194,112,78,0.45)');
+  }
+  ctx.fillStyle = gradient;
+  ctx.fillRect(bx + 2, fluidTop, bw - 4, by + bh - fluidTop - 2);
+
+  // Level indicator
+  ctx.strokeStyle = var_color();
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(bx - 15, fluidTop);
+  ctx.lineTo(bx + bw + 15, fluidTop);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = var_color();
+  ctx.font = '12px Source Sans 3, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('vloeistofniveau', bx + bw + 18, fluidTop + 4);
+
+  // Thermometer on right
+  const tx = bx + bw + 55, ty = by + 20, th = bh - 40;
+  // Tube
+  ctx.fillStyle = '#e8dcc8';
+  roundRect(ctx, tx - 6, ty, 12, th, 6);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(92,64,51,0.3)';
+  ctx.lineWidth = 1.5;
+  roundRect(ctx, tx - 6, ty, 12, th, 6);
+  ctx.stroke();
+  // Mercury
+  const mercuryH = th * ((temp + 20) / 120);
+  const mercuryColor = temp < 5 ? '#6A9BB5' : temp < 50 ? '#D4A843' : '#C2704E';
+  ctx.fillStyle = mercuryColor;
+  roundRect(ctx, tx - 4, ty + th - mercuryH, 8, mercuryH, 4);
+  ctx.fill();
+  // Bulb
+  ctx.fillStyle = mercuryColor;
+  ctx.beginPath();
+  ctx.arc(tx, ty + th + 10, 10, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Update and draw particles
+  particles.forEach(p => {
+    p.vx += (Math.random() - 0.5) * speed * 0.3;
+    p.vy += (Math.random() - 0.5) * speed * 0.3;
+    const maxV = speed * 1.5;
+    p.vx = Math.max(-maxV, Math.min(maxV, p.vx));
+    p.vy = Math.max(-maxV, Math.min(maxV, p.vy));
+
+    p.x += p.vx * 0.003;
+    p.y += p.vy * 0.003;
+
+    // Bounce within beaker
+    const minX = 0.26, maxX = 0.74;
+    const minY = fluidLevel + 0.01, maxY = 0.88;
+    if (p.x < minX) { p.x = minX; p.vx *= -0.8; }
+    if (p.x > maxX) { p.x = maxX; p.vx *= -0.8; }
+    if (p.y < minY) { p.y = minY; p.vy *= -0.8; }
+    if (p.y > maxY) { p.y = maxY; p.vy *= -0.8; }
+
+    const px = bx + (p.x - 0.1) / 0.8 * bw;
+    const py = by + p.y * bh;
+
+    // Color based on speed
+    const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+    const hue = Math.max(0, 220 - spd * 40);
+    ctx.fillStyle = `hsla(${hue}, 60%, 55%, 0.75)`;
+    ctx.beginPath();
+    ctx.arc(px, py, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = '#5C4033';
+  ctx.font = '13px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Beker met vloeistof', bx + bw / 2, by + bh + 20);
+}
+
+function var_color() { return '#B07A4B'; }
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+// ==================== QUIZ ====================
+const quizData = [
+  { q:'Waarom zetten stoffen uit bij hogere temperatuur?', options:['De deeltjes worden groter','De deeltjes bewegen sneller en nemen meer ruimte in','Er komen deeltjes bij','De zwaartekracht wordt minder'], correct:1, explanation:'De deeltjes zelf worden niet groter, maar ze bewegen sneller en botsen harder, waardoor ze meer ruimte innemen.' },
+  { q:'Bij welke temperatuur heeft water zijn kleinste volume?', options:['0°C','4°C','20°C','100°C'], correct:1, explanation:'Water is het meest compact (kleinste volume) bij 4°C. Zowel warmer als kouder wordt het volume groter. Dit heet de anomalie van water.' },
+  { q:'Waarom drijft ijs op water?', options:['Ijs is warmer dan water','Ijs heeft meer volume dan hetzelfde gewicht aan water','Ijs bevat luchtbellen','Ijs is harder dan water'], correct:1, explanation:'Water zet uit als het bevriest (onder 4°C). Daardoor is ijs lichter dan vloeibaar water bij dezelfde hoeveelheid.' },
+  { q:'Je houdt een glazen bol met buisje vast. De vloeistof in het buisje stijgt. Waarom?', options:['De vloeistof wordt warmer','De lucht in de bol zet uit door de warmte van je handen','Je knijpt het buisje dicht','De zwaartekracht verandert'], correct:1, explanation:'De warmte van je handen warmt de lucht in de bol op. De lucht zet uit en duwt de vloeistof in het buisje omhoog.' },
+  { q:'Bij de kaarsproef stijgt het water in het glas. Wat is de oorzaak?', options:['De kaars zuigt water aan','De lucht in het glas koelt af, krimpt, en de buitenlucht duwt water naar binnen','Het water wordt warm en stijgt op','De kaars smelt het glas'], correct:1, explanation:'Als de kaars uitgaat, koelt de lucht af en krimpt. De luchtdruk in het glas wordt lager dan erbuiten, en de buitenlucht duwt het water het glas in.' },
+  { q:'Warm water stijgt op in koud water. Waarom?', options:['Warm water is lichter (minder dicht) dan koud water','Warm water is zwaarder','Warm water heeft meer luchtbelletjes','Warm water is sneller'], correct:0, explanation:'Warm water is uitgezet en neemt meer ruimte in per kilogram. Het is dus lichter (minder dicht) en stijgt naar boven.' },
+  { q:'Welke stof zet het meest uit bij verwarming?', options:['Een vaste stof (ijzer)','Een vloeistof (water)','Een gas (lucht)','Ze zetten allemaal even veel uit'], correct:2, explanation:'Gassen zetten veel sterker uit dan vloeistoffen, en vloeistoffen meer dan vaste stoffen. De deeltjes in een gas zitten het verst uit elkaar en hebben de meeste bewegingsvrijheid.' },
+  { q:'Waarom barst een waterfles soms in de vriezer?', options:['Het plastic wordt zwak van de kou','Het water zet uit als het bevriest','De lucht in de fles ontploft','De koude krimpt het plastic'], correct:1, explanation:'Water zet uit als het bevriest (anomalie van water). Het ijs neemt meer ruimte in dan het vloeibare water, waardoor de fles kan barsten.' },
+  { q:'Een thermometer werkt op basis van:', options:['De zwaartekracht','De uitzetting van een vloeistof bij verwarming','Magnetisme','Elektriciteit'], correct:1, explanation:'In een thermometer zit een vloeistof (alcohol of kwik) die uitzet bij verwarming en krimpt bij afkoeling. De hoogte in het buisje geeft de temperatuur aan.' },
+  { q:'Waarom zitten verwarmingsradiatoren meestal onderaan in een kamer?', options:['Omdat ze dan minder opvallen','Omdat warme lucht opstijgt en zo de hele kamer verwarmt','Omdat de vloer het koudst is','Omdat ze anders te heet worden'], correct:1, explanation:'Warme lucht is lichter en stijgt op. Door de verwarming onderaan te plaatsen, stijgt de warme lucht omhoog en verdeelt zich door de hele kamer. Dit heet convectie.' },
+  { q:'Bij de kaarsproef zie je eerst luchtbelletjes ontsnappen. Waarom?', options:['De kaars blaast lucht weg','De warme lucht in het glas zet uit en een deel ontsnapt','Het water kookt','Het glas lekt'], correct:1, explanation:'De vlam verwarmt de lucht in het glas. De lucht zet uit en het glas is te klein: een deel van de lucht ontsnapt als belletjes.' },
+  { q:'Waarom wordt een ballon groter als je hem in de zon legt?', options:['De ballon smelt','De lucht in de ballon zet uit door de warmte','De zon blaast de ballon op','Er komt extra lucht bij'], correct:1, explanation:'De zon verwarmt de lucht in de ballon. De luchtdeeltjes bewegen sneller en nemen meer ruimte in. De ballon wordt groter.' }
+];
+
+let quizAnswered = 0, quizCorrect = 0;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function buildQuiz() {
+  const c = document.getElementById('quizContainer');
+  let ph = '';
+  c.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const opts = item.options.map((o,i) => ({text:o,origIdx:i}));
+    const sh = shuffle(opts);
+    const ci = sh.findIndex(o => o.origIdx === item.correct);
+    const card = document.createElement('div');
+    card.className = 'quiz-card'; card.id = 'quiz-'+idx;
+    let h = `<div class="quiz-number">Vraag ${idx+1} / ${quizData.length}</div>`;
+    h += `<div class="quiz-question">${item.q}</div>`;
+    h += `<div class="quiz-options">`;
+    sh.forEach((o,oi) => { h += `<button class="quiz-option" onclick="answerQuiz(${idx},${oi},${ci})">${o.text}</button>`; });
+    h += `</div><div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
+    card.innerHTML = h; c.appendChild(card);
+    ph += `<p style="margin:4px 0"><strong>${idx+1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+  document.getElementById('printQuizAnswers').innerHTML = ph;
+}
+
+function answerQuiz(ci,oi,corr) {
+  const card = document.getElementById('quiz-'+ci);
+  if (card.classList.contains('correct')||card.classList.contains('incorrect')) return;
+  const opts = card.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.classList.add('disabled'));
+  const fb = document.getElementById('quiz-fb-'+ci);
+  quizAnswered++;
+  if (oi===corr) {
+    quizCorrect++; opts[oi].classList.add('selected-correct'); card.classList.add('correct');
+    fb.className='quiz-feedback show correct-fb';
+    fb.textContent=['✓ Correct!','✓ Juist!','✓ Goed zo!','✓ Uitstekend!'][Math.floor(Math.random()*4)]+' '+quizData[ci].explanation;
+  } else {
+    opts[oi].classList.add('selected-wrong'); opts[corr].classList.add('show-correct');
+    card.classList.add('incorrect'); fb.className='quiz-feedback show incorrect-fb';
+    fb.textContent='✗ '+quizData[ci].explanation;
+  }
+  updateQuizScore();
+}
+
+function updateQuizScore() {
+  document.getElementById('quizScore').classList.add('show');
+  document.getElementById('quizScoreText').textContent=`Score: ${quizCorrect}/${quizAnswered}`;
+  document.getElementById('quizProgress').style.width=(quizCorrect/quizData.length*100)+'%';
+  if (quizAnswered===quizData.length) {
+    const pct=quizCorrect/quizData.length*100;
+    let e,m;
+    if(pct===100){e='🌟';m='Alles juist — fantastisch!';}
+    else if(pct>=80){e='🎉';m='Heel goed! Bijna alles juist.';}
+    else if(pct>=60){e='💪';m='Goed bezig! Bekijk de fouten nog eens.';}
+    else{e='📚';m='Bekijk de theorie nog eens en probeer opnieuw!';}
+    document.getElementById('quizEmoji').textContent=e;
+    document.getElementById('quizMessage').textContent=m;
+    document.getElementById('quizCelebration').classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  quizAnswered=0;quizCorrect=0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('quizCelebration').classList.remove('show');
+  buildQuiz();
+}
+
+// ==================== INIT ====================
+initParticles();
+buildQuiz();
+window.addEventListener('resize', () => { if(document.getElementById('tab-simulatie').classList.contains('active')) drawParticles(); });
+</script>
+</body>
+</html>

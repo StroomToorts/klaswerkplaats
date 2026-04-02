@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hefbomen — Fysica</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #B07A4B;
+  --vak-light: #C99A6B;
+  --vak-bg: rgba(176,122,75,0.08);
+  --vak-bg-medium: rgba(176,122,75,0.15);
+  --correct-green: #6B9E6B;
+  --wrong-red: #C25E4E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.75;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  animation: fadeSlideUp 0.5s ease-out;
+}
+.exercise-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-light));
+  border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(176,122,75,0.25);
+}
+.exercise-title {
+  font-family: 'Vollkorn', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+}
+.exercise-date {
+  font-family: 'Caveat', cursive;
+  color: var(--vak-color);
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.exercise-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--warm-brown);
+  font-size: 15px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+  background: var(--sand-light);
+  padding: 5px;
+  border-radius: 14px;
+}
+.tab-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+.tab-btn:hover { background: rgba(176,122,75,0.1); }
+.tab-btn.active {
+  background: white;
+  color: var(--vak-color);
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.tab-content { display: none; animation: fadeSlideUp 0.35s ease-out; }
+.tab-content.active { display: block; }
+
+/* Theory cards */
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  margin-bottom: 12px;
+}
+.theory-card h4 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--warm-brown);
+  margin: 14px 0 6px;
+}
+.theory-card p, .theory-card li {
+  font-size: 16px;
+  margin-bottom: 8px;
+  line-height: 1.7;
+}
+.theory-card ul { padding-left: 20px; }
+
+.attention-box {
+  background: linear-gradient(135deg, rgba(176,122,75,0.1), rgba(212,168,67,0.08));
+  border-left: 4px solid var(--vak-color);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 18px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.attention-box strong { color: var(--vak-color); }
+
+.golden-rule {
+  background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(176,122,75,0.1));
+  border: 2px solid var(--ochre);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--warm-brown);
+}
+.golden-rule span { color: var(--ochre); font-size: 22px; }
+
+/* Lever types table */
+.lever-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.lever-type-card {
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 18px;
+  border: 2px solid var(--sand);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.lever-type-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.lever-type-card h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+  margin-bottom: 8px;
+}
+.lever-type-card .lever-diagram {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  background: var(--sand-light);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.lever-type-card .examples {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  line-height: 1.5;
+}
+
+/* Canvas simulation */
+.sim-wrapper {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  margin-bottom: 20px;
+}
+.sim-wrapper h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  margin-bottom: 12px;
+}
+canvas#leverSim {
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f0ead8 0%, #e8dcc8 100%);
+  cursor: pointer;
+  touch-action: none;
+}
+.sim-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.sim-side {
+  background: var(--sand-light);
+  border-radius: 12px;
+  padding: 14px;
+}
+.sim-side h4 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vak-color);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.sim-side label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.sim-side input[type="range"] {
+  flex: 1;
+  accent-color: var(--vak-color);
+}
+.sim-side .val {
+  font-weight: 600;
+  min-width: 42px;
+  text-align: right;
+  color: var(--dark-brown);
+}
+.sim-moment {
+  background: var(--warm-white);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 14px;
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  border: 1px solid var(--sand);
+}
+.sim-moment .formula {
+  font-family: 'Vollkorn', serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+.sim-moment .left-m { color: var(--terracotta); }
+.sim-moment .right-m { color: var(--sky-blue); }
+.sim-moment .result {
+  font-weight: 600;
+  margin-top: 4px;
+  font-size: 15px;
+}
+.sim-moment .balanced { color: var(--correct-green); }
+.sim-moment .unbalanced { color: var(--wrong-red); }
+
+/* Quiz styles */
+.quiz-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  transition: border-color 0.3s;
+}
+.quiz-card.correct { border-color: var(--correct-green); }
+.quiz-card.incorrect { border-color: var(--wrong-red); }
+
+.quiz-number {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vak-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.quiz-question {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.quiz-context {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quiz-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border: 2px solid var(--sand);
+  border-radius: 25px;
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-option:hover:not(.disabled) {
+  border-color: var(--vak-color);
+  background: var(--vak-bg);
+}
+.quiz-option.selected-correct {
+  border-color: var(--correct-green);
+  background: rgba(107,158,107,0.12);
+  color: var(--correct-green);
+  font-weight: 600;
+}
+.quiz-option.selected-wrong {
+  border-color: var(--wrong-red);
+  background: rgba(194,94,78,0.1);
+  color: var(--wrong-red);
+  text-decoration: line-through;
+}
+.quiz-option.show-correct {
+  border-color: var(--correct-green);
+  background: rgba(107,158,107,0.12);
+  color: var(--correct-green);
+  font-weight: 600;
+}
+.quiz-option.disabled { cursor: default; opacity: 0.7; }
+.quiz-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb {
+  background: rgba(107,158,107,0.1);
+  color: var(--correct-green);
+}
+.quiz-feedback.incorrect-fb {
+  background: rgba(194,94,78,0.08);
+  color: var(--wrong-red);
+}
+
+/* Calculation exercises */
+.calc-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.calc-card h4 {
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+}
+.calc-card p { font-size: 15px; margin-bottom: 8px; line-height: 1.65; }
+.calc-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+.calc-input {
+  font-family: 'Vollkorn', serif;
+  font-size: 16px;
+  padding: 8px 14px;
+  border: 2px solid var(--sand);
+  border-radius: 10px;
+  background: var(--cream);
+  color: var(--dark-brown);
+  width: 120px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+.calc-input:focus { outline: none; border-color: var(--vak-color); }
+.calc-input.correct-input { border-color: var(--correct-green); background: rgba(107,158,107,0.08); }
+.calc-input.wrong-input { border-color: var(--wrong-red); background: rgba(194,94,78,0.06); }
+.calc-unit {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+}
+.check-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--vak-color), var(--vak-light));
+  color: white;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.check-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(176,122,75,0.3); }
+.calc-feedback {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  margin-top: 8px;
+  display: none;
+}
+.calc-feedback.show { display: block; }
+
+/* Solution reveal */
+.solution-toggle {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--vak-color);
+  background: none;
+  border: 1px dashed var(--vak-color);
+  border-radius: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.solution-toggle:hover { background: var(--vak-bg); }
+.solution-box {
+  display: none;
+  background: var(--sand-light);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.solution-box.show { display: block; }
+.solution-box .step {
+  margin-bottom: 6px;
+}
+.solution-box .step strong { color: var(--vak-color); }
+
+/* Score bar */
+.score-bar {
+  background: var(--sand-light);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  animation: fadeSlideUp 0.3s ease-out;
+}
+.score-bar.show { display: flex; }
+.score-text { font-weight: 600; font-size: 15px; color: var(--dark-brown); white-space: nowrap; }
+.progress-bar-container {
+  flex: 1;
+  height: 10px;
+  background: var(--sand);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  border-radius: 5px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  padding: 5px 12px;
+  border: 1px solid var(--sand);
+  border-radius: 8px;
+  background: white;
+  color: var(--warm-brown);
+  cursor: pointer;
+}
+.reset-btn:hover { border-color: var(--vak-color); }
+
+/* Celebration */
+.celebration {
+  display: none;
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(176,122,75,0.08), rgba(212,168,67,0.06));
+  border-radius: 16px;
+  margin-top: 20px;
+  animation: pop 0.4s ease-out;
+}
+.celebration.show { display: block; }
+.celebration .emoji { font-size: 48px; margin-bottom: 8px; }
+.celebration .message {
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  color: var(--vak-color);
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.action-btn:hover {
+  border-color: var(--vak-color);
+  background: var(--vak-bg);
+  color: var(--vak-color);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.35s ease-out; }
+.pop { animation: pop 0.35s ease-out; }
+
+/* Print */
+.print-only { display: none; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none; }
+  .print-only { display: block !important; }
+  .container { padding: 0; max-width: 100%; }
+  .exercise-icon { display: none; }
+  .theory-card, .quiz-card, .calc-card, .sim-wrapper {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .tab-content { display: block !important; margin-bottom: 20px; }
+  .tab-content::before {
+    content: attr(data-print-title);
+    display: block;
+    font-family: 'Caveat', cursive;
+    font-size: 22pt;
+    color: var(--vak-color);
+    margin-bottom: 10px;
+    page-break-before: auto;
+  }
+  .tab-content:not(:first-of-type)::before { page-break-before: always; }
+  .quiz-option { border: 1px solid #ccc; }
+  .quiz-option.selected-correct, .quiz-option.selected-wrong, .quiz-option.show-correct {
+    border-color: #ccc !important;
+    background: white !important;
+    color: var(--dark-brown) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+  }
+  .quiz-feedback { display: none !important; }
+  .quiz-card.correct, .quiz-card.incorrect { border-color: #ddd !important; }
+  .calc-input { color: transparent !important; -webkit-text-fill-color: transparent !important; border-color: #ccc !important; background: white !important; }
+  .calc-input::placeholder { color: transparent !important; }
+  .calc-feedback { display: none !important; }
+  .calc-input.correct-input, .calc-input.wrong-input { border-color: #ccc !important; background: white !important; }
+  .check-btn { display: none !important; }
+  .solution-toggle { display: none !important; }
+  .solution-box { display: none !important; }
+  canvas { display: none !important; }
+  .sim-controls { display: none !important; }
+  .sim-moment { display: none !important; }
+  .print-answers { page-break-before: always; }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 22px; }
+  .exercise-icon { width: 44px; height: 44px; font-size: 22px; }
+  .tab-btn { font-size: 13px; padding: 7px 12px; }
+  .sim-controls { grid-template-columns: 1fr; }
+  .lever-types { grid-template-columns: 1fr; }
+  .quiz-options { flex-direction: column; }
+  .quiz-option { width: 100%; text-align: center; }
+  .calc-input-row { flex-direction: column; align-items: stretch; }
+  .calc-input { width: 100%; }
+  canvas#leverSim { height: 240px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Hefbomen
+  </nav>
+
+  <!-- Header -->
+  <div class="exercise-header">
+    <div class="exercise-icon no-print">⚙️</div>
+    <div class="exercise-title">Hefbomen</div>
+  </div>
+  <div class="exercise-date">Fysica — Mechanica</div>
+  <div class="exercise-intro">
+    "Wie niet sterk is, moet slim zijn." — De mens zoekt al eeuwen naar hulpmiddelen om zwaar werk lichter te maken. De hefboom is een van de oudste en belangrijkste werktuigen.
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('simulatie')">⚖️ Simulatie</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">🔍 Herken de hefboom</button>
+    <button class="tab-btn" onclick="switchTab('berekeningen')">🧮 Berekeningen</button>
+  </div>
+
+  <!-- Score bar for quiz -->
+  <div class="score-bar no-print" id="quizScore">
+    <span class="score-text" id="quizScoreText">Score: 0/0</span>
+    <div class="progress-bar-container"><div class="progress-bar" id="quizProgress"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+  </div>
+  <!-- Score bar for calculations -->
+  <div class="score-bar no-print" id="calcScore">
+    <span class="score-text" id="calcScoreText">Score: 0/0</span>
+    <div class="progress-bar-container"><div class="progress-bar" id="calcProgress"></div></div>
+    <button class="reset-btn" onclick="resetCalc()">🔄 Opnieuw</button>
+  </div>
+
+  <!-- ============ TAB 1: THEORIE ============ -->
+  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Hefbomen">
+
+    <div class="theory-card">
+      <h3>Wat is mechanica?</h3>
+      <p>Mechanica is het Latijnse woord voor werktuigkunde. Het is de leer van hoe we met slimme hulpmiddelen kracht kunnen besparen. Denk aan hefbomen, katrollen en tandwielen — werktuigen die al duizenden jaren worden gebruikt.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>De hefboom ontdekken</h3>
+      <p>Stel je voor: je houdt een zware boekentas met gestrekte armen voor je uit. Dat voelt al snel heel zwaar! Maar als je je armen buigt en de boekentas dichter bij je lichaam houdt, lijkt het veel lichter.</p>
+      <p>Hoe komt dat? Je armen werken als een <strong>hefboom</strong>. Je schouder is het <strong>draaipunt</strong>, je armen leveren de <strong>kracht</strong>, en de boekentas is de <strong>last</strong>. Hoe verder de last van het draaipunt zit, hoe meer kracht je nodig hebt.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>De drie onderdelen van een hefboom</h3>
+      <p>Elke hefboom heeft drie belangrijke onderdelen:</p>
+      <ul>
+        <li><strong>Het draaipunt</strong> (of steunpunt) — het punt waar de hefboom om draait.</li>
+        <li><strong>De last</strong> — wat je wilt optillen, verplaatsen of samendrukken.</li>
+        <li><strong>De kracht</strong> — de duw- of trekkracht die jij uitoefent.</li>
+      </ul>
+      <p>De afstand van het draaipunt tot de kracht noemen we de <strong>krachtarm</strong>. De afstand van het draaipunt tot de last noemen we de <strong>lastarm</strong>. Samen noemen we dit de <strong>arm</strong> van de hefboom.</p>
+
+      <div class="attention-box">
+        <strong>⚖️ Momentevenwicht:</strong> Een hefboom is in evenwicht als:<br>
+        <em>kracht × krachtarm = last × lastarm</em><br>
+        Hoe groter de krachtarm (vergeleken met de lastarm), hoe minder kracht je nodig hebt om de last te bewegen!
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>Drie soorten hefbomen</h3>
+      <p>De positie van het draaipunt, de last en de kracht bepaalt het <strong>type</strong> hefboom.</p>
+
+      <div class="lever-types">
+        <div class="lever-type-card">
+          <h4>1. Primaire hefboom</h4>
+          <div class="lever-diagram">kracht — <span style="color:var(--vak-color)">▲ draaipunt</span> — last</div>
+          <p style="font-size:14px; margin:6px 0;">Het draaipunt zit <strong>tussen</strong> de kracht en de last.</p>
+          <div class="examples">Voorbeelden: wip, koevoet, tang, schaar</div>
+        </div>
+        <div class="lever-type-card">
+          <h4>2. Secundaire hefboom</h4>
+          <div class="lever-diagram">kracht — <span style="color:var(--terracotta)">⬇ last</span> — ▲ draaipunt</div>
+          <p style="font-size:14px; margin:6px 0;">De last zit <strong>tussen</strong> het draaipunt en de kracht.</p>
+          <div class="examples">Voorbeelden: kruiwagen, notenkraker, steekwagen</div>
+        </div>
+        <div class="lever-type-card">
+          <h4>3. Tertiaire hefboom</h4>
+          <div class="lever-diagram">▲ draaipunt — <span style="color:var(--sky-blue)">↑ kracht</span> — last</div>
+          <p style="font-size:14px; margin:6px 0;">De kracht zit <strong>tussen</strong> het draaipunt en de last.</p>
+          <div class="examples">Voorbeelden: pincet, je onderarm, vogelbeklijm</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="golden-rule">
+      <span>⚡</span> De gouden regel van de mechanica:<br>
+      Wat je wint aan kracht, verlies je aan afstand.
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 2: SIMULATIE ============ -->
+  <div class="tab-content" id="tab-simulatie" data-print-title="⚖️ Simulatie">
+
+    <div class="sim-wrapper">
+      <h3>Interactieve balans</h3>
+      <p style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:var(--warm-brown); margin-bottom:14px;">
+        Pas de gewichten en afstanden aan en kijk of de hefboom in evenwicht komt. Het moment (= kracht × afstand) bepaalt of de balk kantelt.
+      </p>
+      <canvas id="leverSim" width="800" height="320"></canvas>
+
+      <div class="sim-controls">
+        <div class="sim-side" style="border-left: 3px solid var(--terracotta);">
+          <h4>🔴 Linkerkant</h4>
+          <label>Kracht: <input type="range" id="leftForce" min="10" max="200" value="60" oninput="updateSim()"> <span class="val" id="leftForceVal">60 N</span></label>
+          <label>Afstand: <input type="range" id="leftDist" min="1" max="8" value="4" step="0.5" oninput="updateSim()"> <span class="val" id="leftDistVal">4 m</span></label>
+        </div>
+        <div class="sim-side" style="border-left: 3px solid var(--sky-blue);">
+          <h4>🔵 Rechterkant</h4>
+          <label>Kracht: <input type="range" id="rightForce" min="10" max="200" value="80" oninput="updateSim()"> <span class="val" id="rightForceVal">80 N</span></label>
+          <label>Afstand: <input type="range" id="rightDist" min="1" max="8" value="3" step="0.5" oninput="updateSim()"> <span class="val" id="rightDistVal">3 m</span></label>
+        </div>
+      </div>
+
+      <div class="sim-moment">
+        <div class="formula">
+          <span class="left-m" id="leftMoment">60 × 4 = 240</span>
+          &nbsp; vs &nbsp;
+          <span class="right-m" id="rightMoment">80 × 3 = 240</span>
+        </div>
+        <div class="result" id="simResult">⚖️ In evenwicht!</div>
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>Hoe werkt het?</h3>
+      <p>Het <strong>moment</strong> van een kracht is de kracht vermenigvuldigd met de afstand tot het draaipunt. De hefboom is in evenwicht als het moment links gelijk is aan het moment rechts:</p>
+      <div class="attention-box">
+        <strong>kracht<sub>links</sub> × afstand<sub>links</sub> = kracht<sub>rechts</sub> × afstand<sub>rechts</sub></strong>
+      </div>
+      <p>Probeer het uit! Kun je met een kleine kracht een groot gewicht optillen door de afstand te veranderen?</p>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 3: QUIZ ============ -->
+  <div class="tab-content" id="tab-quiz" data-print-title="🔍 Herken de hefboom">
+
+    <div id="quizContainer"></div>
+    <div class="celebration no-print" id="quizCelebration">
+      <div class="emoji" id="quizEmoji"></div>
+      <div class="message" id="quizMessage"></div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 4: BEREKENINGEN ============ -->
+  <div class="tab-content" id="tab-berekeningen" data-print-title="🧮 Berekeningen met de balans">
+
+    <div class="theory-card" style="margin-bottom:20px;">
+      <h3>Even herhalen</h3>
+      <p>Bij een hefboom in evenwicht geldt altijd:</p>
+      <div class="attention-box">
+        <strong>kracht × krachtarm = last × lastarm</strong><br>
+        Of korter: <strong>F₁ × d₁ = F₂ × d₂</strong>
+      </div>
+      <p>Gebruik deze formule om de ontbrekende waarde te berekenen. Maak bij elke opgave ook een schets!</p>
+    </div>
+
+    <div id="calcContainer"></div>
+    <div class="celebration no-print" id="calcCelebration">
+      <div class="emoji" id="calcEmoji"></div>
+      <div class="message" id="calcMessage"></div>
+    </div>
+
+  </div>
+
+  <!-- ============ PRINT: OPLOSSINGEN ============ -->
+  <div class="print-only print-answers">
+    <h2 style="font-family:'Caveat',cursive; font-size:26pt; color:var(--vak-color); margin-bottom:16px;">Oplossingen</h2>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20pt; color:var(--vak-color); margin:18px 0 10px;">🔍 Herken de hefboom</h3>
+    <div id="printQuizAnswers"></div>
+
+    <h3 style="font-family:'Caveat',cursive; font-size:20pt; color:var(--vak-color); margin:18px 0 10px;">🧮 Berekeningen</h3>
+    <div id="printCalcAnswers"></div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ==================== TAB SWITCHING ====================
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  event.target.classList.add('active');
+
+  // Show/hide appropriate score bars
+  document.getElementById('quizScore').classList.toggle('show', tabId === 'quiz' && quizAnswered > 0);
+  document.getElementById('calcScore').classList.toggle('show', tabId === 'berekeningen' && calcAnswered > 0);
+}
+
+// ==================== LEVER SIMULATION ====================
+const canvas = document.getElementById('leverSim');
+const ctx = canvas.getContext('2d');
+
+function updateSim() {
+  const lf = +document.getElementById('leftForce').value;
+  const ld = +document.getElementById('leftDist').value;
+  const rf = +document.getElementById('rightForce').value;
+  const rd = +document.getElementById('rightDist').value;
+
+  document.getElementById('leftForceVal').textContent = lf + ' N';
+  document.getElementById('leftDistVal').textContent = ld + ' m';
+  document.getElementById('rightForceVal').textContent = rf + ' N';
+  document.getElementById('rightDistVal').textContent = rd + ' m';
+
+  const lm = lf * ld;
+  const rm = rf * rd;
+  document.getElementById('leftMoment').textContent = lf + ' × ' + ld + ' = ' + lm;
+  document.getElementById('rightMoment').textContent = rf + ' × ' + rd + ' = ' + rm;
+
+  let resultEl = document.getElementById('simResult');
+  if (Math.abs(lm - rm) < 0.5) {
+    resultEl.textContent = '⚖️ In evenwicht!';
+    resultEl.className = 'result balanced';
+  } else if (lm > rm) {
+    resultEl.textContent = '⬅️ Kantelt naar links (verschil: ' + (lm - rm) + ')';
+    resultEl.className = 'result unbalanced';
+  } else {
+    resultEl.textContent = '➡️ Kantelt naar rechts (verschil: ' + (rm - lm) + ')';
+    resultEl.className = 'result unbalanced';
+  }
+
+  drawLever(lf, ld, rf, rd, lm, rm);
+}
+
+function drawLever(lf, ld, rf, rd, lm, rm) {
+  const w = canvas.width;
+  const h = canvas.height;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = canvas.clientWidth * dpr;
+  canvas.height = canvas.clientHeight * dpr;
+  ctx.scale(dpr, dpr);
+  const cw = canvas.clientWidth;
+  const ch = canvas.clientHeight;
+
+  ctx.clearRect(0, 0, cw, ch);
+
+  // Fulcrum position
+  const fx = cw / 2;
+  const fy = ch * 0.68;
+
+  // Tilt angle based on moment difference
+  const diff = lm - rm;
+  const maxAngle = 0.22;
+  let angle = 0;
+  if (Math.abs(diff) > 0.5) {
+    angle = Math.max(-maxAngle, Math.min(maxAngle, diff / 500));
+  }
+
+  // Draw fulcrum triangle
+  ctx.fillStyle = '#B07A4B';
+  ctx.beginPath();
+  ctx.moveTo(fx, fy);
+  ctx.lineTo(fx - 22, fy + 30);
+  ctx.lineTo(fx + 22, fy + 30);
+  ctx.closePath();
+  ctx.fill();
+
+  // Ground line
+  ctx.strokeStyle = '#C9A0A0';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(cw * 0.1, fy + 30);
+  ctx.lineTo(cw * 0.9, fy + 30);
+  ctx.stroke();
+
+  // Beam
+  ctx.save();
+  ctx.translate(fx, fy);
+  ctx.rotate(-angle);
+
+  const beamLen = cw * 0.72;
+  const half = beamLen / 2;
+
+  // Beam body
+  ctx.fillStyle = '#8B7355';
+  roundRect(ctx, -half, -6, beamLen, 12, 4);
+  ctx.fill();
+
+  // Scale marks
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.font = '10px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  for (let i = 1; i <= 8; i++) {
+    const xL = -(i / 8) * half;
+    const xR = (i / 8) * half;
+    ctx.fillRect(xL - 0.5, -6, 1, 12);
+    ctx.fillRect(xR - 0.5, -6, 1, 12);
+  }
+
+  // Left weight
+  const lx = -(ld / 8) * half;
+  const weightScale = 0.12;
+  const lwh = Math.max(18, lf * weightScale);
+  const lww = 30;
+
+  ctx.fillStyle = '#C2704E';
+  roundRect(ctx, lx - lww/2, 6, lww, lwh, 4);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 11px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(lf + 'N', lx, 6 + lwh/2 + 4);
+
+  // Left distance label
+  ctx.fillStyle = '#C2704E';
+  ctx.font = '12px Source Sans 3, sans-serif';
+  ctx.fillText(ld + ' m', lx, -14);
+
+  // Right weight
+  const rx = (rd / 8) * half;
+  const rwh = Math.max(18, rf * weightScale);
+
+  ctx.fillStyle = '#6A9BB5';
+  roundRect(ctx, rx - lww/2, 6, lww, rwh, 4);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 11px Source Sans 3, sans-serif';
+  ctx.fillText(rf + 'N', rx, 6 + rwh/2 + 4);
+
+  // Right distance label
+  ctx.fillStyle = '#6A9BB5';
+  ctx.font = '12px Source Sans 3, sans-serif';
+  ctx.fillText(rd + ' m', rx, -14);
+
+  // Fulcrum marker
+  ctx.fillStyle = var_color();
+  ctx.beginPath();
+  ctx.arc(0, 0, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.restore();
+
+  // Labels
+  ctx.fillStyle = '#5C4033';
+  ctx.font = '13px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('▲ draaipunt', fx, fy + 50);
+}
+
+function var_color() { return '#B07A4B'; }
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// ==================== QUIZ DATA & LOGIC ====================
+const quizData = [
+  {
+    q: 'Een wip op de speelplaats — welk type hefboom is dit?',
+    context: 'Het draaipunt (steunpunt) zit in het midden, de kinderen (kracht en last) zitten aan de uiteinden.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 0,
+    explanation: 'Bij een wip zit het draaipunt tussen de kracht en de last → primaire hefboom.'
+  },
+  {
+    q: 'Een kruiwagen — welk type hefboom is dit?',
+    context: 'Het wiel is het draaipunt, de lading (last) zit in de bak, en jij duwt aan de handvatten (kracht).',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 1,
+    explanation: 'De last zit tussen het draaipunt (wiel) en de kracht (handvatten) → secundaire hefboom.'
+  },
+  {
+    q: 'Je onderarm als je een boekentas optilt — welk type?',
+    context: 'Je elleboog is het draaipunt, je biceps levert de kracht (vlak bij de elleboog), de boekentas in je hand is de last.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 2,
+    explanation: 'De kracht (biceps) zit tussen het draaipunt (elleboog) en de last (hand) → tertiaire hefboom.'
+  },
+  {
+    q: 'Een schaar — welk type hefboom?',
+    context: 'Het schroefje in het midden is het draaipunt.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 0,
+    explanation: 'Het draaipunt (schroef) zit tussen de kracht (je vingers) en de last (het papier dat je knipt) → primaire hefboom.'
+  },
+  {
+    q: 'Een notenkraker — welk type hefboom?',
+    context: 'Het scharnier is het draaipunt, de noot zit binnenin, en jij knijpt aan de uiteinden.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 1,
+    explanation: 'De last (noot) zit tussen het draaipunt (scharnier) en de kracht (je hand) → secundaire hefboom.'
+  },
+  {
+    q: 'Een pincet — welk type hefboom?',
+    context: 'De verbinding bovenaan is het draaipunt, je vingers knijpen in het midden, de punten pakken het object.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 2,
+    explanation: 'De kracht (je vingers) zit tussen het draaipunt (bovenkant) en de last (punten) → tertiaire hefboom.'
+  },
+  {
+    q: 'Een koevoet waarmee je een spijker uit een plank trekt — welk type?',
+    context: 'Het punt waar de koevoet op de plank steunt is het draaipunt.',
+    options: ['Primaire hefboom', 'Secundaire hefboom', 'Tertiaire hefboom'],
+    correct: 0,
+    explanation: 'Het draaipunt zit tussen de kracht (je hand bovenaan) en de last (de spijker) → primaire hefboom.'
+  },
+  {
+    q: 'Wat is de krachtarm?',
+    context: '',
+    options: ['De afstand van draaipunt tot de last', 'De afstand van draaipunt tot de kracht', 'De totale lengte van de hefboom', 'De kracht die je uitoefent'],
+    correct: 1,
+    explanation: 'De krachtarm is de afstand van het draaipunt tot het punt waar de kracht wordt uitgeoefend.'
+  },
+  {
+    q: 'Hoe kun je met minder kracht dezelfde last optillen?',
+    context: '',
+    options: ['De krachtarm korter maken', 'De krachtarm langer maken', 'De lastarm langer maken', 'Een zwaarder gewicht gebruiken'],
+    correct: 1,
+    explanation: 'Hoe langer de krachtarm, hoe minder kracht je nodig hebt. Maar je moet dan wel meer afstand overbruggen!'
+  },
+  {
+    q: 'Wat is de gouden regel van de mechanica?',
+    context: '',
+    options: ['Kracht en snelheid zijn altijd gelijk', 'Wat je wint aan kracht, verlies je aan afstand', 'Zwaardere voorwerpen vallen sneller', 'Een hefboom is altijd in evenwicht'],
+    correct: 1,
+    explanation: 'De gouden regel: wat je wint aan kracht, verlies je aan afstand. Je kunt nooit tegelijk kracht én afstand winnen!'
+  }
+];
+
+let quizAnswered = 0;
+let quizCorrect = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  let printHtml = '';
+  container.innerHTML = '';
+
+  quizData.forEach((item, idx) => {
+    // Shuffle options while keeping track of correct index
+    const optionsWithIndex = item.options.map((opt, i) => ({ text: opt, origIdx: i }));
+    const shuffled = shuffle(optionsWithIndex);
+    const correctShuffledIdx = shuffled.findIndex(o => o.origIdx === item.correct);
+
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = 'quiz-' + idx;
+    card.dataset.correct = correctShuffledIdx;
+
+    let html = `<div class="quiz-number">Vraag ${idx + 1} / ${quizData.length}</div>`;
+    html += `<div class="quiz-question">${item.q}</div>`;
+    if (item.context) html += `<div class="quiz-context">${item.context}</div>`;
+    html += `<div class="quiz-options">`;
+    shuffled.forEach((opt, oi) => {
+      html += `<button class="quiz-option" data-card="${idx}" data-opt="${oi}" onclick="answerQuiz(${idx},${oi},${correctShuffledIdx})">${opt.text}</button>`;
+    });
+    html += `</div>`;
+    html += `<div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+
+    // Print answers
+    printHtml += `<p style="margin:4px 0;"><strong>${idx + 1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+
+  document.getElementById('printQuizAnswers').innerHTML = printHtml;
+}
+
+function answerQuiz(cardIdx, optIdx, correctIdx) {
+  const card = document.getElementById('quiz-' + cardIdx);
+  if (card.classList.contains('correct') || card.classList.contains('incorrect')) return;
+
+  const options = card.querySelectorAll('.quiz-option');
+  options.forEach(o => o.classList.add('disabled'));
+
+  const fb = document.getElementById('quiz-fb-' + cardIdx);
+  const item = quizData[cardIdx];
+
+  quizAnswered++;
+
+  if (optIdx === correctIdx) {
+    quizCorrect++;
+    options[optIdx].classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'quiz-feedback show correct-fb';
+    const msgs = ['✓ Correct!', '✓ Juist!', '✓ Goed zo!', '✓ Uitstekend!'];
+    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)] + ' ' + item.explanation;
+    card.style.animation = 'pop 0.35s ease-out';
+  } else {
+    options[optIdx].classList.add('selected-wrong');
+    options[correctIdx].classList.add('show-correct');
+    card.classList.add('incorrect');
+    fb.className = 'quiz-feedback show incorrect-fb';
+    fb.textContent = '✗ ' + item.explanation;
+    card.style.animation = 'shake 0.35s ease-out';
+  }
+
+  updateQuizScore();
+}
+
+function updateQuizScore() {
+  const scoreBar = document.getElementById('quizScore');
+  scoreBar.classList.add('show');
+  document.getElementById('quizScoreText').textContent = `Score: ${quizCorrect}/${quizAnswered}`;
+  document.getElementById('quizProgress').style.width = (quizCorrect / quizData.length * 100) + '%';
+
+  if (quizAnswered === quizData.length) {
+    showCelebration('quiz', quizCorrect, quizData.length);
+  }
+}
+
+function resetQuiz() {
+  quizAnswered = 0;
+  quizCorrect = 0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('quizCelebration').classList.remove('show');
+  buildQuiz();
+}
+
+// ==================== CALCULATIONS ====================
+const calcData = [
+  {
+    title: 'Vraag 1 — Andries en Sjaak op de wip',
+    text: 'Andries zit op de wip in de speeltuin. Hij zit op 3 meter van het steunpunt. Sjaak gaat op de wip zitten en krijgt de wip precies in balans. Sjaak weegt 30 kg, Andries is 20 kg zwaarder (dus 50 kg). Hoever zit Sjaak van het steunpunt?',
+    answer: 5,
+    unit: 'meter',
+    tolerance: 0.1,
+    steps: [
+      { text: '<strong>Gegeven:</strong> Andries = 50 kg op 3 m, Sjaak = 30 kg op ? m' },
+      { text: '<strong>Formule:</strong> kracht × arm (links) = kracht × arm (rechts)' },
+      { text: '<strong>Invullen:</strong> 50 × 3 = 30 × d' },
+      { text: '<strong>Uitwerken:</strong> 150 = 30 × d' },
+      { text: '<strong>Antwoord:</strong> d = 150 ÷ 30 = <strong style="color:var(--vak-color)">5 meter</strong>' }
+    ]
+  },
+  {
+    title: 'Vraag 2 — Hans en Eefje',
+    text: 'Hans en Eefje zitten op een wip die 10 meter lang is. Hans weegt 40 kg en zit op 4 meter van het steunpunt. Eefje zit op 3 meter van het uiteinde (dus 2 meter van het steunpunt, want het steunpunt zit in het midden op 5 m). De wip is in balans. Hoe zwaar is Eefje?',
+    answer: 80,
+    unit: 'kg',
+    tolerance: 0.5,
+    steps: [
+      { text: '<strong>Gegeven:</strong> Hans = 40 kg op 4 m, Eefje = ? kg op 2 m van steunpunt' },
+      { text: '<strong>Waarom 2 m?</strong> De wip is 10 m, steunpunt in het midden = 5 m. Eefje zit op 3 m van het uiteinde = 5 − 3 = 2 m van het steunpunt.' },
+      { text: '<strong>Formule:</strong> 40 × 4 = Eefje × 2' },
+      { text: '<strong>Uitwerken:</strong> 160 = Eefje × 2' },
+      { text: '<strong>Antwoord:</strong> Eefje = 160 ÷ 2 = <strong style="color:var(--vak-color)">80 kg</strong>' }
+    ]
+  },
+  {
+    title: 'Vraag 3 — Krachten op een hefboom',
+    text: 'Bij een hefboom werkt op 2 m van het draaipunt een kracht van 200 N. Aan de andere arm werkt een kracht van 400 N. De hefboom is in evenwicht. Hoever van het draaipunt werkt de kracht van 400 N?',
+    answer: 1,
+    unit: 'meter',
+    tolerance: 0.05,
+    steps: [
+      { text: '<strong>Gegeven:</strong> F₁ = 200 N op 2 m, F₂ = 400 N op ? m' },
+      { text: '<strong>Formule:</strong> 200 × 2 = 400 × d' },
+      { text: '<strong>Uitwerken:</strong> 400 = 400 × d' },
+      { text: '<strong>Antwoord:</strong> d = 400 ÷ 400 = <strong style="color:var(--vak-color)">1 meter</strong>' }
+    ]
+  },
+  {
+    title: 'Vraag 4 — De koevoet',
+    text: 'Je gebruikt een koevoet om een zwaar deksel op te wrikken. De koevoet is 60 cm lang. Het steunpunt zit op 10 cm van het deksel. Je duwt aan het andere uiteinde (dus op 50 cm van het steunpunt). Je oefent een kracht uit van 40 N. Hoe groot is de kracht op het deksel?',
+    answer: 200,
+    unit: 'N',
+    tolerance: 1,
+    steps: [
+      { text: '<strong>Gegeven:</strong> jouw kracht = 40 N op 50 cm, deksel op 10 cm van steunpunt' },
+      { text: '<strong>Formule:</strong> 40 × 50 = F × 10' },
+      { text: '<strong>Uitwerken:</strong> 2000 = F × 10' },
+      { text: '<strong>Antwoord:</strong> F = 2000 ÷ 10 = <strong style="color:var(--vak-color)">200 N</strong>' }
+    ]
+  },
+  {
+    title: 'Vraag 5 — De boomstam',
+    text: 'Je wilt een boomstam van 600 N optillen met een plank als hefboom. Je steunpunt ligt op 1 meter van de boomstam en op 3 meter van het punt waar jij duwt. Met hoeveel kracht moet jij duwen om de stam op te tillen?',
+    answer: 200,
+    unit: 'N',
+    tolerance: 1,
+    steps: [
+      { text: '<strong>Gegeven:</strong> last = 600 N op 1 m, jouw kracht = ? N op 3 m' },
+      { text: '<strong>Formule:</strong> 600 × 1 = F × 3' },
+      { text: '<strong>Uitwerken:</strong> 600 = F × 3' },
+      { text: '<strong>Antwoord:</strong> F = 600 ÷ 3 = <strong style="color:var(--vak-color)">200 N</strong>' }
+    ]
+  }
+];
+
+let calcAnswered = 0;
+let calcCorrect = 0;
+
+function buildCalc() {
+  const container = document.getElementById('calcContainer');
+  let printHtml = '';
+  container.innerHTML = '';
+
+  calcData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'calc-card';
+    card.id = 'calc-' + idx;
+
+    let html = `<h4>${item.title}</h4>`;
+    html += `<p>${item.text}</p>`;
+    html += `<div class="calc-input-row">`;
+    html += `<span style="font-weight:600;">Antwoord:</span>`;
+    html += `<input type="number" class="calc-input" id="calc-input-${idx}" placeholder="?" step="any">`;
+    html += `<span class="calc-unit">${item.unit}</span>`;
+    html += `<button class="check-btn" onclick="checkCalc(${idx})">Controleer</button>`;
+    html += `</div>`;
+    html += `<div class="calc-feedback" id="calc-fb-${idx}"></div>`;
+    html += `<button class="solution-toggle" id="sol-toggle-${idx}" onclick="toggleSolution(${idx})">💡 Toon uitwerking</button>`;
+    html += `<div class="solution-box" id="sol-box-${idx}">`;
+    item.steps.forEach(s => {
+      html += `<div class="step">${s.text}</div>`;
+    });
+    html += `</div>`;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+
+    // Enter key
+    setTimeout(() => {
+      const input = document.getElementById('calc-input-' + idx);
+      if (input) input.addEventListener('keydown', e => { if (e.key === 'Enter') checkCalc(idx); });
+    }, 0);
+
+    // Print answers
+    printHtml += `<div style="margin:8px 0;">`;
+    printHtml += `<p><strong>${item.title}</strong></p>`;
+    item.steps.forEach(s => {
+      printHtml += `<p style="margin:2px 0; padding-left:12px; font-size:11pt;">${s.text}</p>`;
+    });
+    printHtml += `</div>`;
+  });
+
+  document.getElementById('printCalcAnswers').innerHTML = printHtml;
+}
+
+function checkCalc(idx) {
+  const input = document.getElementById('calc-input-' + idx);
+  const fb = document.getElementById('calc-fb-' + idx);
+  const item = calcData[idx];
+
+  if (input.dataset.done === '1') return;
+
+  const val = parseFloat(input.value);
+  if (isNaN(val)) {
+    input.style.animation = 'shake 0.35s ease-out';
+    setTimeout(() => input.style.animation = '', 400);
+    return;
+  }
+
+  input.dataset.done = '1';
+  calcAnswered++;
+
+  if (Math.abs(val - item.answer) <= item.tolerance) {
+    calcCorrect++;
+    input.classList.add('correct-input');
+    fb.className = 'calc-feedback show';
+    fb.style.color = 'var(--correct-green)';
+    const msgs = ['✓ Correct!', '✓ Juist!', '✓ Goed zo!', '✓ Uitstekend!'];
+    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+    input.closest('.calc-card').style.animation = 'pop 0.35s ease-out';
+  } else {
+    input.classList.add('wrong-input');
+    fb.className = 'calc-feedback show';
+    fb.style.color = 'var(--wrong-red)';
+    fb.textContent = '✗ Het juiste antwoord is ' + item.answer + ' ' + item.unit + '.';
+    input.closest('.calc-card').style.animation = 'shake 0.35s ease-out';
+    // Auto-show solution
+    document.getElementById('sol-box-' + idx).classList.add('show');
+  }
+
+  updateCalcScore();
+}
+
+function toggleSolution(idx) {
+  const box = document.getElementById('sol-box-' + idx);
+  box.classList.toggle('show');
+}
+
+function updateCalcScore() {
+  const scoreBar = document.getElementById('calcScore');
+  scoreBar.classList.add('show');
+  document.getElementById('calcScoreText').textContent = `Score: ${calcCorrect}/${calcAnswered}`;
+  document.getElementById('calcProgress').style.width = (calcCorrect / calcData.length * 100) + '%';
+
+  if (calcAnswered === calcData.length) {
+    showCelebration('calc', calcCorrect, calcData.length);
+  }
+}
+
+function resetCalc() {
+  calcAnswered = 0;
+  calcCorrect = 0;
+  document.getElementById('calcScore').classList.remove('show');
+  document.getElementById('calcCelebration').classList.remove('show');
+  buildCalc();
+}
+
+// ==================== CELEBRATION ====================
+function showCelebration(type, correct, total) {
+  const pct = correct / total * 100;
+  let emoji, message;
+  if (pct === 100) { emoji = '🌟'; message = 'Alles juist — fantastisch!'; }
+  else if (pct >= 80) { emoji = '🎉'; message = 'Heel goed! Bijna alles juist.'; }
+  else if (pct >= 60) { emoji = '💪'; message = 'Goed bezig! Bekijk de fouten nog eens.'; }
+  else { emoji = '📚'; message = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+
+  const cel = document.getElementById(type + 'Celebration');
+  document.getElementById(type + 'Emoji').textContent = emoji;
+  document.getElementById(type + 'Message').textContent = message;
+  cel.classList.add('show');
+}
+
+// ==================== INIT ====================
+buildQuiz();
+buildCalc();
+updateSim();
+
+// Redraw sim on resize
+window.addEventListener('resize', updateSim);
+</script>
+
+</body>
+</html>

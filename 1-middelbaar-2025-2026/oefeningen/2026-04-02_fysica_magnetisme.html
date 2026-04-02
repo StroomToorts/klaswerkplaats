@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnetisme — Fysica</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F2E8;--warm-white:#FFFDF7;--terracotta:#C2704E;--terracotta-light:#D4916F;--ochre:#D4A843;--olive:#7A8B6F;--warm-brown:#5C4033;--dark-brown:#3D2B1F;--sand:#E8DCC8;--sand-light:#F0E8D8;--parchment:#F5EDE0;--rust:#B7553D;--sage:#A8B89A;--dusty-rose:#C9A0A0;--sky-blue:#6A9BB5;--vak-color:#B07A4B;--vak-light:#C99A6B;--vak-bg:rgba(176,122,75,.08);--correct-green:#6B9E6B;--wrong-red:#C25E4E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Vollkorn',Georgia,serif;color:var(--dark-brown);background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);min-height:100vh;line-height:1.65}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.container{max-width:860px;margin:0 auto;padding:24px 20px 40px;position:relative;z-index:1}
+.breadcrumb{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:20px;opacity:.75}
+.breadcrumb a{color:var(--warm-brown);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.exercise-header{display:flex;align-items:center;gap:16px;margin-bottom:12px;animation:fadeSlideUp .5s ease-out}
+.exercise-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--vak-color),var(--vak-light));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 3px 10px rgba(176,122,75,.25)}
+.exercise-title{font-family:'Vollkorn',serif;font-size:26px;font-weight:700;color:var(--dark-brown);line-height:1.2}
+.exercise-date{font-family:'Caveat',cursive;color:var(--vak-color);font-size:18px;margin-bottom:16px}
+.exercise-intro{font-family:'Source Sans 3',sans-serif;color:var(--warm-brown);font-size:15px;margin-bottom:24px;line-height:1.5}
+.tab-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;background:var(--sand-light);padding:5px;border-radius:14px}
+.tab-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border:none;border-radius:10px;background:transparent;color:var(--warm-brown);cursor:pointer;transition:all .25s;white-space:nowrap}
+.tab-btn:hover{background:rgba(176,122,75,.1)}
+.tab-btn.active{background:white;color:var(--vak-color);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tab-content{display:none;animation:fadeSlideUp .35s ease-out}.tab-content.active{display:block}
+.theory-card{background:var(--warm-white);border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.theory-card h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+.theory-card h4{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;color:var(--warm-brown);margin:14px 0 6px}
+.theory-card p,.theory-card li{font-size:16px;margin-bottom:8px;line-height:1.7}
+.theory-card ul{padding-left:20px}
+.attention-box{background:linear-gradient(135deg,rgba(176,122,75,.1),rgba(212,168,67,.08));border-left:4px solid var(--vak-color);border-radius:0 12px 12px 0;padding:16px 18px;margin:16px 0;font-size:15px}
+.attention-box strong{color:var(--vak-color)}
+.pole-demo{display:flex;gap:16px;margin:16px 0;flex-wrap:wrap;justify-content:center}
+.pole-pair{text-align:center;padding:14px 18px;border-radius:12px;border:2px solid var(--sand);background:var(--warm-white);flex:1;min-width:200px}
+.magnet-visual{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0}
+.bar-magnet{display:flex;border-radius:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.12);height:32px}
+.bar-magnet .pole-n{background:#C2704E;color:white;font-family:'Source Sans 3',sans-serif;font-weight:700;font-size:15px;padding:4px 14px;display:flex;align-items:center}
+.bar-magnet .pole-z{background:#4A7B99;color:white;font-family:'Source Sans 3',sans-serif;font-weight:700;font-size:15px;padding:4px 14px;display:flex;align-items:center}
+.pole-pair .result{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;margin-top:6px}
+.pole-pair .attract{color:var(--correct-green)}.pole-pair .repel{color:var(--wrong-red)}
+
+.experiment-card{background:var(--warm-white);border-radius:18px;padding:22px;margin-bottom:18px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.experiment-card h3{font-family:'Caveat',cursive;font-size:20px;color:var(--vak-color);margin-bottom:10px}
+.exp-section{margin:10px 0;padding:10px 14px;border-radius:10px;font-size:15px;line-height:1.65}
+.exp-section.observe{background:rgba(106,155,181,.08);border-left:3px solid var(--sky-blue)}
+.exp-section.conclude{background:rgba(176,122,75,.08);border-left:3px solid var(--vak-color)}
+.exp-label{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+.exp-label.obs{color:var(--sky-blue)}.exp-label.conc{color:var(--vak-color)}
+
+.sim-wrapper{background:var(--warm-white);border-radius:18px;padding:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:20px}
+.sim-wrapper h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
+canvas#fieldSim{width:100%;height:420px;border-radius:12px;background:linear-gradient(180deg,#f0ead8,#e8dcc8);touch-action:none}
+.sim-info{background:var(--sand-light);border-radius:12px;padding:14px 16px;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.6}
+.sim-info .hl{color:var(--vak-color);font-weight:600}
+
+.quiz-card{background:var(--warm-white);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--sand);box-shadow:0 2px 10px rgba(0,0,0,.04);transition:border-color .3s}
+.quiz-card.correct{border-color:var(--correct-green)}.quiz-card.incorrect{border-color:var(--wrong-red)}
+.quiz-number{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--vak-color);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.quiz-question{font-size:16px;font-weight:600;margin-bottom:4px;line-height:1.5}
+.quiz-context{font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);margin-bottom:12px;font-style:italic}
+.quiz-options{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-option{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 18px;border:2px solid var(--sand);border-radius:25px;background:var(--warm-white);color:var(--dark-brown);cursor:pointer;transition:all .2s}
+.quiz-option:hover:not(.disabled){border-color:var(--vak-color);background:var(--vak-bg)}
+.quiz-option.selected-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.selected-wrong{border-color:var(--wrong-red);background:rgba(194,94,78,.1);color:var(--wrong-red);text-decoration:line-through}
+.quiz-option.show-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
+.quiz-option.disabled{cursor:default;opacity:.7}
+.quiz-feedback{font-family:'Source Sans 3',sans-serif;font-size:14px;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.correct-fb{background:rgba(107,158,107,.1);color:var(--correct-green)}
+.quiz-feedback.incorrect-fb{background:rgba(194,94,78,.08);color:var(--wrong-red)}
+.score-bar{background:var(--sand-light);border-radius:12px;padding:12px 18px;margin-bottom:20px;display:none;align-items:center;gap:14px;font-family:'Source Sans 3',sans-serif;animation:fadeSlideUp .3s ease-out}
+.score-bar.show{display:flex}
+.score-text{font-weight:600;font-size:15px;color:var(--dark-brown);white-space:nowrap}
+.progress-bar-container{flex:1;height:10px;background:var(--sand);border-radius:5px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--vak-color),var(--ochre));border-radius:5px;transition:width .4s ease;width:0%}
+.reset-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;padding:5px 12px;border:1px solid var(--sand);border-radius:8px;background:white;color:var(--warm-brown);cursor:pointer}.reset-btn:hover{border-color:var(--vak-color)}
+.celebration{display:none;text-align:center;padding:24px;background:linear-gradient(135deg,rgba(176,122,75,.08),rgba(212,168,67,.06));border-radius:16px;margin-top:20px;animation:pop .4s ease-out}
+.celebration.show{display:block}.celebration .emoji{font-size:48px;margin-bottom:8px}
+.celebration .message{font-family:'Caveat',cursive;font-size:24px;color:var(--vak-color)}
+.action-buttons{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.action-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:10px 22px;border-radius:12px;border:1px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);text-decoration:none;cursor:pointer;transition:all .2s}
+.action-btn:hover{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.print-only{display:none}
+@media print{
+  .no-print{display:none!important}body{background:white!important;font-size:11pt}body::before{display:none}
+  .print-only{display:block!important}.container{padding:0;max-width:100%}.exercise-icon{display:none}
+  .theory-card,.experiment-card,.quiz-card,.sim-wrapper{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+  .score-bar,.progress-bar-container,.celebration{display:none!important}
+  .tab-content{display:block!important;margin-bottom:20px}
+  .tab-content::before{content:attr(data-print-title);display:block;font-family:'Caveat',cursive;font-size:22pt;color:var(--vak-color);margin-bottom:10px}
+  .tab-content:not(:first-of-type)::before{page-break-before:always}
+  canvas{display:none!important}.sim-info{display:none!important}
+  .quiz-option{border:1px solid #ccc}
+  .quiz-option.selected-correct,.quiz-option.selected-wrong,.quiz-option.show-correct{border-color:#ccc!important;background:white!important;color:var(--dark-brown)!important;text-decoration:none!important;font-weight:500!important}
+  .quiz-feedback{display:none!important}.quiz-card.correct,.quiz-card.incorrect{border-color:#ddd!important}
+  .print-answers{page-break-before:always}
+}
+@media(max-width:600px){
+  .container{padding:14px}.exercise-title{font-size:22px}
+  .exercise-icon{width:44px;height:44px;font-size:22px}.tab-btn{font-size:13px;padding:7px 12px}
+  .quiz-options{flex-direction:column}.quiz-option{width:100%;text-align:center}
+  canvas#fieldSim{height:320px}.pole-demo{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print"><a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Magnetisme</nav>
+
+  <div class="exercise-header">
+    <div class="exercise-icon no-print">⚙️</div>
+    <div class="exercise-title">Magnetisme</div>
+  </div>
+  <div class="exercise-date">Fysica — Magnetisme</div>
+  <div class="exercise-intro">
+    Magneten zijn overal: in je koelkast, je telefoon, je deurbel en zelfs in de aarde. Hoe werken ze? Waarom trekken sommige dingen aan en stoten andere af?
+  </div>
+
+  <div class="tab-bar no-print">
+    <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
+    <button class="tab-btn" onclick="switchTab('simulatie')">🧲 Veldlijnen</button>
+    <button class="tab-btn" onclick="switchTab('proeven')">🧪 Proeven</button>
+    <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
+  </div>
+
+  <div class="score-bar no-print" id="quizScore">
+    <span class="score-text" id="quizScoreText">Score: 0/0</span>
+    <div class="progress-bar-container"><div class="progress-bar" id="quizProgress"></div></div>
+    <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+  </div>
+
+  <!-- ============ TAB 1: THEORIE ============ -->
+  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Magnetisme">
+
+    <div class="theory-card">
+      <h3>Twee polen</h3>
+      <p>Elke magneet heeft twee <strong>polen</strong>: een <strong>noordpool</strong> (N) en een <strong>zuidpool</strong> (Z). De magnetische kracht is het sterkst aan deze uiteinden. In het midden van de magneet is de kracht het zwakst.</p>
+
+      <div class="pole-demo">
+        <div class="pole-pair">
+          <div class="magnet-visual">
+            <div class="bar-magnet"><span class="pole-n">N</span><span class="pole-z">Z</span></div>
+            <div class="bar-magnet"><span class="pole-z">Z</span><span class="pole-n">N</span></div>
+          </div>
+          <div class="result attract">→ ← Trekken aan!</div>
+          <p style="font-size:13px;margin-top:2px">Verschillende polen naast elkaar</p>
+        </div>
+        <div class="pole-pair">
+          <div class="magnet-visual">
+            <div class="bar-magnet"><span class="pole-n">N</span><span class="pole-z">Z</span></div>
+            <div class="bar-magnet"><span class="pole-n">N</span><span class="pole-z">Z</span></div>
+          </div>
+          <div class="result repel">← → Stoten af!</div>
+          <p style="font-size:13px;margin-top:2px">Gelijke polen naast elkaar</p>
+        </div>
+      </div>
+
+      <div class="attention-box">
+        <strong>🧲 De hoofdregel:</strong> Verschillende polen trekken elkaar aan. Gelijke polen stoten elkaar af.
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>Het magnetisch veld</h3>
+      <p>Rond elke magneet bevindt zich een onzichtbaar <strong>magnetisch veld</strong>. Dit veld oefent een kracht uit op andere magneten en op magnetische materialen (zoals ijzer).</p>
+      <p>We kunnen het magnetisch veld zichtbaar maken met <strong>ijzervijlsel</strong>: de kleine ijzerdeeltjes richten zich langs de veldlijnen. We kunnen het ook onderzoeken met een <strong>kompasje</strong>: de naald wijst steeds in de richting van het veld.</p>
+      <p>De <strong>veldlijnen</strong> lopen van de noordpool naar de zuidpool aan de buitenkant van de magneet. Ze geven de richting en sterkte van de magnetische kracht aan. Waar de lijnen dicht bij elkaar liggen, is het veld het sterkst.</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Magnetiseren</h3>
+      <p>Sommige materialen (vooral ijzer) kunnen <strong>tijdelijk magnetisch</strong> worden. Als je met een magneet in dezelfde richting over een ijzeren voorwerp strijkt, worden de kleine magnetische gebiedjes in het ijzer gericht. Het ijzer gedraagt zich dan als een magneet.</p>
+      <p>Zo werkt ook een <strong>kompas</strong>: een gemagnetiseerde naald die vrij kan draaien. Eén kant wijst altijd naar het noorden, omdat de aarde zelf een enorme magneet is!</p>
+    </div>
+
+    <div class="theory-card">
+      <h3>Elektromagneet</h3>
+      <p>Als je een <strong>koperdraad om een ijzeren spijker</strong> wikkelt en er stroom doorheen stuurt, wordt de spijker een magneet. Dit noemen we een <strong>elektromagneet</strong>.</p>
+      <p>Het bijzondere: zodra je de stroom uitschakelt, verdwijnt de magnetische kracht weer. Je kunt de magneet dus aan- en uitzetten! Elektromagneten zitten in motoren, deurbellen, luidsprekers en nog veel meer.</p>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 2: SIMULATIE ============ -->
+  <div class="tab-content" id="tab-simulatie" data-print-title="🧲 Veldlijnen-simulatie">
+
+    <div class="sim-wrapper">
+      <h3>Magnetisch veld verkennen</h3>
+      <p style="font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:14px;">
+        <strong>Beweeg je vinger of muis</strong> over het veld om het kompas mee te nemen. Het kompas draait mee met de richting van het magnetisch veld!
+      </p>
+      <canvas id="fieldSim" width="800" height="420"></canvas>
+      <div class="sim-info">
+        De <span class="hl">veldlijnen</span> lopen van N naar Z. Waar de lijnen <span class="hl">dicht bij elkaar</span> liggen (bij de polen), is het veld het sterkst. Sleep het <span class="hl">kompas</span> rond om het veld te verkennen!
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 3: PROEVEN ============ -->
+  <div class="tab-content" id="tab-proeven" data-print-title="🧪 Proeven">
+
+    <div class="experiment-card">
+      <h3>🧪 Proef A: Magneten en hun polen</h3>
+      <p>We brengen twee staafmagneten bij elkaar en proberen spijkertjes aan verschillende plaatsen te hangen. Daarna houden we een magneet tegen een ijzeren balkje.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Sommige uiteinden trekken elkaar aan, andere stoten af. Aan de uiteinden van de magneet blijven meer spijkertjes hangen dan in het midden. Als we de magneet tegen het ijzer houden, kunnen we met het ijzer spijkertjes optillen. Zodra we de magneet weghalen, vallen ze weer los.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Een magneet heeft twee polen: een noordpool en een zuidpool. Verschillende polen trekken aan, gelijke stoten af. De kracht is het sterkst aan de uiteinden. IJzer kan tijdelijk magnetisch worden als het een magneet aanraakt.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef B: Het magnetisch veld</h3>
+      <p>We leggen een staafmagneet onder een blad papier en strooien ijzervijlsel erop. We tikken zachtjes en bekijken het patroon. Daarna gebruiken we een kompasje op verschillende plaatsen.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        Het ijzervijlsel verspreidt zich niet willekeurig maar vormt duidelijke lijnen van het ene uiteinde naar het andere. Met het kompasje zien we dat de naald op verschillende plaatsen een andere richting aanwijst. De richting verandert rondom de magneet.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Elke magneet heeft een magnetisch veld. Dit veld kunnen we zichtbaar maken met ijzervijlsel of onderzoeken met een kompasje. De veldlijnen lopen van de noordpool naar de zuidpool. Ze geven de richting aan van de magnetische kracht rond de magneet.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef C: Magnetiseren</h3>
+      <p>We drukken een naald door een kurkplakje, strijken er met een magneet in dezelfde richting overheen, en leggen de kurk op water.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        De kurk draait langzaam. Na een tijdje blijft de naald in een vaste richting liggen. Eén uiteinde wijst steeds naar dezelfde kant.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        De naald is magnetisch geworden en gedraagt zich als een kleine magneet. Eén kant wijst naar het noorden, de andere naar het zuiden. Door met een magneet over ijzer te strijken, kunnen we het tijdelijk magnetisch maken. Zo werkt ook een kompas.
+      </div>
+    </div>
+
+    <div class="experiment-card">
+      <h3>🧪 Proef D: De elektromagneet</h3>
+      <p>We wikkelen koperdraad rond een ijzeren spijker en verbinden de uiteinden met een batterij. Daarna houden we de spijker bij paperclips.</p>
+      <div class="exp-section observe">
+        <div class="exp-label obs">👀 Waarneming</div>
+        De paperclips blijven aan de spijker hangen zodra er stroom door de draad loopt. Wanneer we de batterij loskoppelen, vallen de paperclips weer naar beneden.
+      </div>
+      <div class="exp-section conclude">
+        <div class="exp-label conc">💡 Besluit</div>
+        Elektrische stroom kan een magnetisch veld opwekken. De spijker wordt tijdelijk een magneet zolang er stroom loopt. Zo'n tijdelijke magneet noemen we een elektromagneet.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 4: QUIZ ============ -->
+  <div class="tab-content" id="tab-quiz" data-print-title="📝 Quiz: Magnetisme">
+    <div id="quizContainer"></div>
+    <div class="celebration no-print" id="quizCelebration">
+      <div class="emoji" id="quizEmoji"></div>
+      <div class="message" id="quizMessage"></div>
+    </div>
+  </div>
+
+  <div class="print-only print-answers">
+    <h2 style="font-family:'Caveat',cursive;font-size:26pt;color:var(--vak-color);margin-bottom:16px;">Oplossingen</h2>
+    <h3 style="font-family:'Caveat',cursive;font-size:20pt;color:var(--vak-color);margin:12px 0 10px;">📝 Quiz</h3>
+    <div id="printQuizAnswers"></div>
+  </div>
+
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ==================== TABS ====================
+function switchTab(tabId){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tabId).classList.add('active');
+  event.target.classList.add('active');
+  document.getElementById('quizScore').classList.toggle('show',tabId==='quiz'&&quizAnswered>0);
+  if(tabId==='simulatie') requestAnimationFrame(drawField);
+}
+
+// ==================== MAGNETIC FIELD SIMULATION ====================
+let compassPos = {x: 0.75, y: 0.3}; // normalized position
+let compassActive = false;
+
+function setupFieldEvents(){
+  const c = document.getElementById('fieldSim');
+  function getPos(e){
+    const rect = c.getBoundingClientRect();
+    const touch = e.touches ? e.touches[0] : e;
+    return { x: (touch.clientX - rect.left) / rect.width, y: (touch.clientY - rect.top) / rect.height };
+  }
+  c.addEventListener('mousedown', e => { compassActive=true; compassPos=getPos(e); drawField(); });
+  c.addEventListener('mousemove', e => { if(compassActive||true){ compassPos=getPos(e); drawField(); }});
+  c.addEventListener('mouseup', () => { compassActive=false; });
+  c.addEventListener('mouseleave', () => { compassActive=false; });
+  c.addEventListener('touchstart', e => { e.preventDefault(); compassActive=true; compassPos=getPos(e); drawField(); }, {passive:false});
+  c.addEventListener('touchmove', e => { e.preventDefault(); compassPos=getPos(e); drawField(); }, {passive:false});
+  c.addEventListener('touchend', () => { compassActive=false; });
+}
+
+function drawField(){
+  const c=document.getElementById('fieldSim');
+  if(!c.clientWidth||!c.clientHeight) return;
+  const dpr=window.devicePixelRatio||1;
+  c.width=c.clientWidth*dpr;c.height=c.clientHeight*dpr;
+  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
+  const w=c.clientWidth,h=c.clientHeight;
+  ctx.clearRect(0,0,w,h);
+
+  const mx=w/2, my=h/2;
+  const mw=Math.min(160,w*0.35), mh=36;
+  const poleStrength=8000;
+  const np={x:mx+mw/2, y:my};
+  const sp={x:mx-mw/2, y:my};
+
+  function fieldAt(x,y){
+    let bx=0,by=0;
+    let dx=x-np.x, dy=y-np.y, r2=dx*dx+dy*dy, r=Math.sqrt(r2);
+    if(r<10) r=10; r2=r*r;
+    bx+=poleStrength*dx/(r2*r); by+=poleStrength*dy/(r2*r);
+    dx=x-sp.x; dy=y-sp.y; r2=dx*dx+dy*dy; r=Math.sqrt(r2);
+    if(r<10) r=10; r2=r*r;
+    bx-=poleStrength*dx/(r2*r); by-=poleStrength*dy/(r2*r);
+    return {x:bx,y:by};
+  }
+
+  // Draw field lines
+  function drawFieldLine(startX,startY){
+    ctx.strokeStyle='rgba(176,122,75,0.3)';
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    let x=startX,y=startY;
+    ctx.moveTo(x,y);
+    for(let i=0;i<300;i++){
+      const f=fieldAt(x,y);
+      const mag=Math.sqrt(f.x*f.x+f.y*f.y);
+      if(mag<0.0001) break;
+      x+=f.x/mag*3; y+=f.y/mag*3;
+      if(x<0||x>w||y<0||y>h) break;
+      if(Math.sqrt((x-sp.x)**2+(y-sp.y)**2)<18) break;
+      ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+
+  const numLines=14;
+  for(let i=0;i<numLines;i++){
+    const angle=(i/numLines)*Math.PI*2;
+    drawFieldLine(np.x+22*Math.cos(angle), np.y+22*Math.sin(angle));
+  }
+
+  // Small compass needles grid
+  const gridSize=50;
+  for(let gx=gridSize;gx<w;gx+=gridSize){
+    for(let gy=gridSize;gy<h;gy+=gridSize){
+      if(gx>mx-mw/2-10 && gx<mx+mw/2+10 && gy>my-mh/2-10 && gy<my+mh/2+10) continue;
+      const f=fieldAt(gx,gy);
+      const mag=Math.sqrt(f.x*f.x+f.y*f.y);
+      if(mag<0.001) continue;
+      const angle=Math.atan2(f.y,f.x);
+      const strength=Math.min(1,mag*8);
+      ctx.save();
+      ctx.translate(gx,gy);
+      ctx.rotate(angle);
+      ctx.fillStyle=`rgba(194,112,78,${0.15+strength*0.25})`;
+      ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(-2,-2.5);ctx.lineTo(-2,2.5);ctx.closePath();ctx.fill();
+      ctx.fillStyle=`rgba(106,155,181,${0.15+strength*0.25})`;
+      ctx.beginPath();ctx.moveTo(-10,0);ctx.lineTo(2,-2.5);ctx.lineTo(2,2.5);ctx.closePath();ctx.fill();
+      ctx.fillStyle='rgba(92,64,51,0.2)';
+      ctx.beginPath();ctx.arc(0,0,1.5,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Draw magnet
+  ctx.fillStyle='#4A7B99';
+  roundRect(ctx,mx-mw/2,my-mh/2,mw/2,mh,6);ctx.fill();
+  ctx.fillStyle='#C2704E';
+  roundRect(ctx,mx,my-mh/2,mw/2,mh,6);ctx.fill();
+  ctx.fillStyle='#4A7B99';ctx.fillRect(mx-mw/2+6,my-mh/2,mw/2-6,mh);
+  ctx.fillStyle='#C2704E';ctx.fillRect(mx,my-mh/2,mw/2-6,mh);
+  ctx.strokeStyle='rgba(61,43,31,0.2)';ctx.lineWidth=1.5;
+  roundRect(ctx,mx-mw/2,my-mh/2,mw,mh,6);ctx.stroke();
+  ctx.fillStyle='white';ctx.font='bold 18px Source Sans 3, sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('Z',mx-mw/4,my);ctx.fillText('N',mx+mw/4,my);
+  ctx.fillStyle='#4A7B99';ctx.font='12px Source Sans 3, sans-serif';
+  ctx.fillText('zuidpool',mx-mw/4,my+mh/2+16);
+  ctx.fillStyle='#C2704E';ctx.fillText('noordpool',mx+mw/4,my+mh/2+16);
+
+  // Draw interactive compass at cursor position
+  const cx=compassPos.x*w, cy=compassPos.y*h;
+  // Don't draw if inside magnet
+  if(!(cx>mx-mw/2-5 && cx<mx+mw/2+5 && cy>my-mh/2-5 && cy<my+mh/2+5)){
+    const f=fieldAt(cx,cy);
+    const mag=Math.sqrt(f.x*f.x+f.y*f.y);
+    if(mag>0.0005){
+      const angle=Math.atan2(f.y,f.x);
+      const cr=28; // compass radius
+
+      // Compass body (circle)
+      ctx.save();
+      ctx.translate(cx,cy);
+      ctx.fillStyle='rgba(255,253,247,0.92)';
+      ctx.strokeStyle='rgba(176,122,75,0.5)';
+      ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(0,0,cr,0,Math.PI*2);ctx.fill();ctx.stroke();
+
+      // Compass ring marks
+      ctx.strokeStyle='rgba(176,122,75,0.2)';
+      ctx.lineWidth=1;
+      for(let i=0;i<12;i++){
+        const a=(i/12)*Math.PI*2;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a)*(cr-4),Math.sin(a)*(cr-4));
+        ctx.lineTo(Math.cos(a)*(cr-1),Math.sin(a)*(cr-1));
+        ctx.stroke();
+      }
+
+      // Needle
+      ctx.rotate(angle);
+      // Red half (N-seeking, points in field direction)
+      ctx.fillStyle='#C2704E';
+      ctx.beginPath();ctx.moveTo(cr-6,0);ctx.lineTo(-3,-5);ctx.lineTo(-3,5);ctx.closePath();ctx.fill();
+      // Blue half
+      ctx.fillStyle='#4A7B99';
+      ctx.beginPath();ctx.moveTo(-(cr-6),0);ctx.lineTo(3,-5);ctx.lineTo(3,5);ctx.closePath();ctx.fill();
+      // Center pin
+      ctx.fillStyle='#B07A4B';
+      ctx.beginPath();ctx.arc(0,0,3.5,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#D4A843';
+      ctx.beginPath();ctx.arc(0,0,2,0,Math.PI*2);ctx.fill();
+
+      ctx.restore();
+
+      // N label at tip
+      const tipX=cx+Math.cos(angle)*(cr+10), tipY=cy+Math.sin(angle)*(cr+10);
+      ctx.fillStyle='#C2704E';ctx.font='bold 11px Source Sans 3, sans-serif';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('N',tipX,tipY);
+    }
+  }
+
+  // Hint text if compass hasn't been moved
+  if(compassPos.x===0.75 && compassPos.y===0.3){
+    ctx.fillStyle='rgba(92,64,51,0.4)';
+    ctx.font='13px Source Sans 3, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('👆 Beweeg je vinger of muis over het veld',w/2,h-20);
+  }
+}
+
+setupFieldEvents();
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+// ==================== QUIZ ====================
+const quizData=[
+  {q:'Elke magneet heeft twee polen. Wat gebeurt er als je twee noordpolen bij elkaar brengt?',options:['Ze trekken elkaar aan','Ze stoten elkaar af','Er gebeurt niets','Ze draaien rond'],correct:1,explanation:'Gelijke polen (N-N of Z-Z) stoten elkaar af. Alleen verschillende polen (N-Z) trekken aan.'},
+  {q:'Waar is de magnetische kracht van een staafmagneet het sterkst?',options:['In het midden','Aan de uiteinden (polen)','Overal even sterk','Eronder'],correct:1,explanation:'De magnetische kracht is het sterkst aan de polen (uiteinden). In het midden is de kracht het zwakst.'},
+  {q:'Waarmee kun je een magnetisch veld zichtbaar maken?',options:['Zout','IJzervijlsel','Suiker','Zand'],correct:1,explanation:'IJzervijlsel bestaat uit kleine ijzerdeeltjes die zich langs de veldlijnen richten en zo het onzichtbare veld zichtbaar maken.'},
+  {q:'Hoe lopen de veldlijnen van een magneet?',options:['Van Z naar N','Van N naar Z','Van het midden naar buiten','In een rechte lijn'],correct:1,explanation:'Aan de buitenkant van de magneet lopen de veldlijnen van de noordpool (N) naar de zuidpool (Z).'},
+  {q:'Hoe kun je een naald magnetisch maken?',options:['Door er hard op te slaan','Door er met een magneet in dezelfde richting overheen te strijken','Door hem in water te leggen','Door hem te verwarmen'],correct:1,explanation:'Door met een magneet in dezelfde richting over de naald te strijken, worden de magnetische gebiedjes in de naald gericht.'},
+  {q:'Waarom wijst een kompasnaald naar het noorden?',options:['Omdat het noorden kouder is','Omdat de aarde zelf een magneet is','Omdat de zon in het noorden staat','Omdat kompassen een GPS hebben'],correct:1,explanation:'De aarde heeft een magnetisch veld met een magnetische zuidpool bij de geografische noordpool. De noordpool van de kompasnaald wordt daarheen getrokken.'},
+  {q:'Wat is een elektromagneet?',options:['Een magneet die op batterijen werkt','Een spoel met stroom erdoor die een magnetisch veld opwekt','Een hele sterke permanente magneet','Een magneet van plastic'],correct:1,explanation:'Een elektromagneet is een spoel (draad rond een kern) waar stroom doorheen loopt. Dat wekt een magnetisch veld op dat je kunt aan- en uitzetten.'},
+  {q:'Wat gebeurt er als je de stroom door een elektromagneet uitschakelt?',options:['De magneet wordt sterker','De magnetische kracht verdwijnt','De magneet explodeert','Er verandert niets'],correct:1,explanation:'Zodra de stroom stopt, verdwijnt het magnetisch veld. De elektromagneet verliest zijn magnetische kracht. Dat is juist het handige eraan!'},
+  {q:'Welk materiaal wordt NIET door een magneet aangetrokken?',options:['IJzer','Nikkel','Koper','Staal'],correct:2,explanation:'Koper is niet magnetisch. IJzer, nikkel en staal (een legering met ijzer) worden wel door een magneet aangetrokken.'},
+  {q:'In de proef met de kurk en naald op water: waarom draait de kurk?',options:['Door de wind','Omdat de naald magnetisch is en zich richt naar het noorden','Omdat kurk altijd draait op water','Door de stroming in het water'],correct:1,explanation:'De gemagnetiseerde naald gedraagt zich als een kompas. Ze richt zich naar het magnetisch veld van de aarde en wijst naar het noorden.'},
+  {q:'Waar zitten elektromagneten NIET in?',options:['Een deurbel','Een luidspreker','Een houten stoel','Een elektrische motor'],correct:2,explanation:'Een houten stoel bevat geen elektromagneet. Deurbellen, luidsprekers en elektrische motoren werken allemaal met elektromagneten.'},
+  {q:'Als je een magneet in twee stukken breekt, wat krijg je dan?',options:['Een stuk met alleen een N-pool en een stuk met alleen een Z-pool','Twee magneten, elk met een N-pool en een Z-pool','Twee stukken die niet meer magnetisch zijn','Een heel sterke magneet'],correct:1,explanation:'Elke magneet, hoe klein ook, heeft altijd een noord- en een zuidpool. Als je een magneet breekt, krijg je twee kleinere magneten.'}
+];
+
+let quizAnswered=0,quizCorrect=0;
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function buildQuiz(){
+  const c=document.getElementById('quizContainer');let ph='';c.innerHTML='';
+  quizData.forEach((item,idx)=>{
+    const opts=item.options.map((o,i)=>({text:o,origIdx:i}));
+    const sh=shuffle(opts);const ci=sh.findIndex(o=>o.origIdx===item.correct);
+    const card=document.createElement('div');card.className='quiz-card';card.id='quiz-'+idx;
+    let h=`<div class="quiz-number">Vraag ${idx+1} / ${quizData.length}</div>`;
+    h+=`<div class="quiz-question">${item.q}</div><div class="quiz-options">`;
+    sh.forEach((o,oi)=>{h+=`<button class="quiz-option" onclick="answerQuiz(${idx},${oi},${ci})">${o.text}</button>`;});
+    h+=`</div><div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
+    card.innerHTML=h;c.appendChild(card);
+    ph+=`<p style="margin:4px 0"><strong>${idx+1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+  document.getElementById('printQuizAnswers').innerHTML=ph;
+}
+
+function answerQuiz(ci,oi,corr){
+  const card=document.getElementById('quiz-'+ci);
+  if(card.classList.contains('correct')||card.classList.contains('incorrect'))return;
+  const opts=card.querySelectorAll('.quiz-option');opts.forEach(o=>o.classList.add('disabled'));
+  const fb=document.getElementById('quiz-fb-'+ci);quizAnswered++;
+  if(oi===corr){quizCorrect++;opts[oi].classList.add('selected-correct');card.classList.add('correct');fb.className='quiz-feedback show correct-fb';fb.textContent=['✓ Correct!','✓ Juist!','✓ Goed zo!','✓ Uitstekend!'][Math.floor(Math.random()*4)]+' '+quizData[ci].explanation;}
+  else{opts[oi].classList.add('selected-wrong');opts[corr].classList.add('show-correct');card.classList.add('incorrect');fb.className='quiz-feedback show incorrect-fb';fb.textContent='✗ '+quizData[ci].explanation;}
+  updateQuizScore();
+}
+
+function updateQuizScore(){
+  document.getElementById('quizScore').classList.add('show');
+  document.getElementById('quizScoreText').textContent=`Score: ${quizCorrect}/${quizAnswered}`;
+  document.getElementById('quizProgress').style.width=(quizCorrect/quizData.length*100)+'%';
+  if(quizAnswered===quizData.length){
+    const pct=quizCorrect/quizData.length*100;let e,m;
+    if(pct===100){e='🌟';m='Alles juist — fantastisch!';}
+    else if(pct>=80){e='🎉';m='Heel goed! Bijna alles juist.';}
+    else if(pct>=60){e='💪';m='Goed bezig! Bekijk de fouten nog eens.';}
+    else{e='📚';m='Bekijk de theorie nog eens en probeer opnieuw!';}
+    document.getElementById('quizEmoji').textContent=e;
+    document.getElementById('quizMessage').textContent=m;
+    document.getElementById('quizCelebration').classList.add('show');
+  }
+}
+
+function resetQuiz(){quizAnswered=0;quizCorrect=0;document.getElementById('quizScore').classList.remove('show');document.getElementById('quizCelebration').classList.remove('show');buildQuiz();}
+
+// ==================== INIT ====================
+buildQuiz();
+window.addEventListener('resize',()=>{if(document.getElementById('tab-simulatie').classList.contains('active'))drawField();});
+</script>
+</body>
+</html>
