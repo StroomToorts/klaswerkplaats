@@ -268,25 +268,49 @@ canvas { width: 100%; border-radius: 12px; cursor: pointer; touch-action: none; 
     <div class="sim-wrapper">
       <h3>Katrol-simulator</h3>
       <p style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:var(--warm-brown); margin-bottom:14px;">
-        Kies een type katrol en stel het gewicht in. Bekijk hoeveel kracht je nodig hebt en hoeveel touw je moet trekken.
+        Sleep het handvat om het touw te trekken. Voel het verschil tussen de katroltypes!
       </p>
 
       <div class="sim-mode-btns">
-        <button class="sim-mode-btn active" onclick="setPulleyMode('none')">Geen katrol</button>
-        <button class="sim-mode-btn" onclick="setPulleyMode('fixed')">Vaste katrol</button>
-        <button class="sim-mode-btn" onclick="setPulleyMode('movable')">Losse katrol</button>
-        <button class="sim-mode-btn" onclick="setPulleyMode('block')">Takel (2+2)</button>
+        <button class="sim-mode-btn active" onclick="setSimMode(0)">Geen katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(1)">Vaste katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(2)">Losse katrol</button>
+        <button class="sim-mode-btn" onclick="setSimMode(3)">Takel</button>
       </div>
 
-      <canvas id="pulleySim" width="800" height="380"></canvas>
+      <div style="width:100%;display:flex;justify-content:center;margin-bottom:16px;">
+        <canvas id="simCanvas" width="460" height="420"></canvas>
+      </div>
 
       <div class="sim-controls">
-        <label>Gewicht van de last: <input type="range" id="pulleyWeight" min="20" max="400" value="200" step="10" oninput="updatePulley()"> <span class="val" id="pulleyWeightVal">200 N</span></label>
+        <label>Last: <input type="range" id="weightSlider" min="20" max="200" value="100" step="10" oninput="updateWeight()"> <span class="val" id="weightDisplay">100 N</span></label>
       </div>
 
-      <div class="sim-info" id="pulleyInfo">
-        <strong>Geen katrol:</strong> Je moet de volledige kracht leveren (<span class="highlight">200 N</span>) en het touw <span class="highlight">1 meter</span> optrekken om de last 1 meter te tillen.
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-top:12px;">
+        <div style="background:var(--sand-light);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--warm-brown);opacity:.7;margin-bottom:4px">Trekkracht</div>
+          <div style="font-family:'Vollkorn',serif;font-size:22px;font-weight:700;color:var(--vak-color)" id="infoForce">100</div>
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown)">Newton</div>
+        </div>
+        <div style="background:var(--sand-light);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--warm-brown);opacity:.7;margin-bottom:4px">Touw getrokken</div>
+          <div style="font-family:'Vollkorn',serif;font-size:22px;font-weight:700;color:var(--vak-color)" id="infoRope">0.0</div>
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown)">meter</div>
+        </div>
+        <div style="background:var(--sand-light);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--warm-brown);opacity:.7;margin-bottom:4px">Last gestegen</div>
+          <div style="font-family:'Vollkorn',serif;font-size:22px;font-weight:700;color:var(--vak-color)" id="infoRise">0.0</div>
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown)">meter</div>
+        </div>
+        <div style="background:var(--sand-light);border-radius:12px;padding:12px;text-align:center;">
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--warm-brown);opacity:.7;margin-bottom:4px">Krachtvoordeel</div>
+          <div style="font-family:'Vollkorn',serif;font-size:22px;font-weight:700;color:var(--vak-color)" id="infoAdv">1×</div>
+          <div style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown)">&nbsp;</div>
+        </div>
       </div>
+
+      <p style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);opacity:.6;text-align:center;margin-top:12px" id="simHint">🖐️ Sleep het handvat om de last op te tillen</p>
+      <button style="font-family:'Source Sans 3',sans-serif;font-size:13px;padding:6px 16px;border-radius:20px;border:2px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);cursor:pointer;margin:10px auto 0;display:block" onclick="resetSim()">🔄 Reset</button>
     </div>
 
   </div>
@@ -372,290 +396,183 @@ function switchTab(tabId) {
   document.getElementById('tab-' + tabId).classList.add('active');
   event.target.classList.add('active');
   document.getElementById('quizScore').classList.toggle('show', tabId === 'quiz' && quizAnswered > 0);
-  if (tabId === 'katrollen') requestAnimationFrame(() => { updatePulley(); startPulleyAnim(); });
+  if (tabId === 'katrollen') requestAnimationFrame(() => { initCanvas(); drawSim(); updateSimInfo(); });
   if (tabId === 'tandwielen') requestAnimationFrame(() => { updateGears(); startGearAnimation(); });
 }
 
-// ==================== PULLEY SIMULATOR ====================
-let pulleyMode = 'none';
-let pulleyFrame = 0;
-let pulleyAnimId = null;
+// ==================== PULLEY SIMULATOR (DRAGGABLE) ====================
+let simCanvas, simCtx, evReady = false;
+let sMode = 0, loadN = 100, pull = 0;
+const MAX_PULL = 160;
+let isDrag = false, dragY0 = 0, pull0 = 0;
+const BM = 38, PR = 18, WW = 58, WH = 44, GR = 385, CX = 230;
 
-function startPulleyAnim() {
-  if (pulleyAnimId) return;
-  function animate() {
-    pulleyFrame++;
-    updatePulley();
-    pulleyAnimId = requestAnimationFrame(animate);
+function mRatio() { return sMode <= 1 ? 1 : 2; }
+function mDir() { return (sMode===0||sMode===2) ? -1 : 1; }
+function wRise() { return pull / mRatio(); }
+function hXY() {
+  const wb = GR - WH, ar = PR + 1;
+  switch(sMode) {
+    case 0: return { x: CX, y: wb - wRise() - 40 };
+    case 1: return { x: CX + ar, y: BM + 12 + PR + PR + 25 + pull };
+    case 2: return { x: CX + ar, y: BM + 30 + (MAX_PULL - pull) * 0.95 };
+    case 3: return { x: CX + ar + 36, y: BM + 12 + PR + PR + 25 + pull };
   }
-  animate();
 }
 
-function setPulleyMode(mode) {
-  pulleyMode = mode;
-  document.querySelectorAll('.sim-mode-btn').forEach(b => b.classList.remove('active'));
+function initCanvas() {
+  simCanvas = document.getElementById('simCanvas');
+  if (!simCanvas) return;
+  simCtx = simCanvas.getContext('2d');
+  const w = Math.min(460, simCanvas.parentElement.clientWidth - 10);
+  simCanvas.style.width = w + 'px';
+  simCanvas.style.height = (w * 420 / 460) + 'px';
+  if (!evReady) {
+    simCanvas.addEventListener('mousedown', simMD);
+    simCanvas.addEventListener('mousemove', simMM);
+    simCanvas.addEventListener('mouseup', simMU);
+    simCanvas.addEventListener('mouseleave', simMU);
+    simCanvas.addEventListener('touchstart', simTD, {passive:false});
+    simCanvas.addEventListener('touchmove', simTM, {passive:false});
+    simCanvas.addEventListener('touchend', simMU);
+    evReady = true;
+  }
+}
+
+function simPt(e) { const r=simCanvas.getBoundingClientRect(); return {x:(e.clientX-r.left)*simCanvas.width/r.width, y:(e.clientY-r.top)*simCanvas.height/r.height}; }
+function nearH(p) { const h=hXY(); return Math.hypot(p.x-h.x,p.y-h.y)<35; }
+function simMD(e) { const p=simPt(e); if(nearH(p)){isDrag=true;dragY0=p.y;pull0=pull;simCanvas.style.cursor='grabbing';} }
+function simMM(e) { if(!isDrag){simCanvas.style.cursor=nearH(simPt(e))?'grab':'default';return;} const p=simPt(e); pull=Math.max(0,Math.min(MAX_PULL,pull0+(p.y-dragY0)*mDir())); drawSim();updateSimInfo(); }
+function simMU() { isDrag=false; if(simCanvas) simCanvas.style.cursor='default'; }
+function simTD(e) { e.preventDefault(); const p=simPt(e.touches[0]); if(nearH(p)){isDrag=true;dragY0=p.y;pull0=pull;} }
+function simTM(e) { e.preventDefault(); if(!isDrag)return; const p=simPt(e.touches[0]); pull=Math.max(0,Math.min(MAX_PULL,pull0+(p.y-dragY0)*mDir())); drawSim();updateSimInfo(); }
+
+function setSimMode(m) {
+  sMode = m; pull = 0;
+  document.querySelectorAll('#tab-katrollen .sim-mode-btn').forEach(b => b.classList.remove('active'));
   event.target.classList.add('active');
-  updatePulley();
+  const hints = ['🖐️ Sleep het handvat omhoog','🖐️ Sleep het handvat naar beneden','🖐️ Sleep omhoog — merk je dat het lichter gaat?','🖐️ Sleep naar beneden — de takel maakt het nóg lichter!'];
+  document.getElementById('simHint').textContent = hints[m];
+  drawSim(); updateSimInfo();
+}
+function updateWeight() {
+  loadN = +document.getElementById('weightSlider').value;
+  document.getElementById('weightDisplay').textContent = loadN + ' N';
+  drawSim(); updateSimInfo();
+}
+function resetSim() { pull = 0; drawSim(); updateSimInfo(); }
+function updateSimInfo() {
+  const r = mRatio(), rp = (pull/MAX_PULL*3).toFixed(1), rs = (wRise()/MAX_PULL*3).toFixed(1);
+  document.getElementById('infoForce').textContent = Math.round(loadN / r);
+  document.getElementById('infoRope').textContent = rp;
+  document.getElementById('infoRise').textContent = rs;
+  document.getElementById('infoAdv').textContent = r + '×';
 }
 
-function updatePulley() {
-  const weight = +document.getElementById('pulleyWeight').value;
-  document.getElementById('pulleyWeightVal').textContent = weight + ' N';
-
-  let force, ropeMultiplier, description;
-  switch (pulleyMode) {
-    case 'none':
-      force = weight;
-      ropeMultiplier = 1;
-      description = `<strong>Geen katrol:</strong> Je moet de volledige kracht leveren (<span class="highlight">${weight} N</span>) en het touw <span class="highlight">1 meter</span> optrekken om de last 1 meter te tillen.`;
-      break;
-    case 'fixed':
-      force = weight;
-      ropeMultiplier = 1;
-      description = `<strong>Vaste katrol:</strong> Je trekt nog steeds met <span class="highlight">${weight} N</span> en <span class="highlight">1 meter</span> touw per meter tillen. Maar je kunt nu <em>naar beneden</em> trekken — veel handiger!`;
-      break;
-    case 'movable':
-      force = weight / 2;
-      ropeMultiplier = 2;
-      description = `<strong>Losse katrol:</strong> De kracht wordt gehalveerd! Je trekt maar <span class="highlight">${force} N</span>, maar je moet <span class="highlight">2 meter</span> touw trekken om de last 1 meter te tillen.`;
-      break;
-    case 'block':
-      force = weight / 4;
-      ropeMultiplier = 4;
-      description = `<strong>Takel (4 touwdelen):</strong> De kracht wordt door 4 gedeeld! Je trekt maar <span class="highlight">${force} N</span>, maar je moet <span class="highlight">4 meter</span> touw trekken per meter tillen.`;
-      break;
-  }
-
-  document.getElementById('pulleyInfo').innerHTML = description;
-  drawPulley(weight, force, ropeMultiplier);
+function drawSim() {
+  if(!simCtx) return;
+  const ctx = simCtx, W=simCanvas.width, H=simCanvas.height;
+  const bg=ctx.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#f0ead6'); bg.addColorStop(1,'#e4d8c4');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#8B7355'; ctx.fillRect(50,BM-4,W-100,12);
+  ctx.strokeStyle='#6B5840';ctx.lineWidth=1;ctx.strokeRect(50,BM-4,W-100,12);
+  ctx.fillStyle='#d4c8b0';ctx.fillRect(0,GR+8,W,H-GR-8);
+  ctx.strokeStyle='#b0a48c';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,GR+8);ctx.lineTo(W,GR+8);ctx.stroke();
+  const wY=GR-WH-wRise();
+  if(sMode===0) drawM0(ctx,wY);
+  else if(sMode===1) drawM1(ctx,wY);
+  else if(sMode===2) drawM2(ctx,wY);
+  else drawM3(ctx,wY);
+  const lb=['Zonder katrol','Vaste katrol','Losse katrol','Takel (vast + los)'];
+  ctx.font="bold 16px Vollkorn,serif";ctx.fillStyle='#3D2B1F';ctx.textAlign='center';
+  ctx.fillText(lb[sMode],CX,H-10);
 }
 
-function drawPulley(weight, force, ropeMultiplier) {
-  const c = document.getElementById('pulleySim');
-  if (!c.clientWidth || !c.clientHeight) return;
-  const dpr = window.devicePixelRatio || 1;
-  c.width = c.clientWidth * dpr;
-  c.height = c.clientHeight * dpr;
-  const ctx = c.getContext('2d');
-  ctx.scale(dpr, dpr);
-  const w = c.clientWidth, h = c.clientHeight;
-  ctx.clearRect(0, 0, w, h);
-
-  // Ceiling
-  ctx.fillStyle = '#8B7355';
-  roundRect(ctx, w*0.15, 10, w*0.7, 12, 4);
-  ctx.fill();
-
-  const cx = w * 0.5;
-  const pulleyR = 22;
-
-  if (pulleyMode === 'none') {
-    ctx.strokeStyle = '#8B7355';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cx, h * 0.3);
-    ctx.lineTo(cx, h * 0.65);
-    ctx.stroke();
-    drawWeight(ctx, cx, h * 0.65, weight);
-    drawArrow(ctx, cx, h * 0.3, cx, h * 0.12, '#C2704E');
-    drawLabel(ctx, cx + 40, h * 0.2, force + ' N ↑', '#C2704E');
-    drawLabel(ctx, cx, h * 0.9, 'Touw: ×' + ropeMultiplier, '#5C4033');
-    drawRopeDots(ctx, [{x:cx,y:h*0.65},{x:cx,y:h*0.12}]);
-  }
-  else if (pulleyMode === 'fixed') {
-    drawPulleyWheel(ctx, cx, 40, pulleyR);
-    ctx.strokeStyle = '#8B7355';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cx - 5, h * 0.6);
-    ctx.lineTo(cx - 5, 40);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx, 40, pulleyR - 3, Math.PI, 0, false);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx + 5 + pulleyR - 8, 40);
-    ctx.lineTo(cx + 60, h * 0.75);
-    ctx.stroke();
-    drawWeight(ctx, cx - 5, h * 0.6, weight);
-    drawArrow(ctx, cx + 60, h * 0.55, cx + 60, h * 0.75, '#C2704E');
-    drawLabel(ctx, cx + 100, h * 0.65, force + ' N ↓', '#C2704E');
-    drawLabel(ctx, cx, h * 0.9, 'Richting veranderd!', '#5C4033');
-    drawRopeDots(ctx, [{x:cx-5,y:h*0.6},{x:cx-5,y:40},{x:cx+pulleyR-8,y:40},{x:cx+60,y:h*0.75}]);
-  }
-  else if (pulleyMode === 'movable') {
-    ctx.fillStyle = '#8B7355';
-    ctx.beginPath();
-    ctx.arc(cx - 60, 22, 6, 0, Math.PI * 2);
-    ctx.fill();
-    const py = h * 0.45;
-    drawPulleyWheel(ctx, cx, py, pulleyR);
-    ctx.strokeStyle = '#8B7355';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cx - 60, 22);
-    ctx.lineTo(cx - pulleyR + 5, py);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(cx, py, pulleyR - 3, Math.PI, 0, true);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx + pulleyR - 5, py);
-    ctx.lineTo(cx + 70, h * 0.12);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx, py + pulleyR);
-    ctx.lineTo(cx, py + pulleyR + 30);
-    ctx.stroke();
-    drawWeight(ctx, cx, py + pulleyR + 30, weight);
-    drawArrow(ctx, cx + 70, h * 0.28, cx + 70, h * 0.12, '#C2704E');
-    drawLabel(ctx, cx + 110, h * 0.2, force + ' N ↑', '#C2704E');
-    drawLabel(ctx, cx - 80, py, '2 touwdelen', '#6A9BB5');
-    drawLabel(ctx, cx, h * 0.9, 'Kracht ÷ 2 | Touw × 2', '#5C4033');
-    drawRopeDots(ctx, [{x:cx-60,y:22},{x:cx-pulleyR+5,y:py},{x:cx+pulleyR-5,y:py},{x:cx+70,y:h*0.12}]);
-  }
-  else if (pulleyMode === 'block') {
-    const topY = 40;
-    const botY = h * 0.48;
-    const sp = 50;
-    drawPulleyWheel(ctx, cx - sp, topY, pulleyR * 0.8);
-    drawPulleyWheel(ctx, cx + sp, topY, pulleyR * 0.8);
-    drawPulleyWheel(ctx, cx - sp, botY, pulleyR * 0.8);
-    drawPulleyWheel(ctx, cx + sp, botY, pulleyR * 0.8);
-    ctx.strokeStyle = '#8B7355';
-    ctx.lineWidth = 2.5;
-    const offsets = [-sp - 10, -sp + 10, sp - 10, sp + 10];
-    offsets.forEach(off => {
-      ctx.beginPath();
-      ctx.moveTo(cx + off, topY + 8);
-      ctx.lineTo(cx + off, botY - 8);
-      ctx.stroke();
-    });
-    ctx.beginPath();
-    ctx.moveTo(cx + sp + 18, topY);
-    ctx.lineTo(cx + sp + 60, h * 0.7);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(cx, botY + pulleyR * 0.8 + 5);
-    ctx.lineTo(cx, botY + pulleyR * 0.8 + 30);
-    ctx.stroke();
-    drawWeight(ctx, cx, botY + pulleyR * 0.8 + 30, weight);
-    drawArrow(ctx, cx + sp + 60, h * 0.55, cx + sp + 60, h * 0.7, '#C2704E');
-    drawLabel(ctx, cx + sp + 100, h * 0.62, force + ' N ↓', '#C2704E');
-    drawLabel(ctx, cx - sp - 50, (topY + botY) / 2, '4 touwdelen', '#6A9BB5');
-    drawLabel(ctx, cx, h * 0.92, 'Kracht ÷ 4 | Touw × 4', '#5C4033');
-    // Animate each of the 4 rope segments
-    offsets.forEach((off,i) => {
-      drawRopeDots(ctx, [{x:cx+off,y:topY+8},{x:cx+off,y:botY-8}], i*5);
-    });
-    drawRopeDots(ctx, [{x:cx+sp+18,y:topY},{x:cx+sp+60,y:h*0.7}], 10);
-  }
+function sRope(ctx,pts){ctx.strokeStyle='#C2704E';ctx.lineWidth=3.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();}
+function sArc(ctx,cx,cy,r,sA,eA,ccw){ctx.strokeStyle='#C2704E';ctx.lineWidth=3.5;ctx.lineCap='round';ctx.beginPath();ctx.arc(cx,cy,r,sA,eA,ccw);ctx.stroke();}
+function sPulley(ctx,x,y,fixed){
+  if(fixed){ctx.fillStyle='#5C4033';ctx.fillRect(x-3,BM+8,6,y-PR-BM-8);}
+  ctx.beginPath();ctx.arc(x,y,PR,0,Math.PI*2);ctx.fillStyle=fixed?'#7A6B5D':'#8B7D6B';ctx.fill();
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.beginPath();ctx.arc(x,y,PR-4,0,Math.PI*2);ctx.fillStyle=fixed?'#A89880':'#B8A890';ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle='#5C4033';ctx.fill();
 }
-
-function drawRopeDots(ctx, points, offset) {
-  offset = offset || 0;
-  ctx.fillStyle = 'rgba(212,168,67,0.75)';
-  let cumLen = 0;
-  const segs = [];
-  for (let i = 1; i < points.length; i++) {
-    const dx = points[i].x - points[i-1].x, dy = points[i].y - points[i-1].y;
-    const len = Math.sqrt(dx*dx + dy*dy);
-    cumLen += len;
-    segs.push({ len: cumLen });
-  }
-  const totalLen = cumLen;
-  const spacing = 25;
-  const phase = ((pulleyFrame + offset) * 1.2) % spacing;
-  for (let d = phase; d < totalLen; d += spacing) {
-    let seg = 0;
-    while (seg < segs.length - 1 && d > segs[seg].len) seg++;
-    const prevLen = seg > 0 ? segs[seg-1].len : 0;
-    const segLen = segs[seg].len - prevLen;
-    const t = segLen > 0 ? (d - prevLen) / segLen : 0;
-    const px = points[seg].x + (points[seg+1].x - points[seg].x) * t;
-    const py = points[seg].y + (points[seg+1].y - points[seg].y) * t;
-    ctx.beginPath();
-    ctx.arc(px, py, 3, 0, Math.PI * 2);
-    ctx.fill();
-  }
+function sWeight(ctx,x,y){
+  ctx.fillStyle='rgba(0,0,0,0.08)';sFRR(ctx,x+3,y+3,WW,WH,6);
+  const g=ctx.createLinearGradient(x,y,x,y+WH);g.addColorStop(0,'#6B5B4F');g.addColorStop(1,'#4A3C32');
+  ctx.fillStyle=g;sFRR(ctx,x,y,WW,WH,6);ctx.strokeStyle='#3D2B1F';ctx.lineWidth=1.5;sSRR(ctx,x,y,WW,WH,6);
+  ctx.fillStyle='#F0E8D8';ctx.font="bold 14px 'Source Sans 3',sans-serif";ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(loadN+' N',x+WW/2,y+WH/2);
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x+WW/2,y);ctx.lineTo(x+WW/2,y-10);ctx.stroke();
 }
-
-function drawPulleyWheel(ctx, x, y, r) {
-  ctx.fillStyle = '#B07A4B';
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#D4A843';
-  ctx.beginPath();
-  ctx.arc(x, y, r * 0.55, 0, Math.PI * 2);
-  ctx.fill();
-  // Spinning spokes
-  ctx.strokeStyle = 'rgba(139,115,85,0.4)';
-  ctx.lineWidth = 2;
-  const spokeAngle = pulleyFrame * 0.04;
-  for (let i = 0; i < 4; i++) {
-    const a = spokeAngle + (i / 4) * Math.PI * 2;
-    ctx.beginPath();
-    ctx.moveTo(x + Math.cos(a) * r * 0.2, y + Math.sin(a) * r * 0.2);
-    ctx.lineTo(x + Math.cos(a) * r * 0.85, y + Math.sin(a) * r * 0.85);
-    ctx.stroke();
-  }
-  ctx.fillStyle = '#8B7355';
-  ctx.beginPath();
-  ctx.arc(x, y, r * 0.15, 0, Math.PI * 2);
-  ctx.fill();
+function sHandle(ctx,x,y){
+  ctx.beginPath();ctx.arc(x,y,16,0,Math.PI*2);ctx.fillStyle=isDrag?'rgba(212,168,67,0.25)':'rgba(176,122,75,0.15)';ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);ctx.fillStyle=isDrag?'#D4A843':'#B07A4B';ctx.fill();
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='white';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(mDir()===1?'↓':'↑',x,y);
 }
-
-function drawWeight(ctx, x, y, w) {
-  const bw = 50, bh = 40;
-  ctx.fillStyle = '#5C4033';
-  roundRect(ctx, x - bw/2, y, bw, bh, 6);
-  ctx.fill();
-  ctx.fillStyle = 'white';
-  ctx.font = 'bold 13px Source Sans 3, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(w + ' N', x, y + bh/2);
+function sFArr(ctx,x,y,dir,f){
+  const len=28,ey=y+dir*len;ctx.strokeStyle='#C2704E';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,ey);ctx.stroke();
+  ctx.fillStyle='#C2704E';ctx.beginPath();ctx.moveTo(x,ey+dir*8);ctx.lineTo(x-5,ey);ctx.lineTo(x+5,ey);ctx.fill();
+  ctx.font="bold 12px 'Source Sans 3',sans-serif";ctx.textAlign='center';ctx.textBaseline=dir>0?'top':'bottom';ctx.fillText(Math.round(f)+' N',x,y-dir*12);
 }
-
-function drawArrow(ctx, x1, y1, x2, y2, color) {
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-  const angle = Math.atan2(y2 - y1, x2 - x1);
-  const headLen = 10;
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.moveTo(x2, y2);
-  ctx.lineTo(x2 - headLen * Math.cos(angle - 0.4), y2 - headLen * Math.sin(angle - 0.4));
-  ctx.lineTo(x2 - headLen * Math.cos(angle + 0.4), y2 - headLen * Math.sin(angle + 0.4));
-  ctx.closePath();
-  ctx.fill();
+function sLArr(ctx,x,y){
+  ctx.strokeStyle='#6A9BB5';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+25);ctx.stroke();
+  ctx.fillStyle='#6A9BB5';ctx.beginPath();ctx.moveTo(x,y+33);ctx.lineTo(x-5,y+25);ctx.lineTo(x+5,y+25);ctx.fill();
+  ctx.font="bold 12px 'Source Sans 3',sans-serif";ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillText(loadN+' N',x+8,y+22);
 }
+function sAnchor(ctx,x,y){ctx.fillStyle='#5C4033';ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#3D2B1F';ctx.lineWidth=1;ctx.stroke();}
+function sFRR(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();}
+function sSRR(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.stroke();}
 
-function drawLabel(ctx, x, y, text, color) {
-  ctx.fillStyle = color;
-  ctx.font = '13px Source Sans 3, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, x, y);
+function drawM0(ctx,wY){const h=hXY();sWeight(ctx,CX-WW/2,wY);sRope(ctx,[[CX,wY-10],[CX,h.y]]);sHandle(ctx,h.x,h.y);sFArr(ctx,h.x+24,h.y,-1,loadN);sLArr(ctx,CX+WW/2+12,wY+WH/2);}
+function drawM1(ctx,wY){
+  const pY=BM+12+PR, ar=PR+1, lx=CX-ar, rx=CX+ar, h=hXY();
+  sPulley(ctx,CX,pY,true);
+  sWeight(ctx,lx-WW/2,wY);
+  sRope(ctx,[[lx,wY-10],[lx,pY]]);
+  sArc(ctx,CX,pY,ar,Math.PI,0,false);
+  sRope(ctx,[[rx,pY],[rx,h.y]]);
+  sHandle(ctx,h.x,h.y);sFArr(ctx,h.x+24,h.y,1,loadN);sLArr(ctx,lx-WW/2+WW+12,wY+WH/2);
+}
+function drawM2(ctx,wY){
+  const lpY=wY-PR-8, ar=PR+1, fx=CX-ar, px=CX+ar, h=hXY();
+  sAnchor(ctx,fx,BM+8);
+  sPulley(ctx,CX,lpY,false);
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
+  sWeight(ctx,CX-WW/2,wY);
+  sRope(ctx,[[fx,BM+8],[fx,lpY]]);
+  sArc(ctx,CX,lpY,ar,Math.PI,0,false);
+  sRope(ctx,[[px,lpY],[px,h.y]]);
+  sHandle(ctx,h.x,h.y);sFArr(ctx,h.x+24,h.y,-1,loadN/2);sLArr(ctx,CX+WW/2+12,wY+WH/2);
+}
+function drawM3(ctx,wY){
+  const fpY=BM+12+PR, lpY=wY-PR-8, ar=PR+1, ax=CX-ar, h=hXY();
+  sPulley(ctx,CX,fpY,true);
+  sPulley(ctx,CX,lpY,false);
+  ctx.strokeStyle='#5C4033';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(CX,lpY+PR);ctx.lineTo(CX,wY);ctx.stroke();
+  sWeight(ctx,CX-WW/2,wY);
+  sAnchor(ctx,ax,BM+8);
+  // Rope: anchor down to loose pulley left edge
+  sRope(ctx,[[ax,BM+8],[ax,lpY]]);
+  // Under loose pulley
+  sArc(ctx,CX,lpY,ar,Math.PI,0,false);
+  // Right side of loose up to right side of fixed
+  sRope(ctx,[[CX+ar,lpY],[CX+ar,fpY]]);
+  // Over fixed pulley (right quarter arc, going from right to top)
+  sArc(ctx,CX,fpY,ar,0,-Math.PI*0.5,true);
+  // From top of fixed pulley out to the right, then down to handle
+  const ox=CX+ar+36;
+  sRope(ctx,[[CX,fpY-ar],[ox,fpY-ar],[ox,h.y]]);
+  sHandle(ctx,h.x,h.y);sFArr(ctx,h.x+24,h.y,1,loadN/2);sLArr(ctx,CX+WW/2+12,wY+WH/2);
 }
 
 function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
-  ctx.closePath();
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
 
 // ==================== GEAR SIMULATOR ====================
@@ -975,10 +892,9 @@ function showCelebration() {
 
 // ==================== INIT ====================
 buildQuiz();
-updatePulley();
 updateGears();
 
-window.addEventListener('resize', () => { updatePulley(); drawGears(); });
+window.addEventListener('resize', () => { if(simCanvas) drawSim(); drawGears(); });
 </script>
 </body>
 </html>
