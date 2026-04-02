@@ -3,122 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elektriciteit — Fysica</title>
+<title>Tandwielen &amp; Katrollen — Fysica</title>
 <link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#F7F2E8;--warm-white:#FFFDF7;--terracotta:#C2704E;--terracotta-light:#D4916F;--ochre:#D4A843;--olive:#7A8B6F;--warm-brown:#5C4033;--dark-brown:#3D2B1F;--sand:#E8DCC8;--sand-light:#F0E8D8;--parchment:#F5EDE0;--rust:#B7553D;--sage:#A8B89A;--dusty-rose:#C9A0A0;--sky-blue:#6A9BB5;--vak-color:#B07A4B;--vak-light:#C99A6B;--vak-bg:rgba(176,122,75,.08);--correct-green:#6B9E6B;--wrong-red:#C25E4E}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Vollkorn',Georgia,serif;color:var(--dark-brown);background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);min-height:100vh;line-height:1.65}
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0}
-.container{max-width:860px;margin:0 auto;padding:24px 20px 40px;position:relative;z-index:1}
-.breadcrumb{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:20px;opacity:.75}
-.breadcrumb a{color:var(--warm-brown);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
-.exercise-header{display:flex;align-items:center;gap:16px;margin-bottom:12px;animation:fadeSlideUp .5s ease-out}
-.exercise-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--vak-color),var(--vak-light));border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 3px 10px rgba(176,122,75,.25)}
-.exercise-title{font-family:'Vollkorn',serif;font-size:26px;font-weight:700;color:var(--dark-brown);line-height:1.2}
-.exercise-date{font-family:'Caveat',cursive;color:var(--vak-color);font-size:18px;margin-bottom:16px}
-.exercise-intro{font-family:'Source Sans 3',sans-serif;color:var(--warm-brown);font-size:15px;margin-bottom:24px;line-height:1.5}
-.tab-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;background:var(--sand-light);padding:5px;border-radius:14px}
-.tab-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 16px;border:none;border-radius:10px;background:transparent;color:var(--warm-brown);cursor:pointer;transition:all .25s;white-space:nowrap}
-.tab-btn:hover{background:rgba(176,122,75,.1)}
-.tab-btn.active{background:white;color:var(--vak-color);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.tab-content{display:none;animation:fadeSlideUp .35s ease-out}.tab-content.active{display:block}
-.theory-card{background:var(--warm-white);border-radius:18px;padding:24px;margin-bottom:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.theory-card h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
-.theory-card h4{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;color:var(--warm-brown);margin:14px 0 6px}
-.theory-card p,.theory-card li{font-size:16px;margin-bottom:8px;line-height:1.7}
-.theory-card ul{padding-left:20px}
-.attention-box{background:linear-gradient(135deg,rgba(176,122,75,.1),rgba(212,168,67,.08));border-left:4px solid var(--vak-color);border-radius:0 12px 12px 0;padding:16px 18px;margin:16px 0;font-size:15px}
-.attention-box strong{color:var(--vak-color)}
-.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
-.compare-card{background:var(--warm-white);border-radius:14px;padding:16px;border:2px solid var(--sand);text-align:center}
-.compare-card h4{font-family:'Caveat',cursive;font-size:19px;color:var(--vak-color);margin-bottom:6px}
-.compare-card p{font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--warm-brown);line-height:1.5;margin-bottom:4px}
-.safety-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
-.safety-item{background:rgba(183,85,61,.06);border-radius:12px;padding:14px;border:1px solid rgba(183,85,61,.15);font-size:14px;line-height:1.5}
-.safety-item strong{color:var(--rust)}
-
-.sim-wrapper{background:var(--warm-white);border-radius:18px;padding:20px;border:1px solid var(--sand);box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:20px}
-.sim-wrapper h3{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-bottom:12px}
-canvas#circuitSim{width:100%;height:400px;border-radius:12px;background:linear-gradient(180deg,#f0ead8,#e8dcc8);touch-action:none;cursor:pointer}
-.sim-mode-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.sim-mode-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border:2px solid var(--sand);border-radius:10px;background:var(--warm-white);color:var(--warm-brown);cursor:pointer;transition:all .2s}
-.sim-mode-btn:hover{border-color:var(--vak-color)}.sim-mode-btn.active{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color);font-weight:600}
-.sim-info{background:var(--sand-light);border-radius:12px;padding:14px 16px;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;line-height:1.6}
-.sim-info .hl{color:var(--vak-color);font-weight:600}
-.sim-buttons{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.sim-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;border:2px solid var(--sand);border-radius:10px;background:var(--warm-white);color:var(--warm-brown);cursor:pointer;transition:all .2s}
-.sim-btn:hover{border-color:var(--vak-color);background:var(--vak-bg)}
-.sim-btn.on{border-color:var(--correct-green);background:rgba(107,158,107,.1);color:var(--correct-green)}
-
-.quiz-card{background:var(--warm-white);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--sand);box-shadow:0 2px 10px rgba(0,0,0,.04);transition:border-color .3s}
-.quiz-card.correct{border-color:var(--correct-green)}.quiz-card.incorrect{border-color:var(--wrong-red)}
-.quiz-number{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--vak-color);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.quiz-question{font-size:16px;font-weight:600;margin-bottom:4px;line-height:1.5}
-.quiz-options{display:flex;flex-wrap:wrap;gap:8px}
-.quiz-option{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:8px 18px;border:2px solid var(--sand);border-radius:25px;background:var(--warm-white);color:var(--dark-brown);cursor:pointer;transition:all .2s}
-.quiz-option:hover:not(.disabled){border-color:var(--vak-color);background:var(--vak-bg)}
-.quiz-option.selected-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
-.quiz-option.selected-wrong{border-color:var(--wrong-red);background:rgba(194,94,78,.1);color:var(--wrong-red);text-decoration:line-through}
-.quiz-option.show-correct{border-color:var(--correct-green);background:rgba(107,158,107,.12);color:var(--correct-green);font-weight:600}
-.quiz-option.disabled{cursor:default;opacity:.7}
-.quiz-feedback{font-family:'Source Sans 3',sans-serif;font-size:14px;margin-top:10px;padding:8px 12px;border-radius:8px;display:none}
-.quiz-feedback.show{display:block}
-.quiz-feedback.correct-fb{background:rgba(107,158,107,.1);color:var(--correct-green)}
-.quiz-feedback.incorrect-fb{background:rgba(194,94,78,.08);color:var(--wrong-red)}
-.score-bar{background:var(--sand-light);border-radius:12px;padding:12px 18px;margin-bottom:20px;display:none;align-items:center;gap:14px;font-family:'Source Sans 3',sans-serif}
-.score-bar.show{display:flex}
-.score-text{font-weight:600;font-size:15px;color:var(--dark-brown);white-space:nowrap}
-.progress-bar-container{flex:1;height:10px;background:var(--sand);border-radius:5px;overflow:hidden}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--vak-color),var(--ochre));border-radius:5px;transition:width .4s ease;width:0%}
-.reset-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;padding:5px 12px;border:1px solid var(--sand);border-radius:8px;background:white;color:var(--warm-brown);cursor:pointer}.reset-btn:hover{border-color:var(--vak-color)}
-.celebration{display:none;text-align:center;padding:24px;background:linear-gradient(135deg,rgba(176,122,75,.08),rgba(212,168,67,.06));border-radius:16px;margin-top:20px;animation:pop .4s ease-out}
-.celebration.show{display:block}.celebration .emoji{font-size:48px;margin-bottom:8px}
-.celebration .message{font-family:'Caveat',cursive;font-size:24px;color:var(--vak-color)}
-.action-buttons{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
-.action-btn{font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:10px 22px;border-radius:12px;border:1px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);text-decoration:none;cursor:pointer;transition:all .2s}
-.action-btn:hover{border-color:var(--vak-color);background:var(--vak-bg);color:var(--vak-color)}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
-.print-only{display:none}
-@media print{
-  .no-print{display:none!important}body{background:white!important;font-size:11pt}body::before{display:none}
-  .print-only{display:block!important}.container{padding:0;max-width:100%}.exercise-icon{display:none}
-  .theory-card,.quiz-card,.sim-wrapper{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
-  .score-bar,.celebration{display:none!important}
-  .tab-content{display:block!important;margin-bottom:20px}
-  .tab-content::before{content:attr(data-print-title);display:block;font-family:'Caveat',cursive;font-size:22pt;color:var(--vak-color);margin-bottom:10px}
-  .tab-content:not(:first-of-type)::before{page-break-before:always}
-  canvas{display:none!important}.sim-mode-btns,.sim-info,.sim-buttons{display:none!important}
-  .quiz-option{border:1px solid #ccc}
-  .quiz-option.selected-correct,.quiz-option.selected-wrong,.quiz-option.show-correct{border-color:#ccc!important;background:white!important;color:var(--dark-brown)!important;text-decoration:none!important;font-weight:500!important}
-  .quiz-feedback{display:none!important}.quiz-card.correct,.quiz-card.incorrect{border-color:#ddd!important}
-  .print-answers{page-break-before:always}
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #B07A4B;
+  --vak-light: #C99A6B;
+  --vak-bg: rgba(176,122,75,0.08);
+  --vak-bg-medium: rgba(176,122,75,0.15);
+  --correct-green: #6B9E6B;
+  --wrong-red: #C25E4E;
 }
-@media(max-width:600px){
-  .container{padding:14px}.exercise-title{font-size:22px}
-  .exercise-icon{width:44px;height:44px;font-size:22px}.tab-btn{font-size:13px;padding:7px 12px}
-  .quiz-options{flex-direction:column}.quiz-option{width:100%;text-align:center}
-  canvas#circuitSim{height:320px}.compare-grid{grid-template-columns:1fr}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh; line-height: 1.65;
+}
+body::before {
+  content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B07A4B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+.container { max-width: 860px; margin: 0 auto; padding: 24px 20px 40px; position: relative; z-index: 1; }
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.75; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.exercise-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; animation: fadeSlideUp 0.5s ease-out; }
+.exercise-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--vak-color), var(--vak-light)); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; box-shadow: 0 3px 10px rgba(176,122,75,0.25); }
+.exercise-title { font-family: 'Vollkorn', serif; font-size: 26px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; }
+.exercise-date { font-family: 'Caveat', cursive; color: var(--vak-color); font-size: 18px; margin-bottom: 16px; }
+.exercise-intro { font-family: 'Source Sans 3', sans-serif; color: var(--warm-brown); font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
+.tab-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; background: var(--sand-light); padding: 5px; border-radius: 14px; }
+.tab-btn { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 16px; border: none; border-radius: 10px; background: transparent; color: var(--warm-brown); cursor: pointer; transition: all 0.25s; white-space: nowrap; }
+.tab-btn:hover { background: rgba(176,122,75,0.1); }
+.tab-btn.active { background: white; color: var(--vak-color); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.tab-content { display: none; animation: fadeSlideUp 0.35s ease-out; }
+.tab-content.active { display: block; }
+.theory-card { background: var(--warm-white); border-radius: 18px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+.theory-card h3 { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); margin-bottom: 12px; }
+.theory-card h4 { font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 600; color: var(--warm-brown); margin: 14px 0 6px; }
+.theory-card p, .theory-card li { font-size: 16px; margin-bottom: 8px; line-height: 1.7; }
+.theory-card ul { padding-left: 20px; }
+.attention-box { background: linear-gradient(135deg, rgba(176,122,75,0.1), rgba(212,168,67,0.08)); border-left: 4px solid var(--vak-color); border-radius: 0 12px 12px 0; padding: 16px 18px; margin: 16px 0; font-size: 15px; }
+.attention-box strong { color: var(--vak-color); }
+.golden-rule { background: linear-gradient(135deg, rgba(212,168,67,0.15), rgba(176,122,75,0.1)); border: 2px solid var(--ochre); border-radius: 14px; padding: 18px 22px; margin: 18px 0; text-align: center; font-size: 18px; font-weight: 600; color: var(--warm-brown); }
+.golden-rule span { color: var(--ochre); font-size: 22px; }
+
+/* Comparison cards */
+.compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0; }
+.compare-card { background: var(--warm-white); border-radius: 14px; padding: 18px; border: 2px solid var(--sand); text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
+.compare-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.compare-card h4 { font-family: 'Caveat', cursive; font-size: 20px; color: var(--vak-color); margin-bottom: 8px; }
+.compare-card .icon { font-size: 36px; margin-bottom: 8px; }
+.compare-card p { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); line-height: 1.5; }
+.compare-card .stat { font-family: 'Vollkorn', serif; font-size: 15px; font-weight: 600; color: var(--dark-brown); margin: 6px 0; }
+
+/* Sim */
+.sim-wrapper { background: var(--warm-white); border-radius: 18px; padding: 20px; border: 1px solid var(--sand); box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin-bottom: 20px; }
+.sim-wrapper h3 { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); margin-bottom: 12px; }
+canvas { width: 100%; border-radius: 12px; cursor: pointer; touch-action: none; }
+#pulleySim { height: 380px; background: linear-gradient(180deg, #f0ead8 0%, #e8dcc8 100%); }
+#gearSim { height: 340px; background: linear-gradient(180deg, #f0ead8 0%, #e8dcc8 100%); }
+
+.sim-mode-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.sim-mode-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border: 2px solid var(--sand); border-radius: 10px; background: var(--warm-white); color: var(--warm-brown); cursor: pointer; transition: all 0.2s; }
+.sim-mode-btn:hover { border-color: var(--vak-color); }
+.sim-mode-btn.active { border-color: var(--vak-color); background: var(--vak-bg); color: var(--vak-color); font-weight: 600; }
+
+.sim-info { background: var(--sand-light); border-radius: 12px; padding: 14px 16px; margin-top: 14px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; line-height: 1.6; }
+.sim-info .highlight { color: var(--vak-color); font-weight: 600; }
+
+.sim-controls { margin-top: 14px; }
+.sim-controls label { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sim-controls input[type="range"] { flex: 1; accent-color: var(--vak-color); }
+.sim-controls .val { font-weight: 600; min-width: 60px; text-align: right; color: var(--dark-brown); }
+
+/* Quiz */
+.quiz-card { background: var(--warm-white); border-radius: 16px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--sand); box-shadow: 0 2px 10px rgba(0,0,0,0.04); transition: border-color 0.3s; }
+.quiz-card.correct { border-color: var(--correct-green); }
+.quiz-card.incorrect { border-color: var(--wrong-red); }
+.quiz-number { font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600; color: var(--vak-color); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.quiz-question { font-size: 16px; font-weight: 600; margin-bottom: 4px; line-height: 1.5; }
+.quiz-context { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); margin-bottom: 12px; font-style: italic; }
+.quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz-option { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 18px; border: 2px solid var(--sand); border-radius: 25px; background: var(--warm-white); color: var(--dark-brown); cursor: pointer; transition: all 0.2s; }
+.quiz-option:hover:not(.disabled) { border-color: var(--vak-color); background: var(--vak-bg); }
+.quiz-option.selected-correct { border-color: var(--correct-green); background: rgba(107,158,107,0.12); color: var(--correct-green); font-weight: 600; }
+.quiz-option.selected-wrong { border-color: var(--wrong-red); background: rgba(194,94,78,0.1); color: var(--wrong-red); text-decoration: line-through; }
+.quiz-option.show-correct { border-color: var(--correct-green); background: rgba(107,158,107,0.12); color: var(--correct-green); font-weight: 600; }
+.quiz-option.disabled { cursor: default; opacity: 0.7; }
+.quiz-feedback { font-family: 'Source Sans 3', sans-serif; font-size: 14px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: rgba(107,158,107,0.1); color: var(--correct-green); }
+.quiz-feedback.incorrect-fb { background: rgba(194,94,78,0.08); color: var(--wrong-red); }
+
+/* Score */
+.score-bar { background: var(--sand-light); border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; display: none; align-items: center; gap: 14px; font-family: 'Source Sans 3', sans-serif; animation: fadeSlideUp 0.3s ease-out; }
+.score-bar.show { display: flex; }
+.score-text { font-weight: 600; font-size: 15px; color: var(--dark-brown); white-space: nowrap; }
+.progress-bar-container { flex: 1; height: 10px; background: var(--sand); border-radius: 5px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vak-color), var(--ochre)); border-radius: 5px; transition: width 0.4s ease; width: 0%; }
+.reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 5px 12px; border: 1px solid var(--sand); border-radius: 8px; background: white; color: var(--warm-brown); cursor: pointer; }
+.reset-btn:hover { border-color: var(--vak-color); }
+
+.celebration { display: none; text-align: center; padding: 24px; background: linear-gradient(135deg, rgba(176,122,75,0.08), rgba(212,168,67,0.06)); border-radius: 16px; margin-top: 20px; animation: pop 0.4s ease-out; }
+.celebration.show { display: block; }
+.celebration .emoji { font-size: 48px; margin-bottom: 8px; }
+.celebration .message { font-family: 'Caveat', cursive; font-size: 24px; color: var(--vak-color); }
+
+.action-buttons { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+.action-btn { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 22px; border-radius: 12px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); text-decoration: none; cursor: pointer; transition: all 0.2s; }
+.action-btn:hover { border-color: var(--vak-color); background: var(--vak-bg); color: var(--vak-color); }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+.print-only { display: none; }
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  body::before { display: none; }
+  .print-only { display: block !important; }
+  .container { padding: 0; max-width: 100%; }
+  .exercise-icon { display: none; }
+  .theory-card, .quiz-card, .sim-wrapper { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .tab-content { display: block !important; margin-bottom: 20px; }
+  .tab-content::before { content: attr(data-print-title); display: block; font-family: 'Caveat', cursive; font-size: 22pt; color: var(--vak-color); margin-bottom: 10px; }
+  .tab-content:not(:first-of-type)::before { page-break-before: always; }
+  canvas { display: none !important; }
+  .sim-controls, .sim-mode-btns, .sim-info { display: none !important; }
+  .quiz-option { border: 1px solid #ccc; }
+  .quiz-option.selected-correct, .quiz-option.selected-wrong, .quiz-option.show-correct { border-color: #ccc !important; background: white !important; color: var(--dark-brown) !important; text-decoration: none !important; font-weight: 500 !important; }
+  .quiz-feedback { display: none !important; }
+  .quiz-card.correct, .quiz-card.incorrect { border-color: #ddd !important; }
+  .print-answers { page-break-before: always; }
+}
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .exercise-title { font-size: 22px; }
+  .exercise-icon { width: 44px; height: 44px; font-size: 22px; }
+  .tab-btn { font-size: 13px; padding: 7px 12px; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .quiz-options { flex-direction: column; }
+  .quiz-option { width: 100%; text-align: center; }
+  #pulleySim { height: 300px; }
+  #gearSim { height: 280px; }
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <nav class="breadcrumb no-print"><a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Elektriciteit</nav>
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › Tandwielen &amp; Katrollen
+  </nav>
+
   <div class="exercise-header">
     <div class="exercise-icon no-print">⚙️</div>
-    <div class="exercise-title">Elektriciteit</div>
+    <div class="exercise-title">Tandwielen &amp; Katrollen</div>
   </div>
-  <div class="exercise-date">Fysica — Elektriciteit</div>
+  <div class="exercise-date">Fysica — Mechanica</div>
   <div class="exercise-intro">
-    Elektriciteit is overal: lampen, telefoons, koelkasten. Maar hoe werkt het? Wat is een stroomkring, en waarom gaan thuis niet alle lichten uit als er één lamp stukgaat?
+    Katrollen en tandwielen helpen ons om krachten te veranderen. Een katrol maakt het tillen van zware lasten makkelijker, en tandwielen zorgen ervoor dat je fiets sneller of langzamer gaat.
   </div>
 
   <div class="tab-bar no-print">
     <button class="tab-btn active" onclick="switchTab('theorie')">📚 Theorie</button>
-    <button class="tab-btn" onclick="switchTab('simulatie')">🔌 Stroomkring</button>
+    <button class="tab-btn" onclick="switchTab('katrollen')">🔬 Katrol-simulator</button>
+    <button class="tab-btn" onclick="switchTab('tandwielen')">⚙️ Tandwiel-simulator</button>
     <button class="tab-btn" onclick="switchTab('quiz')">📝 Quiz</button>
   </div>
 
@@ -129,162 +201,148 @@ canvas#circuitSim{width:100%;height:400px;border-radius:12px;background:linear-g
   </div>
 
   <!-- ============ TAB 1: THEORIE ============ -->
-  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Elektriciteit">
+  <div class="tab-content active" id="tab-theorie" data-print-title="📚 Theorie: Tandwielen &amp; Katrollen">
 
     <div class="theory-card">
-      <h3>De stroomkring</h3>
-      <p>Elektrische stroom kan alleen lopen in een <strong>gesloten stroomkring</strong>. Zo'n stroomkring bestaat uit minstens drie onderdelen:</p>
-      <ul>
-        <li><strong>Een energiebron</strong> — zoals een batterij, met een pluspool (+) en een minpool (−).</li>
-        <li><strong>Draden</strong> — om de stroom te geleiden.</li>
-        <li><strong>Een verbruiker</strong> — zoals een lamp, die de elektrische energie omzet in licht of warmte.</li>
-      </ul>
-      <p>Vaak zit er ook een <strong>schakelaar</strong> in. Als de schakelaar open staat, is de kring onderbroken en stopt de stroom. Als de schakelaar gesloten is, loopt de stroom en brandt de lamp.</p>
+      <h3>Katrollen — krachten slim omleiden</h3>
+      <p>Een <strong>katrol</strong> is een wiel met een groef waar een touw overheen loopt. Er zijn drie opstellingen mogelijk, elk met een ander voordeel.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="icon">🔴</div>
+        <h4>Vaste katrol</h4>
+        <div class="stat">Kracht: onveranderd</div>
+        <p>De katrol hangt vast aan een balk. Het touw loopt er overheen. Je trekt naar beneden om iets omhoog te krijgen.</p>
+        <p><strong>Voordeel:</strong> je verandert de <em>richting</em> van de kracht. Het gewicht blijft even zwaar, maar naar beneden trekken is handiger dan omhoog duwen.</p>
+      </div>
+      <div class="compare-card">
+        <div class="icon">🔵</div>
+        <h4>Losse katrol</h4>
+        <div class="stat">Kracht: gehalveerd!</div>
+        <p>De katrol hangt aan de last. Het touw loopt van een vast punt, onder de katrol door, en jij trekt aan het vrije uiteinde.</p>
+        <p><strong>Voordeel:</strong> de kracht wordt verdeeld over twee touwdelen. Je hoeft maar de <em>helft</em> van de kracht te leveren! Maar je trekt wel 2× zoveel touw.</p>
+      </div>
+      <div class="compare-card">
+        <div class="icon">🟣</div>
+        <h4>Takel</h4>
+        <div class="stat">Kracht: nog minder!</div>
+        <p>Een combinatie van een vaste en een losse katrol. De kracht wordt verdeeld over meerdere touwdelen.</p>
+        <p><strong>Voordeel:</strong> je verandert zowel de <em>richting</em> als de <em>grootte</em> van de kracht. Hoe meer katrollen, hoe minder kracht nodig — maar hoe meer touw je moet binnenhalen.</p>
+      </div>
+    </div>
+
+    <div class="golden-rule">
+      <span>⚡</span> De gouden regel van de mechanica:<br>
+      Wat je wint aan kracht, verlies je aan afstand.
+    </div>
+
+    <div class="theory-card">
+      <h3>Tandwielen — snelheid en kracht regelen</h3>
+      <p>Op een fiets zitten <strong>tandwielen</strong>. Die zorgen ervoor dat de draaiing van je pedalen wordt doorgegeven aan het achterwiel. Door te <strong>schakelen</strong> verander je de verhouding tussen de tandwielen.</p>
+
+      <h4>De tandwielverhouding</h4>
+      <p>De verhouding tussen het aantal tanden van het voorste en het achterste tandwiel bepaalt hoeveel het achterwiel draait per trapbeweging.</p>
+
       <div class="attention-box">
-        <strong>💡 Hoe werkt een gloeilamp?</strong> In de lamp zit een heel dun draadje (gloeidraad). Wanneer er stroom doorheen loopt, wordt het zo warm dat het begint te gloeien. Dat gloeiende draadje geeft het licht!
+        <strong>Voorbeeld:</strong> Het voorste tandwiel heeft 33 tanden, het achterste 11 tanden.<br>
+        Verhouding: 33 ÷ 11 = <strong>3</strong><br>
+        Bij één omwenteling van je pedalen draait het achterwiel <strong>3 keer</strong> rond!
       </div>
-    </div>
 
-    <div class="theory-card">
-      <h3>Serie- en parallelschakeling</h3>
-      <p>Onderdelen in een stroomkring kunnen op twee manieren worden aangesloten:</p>
-      <div class="compare-grid">
-        <div class="compare-card">
-          <h4>Serieschakeling</h4>
-          <svg viewBox="0 0 240 100" style="width:100%;max-width:260px;margin:10px auto;display:block">
-            <!-- Wires -->
-            <path d="M30,30 L80,30" stroke="#A09080" stroke-width="3" fill="none"/>
-            <path d="M100,30 L140,30" stroke="#A09080" stroke-width="3" fill="none"/>
-            <path d="M160,30 L210,30 L210,70 L30,70 L30,30" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
-            <!-- Battery -->
-            <rect x="10" y="20" width="22" height="20" rx="3" fill="#5E6D53"/>
-            <text x="21" y="34" text-anchor="middle" fill="white" font-size="9" font-family="Source Sans 3,sans-serif" font-weight="700">+ −</text>
-            <!-- Lamp 1 -->
-            <circle cx="90" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
-            <text x="90" y="34" text-anchor="middle" font-size="13">💡</text>
-            <!-- Lamp 2 -->
-            <circle cx="150" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
-            <text x="150" y="34" text-anchor="middle" font-size="13">💡</text>
-            <!-- Arrow -->
-            <polygon points="120,70 126,66 126,74" fill="#A09080"/>
-            <text x="120" y="90" text-anchor="middle" fill="#A09080" font-size="9" font-family="Source Sans 3,sans-serif">één pad</text>
-          </svg>
-          <p>Lampen staan <strong>achter elkaar</strong>.</p>
-          <p>Er is maar <strong>één pad</strong> voor de stroom.</p>
-          <p style="color:var(--wrong-red);font-weight:600">Eén lamp stuk → allemaal uit!</p>
-        </div>
-        <div class="compare-card">
-          <h4>Parallelschakeling</h4>
-          <svg viewBox="0 0 240 120" style="width:100%;max-width:260px;margin:10px auto;display:block">
-            <!-- Main wires -->
-            <path d="M30,60 L60,60" stroke="#A09080" stroke-width="3" fill="none"/>
-            <!-- Split -->
-            <path d="M60,60 L60,30 L90,30" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
-            <path d="M60,60 L60,90 L90,90" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
-            <!-- Branch 1 -->
-            <path d="M110,30 L170,30" stroke="#A09080" stroke-width="3" fill="none"/>
-            <!-- Branch 2 -->
-            <path d="M110,90 L170,90" stroke="#A09080" stroke-width="3" fill="none"/>
-            <!-- Merge -->
-            <path d="M170,30 L170,60" stroke="#A09080" stroke-width="3" fill="none"/>
-            <path d="M170,90 L170,60" stroke="#A09080" stroke-width="3" fill="none"/>
-            <!-- Return -->
-            <path d="M170,60 L210,60 L210,110 L30,110 L30,60" stroke="#A09080" stroke-width="3" fill="none" stroke-linejoin="round"/>
-            <!-- Battery -->
-            <rect x="10" y="50" width="22" height="20" rx="3" fill="#5E6D53"/>
-            <text x="21" y="64" text-anchor="middle" fill="white" font-size="9" font-family="Source Sans 3,sans-serif" font-weight="700">+ −</text>
-            <!-- Lamp 1 -->
-            <circle cx="100" cy="30" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
-            <text x="100" y="34" text-anchor="middle" font-size="13">💡</text>
-            <!-- Lamp 2 -->
-            <circle cx="100" cy="90" r="11" fill="#FFF8E0" stroke="#D4A843" stroke-width="2"/>
-            <text x="100" y="94" text-anchor="middle" font-size="13">💡</text>
-            <!-- Junction dots -->
-            <circle cx="60" cy="60" r="3.5" fill="#A09080"/>
-            <circle cx="170" cy="60" r="3.5" fill="#A09080"/>
-            <!-- Labels -->
-            <text x="100" y="14" text-anchor="middle" fill="#6A9BB5" font-size="8" font-family="Source Sans 3,sans-serif">pad 1</text>
-            <text x="100" y="108" text-anchor="middle" fill="#6A9BB5" font-size="8" font-family="Source Sans 3,sans-serif">pad 2</text>
-          </svg>
-          <p>Lampen staan <strong>naast elkaar</strong>.</p>
-          <p>De stroom heeft <strong>meerdere paden</strong>.</p>
-          <p style="color:var(--correct-green);font-weight:600">Eén lamp stuk → de rest brandt door!</p>
-        </div>
-      </div>
-      <p>In huis gebruiken we <strong>parallelschakelingen</strong>. Daarom gaat niet alles uit als er één lamp stukgaat.</p>
-    </div>
+      <h4>Zware versnelling (groot voor, klein achter)</h4>
+      <p>Het achterwiel draait meerdere keren per trapbeweging. Je legt een <strong>grote afstand</strong> af, maar je hebt <strong>meer kracht</strong> nodig. Ideaal als je al op snelheid bent.</p>
 
-    <div class="theory-card">
-      <h3>Wat kan elektriciteit?</h3>
-      <p>Elektrische stroom kan energie omzetten in verschillende vormen:</p>
-      <ul>
-        <li><strong>Licht</strong> — zoals bij een lamp of led.</li>
-        <li><strong>Warmte</strong> — zoals bij een broodrooster, haardroger of elektrische kachel.</li>
-        <li><strong>Beweging</strong> — via een <strong>elektromotor</strong>. Stroom door een spoel maakt een magnetisch veld. Dat veld duwt tegen een magneet en laat iets draaien. Zo werken ventilatoren, mixers en elektrische auto's.</li>
-        <li><strong>Detectie</strong> — zoals bij een rookmelder of bewegingssensor.</li>
-      </ul>
-    </div>
+      <h4>Lichte versnelling (klein voor, groot achter)</h4>
+      <p>Het achterwiel draait minder dan één keer per trapbeweging. Je legt <strong>minder afstand</strong> af, maar het trappen gaat <strong>lichter</strong>. Ideaal om op te starten of een heuvel op te fietsen.</p>
 
-    <div class="theory-card">
-      <h3>De elektromotor</h3>
-      <p>Een elektromotor zet <strong>elektrische energie om in beweging</strong>. Hoe?</p>
-      <p>Wanneer er stroom door een spoel (opgerolde draad) loopt, ontstaat er een magnetisch veld. Dit veld duwt of trekt tegen een permanente magneet in de motor. Daardoor begint de spoel te draaien. Die draaibeweging drijft het apparaat aan.</p>
-      <p>Elektromotoren zitten in heel veel alledaagse toestellen: een ventilator, een wasmachine, een mixer, een elektrische tandenborstel en zelfs een elektrische auto.</p>
-    </div>
-
-    <div class="theory-card">
-      <h3>Veiligheid</h3>
-      <p>Elektriciteit is ontzettend nuttig, maar ook gevaarlijk als je er niet voorzichtig mee omgaat.</p>
-      <div class="safety-grid">
-        <div class="safety-item">
-          <strong>⚠️ Overbelasting</strong><br>
-          Te veel toestellen op één stopcontact → draden worden warm → brandgevaar!
-        </div>
-        <div class="safety-item">
-          <strong>⚡ Elektrocutie</strong><br>
-          Een elektrische schok door je lichaam. Kan heel gevaarlijk zijn!
-        </div>
-        <div class="safety-item">
-          <strong>🚫 Natte handen</strong><br>
-          Raak nooit elektrische toestellen of stopcontacten aan met natte handen.
-        </div>
-        <div class="safety-item">
-          <strong>🔌 Kapotte kabels</strong><br>
-          Raak nooit blote draden aan en steek niets in een stopcontact.
-        </div>
-      </div>
+      <h4>Slim schakelen</h4>
+      <p>Door te schakelen combineer je de voordelen: je start licht, bouwt snelheid op, en schakelt naar een zwaardere versnelling om steeds sneller te gaan. Precies dezelfde gouden regel als bij katrollen!</p>
     </div>
 
   </div>
 
-  <!-- ============ TAB 2: SIMULATIE ============ -->
-  <div class="tab-content" id="tab-simulatie" data-print-title="🔌 Stroomkring-simulator">
+  <!-- ============ TAB 2: KATROL-SIMULATOR ============ -->
+  <div class="tab-content" id="tab-katrollen" data-print-title="🔬 Katrol-simulator">
+
     <div class="sim-wrapper">
-      <h3>Stroomkring bouwen</h3>
-      <p style="font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--warm-brown);margin-bottom:14px;">
-        Bekijk het verschil tussen een serie- en een parallelschakeling. Klik op de schakelaar om de stroom aan/uit te zetten. Klik op een lamp om die "stuk" te maken!
+      <h3>Katrol-simulator</h3>
+      <p style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:var(--warm-brown); margin-bottom:14px;">
+        Kies een type katrol en stel het gewicht in. Bekijk hoeveel kracht je nodig hebt en hoeveel touw je moet trekken.
       </p>
 
       <div class="sim-mode-btns">
-        <button class="sim-mode-btn active" onclick="setCircuitMode('serie')">Serieschakeling</button>
-        <button class="sim-mode-btn" onclick="setCircuitMode('parallel')">Parallelschakeling</button>
+        <button class="sim-mode-btn active" onclick="setPulleyMode('none')">Geen katrol</button>
+        <button class="sim-mode-btn" onclick="setPulleyMode('fixed')">Vaste katrol</button>
+        <button class="sim-mode-btn" onclick="setPulleyMode('movable')">Losse katrol</button>
+        <button class="sim-mode-btn" onclick="setPulleyMode('block')">Takel (2+2)</button>
       </div>
 
-      <canvas id="circuitSim" width="800" height="400"></canvas>
+      <canvas id="pulleySim" width="800" height="380"></canvas>
 
-      <div class="sim-buttons">
-        <button class="sim-btn" id="switchBtn" onclick="toggleSwitch()">🔌 Schakelaar: UIT</button>
-        <button class="sim-btn" onclick="resetCircuit()">🔄 Herstel lampen</button>
+      <div class="sim-controls">
+        <label>Gewicht van de last: <input type="range" id="pulleyWeight" min="20" max="400" value="200" step="10" oninput="updatePulley()"> <span class="val" id="pulleyWeightVal">200 N</span></label>
       </div>
 
-      <div class="sim-info" id="circuitInfo">
-        <strong>Serieschakeling</strong> — De lampen staan achter elkaar. Er is maar één pad voor de stroom. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten, en klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.
+      <div class="sim-info" id="pulleyInfo">
+        <strong>Geen katrol:</strong> Je moet de volledige kracht leveren (<span class="highlight">200 N</span>) en het touw <span class="highlight">1 meter</span> optrekken om de last 1 meter te tillen.
       </div>
     </div>
+
   </div>
 
-  <!-- ============ TAB 3: QUIZ ============ -->
-  <div class="tab-content" id="tab-quiz" data-print-title="📝 Quiz: Elektriciteit">
+  <!-- ============ TAB 3: TANDWIEL-SIMULATOR ============ -->
+  <div class="tab-content" id="tab-tandwielen" data-print-title="⚙️ Tandwiel-simulator">
+
+    <div class="sim-wrapper">
+      <h3>Tandwiel-simulator</h3>
+      <p style="font-family:'Source Sans 3',sans-serif; font-size:14px; color:var(--warm-brown); margin-bottom:14px;">
+        Pas het aantal tanden aan van het aandrijvende tandwiel (pedalen) en het aangedreven tandwiel (achterwiel). Bekijk hoe de verhouding verandert.
+      </p>
+
+      <canvas id="gearSim" width="800" height="340"></canvas>
+
+      <div class="sim-controls">
+        <label>🔴 Aandrijvend (pedaal): <input type="range" id="gearDrive" min="10" max="50" value="33" step="1" oninput="updateGears()"> <span class="val" id="gearDriveVal">33 tanden</span></label>
+        <label>🔵 Aangedreven (wiel): <input type="range" id="gearDriven" min="8" max="40" value="11" step="1" oninput="updateGears()"> <span class="val" id="gearDrivenVal">11 tanden</span></label>
+      </div>
+
+      <div class="sim-info" id="gearInfo">
+        <strong>Verhouding:</strong> 33 ÷ 11 = <span class="highlight">3,0</span><br>
+        Per omwenteling van je pedalen draait het achterwiel <span class="highlight">3,0 keer</span> rond.<br>
+        Dit is een <span class="highlight">zware versnelling</span> — veel snelheid, meer kracht nodig.
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h3>De fietsproef</h3>
+      <p>In de klas deden we een fietswedstrijd met drie ritten:</p>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <h4>Rit 1: Zwaar</h4>
+          <div class="stat">Groot → Klein</div>
+          <p>Langzame start, veel inspanning, maar hoge topsnelheid. Grote afstand per trap.</p>
+          <p style="font-weight:600; color:var(--vak-color);">⏱ 9 seconden</p>
+        </div>
+        <div class="compare-card">
+          <h4>Rit 2: Licht</h4>
+          <div class="stat">Klein → Groot</div>
+          <p>Snelle start, weinig inspanning, maar lage topsnelheid. Kleine afstand per trap.</p>
+          <p style="font-weight:600; color:var(--vak-color);">⏱ 12 seconden</p>
+        </div>
+        <div class="compare-card">
+          <h4>Rit 3: Wisselen</h4>
+          <div class="stat">Licht → Zwaar</div>
+          <p>Snelle start, dan opschakelen. Combineert het beste van beide!</p>
+          <p style="font-weight:600; color:var(--vak-color);">⏱ 8 seconden</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============ TAB 4: QUIZ ============ -->
+  <div class="tab-content" id="tab-quiz" data-print-title="📝 Quiz: Tandwielen &amp; Katrollen">
     <div id="quizContainer"></div>
     <div class="celebration no-print" id="quizCelebration">
       <div class="emoji" id="quizEmoji"></div>
@@ -292,8 +350,10 @@ canvas#circuitSim{width:100%;height:400px;border-radius:12px;background:linear-g
     </div>
   </div>
 
+  <!-- Print answers -->
   <div class="print-only print-answers">
-    <h2 style="font-family:'Caveat',cursive;font-size:26pt;color:var(--vak-color);margin-bottom:16px;">Oplossingen</h2>
+    <h2 style="font-family:'Caveat',cursive; font-size:26pt; color:var(--vak-color); margin-bottom:16px;">Oplossingen</h2>
+    <h3 style="font-family:'Caveat',cursive; font-size:20pt; color:var(--vak-color); margin:12px 0 10px;">📝 Quiz</h3>
     <div id="printQuizAnswers"></div>
   </div>
 
@@ -301,420 +361,624 @@ canvas#circuitSim{width:100%;height:400px;border-radius:12px;background:linear-g
     <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
     <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
   </div>
+
 </div>
 
 <script>
-// ==================== TABS ====================
-function switchTab(tabId){
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+tabId).classList.add('active');
+// ==================== TAB SWITCHING ====================
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
   event.target.classList.add('active');
-  document.getElementById('quizScore').classList.toggle('show',tabId==='quiz'&&quizAnswered>0);
-  if(tabId==='simulatie') requestAnimationFrame(drawCircuit);
+  document.getElementById('quizScore').classList.toggle('show', tabId === 'quiz' && quizAnswered > 0);
+  if (tabId === 'katrollen') requestAnimationFrame(() => { updatePulley(); startPulleyAnim(); });
+  if (tabId === 'tandwielen') requestAnimationFrame(() => { updateGears(); startGearAnimation(); });
 }
 
-// ==================== CIRCUIT SIMULATOR ====================
-let circuitMode='serie';
-let switchOn=false;
-let lamps=[{broken:false},{broken:false}];
-let animFrame=0;
-let circuitAnimId=null;
+// ==================== PULLEY SIMULATOR ====================
+let pulleyMode = 'none';
+let pulleyFrame = 0;
+let pulleyAnimId = null;
 
-function setCircuitMode(mode){
-  circuitMode=mode;
-  document.querySelectorAll('.sim-mode-btns .sim-mode-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  resetCircuit();
-  updateCircuitInfo();
-}
-
-function toggleSwitch(){
-  switchOn=!switchOn;
-  const btn=document.getElementById('switchBtn');
-  btn.textContent=switchOn?'🔌 Schakelaar: AAN':'🔌 Schakelaar: UIT';
-  btn.classList.toggle('on',switchOn);
-  if(switchOn&&!circuitAnimId) startCircuitAnim();
-  drawCircuit();
-  updateCircuitInfo();
-}
-
-function resetCircuit(){
-  lamps=[{broken:false},{broken:false}];
-  drawCircuit();
-  updateCircuitInfo();
-}
-
-function startCircuitAnim(){
-  function animate(){
-    animFrame++;
-    drawCircuit();
-    circuitAnimId=requestAnimationFrame(animate);
+function startPulleyAnim() {
+  if (pulleyAnimId) return;
+  function animate() {
+    pulleyFrame++;
+    updatePulley();
+    pulleyAnimId = requestAnimationFrame(animate);
   }
   animate();
 }
 
-function updateCircuitInfo(){
-  const info=document.getElementById('circuitInfo');
-  const anyBroken=lamps.some(l=>l.broken);
-  const allWork=!anyBroken;
-  if(circuitMode==='serie'){
-    if(!switchOn) info.innerHTML='<strong>Serieschakeling</strong> — Schakelaar staat uit. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten.';
-    else if(anyBroken) info.innerHTML='<strong>Serieschakeling</strong> — Een lamp is stuk! In een serieschakeling stopt de stroom <span class="hl">helemaal</span> als één lamp stukgaat. Alle lampen gaan uit, want er is maar één pad.';
-    else info.innerHTML='<strong>Serieschakeling</strong> — Beide lampen branden! Klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.';
-  } else {
-    if(!switchOn) info.innerHTML='<strong>Parallelschakeling</strong> — Schakelaar staat uit. Klik op de <span class="hl">schakelaar</span> om de stroom aan te zetten.';
-    else if(anyBroken && !lamps.every(l=>l.broken)) info.innerHTML='<strong>Parallelschakeling</strong> — Een lamp is stuk, maar de andere <span class="hl">brandt gewoon door</span>! De stroom kan via het andere pad lopen. Daarom gebruiken we thuis parallelschakelingen.';
-    else if(lamps.every(l=>l.broken)) info.innerHTML='<strong>Parallelschakeling</strong> — Beide lampen zijn stuk. Klik <span class="hl">Herstel lampen</span> om opnieuw te beginnen.';
-    else info.innerHTML='<strong>Parallelschakeling</strong> — Beide lampen branden! Klik op een <span class="hl">lamp</span> om te zien wat er gebeurt als die stukgaat.';
-  }
+function setPulleyMode(mode) {
+  pulleyMode = mode;
+  document.querySelectorAll('.sim-mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  updatePulley();
 }
 
-function drawCircuit(){
-  const c=document.getElementById('circuitSim');
-  if(!c.clientWidth||!c.clientHeight) return;
-  const dpr=window.devicePixelRatio||1;
-  c.width=c.clientWidth*dpr;c.height=c.clientHeight*dpr;
-  const ctx=c.getContext('2d');ctx.scale(dpr,dpr);
-  const w=c.clientWidth,h=c.clientHeight;
-  ctx.clearRect(0,0,w,h);
+function updatePulley() {
+  const weight = +document.getElementById('pulleyWeight').value;
+  document.getElementById('pulleyWeightVal').textContent = weight + ' N';
 
-  // Determine which lamps are lit
-  let lampsLit;
-  if(!switchOn){
-    lampsLit=[false,false];
-  } else if(circuitMode==='serie'){
-    const anyBroken=lamps.some(l=>l.broken);
-    lampsLit=[!anyBroken,!anyBroken];
-  } else {
-    lampsLit=[!lamps[0].broken,!lamps[1].broken];
+  let force, ropeMultiplier, description;
+  switch (pulleyMode) {
+    case 'none':
+      force = weight;
+      ropeMultiplier = 1;
+      description = `<strong>Geen katrol:</strong> Je moet de volledige kracht leveren (<span class="highlight">${weight} N</span>) en het touw <span class="highlight">1 meter</span> optrekken om de last 1 meter te tillen.`;
+      break;
+    case 'fixed':
+      force = weight;
+      ropeMultiplier = 1;
+      description = `<strong>Vaste katrol:</strong> Je trekt nog steeds met <span class="highlight">${weight} N</span> en <span class="highlight">1 meter</span> touw per meter tillen. Maar je kunt nu <em>naar beneden</em> trekken — veel handiger!`;
+      break;
+    case 'movable':
+      force = weight / 2;
+      ropeMultiplier = 2;
+      description = `<strong>Losse katrol:</strong> De kracht wordt gehalveerd! Je trekt maar <span class="highlight">${force} N</span>, maar je moet <span class="highlight">2 meter</span> touw trekken om de last 1 meter te tillen.`;
+      break;
+    case 'block':
+      force = weight / 4;
+      ropeMultiplier = 4;
+      description = `<strong>Takel (4 touwdelen):</strong> De kracht wordt door 4 gedeeld! Je trekt maar <span class="highlight">${force} N</span>, maar je moet <span class="highlight">4 meter</span> touw trekken per meter tillen.`;
+      break;
   }
 
-  const currentFlowing=switchOn&&lampsLit.some(l=>l);
-
-  if(circuitMode==='serie') drawSerieCircuit(ctx,w,h,lampsLit,currentFlowing);
-  else drawParallelCircuit(ctx,w,h,lampsLit,currentFlowing);
+  document.getElementById('pulleyInfo').innerHTML = description;
+  drawPulley(weight, force, ropeMultiplier);
 }
 
-function drawSerieCircuit(ctx,w,h,lampsLit,currentFlowing){
-  const cx=w/2,cy=h/2;
-  const bw=70,bh=36; // battery
-  const wireColor=currentFlowing?'#8B6B45':'#A09080';
-  const wireWidth=currentFlowing?3:2.5;
+function drawPulley(weight, force, ropeMultiplier) {
+  const c = document.getElementById('pulleySim');
+  if (!c.clientWidth || !c.clientHeight) return;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = c.clientWidth * dpr;
+  c.height = c.clientHeight * dpr;
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const w = c.clientWidth, h = c.clientHeight;
+  ctx.clearRect(0, 0, w, h);
 
-  // Circuit path: battery(left) -> top wire -> lamp1(top) -> middle wire -> lamp2(right) -> bottom wire -> switch(bottom) -> back to battery
-  const bx=60,by=cy; // battery position
-  const l1x=cx,l1y=70; // lamp 1
-  const l2x=cx,l2y=h-70; // lamp 2
-  const sx=w-80,sy=cy; // switch
+  // Ceiling
+  ctx.fillStyle = '#8B7355';
+  roundRect(ctx, w*0.15, 10, w*0.7, 12, 4);
+  ctx.fill();
 
-  // Draw wires
-  ctx.strokeStyle=wireColor;ctx.lineWidth=wireWidth;ctx.lineCap='round';ctx.lineJoin='round';
+  const cx = w * 0.5;
+  const pulleyR = 22;
 
-  // Battery top → lamp 1
-  ctx.beginPath();ctx.moveTo(bx,by-bh/2);ctx.lineTo(bx,l1y);ctx.lineTo(l1x-25,l1y);ctx.stroke();
-  // Lamp 1 → right side → lamp 2
-  ctx.beginPath();ctx.moveTo(l1x+25,l1y);ctx.lineTo(sx,l1y);ctx.lineTo(sx,sy-20);ctx.stroke();
-  // Switch → lamp 2
-  ctx.beginPath();ctx.moveTo(sx,sy+20);ctx.lineTo(sx,l2y);ctx.lineTo(l2x+25,l2y);ctx.stroke();
-  // Lamp 2 → battery bottom
-  ctx.beginPath();ctx.moveTo(l2x-25,l2y);ctx.lineTo(bx,l2y);ctx.lineTo(bx,by+bh/2);ctx.stroke();
-
-  // Animated current dots
-  if(currentFlowing){
-    drawCurrentDots(ctx,[{x:bx,y:by-bh/2},{x:bx,y:l1y},{x:l1x,y:l1y},{x:sx,y:l1y},{x:sx,y:l2y},{x:l2x,y:l2y},{x:bx,y:l2y},{x:bx,y:by+bh/2}]);
-  }
-
-  // Battery
-  drawBattery(ctx,bx,by,bh);
-  // Lamps
-  drawLamp(ctx,l1x,l1y,lampsLit[0],lamps[0].broken,0);
-  drawLamp(ctx,l2x,l2y,lampsLit[1],lamps[1].broken,1);
-  // Switch
-  drawSwitch(ctx,sx,sy);
-
-  // Labels
-  ctx.fillStyle='#5C4033';ctx.font='12px Source Sans 3, sans-serif';ctx.textAlign='center';
-  ctx.fillText('Lamp 1',l1x,l1y+38);
-  ctx.fillText('Lamp 2',l2x,l2y-34);
-  ctx.fillText('SERIESCHAKELING',cx,h-12);
-}
-
-function drawParallelCircuit(ctx,w,h,lampsLit,currentFlowing){
-  const cx=w/2,cy=h/2;
-  const wireColor=currentFlowing?'#8B6B45':'#A09080';
-  const wireWidth=currentFlowing?3:2.5;
-
-  // Layout: Battery left → split → two branches with lamps → merge → switch → return to battery
-  const bx=50,by=cy; // battery
-  const splitX=bx+70; // where branches split
-  const mergeX=w-130; // where branches merge
-  const l1y=cy-55, l2y=cy+55; // lamp positions
-  const l1x=cx, l2x=cx;
-  const sx=w-65,sy=cy; // switch (in main return line)
-  const returnY=h-40; // return wire at bottom
-
-  ctx.strokeStyle=wireColor;ctx.lineWidth=wireWidth;ctx.lineCap='round';ctx.lineJoin='round';
-
-  // Battery+ → right to split junction
-  ctx.beginPath();ctx.moveTo(bx+18,by);ctx.lineTo(splitX,by);ctx.stroke();
-  // Split junction → up to branch 1
-  ctx.beginPath();ctx.moveTo(splitX,by);ctx.lineTo(splitX,l1y);ctx.lineTo(l1x-25,l1y);ctx.stroke();
-  // Split junction → down to branch 2
-  ctx.beginPath();ctx.moveTo(splitX,by);ctx.lineTo(splitX,l2y);ctx.lineTo(l2x-25,l2y);ctx.stroke();
-  // Branch 1 → merge junction
-  ctx.beginPath();ctx.moveTo(l1x+25,l1y);ctx.lineTo(mergeX,l1y);ctx.lineTo(mergeX,by);ctx.stroke();
-  // Branch 2 → merge junction
-  ctx.beginPath();ctx.moveTo(l2x+25,l2y);ctx.lineTo(mergeX,l2y);ctx.lineTo(mergeX,by);ctx.stroke();
-  // Merge → switch (horizontal)
-  ctx.beginPath();ctx.moveTo(mergeX,by);ctx.lineTo(sx-20,by);ctx.stroke();
-  // Switch → down to return wire → left to battery-
-  ctx.beginPath();ctx.moveTo(sx+20,by);ctx.lineTo(w-30,by);ctx.lineTo(w-30,returnY);ctx.lineTo(bx,returnY);ctx.lineTo(bx,by+18);ctx.stroke();
-
-  // Junction dots
-  ctx.fillStyle=wireColor;
-  ctx.beginPath();ctx.arc(splitX,by,4,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(mergeX,by,4,0,Math.PI*2);ctx.fill();
-
-  // Current dots for flowing branches
-  if(currentFlowing){
-    if(lampsLit[0]) drawCurrentDots(ctx,[{x:splitX,y:by},{x:splitX,y:l1y},{x:l1x,y:l1y},{x:mergeX,y:l1y},{x:mergeX,y:by}]);
-    if(lampsLit[1]) drawCurrentDots(ctx,[{x:splitX,y:by},{x:splitX,y:l2y},{x:l2x,y:l2y},{x:mergeX,y:l2y},{x:mergeX,y:by}]);
-    // Main line dots
-    drawCurrentDots(ctx,[{x:mergeX,y:by},{x:sx,y:by},{x:w-30,y:by},{x:w-30,y:returnY},{x:bx,y:returnY},{x:bx,y:by}]);
-  }
-
-  drawBattery(ctx,bx,by,36);
-  drawLamp(ctx,l1x,l1y,lampsLit[0],lamps[0].broken,0);
-  drawLamp(ctx,l2x,l2y,lampsLit[1],lamps[1].broken,1);
-  // Switch is now horizontal
-  drawSwitchH(ctx,sx,by);
-
-  ctx.fillStyle='#5C4033';ctx.font='12px Source Sans 3, sans-serif';ctx.textAlign='center';
-  ctx.fillText('Lamp 1',l1x,l1y+36);
-  ctx.fillText('Lamp 2',l2x,l2y+36);
-  ctx.fillText('PARALLELSCHAKELING',cx,h-12);
-}
-
-function drawCurrentDots(ctx,points){
-  ctx.fillStyle='rgba(212,168,67,0.7)';
-  const totalLen=[];
-  let cumLen=0;
-  for(let i=1;i<points.length;i++){
-    const dx=points[i].x-points[i-1].x,dy=points[i].y-points[i-1].y;
-    cumLen+=Math.sqrt(dx*dx+dy*dy);
-    totalLen.push(cumLen);
-  }
-  const spacing=30;
-  const offset=(animFrame*1.5)%spacing;
-  for(let d=offset;d<cumLen;d+=spacing){
-    let seg=0;
-    while(seg<totalLen.length-1&&d>totalLen[seg]) seg++;
-    const prevLen=seg>0?totalLen[seg-1]:0;
-    const segLen=totalLen[seg]-prevLen;
-    const t=segLen>0?(d-prevLen)/segLen:0;
-    const px=points[seg].x+(points[seg+1].x-points[seg].x)*t;
-    const py=points[seg].y+(points[seg+1].y-points[seg].y)*t;
-    ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
-  }
-}
-
-function drawBattery(ctx,x,y,bh){
-  const bw=30;
-  // Body
-  ctx.fillStyle='#5C4033';
-  ctx.fillRect(x-bw/2,y-bh/2,bw,bh);
-  // Plus terminal (top)
-  ctx.fillStyle='#C2704E';
-  ctx.fillRect(x-bw/2-3,y-bh/2-6,bw+6,8);
-  // Minus terminal (bottom)
-  ctx.fillStyle='#4A7B99';
-  ctx.fillRect(x-bw/2+4,y+bh/2-2,bw-8,6);
-  // Labels
-  ctx.fillStyle='white';ctx.font='bold 13px Source Sans 3, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('+',x,y-bh/2+8);
-  ctx.fillText('−',x,y+bh/2-8);
-  // Label
-  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';
-  ctx.fillText('Batterij',x,y+bh/2+16);
-}
-
-function drawLamp(ctx,x,y,lit,broken,idx){
-  const r=20;
-  // Glow
-  if(lit&&!broken){
-    const grad=ctx.createRadialGradient(x,y,r*0.3,x,y,r*2.5);
-    grad.addColorStop(0,'rgba(255,230,130,0.5)');
-    grad.addColorStop(1,'rgba(255,230,130,0)');
-    ctx.fillStyle=grad;
-    ctx.beginPath();ctx.arc(x,y,r*2.5,0,Math.PI*2);ctx.fill();
-  }
-  // Bulb
-  ctx.fillStyle=lit&&!broken?'#FFE882':broken?'#D0C0B0':'#E8DCC8';
-  ctx.strokeStyle=broken?'#C25E4E':'rgba(92,64,51,0.3)';
-  ctx.lineWidth=broken?2.5:1.5;
-  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.stroke();
-  // Filament
-  if(!broken){
-    ctx.strokeStyle=lit?'#D4A843':'#A09080';
-    ctx.lineWidth=lit?2:1.5;
+  if (pulleyMode === 'none') {
+    ctx.strokeStyle = '#8B7355';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(x-8,y+6);ctx.lineTo(x-4,y-6);ctx.lineTo(x,y+4);ctx.lineTo(x+4,y-6);ctx.lineTo(x+8,y+6);
+    ctx.moveTo(cx, h * 0.3);
+    ctx.lineTo(cx, h * 0.65);
     ctx.stroke();
-  } else {
-    // X mark
-    ctx.strokeStyle='#C25E4E';ctx.lineWidth=2.5;
-    ctx.beginPath();ctx.moveTo(x-8,y-8);ctx.lineTo(x+8,y+8);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(x+8,y-8);ctx.lineTo(x-8,y+8);ctx.stroke();
+    drawWeight(ctx, cx, h * 0.65, weight);
+    drawArrow(ctx, cx, h * 0.3, cx, h * 0.12, '#C2704E');
+    drawLabel(ctx, cx + 40, h * 0.2, force + ' N ↑', '#C2704E');
+    drawLabel(ctx, cx, h * 0.9, 'Touw: ×' + ropeMultiplier, '#5C4033');
+    drawRopeDots(ctx, [{x:cx,y:h*0.65},{x:cx,y:h*0.12}]);
   }
-  // Store hitbox
-  lamps[idx].x=x;lamps[idx].y=y;lamps[idx].r=r;
+  else if (pulleyMode === 'fixed') {
+    drawPulleyWheel(ctx, cx, 40, pulleyR);
+    ctx.strokeStyle = '#8B7355';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - 5, h * 0.6);
+    ctx.lineTo(cx - 5, 40);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, 40, pulleyR - 3, Math.PI, 0, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx + 5 + pulleyR - 8, 40);
+    ctx.lineTo(cx + 60, h * 0.75);
+    ctx.stroke();
+    drawWeight(ctx, cx - 5, h * 0.6, weight);
+    drawArrow(ctx, cx + 60, h * 0.55, cx + 60, h * 0.75, '#C2704E');
+    drawLabel(ctx, cx + 100, h * 0.65, force + ' N ↓', '#C2704E');
+    drawLabel(ctx, cx, h * 0.9, 'Richting veranderd!', '#5C4033');
+    drawRopeDots(ctx, [{x:cx-5,y:h*0.6},{x:cx-5,y:40},{x:cx+pulleyR-8,y:40},{x:cx+60,y:h*0.75}]);
+  }
+  else if (pulleyMode === 'movable') {
+    ctx.fillStyle = '#8B7355';
+    ctx.beginPath();
+    ctx.arc(cx - 60, 22, 6, 0, Math.PI * 2);
+    ctx.fill();
+    const py = h * 0.45;
+    drawPulleyWheel(ctx, cx, py, pulleyR);
+    ctx.strokeStyle = '#8B7355';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - 60, 22);
+    ctx.lineTo(cx - pulleyR + 5, py);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, py, pulleyR - 3, Math.PI, 0, true);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx + pulleyR - 5, py);
+    ctx.lineTo(cx + 70, h * 0.12);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx, py + pulleyR);
+    ctx.lineTo(cx, py + pulleyR + 30);
+    ctx.stroke();
+    drawWeight(ctx, cx, py + pulleyR + 30, weight);
+    drawArrow(ctx, cx + 70, h * 0.28, cx + 70, h * 0.12, '#C2704E');
+    drawLabel(ctx, cx + 110, h * 0.2, force + ' N ↑', '#C2704E');
+    drawLabel(ctx, cx - 80, py, '2 touwdelen', '#6A9BB5');
+    drawLabel(ctx, cx, h * 0.9, 'Kracht ÷ 2 | Touw × 2', '#5C4033');
+    drawRopeDots(ctx, [{x:cx-60,y:22},{x:cx-pulleyR+5,y:py},{x:cx+pulleyR-5,y:py},{x:cx+70,y:h*0.12}]);
+  }
+  else if (pulleyMode === 'block') {
+    const topY = 40;
+    const botY = h * 0.48;
+    const sp = 50;
+    drawPulleyWheel(ctx, cx - sp, topY, pulleyR * 0.8);
+    drawPulleyWheel(ctx, cx + sp, topY, pulleyR * 0.8);
+    drawPulleyWheel(ctx, cx - sp, botY, pulleyR * 0.8);
+    drawPulleyWheel(ctx, cx + sp, botY, pulleyR * 0.8);
+    ctx.strokeStyle = '#8B7355';
+    ctx.lineWidth = 2.5;
+    const offsets = [-sp - 10, -sp + 10, sp - 10, sp + 10];
+    offsets.forEach(off => {
+      ctx.beginPath();
+      ctx.moveTo(cx + off, topY + 8);
+      ctx.lineTo(cx + off, botY - 8);
+      ctx.stroke();
+    });
+    ctx.beginPath();
+    ctx.moveTo(cx + sp + 18, topY);
+    ctx.lineTo(cx + sp + 60, h * 0.7);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx, botY + pulleyR * 0.8 + 5);
+    ctx.lineTo(cx, botY + pulleyR * 0.8 + 30);
+    ctx.stroke();
+    drawWeight(ctx, cx, botY + pulleyR * 0.8 + 30, weight);
+    drawArrow(ctx, cx + sp + 60, h * 0.55, cx + sp + 60, h * 0.7, '#C2704E');
+    drawLabel(ctx, cx + sp + 100, h * 0.62, force + ' N ↓', '#C2704E');
+    drawLabel(ctx, cx - sp - 50, (topY + botY) / 2, '4 touwdelen', '#6A9BB5');
+    drawLabel(ctx, cx, h * 0.92, 'Kracht ÷ 4 | Touw × 4', '#5C4033');
+    // Animate each of the 4 rope segments
+    offsets.forEach((off,i) => {
+      drawRopeDots(ctx, [{x:cx+off,y:topY+8},{x:cx+off,y:botY-8}], i*5);
+    });
+    drawRopeDots(ctx, [{x:cx+sp+18,y:topY},{x:cx+sp+60,y:h*0.7}], 10);
+  }
 }
 
-// Store switch hitbox
-let switchHitbox={x:0,y:0,r:30};
-
-function drawSwitch(ctx,x,y){
-  const sw=16;
-  ctx.strokeStyle='#5C4033';ctx.lineWidth=3;
-  ctx.fillStyle='#8B6B45';
-  ctx.beginPath();ctx.arc(x,y-sw,4,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(x,y+sw,4,0,Math.PI*2);ctx.fill();
-  if(switchOn){
-    ctx.strokeStyle='#6B9E6B';
-    ctx.beginPath();ctx.moveTo(x,y-sw);ctx.lineTo(x,y+sw);ctx.stroke();
-  } else {
-    ctx.strokeStyle='#C25E4E';
-    ctx.beginPath();ctx.moveTo(x,y+sw);ctx.lineTo(x+20,y-sw+5);ctx.stroke();
+function drawRopeDots(ctx, points, offset) {
+  offset = offset || 0;
+  ctx.fillStyle = 'rgba(212,168,67,0.75)';
+  let cumLen = 0;
+  const segs = [];
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i-1].x, dy = points[i].y - points[i-1].y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    cumLen += len;
+    segs.push({ len: cumLen });
   }
-  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
-  ctx.fillText(switchOn?'AAN':'UIT',x,y+sw+16);
-  switchHitbox={x:x,y:y,r:30};
+  const totalLen = cumLen;
+  const spacing = 25;
+  const phase = ((pulleyFrame + offset) * 1.2) % spacing;
+  for (let d = phase; d < totalLen; d += spacing) {
+    let seg = 0;
+    while (seg < segs.length - 1 && d > segs[seg].len) seg++;
+    const prevLen = seg > 0 ? segs[seg-1].len : 0;
+    const segLen = segs[seg].len - prevLen;
+    const t = segLen > 0 ? (d - prevLen) / segLen : 0;
+    const px = points[seg].x + (points[seg+1].x - points[seg].x) * t;
+    const py = points[seg].y + (points[seg+1].y - points[seg].y) * t;
+    ctx.beginPath();
+    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
-// Horizontal switch for parallel circuit
-function drawSwitchH(ctx,x,y){
-  const sw=18;
-  ctx.fillStyle='#8B6B45';
-  ctx.beginPath();ctx.arc(x-sw,y,4,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(x+sw,y,4,0,Math.PI*2);ctx.fill();
-  if(switchOn){
-    ctx.strokeStyle='#6B9E6B';ctx.lineWidth=3;
-    ctx.beginPath();ctx.moveTo(x-sw,y);ctx.lineTo(x+sw,y);ctx.stroke();
-  } else {
-    ctx.strokeStyle='#C25E4E';ctx.lineWidth=3;
-    ctx.beginPath();ctx.moveTo(x-sw,y);ctx.lineTo(x+sw-5,y-18);ctx.stroke();
+function drawPulleyWheel(ctx, x, y, r) {
+  ctx.fillStyle = '#B07A4B';
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#D4A843';
+  ctx.beginPath();
+  ctx.arc(x, y, r * 0.55, 0, Math.PI * 2);
+  ctx.fill();
+  // Spinning spokes
+  ctx.strokeStyle = 'rgba(139,115,85,0.4)';
+  ctx.lineWidth = 2;
+  const spokeAngle = pulleyFrame * 0.04;
+  for (let i = 0; i < 4; i++) {
+    const a = spokeAngle + (i / 4) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.moveTo(x + Math.cos(a) * r * 0.2, y + Math.sin(a) * r * 0.2);
+    ctx.lineTo(x + Math.cos(a) * r * 0.85, y + Math.sin(a) * r * 0.85);
+    ctx.stroke();
   }
-  ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
-  ctx.fillText(switchOn?'AAN':'UIT',x,y+22);
-  switchHitbox={x:x,y:y,r:30};
+  ctx.fillStyle = '#8B7355';
+  ctx.beginPath();
+  ctx.arc(x, y, r * 0.15, 0, Math.PI * 2);
+  ctx.fill();
 }
 
-// Canvas click/touch handler
-function handleCircuitTap(clientX,clientY){
-  const c=document.getElementById('circuitSim');
-  const rect=c.getBoundingClientRect();
-  const mx=clientX-rect.left;
-  const my=clientY-rect.top;
+function drawWeight(ctx, x, y, w) {
+  const bw = 50, bh = 40;
+  ctx.fillStyle = '#5C4033';
+  roundRect(ctx, x - bw/2, y, bw, bh, 6);
+  ctx.fill();
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 13px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(w + ' N', x, y + bh/2);
+}
 
-  // Check switch click
-  if(switchHitbox.x){
-    const dx=mx-switchHitbox.x,dy=my-switchHitbox.y;
-    if(dx*dx+dy*dy<switchHitbox.r*switchHitbox.r){
-      toggleSwitch();
-      return;
-    }
+function drawArrow(ctx, x1, y1, x2, y2, color) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+  const headLen = 10;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headLen * Math.cos(angle - 0.4), y2 - headLen * Math.sin(angle - 0.4));
+  ctx.lineTo(x2 - headLen * Math.cos(angle + 0.4), y2 - headLen * Math.sin(angle + 0.4));
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawLabel(ctx, x, y, text, color) {
+  ctx.fillStyle = color;
+  ctx.font = '13px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x, y);
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+// ==================== GEAR SIMULATOR ====================
+let gearAngle = 0;
+let gearAnimId = null;
+
+function updateGears() {
+  const drive = +document.getElementById('gearDrive').value;
+  const driven = +document.getElementById('gearDriven').value;
+  document.getElementById('gearDriveVal').textContent = drive + ' tanden';
+  document.getElementById('gearDrivenVal').textContent = driven + ' tanden';
+
+  const ratio = drive / driven;
+  const ratioStr = ratio.toFixed(1).replace('.', ',');
+  let type = '';
+  if (ratio > 1.2) type = 'zware versnelling</span> — veel snelheid, meer kracht nodig.';
+  else if (ratio < 0.8) type = 'lichte versnelling</span> — minder snelheid, minder kracht nodig.';
+  else type = 'neutrale versnelling</span> — evenveel snelheid als kracht.';
+
+  document.getElementById('gearInfo').innerHTML =
+    `<strong>Verhouding:</strong> ${drive} ÷ ${driven} = <span class="highlight">${ratioStr}</span><br>` +
+    `Per omwenteling van je pedalen draait het achterwiel <span class="highlight">${ratioStr} keer</span> rond.<br>` +
+    `Dit is een <span class="highlight">${type}`;
+
+  drawGears();
+}
+
+function drawGears() {
+  const c = document.getElementById('gearSim');
+  if (!c.clientWidth || !c.clientHeight) return;
+  const dpr = window.devicePixelRatio || 1;
+  c.width = c.clientWidth * dpr;
+  c.height = c.clientHeight * dpr;
+  const ctx = c.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const w = c.clientWidth, h = c.clientHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  const drive = +document.getElementById('gearDrive').value;
+  const driven = +document.getElementById('gearDriven').value;
+  const ratio = drive / driven;
+
+  // Sizes proportional to tooth count
+  const maxR = Math.min(w * 0.22, h * 0.4);
+  const driveR = maxR * (drive / 50);
+  const drivenR = maxR * (driven / 50);
+  const minR = 20;
+  const r1 = Math.max(driveR, minR);
+  const r2 = Math.max(drivenR, minR);
+
+  const gap = 4;
+  const cx1 = w * 0.38;
+  const cy = h * 0.48;
+  const cx2 = cx1 + r1 + r2 + gap;
+
+  // Draw drive gear
+  drawGearWheel(ctx, cx1, cy, r1, drive, gearAngle, '#C2704E', '#D4916F');
+  // Draw driven gear (rotates opposite, scaled by ratio)
+  drawGearWheel(ctx, cx2, cy, r2, driven, -gearAngle * ratio, '#6A9BB5', '#89B5CA');
+
+  // Labels
+  ctx.fillStyle = '#C2704E';
+  ctx.font = 'bold 14px Source Sans 3, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Aandrijvend', cx1, cy + r1 + 30);
+  ctx.fillText(drive + ' tanden', cx1, cy + r1 + 48);
+
+  ctx.fillStyle = '#6A9BB5';
+  ctx.fillText('Aangedreven', cx2, cy + r2 + 30);
+  ctx.fillText(driven + ' tanden', cx2, cy + r2 + 48);
+
+  // Rotation indicators
+  ctx.fillStyle = '#C2704E';
+  ctx.font = '13px Source Sans 3, sans-serif';
+  ctx.fillText('1× rond', cx1, cy - r1 - 16);
+
+  ctx.fillStyle = '#6A9BB5';
+  ctx.fillText(ratio.toFixed(1).replace('.', ',') + '× rond', cx2, cy - r2 - 16);
+}
+
+function drawGearWheel(ctx, x, y, r, teeth, angle, color, lightColor) {
+  const toothDepth = Math.max(4, r * 0.15);
+  const outerR = r + toothDepth;
+  const innerR = r - toothDepth * 0.3;
+
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+
+  // Teeth
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (let i = 0; i < teeth; i++) {
+    const a1 = (i / teeth) * Math.PI * 2;
+    const a2 = ((i + 0.35) / teeth) * Math.PI * 2;
+    const a3 = ((i + 0.5) / teeth) * Math.PI * 2;
+    const a4 = ((i + 0.85) / teeth) * Math.PI * 2;
+    if (i === 0) ctx.moveTo(Math.cos(a1) * innerR, Math.sin(a1) * innerR);
+    ctx.lineTo(Math.cos(a2) * outerR, Math.sin(a2) * outerR);
+    ctx.lineTo(Math.cos(a3) * outerR, Math.sin(a3) * outerR);
+    ctx.lineTo(Math.cos(a4) * innerR, Math.sin(a4) * innerR);
   }
-  // Check lamp clicks
-  lamps.forEach((l,i)=>{
-    if(l.x&&!l.broken){
-      const dx=mx-l.x,dy=my-l.y;
-      if(dx*dx+dy*dy<(l.r+12)*(l.r+12)){
-        l.broken=true;
-        drawCircuit();
-        updateCircuitInfo();
-      }
-    }
+  ctx.closePath();
+  ctx.fill();
+
+  // Center circle
+  ctx.fillStyle = lightColor;
+  ctx.beginPath();
+  ctx.arc(0, 0, r * 0.4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Axle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(0, 0, r * 0.12, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Direction indicator line
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(r * 0.35, 0);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function startGearAnimation() {
+  if (gearAnimId) return;
+  function animate() {
+    gearAngle += 0.015;
+    drawGears();
+    gearAnimId = requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// Start animation when tab is visible
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && e.target.id === 'tab-tandwielen') startGearAnimation();
   });
-}
-
-document.getElementById('circuitSim').addEventListener('click',function(e){
-  handleCircuitTap(e.clientX,e.clientY);
-});
-document.getElementById('circuitSim').addEventListener('touchend',function(e){
-  if(e.changedTouches&&e.changedTouches.length>0){
-    const t=e.changedTouches[0];
-    handleCircuitTap(t.clientX,t.clientY);
-  }
 });
 
 // ==================== QUIZ ====================
-const quizData=[
-  {q:'Wat heb je minstens nodig voor een werkende stroomkring?',options:['Alleen een batterij','Een batterij, draden en een verbruiker','Alleen draden en een lamp','Een schakelaar en een lamp'],correct:1,explanation:'Een stroomkring heeft minstens een energiebron (batterij), geleiders (draden) en een verbruiker (lamp) nodig.'},
-  {q:'Wat gebeurt er als de schakelaar open staat?',options:['De lamp brandt feller','De stroom stopt en de lamp gaat uit','De batterij laadt op','De draad wordt warm'],correct:1,explanation:'Een open schakelaar onderbreekt de stroomkring. Er kan geen stroom lopen, dus de lamp gaat uit.'},
-  {q:'In een serieschakeling gaat lamp 1 stuk. Wat gebeurt er?',options:['Alleen lamp 1 gaat uit','Alle lampen gaan uit','De andere lampen branden feller','Er verandert niets'],correct:1,explanation:'In een serieschakeling is er maar één pad voor de stroom. Als dat pad onderbroken wordt, stopt alle stroom en gaan alle lampen uit.'},
-  {q:'In een parallelschakeling gaat lamp 1 stuk. Wat gebeurt er?',options:['Alle lampen gaan uit','Alleen lamp 1 gaat uit, de rest brandt door','De batterij ontploft','De andere lampen gaan knipperen'],correct:1,explanation:'In een parallelschakeling heeft de stroom meerdere paden. Als één pad onderbroken wordt, loopt de stroom gewoon door de andere paden.'},
-  {q:'Waarom gebruiken we thuis parallelschakelingen?',options:['Omdat ze goedkoper zijn','Zodat niet alles uitvalt als één apparaat stukgaat','Omdat ze mooier zijn','Omdat serieschakelingen verboden zijn'],correct:1,explanation:'Met parallelschakelingen werkt elk apparaat onafhankelijk. Als er één lamp stukgaat, werkt de rest gewoon door.'},
-  {q:'Hoe maakt een gloeilamp licht?',options:['Door een chemische reactie','Door een dun draadje zo warm te maken dat het gloeit','Door een magneet te laten draaien','Door lucht te verwarmen'],correct:1,explanation:'Stroom loopt door een heel dun draadje (gloeidraad) in de lamp. Het draadje wordt zo heet dat het gaat gloeien en licht geeft.'},
-  {q:'Wat doet een elektromotor?',options:['Maakt elektriciteit van licht','Zet elektrische energie om in beweging','Slaat elektriciteit op','Maakt geluid van stroom'],correct:1,explanation:'Een elektromotor gebruikt stroom om een magnetisch veld te maken. Dat veld duwt tegen een magneet en zorgt voor een draaibeweging.'},
-  {q:'In welk apparaat zit GEEN elektromotor?',options:['Ventilator','Wasmachine','Gloeilamp','Mixer'],correct:2,explanation:'Een gloeilamp zet stroom om in licht en warmte, niet in beweging. Er zit geen motor in. Een ventilator, wasmachine en mixer hebben wél een motor.'},
-  {q:'Wat is overbelasting?',options:['Als de batterij leeg is','Als er te veel toestellen op één stopcontact staan','Als de lamp te fel brandt','Als de schakelaar kapot is'],correct:1,explanation:'Overbelasting ontstaat als te veel apparaten op één stopcontact of groep zijn aangesloten. De draden worden dan te warm, wat brandgevaar oplevert.'},
-  {q:'Waarom mag je geen natte handen hebben bij stopcontacten?',options:['Omdat water elektriciteit goed geleidt en je een schok kunt krijgen','Omdat het stopcontact kan roesten','Omdat de stekker uit je handen glijdt','Omdat water de lamp kan doven'],correct:0,explanation:'Water geleidt elektriciteit. Met natte handen kan de stroom via het water door je lichaam lopen. Dat kan een gevaarlijke elektrische schok geven.'},
-  {q:'Welke omzetting vindt plaats in een broodrooster?',options:['Elektrische energie → licht','Elektrische energie → warmte','Elektrische energie → beweging','Elektrische energie → geluid'],correct:1,explanation:'Een broodrooster zet elektrische energie om in warmte. De verwarmingselementen worden gloeiend heet en roosteren het brood.'},
-  {q:'De stroom in een stroomkring loopt van:',options:['Minpool naar pluspool','Pluspool, door de verbruiker, terug naar de minpool','De lamp naar de batterij','De schakelaar naar de draad'],correct:1,explanation:'De stroom loopt van de pluspool (+) van de batterij, door de draden en de verbruiker (lamp), en terug naar de minpool (−). Dat is de stroomrichting.'}
+const quizData = [
+  {
+    q: 'Wat verandert een vaste katrol?',
+    options: ['Alleen de richting van de kracht', 'Alleen de grootte van de kracht', 'Zowel richting als grootte', 'Niets — het is nutteloos'],
+    correct: 0,
+    explanation: 'Een vaste katrol verandert alleen de richting: je kunt naar beneden trekken in plaats van omhoog. De kracht blijft even groot.'
+  },
+  {
+    q: 'Een last van 100 N hangt aan een losse katrol. Met hoeveel kracht moet je trekken?',
+    options: ['100 N', '50 N', '200 N', '25 N'],
+    correct: 1,
+    explanation: 'Een losse katrol verdeelt de kracht over twee touwdelen. Je hoeft maar de helft te trekken: 100 ÷ 2 = 50 N.'
+  },
+  {
+    q: 'Je tilt een last 3 meter omhoog met een losse katrol. Hoeveel touw moet je binnenhalen?',
+    options: ['3 meter', '6 meter', '1,5 meter', '9 meter'],
+    correct: 1,
+    explanation: 'Wat je wint aan kracht (÷2), verlies je aan afstand (×2). Je moet 3 × 2 = 6 meter touw trekken.'
+  },
+  {
+    q: 'Een takel heeft 4 touwdelen. De last weegt 400 N. Hoeveel kracht moet je leveren?',
+    options: ['400 N', '200 N', '100 N', '800 N'],
+    correct: 2,
+    explanation: 'De kracht wordt verdeeld over 4 touwdelen: 400 ÷ 4 = 100 N.'
+  },
+  {
+    q: 'Wat is de gouden regel van de mechanica?',
+    options: ['Kracht en snelheid zijn altijd gelijk', 'Wat je wint aan kracht, verlies je aan afstand', 'Zwaardere voorwerpen vallen sneller', 'Meer katrollen = meer kracht'],
+    correct: 1,
+    explanation: 'De gouden regel geldt voor alle werktuigen: wat je wint aan kracht, verlies je aan afstand (en omgekeerd).'
+  },
+  {
+    q: 'Het voorste tandwiel heeft 40 tanden, het achterste 10. Hoe vaak draait het achterwiel per trapbeweging?',
+    options: ['0,25 keer', '4 keer', '10 keer', '40 keer'],
+    correct: 1,
+    explanation: 'De verhouding is 40 ÷ 10 = 4. Het achterwiel draait 4 keer rond per trapbeweging.'
+  },
+  {
+    q: 'Wat is een zware versnelling op de fiets?',
+    options: ['Klein tandwiel voor, groot achter', 'Groot tandwiel voor, klein achter', 'Twee even grote tandwielen', 'Geen tandwielen'],
+    correct: 1,
+    explanation: 'Groot tandwiel voor, klein achter = zware versnelling. Meer afstand per trap, maar meer kracht nodig.'
+  },
+  {
+    q: 'Je start een fietswedstrijd. Welke versnelling kies je?',
+    options: ['Zwaar (groot voor, klein achter)', 'Licht (klein voor, groot achter)', 'Maakt niet uit'],
+    correct: 1,
+    explanation: 'Bij het starten kies je een lichte versnelling: minder kracht nodig om op gang te komen. Daarna schakel je op naar zwaarder.'
+  },
+  {
+    q: 'Het voorste tandwiel heeft 15 tanden, het achterste 30. Hoe vaak draait het achterwiel per trapbeweging?',
+    options: ['0,5 keer', '2 keer', '15 keer', '1 keer'],
+    correct: 0,
+    explanation: 'Verhouding: 15 ÷ 30 = 0,5. Het achterwiel draait maar een halve slag. Dit is een lichte versnelling.'
+  },
+  {
+    q: 'Waarom is de fietser die schakelt het snelst?',
+    options: ['Omdat schakelen extra energie geeft', 'Omdat hij licht start en dan opschakelt naar zwaar', 'Omdat hij altijd in de lichtste versnelling fietst', 'Omdat het achterwiel groter wordt'],
+    correct: 1,
+    explanation: 'Door licht te starten (snel op gang) en dan op te schakelen (hogere topsnelheid) combineer je het beste van beide versnellingen.'
+  },
+  {
+    q: 'Een takel bestaat uit:',
+    options: ['Twee vaste katrollen', 'Twee losse katrollen', 'Een vaste en een losse katrol', 'Een touw zonder katrol'],
+    correct: 2,
+    explanation: 'Een takel is de combinatie van minstens één vaste en één losse katrol. Zo verander je zowel de richting als de grootte van de kracht.'
+  },
+  {
+    q: 'Bij een losse katrol moet je het touw omhoog trekken. Waarom is dat een nadeel?',
+    options: ['Je hebt meer kracht nodig', 'Omhoog trekken is onhandig', 'Het touw breekt sneller', 'De last kan niet naar beneden'],
+    correct: 1,
+    explanation: 'Bij een losse katrol trek je het touw omhoog, wat minder handig is. Daarom voeg je een vaste katrol toe (= takel), zodat je weer naar beneden kunt trekken.'
+  }
 ];
 
-let quizAnswered=0,quizCorrect=0;
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+let quizAnswered = 0;
+let quizCorrect = 0;
 
-function buildQuiz(){
-  const c=document.getElementById('quizContainer');let ph='';c.innerHTML='';
-  quizData.forEach((item,idx)=>{
-    const opts=item.options.map((o,i)=>({text:o,origIdx:i}));
-    const sh=shuffle(opts);const ci=sh.findIndex(o=>o.origIdx===item.correct);
-    const card=document.createElement('div');card.className='quiz-card';card.id='quiz-'+idx;
-    let h=`<div class="quiz-number">Vraag ${idx+1} / ${quizData.length}</div>`;
-    h+=`<div class="quiz-question">${item.q}</div><div class="quiz-options">`;
-    sh.forEach((o,oi)=>{h+=`<button class="quiz-option" onclick="answerQuiz(${idx},${oi},${ci})">${o.text}</button>`;});
-    h+=`</div><div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
-    card.innerHTML=h;c.appendChild(card);
-    ph+=`<p style="margin:4px 0"><strong>${idx+1}.</strong> ${item.options[item.correct]}</p>`;
-  });
-  document.getElementById('printQuizAnswers').innerHTML=ph;
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-function answerQuiz(ci,oi,corr){
-  const card=document.getElementById('quiz-'+ci);
-  if(card.classList.contains('correct')||card.classList.contains('incorrect'))return;
-  const opts=card.querySelectorAll('.quiz-option');opts.forEach(o=>o.classList.add('disabled'));
-  const fb=document.getElementById('quiz-fb-'+ci);quizAnswered++;
-  if(oi===corr){quizCorrect++;opts[oi].classList.add('selected-correct');card.classList.add('correct');fb.className='quiz-feedback show correct-fb';fb.textContent=['✓ Correct!','✓ Juist!','✓ Goed zo!','✓ Uitstekend!'][Math.floor(Math.random()*4)]+' '+quizData[ci].explanation;}
-  else{opts[oi].classList.add('selected-wrong');opts[corr].classList.add('show-correct');card.classList.add('incorrect');fb.className='quiz-feedback show incorrect-fb';fb.textContent='✗ '+quizData[ci].explanation;}
+function buildQuiz() {
+  const container = document.getElementById('quizContainer');
+  let printHtml = '';
+  container.innerHTML = '';
+
+  quizData.forEach((item, idx) => {
+    const optionsWithIndex = item.options.map((opt, i) => ({ text: opt, origIdx: i }));
+    const shuffled = shuffle(optionsWithIndex);
+    const correctShuffledIdx = shuffled.findIndex(o => o.origIdx === item.correct);
+
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.id = 'quiz-' + idx;
+
+    let html = `<div class="quiz-number">Vraag ${idx + 1} / ${quizData.length}</div>`;
+    html += `<div class="quiz-question">${item.q}</div>`;
+    if (item.context) html += `<div class="quiz-context">${item.context}</div>`;
+    html += `<div class="quiz-options">`;
+    shuffled.forEach((opt, oi) => {
+      html += `<button class="quiz-option" onclick="answerQuiz(${idx},${oi},${correctShuffledIdx})">${opt.text}</button>`;
+    });
+    html += `</div>`;
+    html += `<div class="quiz-feedback" id="quiz-fb-${idx}"></div>`;
+
+    card.innerHTML = html;
+    container.appendChild(card);
+    printHtml += `<p style="margin:4px 0;"><strong>${idx + 1}.</strong> ${item.options[item.correct]}</p>`;
+  });
+
+  document.getElementById('printQuizAnswers').innerHTML = printHtml;
+}
+
+function answerQuiz(cardIdx, optIdx, correctIdx) {
+  const card = document.getElementById('quiz-' + cardIdx);
+  if (card.classList.contains('correct') || card.classList.contains('incorrect')) return;
+  const options = card.querySelectorAll('.quiz-option');
+  options.forEach(o => o.classList.add('disabled'));
+  const fb = document.getElementById('quiz-fb-' + cardIdx);
+  quizAnswered++;
+
+  if (optIdx === correctIdx) {
+    quizCorrect++;
+    options[optIdx].classList.add('selected-correct');
+    card.classList.add('correct');
+    fb.className = 'quiz-feedback show correct-fb';
+    const msgs = ['✓ Correct!', '✓ Juist!', '✓ Goed zo!', '✓ Uitstekend!'];
+    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)] + ' ' + quizData[cardIdx].explanation;
+  } else {
+    options[optIdx].classList.add('selected-wrong');
+    options[correctIdx].classList.add('show-correct');
+    card.classList.add('incorrect');
+    fb.className = 'quiz-feedback show incorrect-fb';
+    fb.textContent = '✗ ' + quizData[cardIdx].explanation;
+  }
   updateQuizScore();
 }
 
-function updateQuizScore(){
+function updateQuizScore() {
   document.getElementById('quizScore').classList.add('show');
-  document.getElementById('quizScoreText').textContent=`Score: ${quizCorrect}/${quizAnswered}`;
-  document.getElementById('quizProgress').style.width=(quizCorrect/quizData.length*100)+'%';
-  if(quizAnswered===quizData.length){
-    const pct=quizCorrect/quizData.length*100;let e,m;
-    if(pct===100){e='🌟';m='Alles juist — fantastisch!';}
-    else if(pct>=80){e='🎉';m='Heel goed! Bijna alles juist.';}
-    else if(pct>=60){e='💪';m='Goed bezig! Bekijk de fouten nog eens.';}
-    else{e='📚';m='Bekijk de theorie nog eens en probeer opnieuw!';}
-    document.getElementById('quizEmoji').textContent=e;
-    document.getElementById('quizMessage').textContent=m;
-    document.getElementById('quizCelebration').classList.add('show');
-  }
+  document.getElementById('quizScoreText').textContent = `Score: ${quizCorrect}/${quizAnswered}`;
+  document.getElementById('quizProgress').style.width = (quizCorrect / quizData.length * 100) + '%';
+  if (quizAnswered === quizData.length) showCelebration();
 }
 
-function resetQuiz(){quizAnswered=0;quizCorrect=0;document.getElementById('quizScore').classList.remove('show');document.getElementById('quizCelebration').classList.remove('show');buildQuiz();}
+function resetQuiz() {
+  quizAnswered = 0;
+  quizCorrect = 0;
+  document.getElementById('quizScore').classList.remove('show');
+  document.getElementById('quizCelebration').classList.remove('show');
+  buildQuiz();
+}
+
+function showCelebration() {
+  const pct = quizCorrect / quizData.length * 100;
+  let emoji, message;
+  if (pct === 100) { emoji = '🌟'; message = 'Alles juist — fantastisch!'; }
+  else if (pct >= 80) { emoji = '🎉'; message = 'Heel goed! Bijna alles juist.'; }
+  else if (pct >= 60) { emoji = '💪'; message = 'Goed bezig! Bekijk de fouten nog eens.'; }
+  else { emoji = '📚'; message = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+  document.getElementById('quizEmoji').textContent = emoji;
+  document.getElementById('quizMessage').textContent = message;
+  document.getElementById('quizCelebration').classList.add('show');
+}
 
 // ==================== INIT ====================
 buildQuiz();
-startCircuitAnim();
-window.addEventListener('resize',drawCircuit);
+updatePulley();
+updateGears();
+
+window.addEventListener('resize', () => { updatePulley(); drawGears(); });
 </script>
 </body>
 </html>
