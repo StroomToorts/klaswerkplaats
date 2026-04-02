@@ -571,15 +571,15 @@ function drawLamp(ctx,x,y,lit,broken,idx){
   lamps[idx].x=x;lamps[idx].y=y;lamps[idx].r=r;
 }
 
+// Store switch hitbox
+let switchHitbox={x:0,y:0,r:30};
+
 function drawSwitch(ctx,x,y){
   const sw=16;
   ctx.strokeStyle='#5C4033';ctx.lineWidth=3;
-  // Top contact
   ctx.fillStyle='#8B6B45';
   ctx.beginPath();ctx.arc(x,y-sw,4,0,Math.PI*2);ctx.fill();
-  // Bottom contact
   ctx.beginPath();ctx.arc(x,y+sw,4,0,Math.PI*2);ctx.fill();
-  // Switch arm
   if(switchOn){
     ctx.strokeStyle='#6B9E6B';
     ctx.beginPath();ctx.moveTo(x,y-sw);ctx.lineTo(x,y+sw);ctx.stroke();
@@ -589,6 +589,7 @@ function drawSwitch(ctx,x,y){
   }
   ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
   ctx.fillText(switchOn?'AAN':'UIT',x,y+sw+16);
+  switchHitbox={x:x,y:y,r:30};
 }
 
 // Horizontal switch for parallel circuit
@@ -606,24 +607,45 @@ function drawSwitchH(ctx,x,y){
   }
   ctx.fillStyle='#5C4033';ctx.font='11px Source Sans 3, sans-serif';ctx.textAlign='center';
   ctx.fillText(switchOn?'AAN':'UIT',x,y+22);
+  switchHitbox={x:x,y:y,r:30};
 }
 
-// Canvas click handler
-document.getElementById('circuitSim').addEventListener('click',function(e){
-  const rect=this.getBoundingClientRect();
-  const mx=(e.clientX-rect.left)*(this.width/(rect.width*(window.devicePixelRatio||1)));
-  const my=(e.clientY-rect.top)*(this.height/(rect.height*(window.devicePixelRatio||1)));
+// Canvas click/touch handler
+function handleCircuitTap(clientX,clientY){
+  const c=document.getElementById('circuitSim');
+  const rect=c.getBoundingClientRect();
+  const mx=clientX-rect.left;
+  const my=clientY-rect.top;
+
+  // Check switch click
+  if(switchHitbox.x){
+    const dx=mx-switchHitbox.x,dy=my-switchHitbox.y;
+    if(dx*dx+dy*dy<switchHitbox.r*switchHitbox.r){
+      toggleSwitch();
+      return;
+    }
+  }
   // Check lamp clicks
   lamps.forEach((l,i)=>{
     if(l.x&&!l.broken){
       const dx=mx-l.x,dy=my-l.y;
-      if(dx*dx+dy*dy<(l.r+10)*(l.r+10)){
+      if(dx*dx+dy*dy<(l.r+12)*(l.r+12)){
         l.broken=true;
         drawCircuit();
         updateCircuitInfo();
       }
     }
   });
+}
+
+document.getElementById('circuitSim').addEventListener('click',function(e){
+  handleCircuitTap(e.clientX,e.clientY);
+});
+document.getElementById('circuitSim').addEventListener('touchend',function(e){
+  if(e.changedTouches&&e.changedTouches.length>0){
+    const t=e.changedTouches[0];
+    handleCircuitTap(t.clientX,t.clientY);
+  }
 });
 
 // ==================== QUIZ ====================
