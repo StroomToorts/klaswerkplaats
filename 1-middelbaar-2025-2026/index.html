@@ -234,7 +234,7 @@
        ============================================ */
     .hub-cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       animation: fadeSlideUp 0.5s ease 0.1s both;
     }
@@ -288,6 +288,9 @@
       opacity: 0.7;
     }
 
+    @media (max-width: 700px) {
+      .hub-cards { grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 500px) {
       .hub-cards { grid-template-columns: 1fr; }
       .hub-card { padding: 28px 24px; }
@@ -366,6 +369,14 @@
         <div class="hub-title">Agenda</div>
         <div class="hub-desc">Huiswerk en taken per dag, samen bijgehouden door ouders en leerlingen</div>
         <div class="hub-count" style="color: var(--olive);">deze week bekijken →</div>
+      </a>
+
+      <a href="jaarwerk_ontdekkingen-inspiratie.html" class="hub-card" aria-label="Naar het jaarwerk">
+        <div class="hub-accent" style="background: var(--ochre);"></div>
+        <div class="hub-emoji" aria-hidden="true">🔍</div>
+        <div class="hub-title">Jaarwerk</div>
+        <div class="hub-desc">Verkenning en onderzoek: inspiratie, bronnen en werkwijze</div>
+        <div class="hub-count" style="color: var(--ochre);">ontdekken →</div>
       </a>
     </div>
   </div>
