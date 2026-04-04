@@ -104,13 +104,26 @@
     font-weight: 500;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(247,242,232,0.12);
-    color: rgba(247,242,232,0.4);
+    color: rgba(247,242,232,0.35);
+    padding: 0 6px;
   }
   .hero-layer-pill span {
-    margin-right: 6px;
+    margin-right: 5px;
+    color: rgba(247,242,232,0.2);
+  }
+  .hero-layers {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-layers-sep {
+    color: rgba(247,242,232,0.15);
+    font-size: 10px;
   }
   .hero-question {
     font-family: 'Vollkorn', serif;
@@ -167,7 +180,14 @@
     justify-content: center;
     gap: 20px;
     margin-bottom: 48px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+  @media (max-width: 480px) {
+    .big-distinction {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .versus { writing-mode: horizontal-tb; }
   }
   .word-pill {
     font-family: 'Caveat', cursive;
@@ -700,26 +720,30 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 28px;
+    padding: 40px 20px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease;
+    overflow-y: auto;
   }
   .constellation-overlay.active { opacity: 1; pointer-events: all; }
 
   .constellation-stage {
     position: relative;
-    width: min(460px, 90vw);
-    height: min(320px, 56vw);
-    margin-bottom: 36px;
+    width: min(460px, 88vw);
+    height: min(300px, 54vw);
+    flex-shrink: 0;
   }
   .c-star {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9px;
+    gap: 7px;
     opacity: 0;
     transition: opacity 0.8s ease;
+    transform: translate(-50%, 0);
   }
   .c-star.shown { opacity: 1; }
   .c-dot {
@@ -741,11 +765,12 @@
   }
   .c-name {
     font-family: 'Caveat', cursive;
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(247,242,232,0.6);
-    white-space: nowrap;
+    white-space: normal;
     text-align: center;
     line-height: 1.3;
+    max-width: 90px;
   }
   .c-star.fifth .c-name { color: rgba(247,242,232,0.38); font-style: italic; }
   .c-lines { position: absolute; inset: 0; pointer-events: none; }
@@ -761,17 +786,17 @@
 
   .overlay-message {
     text-align: center;
-    padding: 0 24px;
+    padding: 0 16px;
     opacity: 0;
     transform: translateY(14px);
     transition: opacity 0.7s ease, transform 0.7s ease;
-    position: absolute;
-    bottom: 64px; left: 0; right: 0;
+    width: 100%;
+    max-width: 420px;
   }
   .overlay-message.shown { opacity: 1; transform: none; }
   .overlay-title {
     font-family: 'Vollkorn', serif;
-    font-size: clamp(20px, 4vw, 28px);
+    font-size: clamp(18px, 4vw, 26px);
     font-weight: 700;
     color: var(--cream);
     margin-bottom: 10px;
@@ -783,8 +808,7 @@
     font-size: 14px;
     color: rgba(247,242,232,0.5);
     line-height: 1.7;
-    max-width: 380px;
-    margin: 0 auto 24px;
+    margin: 0 auto 20px;
   }
   .overlay-btn {
     font-family: 'Source Sans 3', sans-serif;
@@ -793,7 +817,7 @@
     color: var(--ochre);
     background: transparent;
     border: 1px solid rgba(212,168,67,0.3);
-    padding: 11px 26px;
+    padding: 11px 22px;
     border-radius: 50px;
     cursor: pointer;
     letter-spacing: 0.4px;
@@ -818,6 +842,8 @@
   .reveal.visible { opacity: 1; transform: none; }
 
   /* ─── MOBILE ─── */
+  .pdf-btn-short { display: none; }
+
   @media (max-width: 640px) {
     .story-inner { grid-template-columns: 1fr !important; gap: 28px; padding: 52px 20px; }
     .story:nth-child(even) .story-sidebar { order: 0; }
@@ -828,6 +854,10 @@
     .handen-example { padding: 28px 24px; }
     .maybe-text { font-size: 17px; }
     .intro, .ik-vorm, .constellation-closer, .handen-intro, .handen-examples, .handen-invite, .spiegel-intro, .spiegel-maybe, .spiegel-end { padding-left: 20px; padding-right: 20px; }
+
+    /* Breadcrumb PDF knop: kortere tekst op mobiel */
+    .pdf-btn-full { display: none; }
+    .pdf-btn-short { display: inline; }
   }
 
 </style>
@@ -841,7 +871,7 @@
   <a href="../index.html">1e Middelbaar</a>
   <span class="sep">›</span>
   <span class="current">Jaarwerk — Ontdekkingen</span>
-  <a href="jaarwerk_ontdekkingen_v2.pdf" download style="margin-left:auto;background:transparent;border:1px solid rgba(247,242,232,0.2);color:rgba(247,242,232,0.55);font-family:'Source Sans 3',sans-serif;font-size:11px;padding:4px 12px;border-radius:20px;cursor:pointer;transition:all 0.2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(247,242,232,0.5)';this.style.color='rgba(247,242,232,0.9)'" onmouseout="this.style.borderColor='rgba(247,242,232,0.2)';this.style.color='rgba(247,242,232,0.55)'">📄 Download PDF</a>
+  <a href="jaarwerk_ontdekkingen_v2.pdf" download style="margin-left:auto;flex-shrink:0;background:transparent;border:1px solid rgba(247,242,232,0.2);color:rgba(247,242,232,0.55);font-family:'Source Sans 3',sans-serif;font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;transition:all 0.2s;text-decoration:none;white-space:nowrap;" onmouseover="this.style.borderColor='rgba(247,242,232,0.5)';this.style.color='rgba(247,242,232,0.9)'" onmouseout="this.style.borderColor='rgba(247,242,232,0.2)';this.style.color='rgba(247,242,232,0.55)'"><span class="pdf-btn-full">📄 Download PDF</span><span class="pdf-btn-short">📄 PDF</span></a>
 </nav>
 
 <!-- ═══════════════════════════════════════
@@ -851,7 +881,9 @@
   <p class="hero-compass">Jaarwerk 7de klas · 2025–2026</p>
   <div class="hero-layers">
     <span class="hero-layer-pill"><span>1</span> De ontdekker</span>
+    <span class="hero-layers-sep">·</span>
     <span class="hero-layer-pill"><span>2</span> De handen</span>
+    <span class="hero-layers-sep">·</span>
     <span class="hero-layer-pill"><span>3</span> De spiegel</span>
   </div>
   <h1 class="hero-question">Wat is het verschil tussen <em>uitvinden</em> en <em>ontdekken</em>?</h1>
@@ -1149,23 +1181,23 @@
       <line class="c-line" id="l4" x1="130" y1="235" x2="295" y2="255"/>
       <line class="c-line" id="l5" x1="295" y1="255" x2="385" y2="175" stroke-dasharray="3 7"/>
     </svg>
-    <div class="c-star" id="s1" style="left:57px;top:38px;">
+    <div class="c-star" id="s1" style="left:12.4%;top:11.9%;">
       <div class="c-dot"></div>
       <div class="c-name">Alexander Fleming<br><span style="font-size:11px;opacity:0.45">penicilline · 1928</span></div>
     </div>
-    <div class="c-star" id="s2" style="left:332px;top:50px;">
+    <div class="c-star" id="s2" style="left:72.2%;top:15.6%;">
       <div class="c-dot"></div>
       <div class="c-name">Marie Curie<br><span style="font-size:11px;opacity:0.45">radium · 1898</span></div>
     </div>
-    <div class="c-star" id="s3" style="left:100px;top:210px;">
+    <div class="c-star" id="s3" style="left:21.7%;top:65.6%;">
       <div class="c-dot"></div>
       <div class="c-name">Ferdinand Magellan<br><span style="font-size:11px;opacity:0.45">de wereld rond · 1519</span></div>
     </div>
-    <div class="c-star" id="s4" style="left:252px;top:228px;">
+    <div class="c-star" id="s4" style="left:54.8%;top:71.3%;">
       <div class="c-dot"></div>
       <div class="c-name">Pablito & Machu Picchu<br><span style="font-size:11px;opacity:0.45">Peru · 1911</span></div>
     </div>
-    <div class="c-star fifth" id="s5" style="left:348px;top:148px;">
+    <div class="c-star fifth" id="s5" style="left:75.7%;top:46.3%;">
       <div class="c-dot"></div>
       <div class="c-name">jouw ontdekker<br><span style="font-size:11px;opacity:0.35">wacht op jou</span></div>
     </div>
