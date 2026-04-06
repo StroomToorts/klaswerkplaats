@@ -290,17 +290,87 @@
 
     @media (max-width: 700px) {
       .hub-cards { grid-template-columns: 1fr 1fr; }
+      .hub-card-expand { grid-column: 1 / -1; }
     }
     @media (max-width: 500px) {
       .hub-cards { grid-template-columns: 1fr; }
-      .hub-card { padding: 28px 24px; }
+      .hub-card, .hub-card-expand { padding: 28px 24px; }
+    }
+
+    /* Expandable Jaarwerk card */
+    .hub-card-expand {
+      background: var(--warm-white);
+      border-radius: 20px;
+      padding: 32px 28px;
+      text-align: center;
+      border: 1px solid rgba(61,43,31,0.06);
+      box-shadow: 0 4px 20px rgba(61,43,31,0.06);
+      color: inherit;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+    .hub-card-expand:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(61,43,31,0.1);
+      border-color: rgba(61,43,31,0.12);
+    }
+    .hub-card-expand.expanded {
+      transform: none;
+      border-color: rgba(212,168,67,0.3);
+      box-shadow: 0 4px 20px rgba(212,168,67,0.12);
+    }
+    .hub-card-expand .hub-accent {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .hub-card-expand .hub-emoji { font-size: 40px; margin-bottom: 12px; margin-top: 8px; }
+    .hub-card-expand .hub-title {
+      font-family: 'Vollkorn', serif; font-size: 20px; font-weight: 700; margin-bottom: 6px;
+    }
+    .hub-card-expand .hub-desc {
+      font-family: 'Source Sans 3', sans-serif; font-size: 13px;
+      color: var(--warm-brown); opacity: 0.55; line-height: 1.5;
+    }
+    .hub-card-expand .hub-toggle-hint {
+      font-family: 'Source Sans 3', sans-serif; font-size: 12px;
+      color: var(--ochre); margin-top: 12px; opacity: 0.7; transition: opacity 0.2s;
+    }
+    .hub-card-expand:hover .hub-toggle-hint { opacity: 1; }
+
+    .hub-subitems {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, margin-top 0.35s ease;
+      margin-top: 0;
+    }
+    .hub-card-expand.expanded .hub-subitems {
+      max-height: 300px; margin-top: 16px;
+    }
+    .hub-subitem {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 12px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 14px;
+      color: var(--warm-brown); text-decoration: none;
+      background: var(--sand-light); transition: all 0.2s ease; text-align: left;
+    }
+    .hub-subitem + .hub-subitem { margin-top: 8px; }
+    a.hub-subitem:hover { background: var(--sand); color: var(--terracotta); }
+    .hub-subitem .sub-emoji { font-size: 18px; flex-shrink: 0; }
+    .hub-subitem .sub-text strong {
+      font-family: 'Vollkorn', serif; font-size: 14px; font-weight: 600;
+    }
+    .hub-subitem .sub-desc {
+      font-size: 12px; opacity: 0.55; font-weight: 400; line-height: 1.4;
     }
 
     @media print {
       .no-print { display: none !important; }
       body { background: white; }
       body::before { display: none; }
-      .hub-card { box-shadow: none; border: 1px solid #ddd; }
+      .hub-card, .hub-card-expand { box-shadow: none; border: 1px solid #ddd; }
+      .hub-subitems { max-height: 300px !important; margin-top: 12px !important; }
+      .hub-toggle-hint { display: none; }
     }
   </style>
 </head>
@@ -363,14 +433,6 @@
         <div class="hub-count" id="exercise-count">…</div>
       </a>
 
-      <a href="jaarwerk_ontdekkingen-inspiratie.html" class="hub-card" aria-label="Naar het jaarwerk">
-        <div class="hub-accent" style="background: var(--ochre);"></div>
-        <div class="hub-emoji" aria-hidden="true">🔍</div>
-        <div class="hub-title">Jaarwerk</div>
-        <div class="hub-desc">Verkenning en onderzoek: inspiratie, bronnen en werkwijze</div>
-        <div class="hub-count" style="color: var(--ochre);">ontdekken →</div>
-      </a>
-
       <a href="agenda.html" class="hub-card" aria-label="Naar de agenda">
         <div class="hub-accent" style="background: var(--olive);"></div>
         <div class="hub-emoji" aria-hidden="true">📅</div>
@@ -378,6 +440,24 @@
         <div class="hub-desc">Huiswerk en taken per dag, samen bijgehouden door ouders en leerlingen</div>
         <div class="hub-count" style="color: var(--olive);">deze week bekijken →</div>
       </a>
+
+      <div class="hub-card-expand" id="jaarwerk-card" aria-expanded="false" role="button" tabindex="0" aria-label="Jaarwerk – klik om opties te zien">
+        <div class="hub-accent" style="background: var(--ochre);"></div>
+        <div class="hub-emoji" aria-hidden="true">🔍</div>
+        <div class="hub-title">Jaarwerk</div>
+        <div class="hub-desc">Verkenning en onderzoek: inspiratie, bronnen en werkwijze</div>
+        <div class="hub-toggle-hint">bekijk de onderdelen <span class="hub-chevron">↓</span></div>
+        <div class="hub-subitems">
+          <a href="jaarwerk_ontdekkingen-inspiratie.html" class="hub-subitem" onclick="event.stopPropagation();">
+            <span class="sub-emoji">✨</span>
+            <span class="sub-text"><strong>Inspiratie &amp; verhalen</strong><br><span class="sub-desc">Vier ontdekkers, drie lagen, jouw eigen antwoord</span></span>
+          </a>
+          <a href="jaarwerk_opdracht.pdf" download class="hub-subitem" onclick="event.stopPropagation();">
+            <span class="sub-emoji">📄</span>
+            <span class="sub-text"><strong>Volledige opdrachttekst</strong><br><span class="sub-desc">Download PDF — alle richtlijnen en checklist</span></span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -402,6 +482,17 @@
     closeBtn.addEventListener('click', closeMenu);
     mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMenu(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu(); });
+
+    // Jaarwerk expandable card
+    const jaarwerkCard = document.getElementById('jaarwerk-card');
+    function toggleJaarwerk() {
+      const expanded = jaarwerkCard.classList.toggle('expanded');
+      jaarwerkCard.setAttribute('aria-expanded', expanded);
+      const hint = jaarwerkCard.querySelector('.hub-toggle-hint');
+      hint.innerHTML = expanded ? 'sluit <span>↑</span>' : 'bekijk de onderdelen <span>↓</span>';
+    }
+    jaarwerkCard.addEventListener('click', toggleJaarwerk);
+    jaarwerkCard.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleJaarwerk(); }});
 
     // Exercise count
     const GITHUB_OWNER = 'StroomToorts';
