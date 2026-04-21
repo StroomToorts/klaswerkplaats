@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les prépositions de lieu — Frans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vak-color: #C2704E;
+  --vak-color-dark: #A85E3F;
+  --vak-color-light: #D4916F;
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --correct: #7A8B6F;
+  --incorrect: #B7553D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M10 60 Q30 40 50 60 T90 60' stroke='%235C4033' stroke-width='0.6' fill='none' opacity='0.5'/%3E%3Cpath d='M20 90 Q40 80 60 90 T100 90' stroke='%235C4033' stroke-width='0.6' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  animation: fadeSlideUp 0.6s ease-out;
+}
+.vak-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.header-text h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.header-text .date {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  font-weight: 600;
+}
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 28px;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding: 6px;
+  background: rgba(232, 220, 200, 0.4);
+  border-radius: 16px;
+}
+.tab {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab:hover { background: rgba(255, 253, 247, 0.5); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 8px rgba(194, 112, 78, 0.25);
+}
+
+/* Tab content */
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease-out; }
+.tab-content.active { display: block; }
+
+/* Score bar */
+.score-bar {
+  display: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 16px;
+  padding: 12px 18px;
+  background: var(--warm-white);
+  border-radius: 12px;
+  border: 1px solid var(--sand);
+  justify-content: space-between;
+  align-items: center;
+}
+.score-bar.visible { display: flex; }
+.score-bar .score-text { font-weight: 600; }
+.progress-bar-container {
+  flex: 1;
+  height: 8px;
+  background: var(--sand);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 16px;
+  max-width: 200px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color) 0%, var(--ochre) 100%);
+  transition: width 0.4s ease-out;
+  width: 0%;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1px solid var(--sand);
+  background: var(--cream);
+  color: var(--warm-brown);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--sand-light); }
+
+/* Celebration */
+.celebration {
+  display: none;
+  background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--ochre) 100%);
+  color: var(--warm-white);
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin: 20px 0;
+  font-size: 17px;
+  text-align: center;
+  animation: pop 0.4s ease-out;
+  box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3);
+}
+.celebration.visible { display: block; }
+
+/* ===== Tab 1: Theorie ===== */
+.theory-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--sand-light);
+  border-radius: 12px;
+  border-left: 3px solid var(--vak-color);
+}
+.theory-group {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 22px 26px;
+  margin-bottom: 18px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05);
+}
+.theory-group h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color);
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.theory-group .group-sub {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+.theory-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.theory-word {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 14px;
+  background: var(--cream);
+  border-radius: 8px;
+  gap: 12px;
+}
+.theory-word .fr {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-weight: 600;
+  color: var(--vak-color-dark);
+  font-size: 16px;
+}
+.theory-word .nl {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  text-align: right;
+}
+
+/* ===== Tab 2: Smartphone ===== */
+.phone-exercise {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.phone-wrapper {
+  flex-shrink: 0;
+  width: 280px;
+  max-width: 100%;
+}
+.phone-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.phone-questions {
+  flex: 1;
+  min-width: 260px;
+  max-width: 420px;
+}
+.phone-question-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 22px 26px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05);
+}
+.phone-question-num {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.phone-question-text {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  margin-bottom: 6px;
+}
+.phone-question-app {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.phone-options { display: flex; flex-direction: column; gap: 8px; }
+.phone-option {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 15px;
+  padding: 12px 18px;
+  background: var(--cream);
+  border: 1.5px solid var(--sand);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--dark-brown);
+  transition: all 0.2s;
+}
+.phone-option:hover:not(:disabled) {
+  background: var(--sand-light);
+  border-color: var(--vak-color-light);
+  transform: translateX(2px);
+}
+.phone-option.correct {
+  background: #E8F0DE;
+  border-color: var(--correct);
+  color: var(--olive-dark);
+}
+.phone-option.incorrect {
+  background: #F5E5E0;
+  border-color: var(--incorrect);
+  color: var(--rust);
+}
+.phone-option:disabled { cursor: default; }
+.phone-feedback {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  display: none;
+}
+.phone-feedback.visible { display: block; }
+.phone-feedback.good { background: #E8F0DE; color: var(--olive-dark); }
+.phone-feedback.bad { background: #F5E5E0; color: var(--rust); }
+.phone-next-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 16px;
+  padding: 10px 22px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+.phone-next-btn.visible { display: inline-block; }
+.phone-next-btn:hover {
+  background: var(--vak-color-dark);
+  transform: translateY(-1px);
+}
+#highlight-ring { transition: x 0.4s ease-out, y 0.4s ease-out, opacity 0.3s; }
+#highlight-ring.pulsing { animation: pulse-ring 1.6s ease-in-out infinite; }
+
+/* Print-only phone questions list */
+.phone-print-list { display: none; }
+
+/* ===== Tab 3: Flashcards ===== */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.flashcard {
+  aspect-ratio: 1.3 / 1;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.1);
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  color: var(--vak-color-dark);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+}
+.flashcard .question-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.flashcard .answer-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.flashcard .flip-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 8px;
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+/* ===== Tab 4: Vertaal ===== */
+.translate-list { display: flex; flex-direction: column; gap: 14px; }
+.translate-card {
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 18px 22px;
+  border: 1.5px solid var(--sand);
+  transition: border-color 0.2s;
+}
+.translate-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.translate-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.translate-num {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--vak-color);
+  font-weight: 600;
+  margin-right: 10px;
+}
+.translate-sentence {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  margin-bottom: 12px;
+}
+.translate-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+.translate-input {
+  flex: 1;
+  min-width: 200px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 15px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--sand);
+  border-radius: 10px;
+  background: var(--cream);
+  color: var(--dark-brown);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.translate-input:focus { border-color: var(--vak-color-light); }
+.translate-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.translate-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.check-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 18px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.check-btn:hover { background: var(--vak-color-dark); }
+.check-btn:disabled { opacity: 0.5; cursor: default; }
+.translate-feedback {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 10px;
+  color: var(--warm-brown);
+  display: none;
+}
+.translate-feedback.visible { display: block; }
+.translate-feedback.good { color: var(--olive-dark); }
+.translate-feedback.bad { color: var(--rust); }
+
+/* ===== Tab 5: Kies juist ===== */
+.choose-list { display: flex; flex-direction: column; gap: 14px; }
+.choose-card {
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 18px 22px;
+  border: 1.5px solid var(--sand);
+}
+.choose-num {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--vak-color);
+  font-weight: 600;
+  margin-right: 10px;
+}
+.choose-sentence {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  color: var(--dark-brown);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.choose-blank {
+  display: inline-block;
+  min-width: 80px;
+  border-bottom: 2px dotted var(--vak-color-dark);
+  text-align: center;
+  padding: 0 6px;
+  color: var(--vak-color-dark);
+  font-weight: 600;
+  font-style: italic;
+}
+.choose-blank.filled { border-bottom-style: solid; }
+.choose-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  opacity: 0.75;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+.choose-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.choose-option {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 14px;
+  padding: 8px 16px;
+  background: var(--cream);
+  border: 1.5px solid var(--sand);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--dark-brown);
+  transition: all 0.2s;
+}
+.choose-option:hover:not(:disabled) {
+  background: var(--sand-light);
+  border-color: var(--vak-color-light);
+}
+.choose-option.correct {
+  background: #E8F0DE;
+  border-color: var(--correct);
+  color: var(--olive-dark);
+  font-weight: 600;
+}
+.choose-option.incorrect {
+  background: #F5E5E0;
+  border-color: var(--incorrect);
+  color: var(--rust);
+}
+.choose-option:disabled { cursor: default; }
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.action-btn:hover {
+  background: var(--sand-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.1);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.95); opacity: 0; }
+  60% { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@keyframes pulse-ring {
+  0%, 100% { stroke-width: 3; opacity: 0.95; }
+  50% { stroke-width: 4.5; opacity: 1; }
+}
+.shake { animation: shake 0.3s; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .header-text h1 { font-size: 22px; }
+  .header-text .date { font-size: 18px; }
+  .vak-icon { width: 52px; height: 52px; font-size: 28px; }
+  .tabs { gap: 4px; padding: 4px; }
+  .tab { font-size: 13px; padding: 8px 12px; }
+  .theory-group { padding: 18px 20px; }
+  .theory-list { grid-template-columns: 1fr 1fr; }
+  .phone-exercise { gap: 20px; }
+  .phone-wrapper { width: 240px; }
+  .phone-question-card { padding: 18px 20px; }
+  .phone-question-text { font-size: 17px; }
+  .phone-option { font-size: 14px; padding: 10px 14px; }
+  .flashcard-grid { grid-template-columns: 1fr 1fr; }
+  .translate-row { flex-direction: column; }
+  .translate-input { min-width: 0; width: 100%; }
+  .check-btn { width: 100%; }
+}
+
+/* ===== PRINT STYLES ===== */
+.print-only { display: none; }
+
+@media print {
+  @page { margin: 1.5cm; }
+  .no-print { display: none !important; }
+  body {
+    background: white !important;
+    font-size: 11pt;
+    color: #000;
+  }
+  body::before { display: none; }
+  .container { max-width: none; padding: 0; }
+  .tab-content { display: block !important; page-break-after: always; }
+  .tab-content:last-of-type { page-break-after: auto; }
+  .print-only { display: block !important; }
+
+  /* Hide all UI */
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .tabs, .actions, .breadcrumb { display: none !important; }
+  .reset-btn, .check-btn, .phone-next-btn { display: none !important; }
+
+  header { margin-bottom: 14px; }
+  .vak-icon { display: none; }
+  .header-text h1 { font-size: 20pt; }
+
+  /* Theorie: plain and clean */
+  .theory-group {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid;
+    margin-bottom: 12px;
+    padding: 14px 18px;
+  }
+  .theory-word { background: #f8f5ef !important; }
+
+  /* Smartphone tab: show SVG + printable question list */
+  .phone-exercise { display: none !important; }
+  .phone-print-list { display: block !important; }
+  .phone-print-list .phone-svg-print {
+    width: 45%;
+    max-width: 220px;
+    margin: 0 auto 16px;
+    display: block;
+  }
+  .phone-print-list ol { padding-left: 22px; }
+  .phone-print-list li {
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+  }
+  .phone-print-list li .ans-line {
+    display: block;
+    border-bottom: 1px solid #999;
+    margin-top: 6px;
+    height: 18px;
+  }
+
+  /* Flashcards: always show question side */
+  .flashcard { aspect-ratio: auto; height: auto; page-break-inside: avoid; }
+  .flashcard-inner {
+    position: static !important;
+    transform: none !important;
+  }
+  .flashcard-front {
+    position: static !important;
+    background: white !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    padding: 10px !important;
+    min-height: 60px;
+  }
+  .flashcard-back { display: none !important; }
+  .flashcard .question-word { display: block !important; font-size: 13pt; }
+  .flashcard .answer-word { display: none !important; }
+  .flashcard .flip-hint { display: none !important; }
+  .flashcard-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+  /* Vertaal: empty input fields */
+  .translate-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .translate-card.correct, .translate-card.incorrect {
+    border-color: #ccc !important;
+    background: white !important;
+  }
+  .translate-input {
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    background: white !important;
+    border: 1px solid #999 !important;
+  }
+  .translate-input::placeholder { color: transparent !important; }
+  .translate-input.correct-input, .translate-input.wrong-input {
+    border-color: #999 !important;
+    background: white !important;
+  }
+  .translate-feedback { display: none !important; }
+
+  /* Kies juist: hide options, keep blanks empty */
+  .choose-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .choose-blank {
+    color: transparent !important;
+    min-width: 120px;
+    border-bottom-color: #999 !important;
+  }
+  .choose-options { display: none !important; }
+  .choose-option.correct, .choose-option.incorrect { display: none !important; }
+
+  /* Oplossingen pagina's */
+  .print-answers {
+    page-break-before: always;
+    padding-top: 10px;
+  }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 26pt;
+    color: var(--vak-color) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin-bottom: 14px;
+  }
+  .print-answers ol { padding-left: 24px; }
+  .print-answers li {
+    margin-bottom: 10px;
+    font-size: 11pt;
+  }
+  .print-answers .ans {
+    font-weight: 700;
+    color: var(--vak-color-dark) !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Les prépositions de lieu</span>
+</nav>
+
+<header>
+  <div class="vak-icon">🇫🇷</div>
+  <div class="header-text">
+    <h1>Les prépositions de lieu</h1>
+    <div class="date">Frans · 21 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Waar staat de kat? Waar zit Spotify op het scherm? Met deze 18 Franse plaatsbepalingen leer je precies beschrijven waar iets is — op, onder, naast, tussen, in de hoek van, vlakbij, veraf van…</p>
+
+<nav class="tabs no-print" role="tablist">
+  <button class="tab active" data-tab="theorie" role="tab">📚 Theorie</button>
+  <button class="tab" data-tab="smartphone" role="tab">📱 Smartphone</button>
+  <button class="tab" data-tab="flashcards" role="tab">🎴 Flashcards</button>
+  <button class="tab" data-tab="vertaal" role="tab">✏️ Vertaal</button>
+  <button class="tab" data-tab="kies" role="tab">🎯 Kies juist</button>
+</nav>
+
+<!-- ============ TAB 1: THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <div class="theory-intro">
+    <strong>Les prépositions de lieu</strong> zijn woordjes die aangeven <em>waar</em> iets of iemand zich bevindt. In het Nederlands zijn dat bijvoorbeeld <em>op, onder, naast, tussen</em>. In het Frans werken ze bijna hetzelfde, maar sommige krijgen er een <em>de</em> achter (zoals <em>à côté de, près de, loin de</em>).
+  </div>
+
+  <div class="theory-group">
+    <h2>Horizontaal — links, rechts, voor, achter, naast</h2>
+    <div class="group-sub">Gebruik je om te zeggen waar iets <em>op dezelfde hoogte</em> staat.</div>
+    <div class="theory-list">
+      <div class="theory-word"><span class="fr">à droite de</span><span class="nl">rechts van</span></div>
+      <div class="theory-word"><span class="fr">à gauche de</span><span class="nl">links van</span></div>
+      <div class="theory-word"><span class="fr">à côté de</span><span class="nl">naast</span></div>
+      <div class="theory-word"><span class="fr">devant</span><span class="nl">voor</span></div>
+      <div class="theory-word"><span class="fr">derrière</span><span class="nl">achter</span></div>
+    </div>
+  </div>
+
+  <div class="theory-group">
+    <h2>Verticaal — op, onder, boven</h2>
+    <div class="group-sub">Gebruik je voor de <em>hoogte</em>: iets erboven, erop of eronder.</div>
+    <div class="theory-list">
+      <div class="theory-word"><span class="fr">sur</span><span class="nl">op</span></div>
+      <div class="theory-word"><span class="fr">sous</span><span class="nl">onder</span></div>
+      <div class="theory-word"><span class="fr">au-dessus de</span><span class="nl">bovenop / boven</span></div>
+      <div class="theory-word"><span class="fr">en bas</span><span class="nl">onderaan</span></div>
+    </div>
+  </div>
+
+  <div class="theory-group">
+    <h2>Binnen — in, tussen, in het midden</h2>
+    <div class="group-sub">Iets wordt <em>omringd</em> door iets anders.</div>
+    <div class="theory-list">
+      <div class="theory-word"><span class="fr">dans</span><span class="nl">in</span></div>
+      <div class="theory-word"><span class="fr">entre</span><span class="nl">tussen</span></div>
+      <div class="theory-word"><span class="fr">dans le coin</span><span class="nl">in de hoek</span></div>
+      <div class="theory-word"><span class="fr">au milieu de</span><span class="nl">in het midden van</span></div>
+    </div>
+  </div>
+
+  <div class="theory-group">
+    <h2>Afstand — vlakbij, veraf</h2>
+    <div class="group-sub">Hoe <em>ver</em> is iets ergens vandaan?</div>
+    <div class="theory-list">
+      <div class="theory-word"><span class="fr">près de</span><span class="nl">vlakbij</span></div>
+      <div class="theory-word"><span class="fr">loin de</span><span class="nl">veraf van</span></div>
+    </div>
+  </div>
+
+  <div class="theory-group">
+    <h2>Uitdrukkingen — zich bevinden</h2>
+    <div class="group-sub">Werkwoorden en uitdrukkingen die horen bij plaats.</div>
+    <div class="theory-list">
+      <div class="theory-word"><span class="fr">se trouver</span><span class="nl">zich bevinden</span></div>
+      <div class="theory-word"><span class="fr">se situer</span><span class="nl">zich situeren</span></div>
+      <div class="theory-word"><span class="fr">au bon endroit</span><span class="nl">op de juiste plek</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 2: SMARTPHONE ============ -->
+<section class="tab-content" data-content="smartphone">
+  <div class="score-bar no-print" id="phone-score-bar">
+    <span class="score-text">Score: <span id="phone-score">0</span>/<span id="phone-total">10</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="phone-progress"></div></div>
+    <button class="reset-btn" onclick="resetPhone()">🔄 Opnieuw</button>
+  </div>
+
+  <div class="celebration no-print" id="phone-celebration"></div>
+
+  <div class="phone-exercise no-print">
+    <!-- SMARTPHONE SVG -->
+    <div class="phone-wrapper">
+      <svg class="phone-svg" viewBox="0 0 240 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Smartphone met 16 apps en een dock">
+        <rect x="0" y="0" width="240" height="460" fill="#2C2C2A" rx="32"/>
+        <rect x="6" y="6" width="228" height="448" fill="#1a1a1a" rx="28"/>
+        <rect x="12" y="13" width="216" height="434" fill="#3F5E7A" rx="24"/>
+
+        <text x="28" y="35" font-family="-apple-system, sans-serif" font-size="11" fill="#FFFFFF" font-weight="500">9:41</text>
+        <circle cx="186" cy="31" r="2" fill="#FFFFFF"/>
+        <rect x="192" y="28" width="8" height="6" fill="#FFFFFF" rx="0.5"/>
+        <rect x="204" y="28" width="14" height="7" fill="none" stroke="#FFFFFF" stroke-width="1" rx="1.5"/>
+        <rect x="206" y="30" width="9" height="3" fill="#FFFFFF"/>
+
+        <!-- App grid - all 16 apps, offset by 20 to align in local viewBox -->
+        <g font-family="-apple-system, sans-serif" font-size="8" fill="#FFFFFF" text-anchor="middle">
+          <!-- Row 1 -->
+          <rect x="20" y="55" width="44" height="44" fill="#FF3B5C" rx="10"/>
+          <path d="M36 65 Q34 67 35 71 Q37 75 40 75 Q43 75 45 72 Q46 69 44 66 Q41 63 37 64 M47 73 L54 73" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+          <circle cx="45" cy="77" r="1.5" fill="#FFFFFF"/>
+          <text x="42" y="113">TikTok</text>
+
+          <rect x="72" y="55" width="44" height="44" fill="#FF0000" rx="10"/>
+          <rect x="80" y="70" width="28" height="18" fill="#FFFFFF" rx="3"/>
+          <polygon points="90,75 90,83 98,79" fill="#FF0000"/>
+          <text x="94" y="113">YouTube</text>
+
+          <rect x="124" y="55" width="44" height="44" fill="#25D366" rx="10"/>
+          <path d="M132 81 Q132 67 146 67 Q160 67 160 81 Q160 89 152 91 L146 95 L146 90 Q132 87 132 81 Z" fill="#FFFFFF"/>
+          <text x="146" y="113">WhatsApp</text>
+
+          <rect x="176" y="55" width="44" height="44" fill="#1ED760" rx="10"/>
+          <circle cx="198" cy="77" r="14" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+          <path d="M190 73 Q198 71 206 75" stroke="#FFFFFF" stroke-width="1.8" fill="none"/>
+          <path d="M191 79 Q198 77 205 80" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+          <path d="M192 84 Q198 83 204 85" stroke="#FFFFFF" stroke-width="1.2" fill="none"/>
+          <text x="198" y="113">Spotify</text>
+
+          <!-- Row 2 -->
+          <rect x="20" y="125" width="44" height="44" fill="#FFFC00" rx="10"/>
+          <ellipse cx="42" cy="147" rx="11" ry="10" fill="#FFFFFF"/>
+          <circle cx="39" cy="145" r="1.5" fill="#2C2C2A"/>
+          <circle cx="45" cy="145" r="1.5" fill="#2C2C2A"/>
+          <path d="M38 150 Q42 153 46 150" stroke="#2C2C2A" stroke-width="1" fill="none"/>
+          <text x="42" y="183" fill="#FFFFFF">Snapchat</text>
+
+          <rect x="72" y="125" width="44" height="44" fill="#E1306C" rx="10"/>
+          <rect x="80" y="133" width="28" height="28" fill="none" stroke="#FFFFFF" stroke-width="2" rx="6"/>
+          <circle cx="94" cy="147" r="6" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+          <circle cx="103" cy="138" r="1.5" fill="#FFFFFF"/>
+          <text x="94" y="183">Instagram</text>
+
+          <rect x="124" y="125" width="44" height="44" fill="#58CC02" rx="10"/>
+          <ellipse cx="146" cy="145" rx="9" ry="10" fill="#FFFFFF"/>
+          <ellipse cx="143" cy="142" rx="2" ry="2.5" fill="#58CC02"/>
+          <ellipse cx="149" cy="142" rx="2" ry="2.5" fill="#58CC02"/>
+          <ellipse cx="146" cy="149" rx="3" ry="2" fill="#FFA500"/>
+          <text x="146" y="183">Duolingo</text>
+
+          <rect x="176" y="125" width="44" height="44" fill="#7289DA" rx="10"/>
+          <ellipse cx="198" cy="147" rx="13" ry="9" fill="#FFFFFF"/>
+          <circle cx="193" cy="145" r="1.5" fill="#7289DA"/>
+          <circle cx="203" cy="145" r="1.5" fill="#7289DA"/>
+          <text x="198" y="183">Discord</text>
+
+          <!-- Row 3 -->
+          <rect x="20" y="195" width="44" height="44" fill="#4285F4" rx="10"/>
+          <path d="M32 211 L32 227 L52 227 L52 211 L42 203 Z" fill="#FFFFFF"/>
+          <rect x="39" y="217" width="6" height="10" fill="#4285F4"/>
+          <text x="42" y="253">Maps</text>
+
+          <rect x="72" y="195" width="44" height="44" fill="#FFFFFF" rx="10"/>
+          <text x="94" y="225" fill="#2C2C2A" font-size="20" font-weight="500">A+</text>
+          <text x="94" y="253">Notities</text>
+
+          <rect x="124" y="195" width="44" height="44" fill="#FF9500" rx="10"/>
+          <circle cx="146" cy="217" r="14" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+          <line x1="146" y1="217" x2="146" y2="209" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+          <line x1="146" y1="217" x2="152" y2="217" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+          <text x="146" y="253">Klok</text>
+
+          <rect x="176" y="195" width="44" height="44" fill="#8E44AD" rx="10"/>
+          <circle cx="194" cy="213" r="5" fill="#FFFFFF"/>
+          <circle cx="202" cy="221" r="5" fill="#FFFFFF"/>
+          <circle cx="192" cy="225" r="3" fill="#FFFFFF"/>
+          <text x="198" y="253">Camera</text>
+
+          <!-- Row 4 -->
+          <rect x="20" y="265" width="44" height="44" fill="#00C853" rx="10"/>
+          <path d="M32 285 L40 293 L54 277" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="42" y="323">Taken</text>
+
+          <rect x="72" y="265" width="44" height="44" fill="#EA4335" rx="10"/>
+          <rect x="82" y="275" width="24" height="18" fill="#FFFFFF" rx="2"/>
+          <path d="M82 277 L94 287 L106 277" stroke="#EA4335" stroke-width="1.5" fill="none"/>
+          <text x="94" y="323">Gmail</text>
+
+          <rect x="124" y="265" width="44" height="44" fill="#34495E" rx="10"/>
+          <circle cx="140" cy="279" r="2" fill="#FFFFFF"/>
+          <circle cx="152" cy="279" r="2" fill="#FFFFFF"/>
+          <circle cx="140" cy="291" r="2" fill="#FFFFFF"/>
+          <circle cx="152" cy="291" r="2" fill="#FFFFFF"/>
+          <rect x="138" y="297" width="16" height="2" fill="#FFFFFF"/>
+          <text x="146" y="323">Dobbel</text>
+
+          <rect x="176" y="265" width="44" height="44" fill="#FFFFFF" rx="10"/>
+          <circle cx="198" cy="287" r="12" fill="none" stroke="#2C2C2A" stroke-width="2"/>
+          <rect x="196" y="279" width="4" height="10" fill="#2C2C2A"/>
+          <rect x="196" y="287" width="7" height="2" fill="#2C2C2A"/>
+          <text x="198" y="323" fill="#FFFFFF">Chrono</text>
+        </g>
+
+        <!-- Dock -->
+        <rect x="18" y="375" width="204" height="58" fill="#FFFFFF" opacity="0.15" rx="18"/>
+        <g font-family="-apple-system, sans-serif" font-size="8" fill="#FFFFFF" text-anchor="middle">
+          <rect x="22" y="384" width="40" height="40" fill="#0ACF83" rx="9"/>
+          <rect x="30" y="394" width="24" height="18" fill="#FFFFFF" rx="2"/>
+          <circle cx="35" cy="398" r="1.5" fill="#0ACF83"/>
+
+          <rect x="74" y="384" width="40" height="40" fill="#4285F4" rx="9"/>
+          <path d="M84 394 L84 414 L104 414 L104 394 L94 388 Z" fill="#FFFFFF"/>
+
+          <rect x="126" y="384" width="40" height="40" fill="#FF2D55" rx="9"/>
+          <path d="M146 394 Q138 394 138 401 Q138 409 146 414 Q154 409 154 401 Q154 394 146 394 Z" fill="#FFFFFF"/>
+
+          <rect x="178" y="384" width="40" height="40" fill="#FF9500" rx="9"/>
+          <circle cx="198" cy="404" r="10" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+          <circle cx="198" cy="404" r="2" fill="#FFFFFF"/>
+        </g>
+
+        <rect x="100" y="443" width="40" height="3" fill="#FFFFFF" opacity="0.8" rx="1.5"/>
+
+        <!-- Highlight ring (moved via JS) -->
+        <rect id="highlight-ring" x="15" y="50" width="54" height="54" fill="none" stroke="#FFD700" stroke-width="3" rx="13" opacity="0" class="pulsing"/>
+      </svg>
+    </div>
+
+    <!-- Questions -->
+    <div class="phone-questions">
+      <div class="phone-question-card">
+        <div class="phone-question-num" id="phone-qnum">Vraag 1 / 10</div>
+        <div class="phone-question-text" id="phone-qtext">Où se trouve TikTok ?</div>
+        <div class="phone-question-app" id="phone-qapp">Kijk naar de gloed op het scherm.</div>
+        <div class="phone-options" id="phone-options"></div>
+        <div class="phone-feedback" id="phone-feedback"></div>
+        <button class="phone-next-btn" id="phone-next" onclick="nextPhoneQ()">Volgende vraag →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print-only list -->
+  <div class="phone-print-list">
+    <svg class="phone-svg-print" viewBox="0 0 240 460" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="240" height="460" fill="#e8e8e8" rx="32" stroke="#999" stroke-width="1"/>
+      <rect x="12" y="13" width="216" height="434" fill="#f5f5f5" rx="24"/>
+      <g font-family="Arial, sans-serif" font-size="7" fill="#333" text-anchor="middle">
+        <!-- Simple labeled grid for print -->
+        <g>
+          <rect x="20" y="55" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="42" y="80">TikTok</text>
+          <rect x="72" y="55" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="94" y="80">YouTube</text>
+          <rect x="124" y="55" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="146" y="80">WhatsApp</text>
+          <rect x="176" y="55" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="198" y="80">Spotify</text>
+
+          <rect x="20" y="125" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="42" y="150">Snapchat</text>
+          <rect x="72" y="125" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="94" y="150">Instagram</text>
+          <rect x="124" y="125" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="146" y="150">Duolingo</text>
+          <rect x="176" y="125" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="198" y="150">Discord</text>
+
+          <rect x="20" y="195" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="42" y="220">Maps</text>
+          <rect x="72" y="195" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="94" y="220">Notities</text>
+          <rect x="124" y="195" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="146" y="220">Klok</text>
+          <rect x="176" y="195" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="198" y="220">Camera</text>
+
+          <rect x="20" y="265" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="42" y="290">Taken</text>
+          <rect x="72" y="265" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="94" y="290">Gmail</text>
+          <rect x="124" y="265" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="146" y="290">Dobbel</text>
+          <rect x="176" y="265" width="44" height="44" fill="none" stroke="#666" stroke-width="0.6" rx="6"/><text x="198" y="290">Chrono</text>
+        </g>
+      </g>
+    </svg>
+    <p style="font-style: italic; margin-bottom: 14px; color: #555; font-size: 10pt;">Kijk naar het scherm hierboven en beantwoord in het Frans waar de app zich bevindt:</p>
+    <ol id="phone-print-ol"></ol>
+  </div>
+</section>
+
+<!-- ============ TAB 3: FLASHCARDS ============ -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+</section>
+
+<!-- ============ TAB 4: VERTAAL ============ -->
+<section class="tab-content" data-content="vertaal">
+  <div class="score-bar no-print" id="translate-score-bar">
+    <span class="score-text">Score: <span id="translate-score">0</span>/<span id="translate-total">10</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="translate-progress"></div></div>
+    <button class="reset-btn" onclick="resetTranslate()">🔄 Opnieuw</button>
+  </div>
+
+  <div class="celebration no-print" id="translate-celebration"></div>
+
+  <div class="translate-list" id="translate-list"></div>
+</section>
+
+<!-- ============ TAB 5: KIES JUIST ============ -->
+<section class="tab-content" data-content="kies">
+  <div class="score-bar no-print" id="choose-score-bar">
+    <span class="score-text">Score: <span id="choose-score">0</span>/<span id="choose-total">10</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="choose-progress"></div></div>
+    <button class="reset-btn" onclick="resetChoose()">🔄 Opnieuw</button>
+  </div>
+
+  <div class="celebration no-print" id="choose-celebration"></div>
+
+  <div class="choose-list" id="choose-list"></div>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+<!-- ============ PRINT-ONLY OPLOSSINGEN ============ -->
+<div class="print-only print-answers" id="phone-answers-print">
+  <h2>Oplossingen — Smartphone</h2>
+  <ol id="phone-answers-ol"></ol>
+</div>
+
+<div class="print-only print-answers" id="translate-answers-print">
+  <h2>Oplossingen — Vertaal</h2>
+  <ol id="translate-answers-ol"></ol>
+</div>
+
+<div class="print-only print-answers" id="choose-answers-print">
+  <h2>Oplossingen — Kies juist</h2>
+  <ol id="choose-answers-ol"></ol>
+</div>
+
+</div>
+
+<script>
+// ============ UTILITIES ============
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function randomPraise() {
+  const praises = ['Correct !', 'Parfait !', 'Juist!', 'Goed zo!', 'Super!', 'Très bien !', 'Bravo!'];
+  return praises[Math.floor(Math.random() * praises.length)];
+}
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ============ FLASHCARDS DATA ============
+const words = [
+  { fr: 'à droite de', nl: 'rechts van' },
+  { fr: 'à gauche de', nl: 'links van' },
+  { fr: 'à côté de', nl: 'naast' },
+  { fr: 'derrière', nl: 'achter' },
+  { fr: 'devant', nl: 'voor' },
+  { fr: 'dans', nl: 'in' },
+  { fr: 'entre', nl: 'tussen' },
+  { fr: 'sous', nl: 'onder' },
+  { fr: 'sur', nl: 'op' },
+  { fr: 'au-dessus de', nl: 'bovenop' },
+  { fr: 'au milieu de', nl: 'in het midden van' },
+  { fr: 'en bas', nl: 'onderaan' },
+  { fr: 'dans le coin', nl: 'in de hoek' },
+  { fr: 'près de', nl: 'vlakbij' },
+  { fr: 'loin de', nl: 'veraf van' },
+  { fr: 'au bon endroit', nl: 'op de juiste plek' },
+  { fr: 'se trouver', nl: 'zich bevinden' },
+  { fr: 'se situer', nl: 'zich situeren' }
+];
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = '';
+  words.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${w.fr}</div>
+          <div class="flip-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${w.nl}</div>
+          <div class="flip-hint">klik om terug te draaien</div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+buildFlashcards();
+
+// ============ SMARTPHONE EXERCISE ============
+const appPositions = {
+  'TikTok':   { x: 15,  y: 50  },
+  'YouTube':  { x: 67,  y: 50  },
+  'WhatsApp':   { x: 119, y: 50  },
+  'Spotify':   { x: 171, y: 50  },
+  'Snapchat':    { x: 15,  y: 120 },
+  'Instagram':    { x: 67,  y: 120 },
+  'Duolingo':    { x: 119, y: 120 },
+  'Discord': { x: 171, y: 120 },
+  'Maps':    { x: 15,  y: 190 },
+  'Notities': { x: 67,  y: 190 },
+  'Klok':     { x: 119, y: 190 },
+  'Camera':   { x: 171, y: 190 },
+  'Taken':    { x: 15,  y: 260 },
+  'Gmail':   { x: 67,  y: 260 },
+  'Dobbel':   { x: 119, y: 260 },
+  'Chrono':  { x: 171, y: 260 }
+};
+
+const phoneQuestions = [
+  { app: 'TikTok',   correct: 'Dans le coin, en haut à gauche',
+    fout: ['Dans le coin, en haut à droite', 'Au milieu de l\'écran'] },
+  { app: 'Spotify',   correct: 'Dans le coin, en haut à droite',
+    fout: ['Dans le coin, en bas à droite', 'À gauche de WhatsApp'] },
+  { app: 'WhatsApp',   correct: 'À droite de YouTube',
+    fout: ['À gauche de YouTube', 'Sous YouTube'] },
+  { app: 'Notities', correct: 'À gauche de Klok',
+    fout: ['À droite de Klok', 'Au-dessus de Klok'] },
+  { app: 'Duolingo',    correct: 'Entre Instagram et Discord',
+    fout: ['À côté de Snapchat', 'Au-dessus de Camera'] },
+  { app: 'Klok',     correct: 'Entre Notities et Camera',
+    fout: ['À côté de Taken', 'Dans le coin'] },
+  { app: 'Maps',    correct: 'Sous Snapchat',
+    fout: ['Sur Snapchat', 'À droite de Snapchat'] },
+  { app: 'Camera',   correct: 'Au-dessus de Chrono',
+    fout: ['Sous Chrono', 'À gauche de Chrono'] },
+  { app: 'Taken',    correct: 'Dans le coin, en bas à gauche',
+    fout: ['Dans le coin, en haut à gauche', 'À droite de Dobbel'] },
+  { app: 'Dobbel',   correct: 'Entre Gmail et Chrono',
+    fout: ['Au-dessus de Klok', 'Loin de Gmail'] }
+];
+
+let phoneIdx = 0;
+let phoneScore = 0;
+let phoneAnswered = false;
+
+function loadPhoneQuestion() {
+  const q = phoneQuestions[phoneIdx];
+  phoneAnswered = false;
+  document.getElementById('phone-qnum').textContent = `Vraag ${phoneIdx + 1} / ${phoneQuestions.length}`;
+  document.getElementById('phone-qtext').textContent = `Où se trouve ${q.app} ?`;
+  document.getElementById('phone-qapp').textContent = 'Kijk naar de gouden gloed op het scherm.';
+
+  // Move highlight ring
+  const pos = appPositions[q.app];
+  const ring = document.getElementById('highlight-ring');
+  ring.setAttribute('x', pos.x);
+  ring.setAttribute('y', pos.y);
+  ring.setAttribute('opacity', '1');
+
+  // Build options
+  const opts = shuffle([q.correct, ...q.fout]);
+  const optsDiv = document.getElementById('phone-options');
+  optsDiv.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'phone-option';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => checkPhoneAnswer(btn, opt, q.correct));
+    optsDiv.appendChild(btn);
+  });
+
+  // Clear feedback + next btn
+  const fb = document.getElementById('phone-feedback');
+  fb.className = 'phone-feedback';
+  fb.textContent = '';
+  document.getElementById('phone-next').classList.remove('visible');
+}
+
+function checkPhoneAnswer(btn, chosen, correct) {
+  if (phoneAnswered) return;
+  phoneAnswered = true;
+
+  const allBtns = document.querySelectorAll('.phone-option');
+  allBtns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('phone-feedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    phoneScore++;
+    fb.textContent = `✓ ${randomPraise()}`;
+    fb.className = 'phone-feedback good visible';
+  } else {
+    btn.classList.add('incorrect');
+    allBtns.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    fb.textContent = `✗ Het juiste antwoord was: « ${correct} »`;
+    fb.className = 'phone-feedback bad visible';
+  }
+
+  updatePhoneScore();
+  document.getElementById('phone-next').classList.add('visible');
+}
+
+function nextPhoneQ() {
+  phoneIdx++;
+  if (phoneIdx >= phoneQuestions.length) {
+    showPhoneCelebration();
+  } else {
+    loadPhoneQuestion();
+  }
+}
+
+function updatePhoneScore() {
+  document.getElementById('phone-score-bar').classList.add('visible');
+  document.getElementById('phone-score').textContent = phoneScore;
+  const pct = ((phoneIdx + (phoneAnswered ? 1 : 0)) / phoneQuestions.length) * 100;
+  document.getElementById('phone-progress').style.width = pct + '%';
+}
+
+function showPhoneCelebration() {
+  const pct = (phoneScore / phoneQuestions.length) * 100;
+  const cel = document.getElementById('phone-celebration');
+  let msg;
+  if (pct === 100) msg = '🌟 Alles juist — fantastisch!';
+  else if (pct >= 80) msg = '🎉 Heel goed! Bijna alles juist.';
+  else if (pct >= 60) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+  else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+  cel.textContent = `${msg} (${phoneScore}/${phoneQuestions.length})`;
+  cel.classList.add('visible');
+
+  // Hide question card, highlight
+  document.querySelector('.phone-questions').style.display = 'none';
+  document.getElementById('highlight-ring').setAttribute('opacity', '0');
+}
+
+function resetPhone() {
+  phoneIdx = 0;
+  phoneScore = 0;
+  phoneAnswered = false;
+  document.getElementById('phone-score').textContent = '0';
+  document.getElementById('phone-progress').style.width = '0%';
+  document.getElementById('phone-celebration').classList.remove('visible');
+  document.querySelector('.phone-questions').style.display = '';
+  loadPhoneQuestion();
+}
+
+// Build print list
+function buildPhonePrintList() {
+  const ol = document.getElementById('phone-print-ol');
+  const ans = document.getElementById('phone-answers-ol');
+  ol.innerHTML = '';
+  ans.innerHTML = '';
+  phoneQuestions.forEach(q => {
+    const li = document.createElement('li');
+    li.innerHTML = `Où se trouve <strong>${q.app}</strong> ?<span class="ans-line"></span>`;
+    ol.appendChild(li);
+
+    const aLi = document.createElement('li');
+    aLi.innerHTML = `<strong>${q.app}</strong> — <span class="ans">${q.correct}</span>`;
+    ans.appendChild(aLi);
+  });
+}
+buildPhonePrintList();
+loadPhoneQuestion();
+
+// ============ VERTAAL ============
+const translateSentences = [
+  { nl: 'De kat is op de tafel.', fr: ['le chat est sur la table'] },
+  { nl: 'Het boek is in de tas.', fr: ['le livre est dans le sac'] },
+  { nl: 'De school is vlakbij het huis.', fr: ['l\'ecole est pres de la maison', 'l ecole est pres de la maison'] },
+  { nl: 'De auto staat voor de deur.', fr: ['la voiture est devant la porte'] },
+  { nl: 'De pen ligt onder de stoel.', fr: ['le stylo est sous la chaise'] },
+  { nl: 'De klok hangt boven het bed.', fr: ['l\'horloge est au-dessus du lit', 'l horloge est au dessus du lit', 'l\'horloge est au dessus du lit'] },
+  { nl: 'Het station is ver van de school.', fr: ['la gare est loin de l\'ecole', 'la gare est loin de l ecole'] },
+  { nl: 'De tas staat achter de deur.', fr: ['le sac est derriere la porte'] },
+  { nl: 'Elmo zit naast Louis.', fr: ['elmo est a cote de louis'] },
+  { nl: 'De kat zit tussen twee kussens.', fr: ['le chat est entre deux coussins'] }
+];
+
+function buildTranslate() {
+  const list = document.getElementById('translate-list');
+  list.innerHTML = '';
+  document.getElementById('translate-total').textContent = translateSentences.length;
+  const ans = document.getElementById('translate-answers-ol');
+  ans.innerHTML = '';
+
+  translateSentences.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'translate-card';
+    card.dataset.idx = i;
+    card.innerHTML = `
+      <div class="translate-sentence"><span class="translate-num">${i + 1}.</span>${s.nl}</div>
+      <div class="translate-row">
+        <input type="text" class="translate-input" placeholder="Typ de Franse zin..." autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>
+      <div class="translate-feedback"></div>
+    `;
+    const input = card.querySelector('.translate-input');
+    const btn = card.querySelector('.check-btn');
+    btn.addEventListener('click', () => checkTranslate(card, input, s));
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); checkTranslate(card, input, s); }
+    });
+    list.appendChild(card);
+
+    // Print answers
+    const aLi = document.createElement('li');
+    aLi.innerHTML = `${s.nl} — <span class="ans">${s.fr[0].charAt(0).toUpperCase() + s.fr[0].slice(1)}.</span>`;
+    ans.appendChild(aLi);
+  });
+}
+
+let translateDone = new Set();
+function checkTranslate(card, input, s) {
+  if (translateDone.has(card.dataset.idx)) return;
+  const user = normalize(input.value);
+  if (!user) return;
+  const normalized = s.fr.map(normalize);
+  const isCorrect = normalized.some(c => c === user || c === user.replace(/\.$/, ''));
+
+  card.classList.remove('correct', 'incorrect');
+  input.classList.remove('correct-input', 'wrong-input');
+  const fb = card.querySelector('.translate-feedback');
+  if (isCorrect) {
+    card.classList.add('correct');
+    input.classList.add('correct-input');
+    fb.textContent = `✓ ${randomPraise()}`;
+    fb.className = 'translate-feedback good visible';
+    input.disabled = true;
+    card.querySelector('.check-btn').disabled = true;
+    translateDone.add(card.dataset.idx);
+    translateScore++;
+  } else {
+    card.classList.add('incorrect');
+    input.classList.add('wrong-input');
+    fb.textContent = `✗ Probeer nog eens. Tip: ${s.fr[0].charAt(0).toUpperCase() + s.fr[0].slice(1)}.`;
+    fb.className = 'translate-feedback bad visible';
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 350);
+  }
+  updateTranslateScore();
+}
+
+let translateScore = 0;
+function updateTranslateScore() {
+  document.getElementById('translate-score-bar').classList.add('visible');
+  document.getElementById('translate-score').textContent = translateScore;
+  const pct = (translateDone.size / translateSentences.length) * 100;
+  document.getElementById('translate-progress').style.width = pct + '%';
+  if (translateDone.size === translateSentences.length) showTranslateCelebration();
+}
+
+function showTranslateCelebration() {
+  const pct = (translateScore / translateSentences.length) * 100;
+  const cel = document.getElementById('translate-celebration');
+  let msg;
+  if (pct === 100) msg = '🌟 Alles juist — fantastisch!';
+  else if (pct >= 80) msg = '🎉 Heel goed! Bijna alles juist.';
+  else if (pct >= 60) msg = '💪 Goed bezig!';
+  else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+  cel.textContent = `${msg} (${translateScore}/${translateSentences.length})`;
+  cel.classList.add('visible');
+}
+
+function resetTranslate() {
+  translateScore = 0;
+  translateDone = new Set();
+  document.getElementById('translate-celebration').classList.remove('visible');
+  buildTranslate();
+  document.getElementById('translate-score').textContent = '0';
+  document.getElementById('translate-progress').style.width = '0%';
+}
+buildTranslate();
+
+// ============ KIES JUIST ============
+const chooseQuestions = [
+  { sentence_pre: 'Le chat est ', sentence_post: ' la table.', hint: '(de kat is op)',
+    correct: 'sur', opts: ['sur', 'sous', 'dans'] },
+  { sentence_pre: 'Le livre est ', sentence_post: ' la chaise.', hint: '(onder)',
+    correct: 'sous', opts: ['sur', 'sous', 'entre'] },
+  { sentence_pre: 'L\'école est ', sentence_post: ' la maison.', hint: '(vlakbij)',
+    correct: 'près de', opts: ['loin de', 'près de', 'dans'] },
+  { sentence_pre: 'Les enfants jouent ', sentence_post: ' les arbres.', hint: '(tussen)',
+    correct: 'entre', opts: ['dans', 'entre', 'derrière'] },
+  { sentence_pre: 'Le poster est ', sentence_post: ' du lit.', hint: '(boven)',
+    correct: 'au-dessus', opts: ['au-dessus', 'en bas', 'à côté'] },
+  { sentence_pre: 'Spotify est ', sentence_post: ' WhatsApp.', hint: '(rechts van, op het scherm)',
+    correct: 'à droite de', opts: ['à gauche de', 'à droite de', 'devant'] },
+  { sentence_pre: 'La voiture est ', sentence_post: ' la maison.', hint: '(voor)',
+    correct: 'devant', opts: ['derrière', 'devant', 'sur'] },
+  { sentence_pre: 'Le chat dort ', sentence_post: ' le canapé.', hint: '(achter)',
+    correct: 'derrière', opts: ['devant', 'derrière', 'sur'] },
+  { sentence_pre: 'Le village se trouve ', sentence_post: ' la forêt.', hint: '(ver van)',
+    correct: 'loin de', opts: ['près de', 'loin de', 'dans'] },
+  { sentence_pre: 'Elmo est assis ', sentence_post: ' Louis.', hint: '(naast)',
+    correct: 'à côté de', opts: ['au milieu de', 'à côté de', 'sous'] }
+];
+
+let chooseScore = 0;
+let chooseDone = new Set();
+
+function buildChoose() {
+  const list = document.getElementById('choose-list');
+  list.innerHTML = '';
+  document.getElementById('choose-total').textContent = chooseQuestions.length;
+  const ans = document.getElementById('choose-answers-ol');
+  ans.innerHTML = '';
+
+  chooseQuestions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'choose-card';
+    card.dataset.idx = i;
+    const blankId = `blank-${i}`;
+    card.innerHTML = `
+      <div class="choose-sentence"><span class="choose-num">${i + 1}.</span>${q.sentence_pre}<span class="choose-blank" id="${blankId}">???</span>${q.sentence_post}</div>
+      <div class="choose-hint">${q.hint}</div>
+      <div class="choose-options"></div>
+    `;
+    const optsDiv = card.querySelector('.choose-options');
+    shuffle(q.opts).forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'choose-option';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => checkChoose(card, btn, opt, q.correct, blankId));
+      optsDiv.appendChild(btn);
+    });
+    list.appendChild(card);
+
+    const aLi = document.createElement('li');
+    aLi.innerHTML = `${q.sentence_pre}<span class="ans">${q.correct}</span>${q.sentence_post}`;
+    ans.appendChild(aLi);
+  });
+}
+
+function checkChoose(card, btn, chosen, correct, blankId) {
+  if (chooseDone.has(card.dataset.idx)) return;
+  const all = card.querySelectorAll('.choose-option');
+  const blank = document.getElementById(blankId);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    blank.textContent = correct;
+    blank.classList.add('filled');
+    chooseScore++;
+    chooseDone.add(card.dataset.idx);
+    all.forEach(b => b.disabled = true);
+  } else {
+    btn.classList.add('incorrect');
+    btn.disabled = true;
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 350);
+  }
+  updateChooseScore();
+}
+
+function updateChooseScore() {
+  document.getElementById('choose-score-bar').classList.add('visible');
+  document.getElementById('choose-score').textContent = chooseScore;
+  const pct = (chooseDone.size / chooseQuestions.length) * 100;
+  document.getElementById('choose-progress').style.width = pct + '%';
+  if (chooseDone.size === chooseQuestions.length) showChooseCelebration();
+}
+
+function showChooseCelebration() {
+  const pct = (chooseScore / chooseQuestions.length) * 100;
+  const cel = document.getElementById('choose-celebration');
+  let msg;
+  if (pct === 100) msg = '🌟 Alles juist — fantastisch!';
+  else if (pct >= 80) msg = '🎉 Heel goed!';
+  else if (pct >= 60) msg = '💪 Goed bezig!';
+  else msg = '📚 Bekijk de theorie nog eens!';
+  cel.textContent = `${msg} (${chooseScore}/${chooseQuestions.length})`;
+  cel.classList.add('visible');
+}
+
+function resetChoose() {
+  chooseScore = 0;
+  chooseDone = new Set();
+  document.getElementById('choose-celebration').classList.remove('visible');
+  buildChoose();
+  document.getElementById('choose-score').textContent = '0';
+  document.getElementById('choose-progress').style.width = '0%';
+}
+buildChoose();
+</script>
+</body>
+</html>
