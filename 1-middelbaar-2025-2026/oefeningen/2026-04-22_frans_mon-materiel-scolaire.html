@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon matériel scolaire — Frans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vak-color: #C2704E;
+  --vak-color-dark: #A85E3F;
+  --vak-color-light: #D4916F;
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --masc: #6A9BB5;
+  --fem: #C9A0A0;
+  --plur: #D4A843;
+  --correct: #7A8B6F;
+  --incorrect: #B7553D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cpath d='M10 60 Q30 40 50 60 T90 60' stroke='%235C4033' stroke-width='0.6' fill='none' opacity='0.5'/%3E%3Cpath d='M20 90 Q40 80 60 90 T100 90' stroke='%235C4033' stroke-width='0.6' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  animation: fadeSlideUp 0.6s ease-out;
+}
+.vak-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.header-text h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.header-text .date {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color);
+  font-weight: 600;
+}
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 28px;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+  padding: 6px;
+  background: rgba(232, 220, 200, 0.4);
+  border-radius: 16px;
+}
+.tab {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab:hover { background: rgba(255, 253, 247, 0.5); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 8px rgba(194, 112, 78, 0.25);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease-out; }
+.tab-content.active { display: block; }
+
+.score-bar {
+  display: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 16px;
+  padding: 12px 18px;
+  background: var(--warm-white);
+  border-radius: 12px;
+  border: 1px solid var(--sand);
+  justify-content: space-between;
+  align-items: center;
+}
+.score-bar.visible { display: flex; }
+.score-bar .score-text { font-weight: 600; }
+.progress-bar-container {
+  flex: 1;
+  height: 8px;
+  background: var(--sand);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0 16px;
+  max-width: 200px;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color) 0%, var(--ochre) 100%);
+  transition: width 0.4s ease-out;
+  width: 0%;
+}
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1px solid var(--sand);
+  background: var(--cream);
+  color: var(--warm-brown);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reset-btn:hover { background: var(--sand-light); }
+
+.celebration {
+  display: none;
+  background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--ochre) 100%);
+  color: var(--warm-white);
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin: 20px 0;
+  font-size: 17px;
+  text-align: center;
+  animation: pop 0.4s ease-out;
+  box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3);
+}
+.celebration.visible { display: block; }
+
+/* ===== Tab 1: Theorie ===== */
+.theory-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--sand-light);
+  border-radius: 12px;
+  border-left: 3px solid var(--vak-color);
+}
+.theory-group {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 22px 26px;
+  margin-bottom: 18px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05);
+}
+.theory-group h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 28px;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.theory-group.masc h2 { color: var(--masc); }
+.theory-group.fem h2 { color: var(--fem); }
+.theory-group.plur h2 { color: #A67C00; }
+.theory-group .group-sub {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+.theory-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.theory-word {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 14px;
+  background: var(--cream);
+  border-radius: 8px;
+  gap: 12px;
+  border-left: 3px solid transparent;
+}
+.theory-group.masc .theory-word { border-left-color: var(--masc); }
+.theory-group.fem .theory-word { border-left-color: var(--fem); }
+.theory-group.plur .theory-word { border-left-color: var(--plur); }
+.theory-word .fr {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-weight: 600;
+  color: var(--vak-color-dark);
+  font-size: 16px;
+}
+.theory-word .nl {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  text-align: right;
+}
+
+/* ===== Tab 2: Schooltas-monster ===== */
+.monster-exercise {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.monster-stage {
+  position: relative;
+  height: 240px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.counter {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--warm-brown);
+  font-weight: 700;
+  background: var(--warm-white);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 6px rgba(92, 64, 51, 0.08);
+}
+.counter .num { color: var(--vak-color-dark); }
+.monster {
+  width: 220px;
+  height: 220px;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.monster.chewing { animation: chew 0.6s ease-out; }
+.monster.happy { animation: bounce 0.8s ease-out; }
+.monster.burp { animation: burp 0.5s ease-out; }
+@keyframes chew {
+  0%, 100% { transform: translateY(0) scale(1); }
+  20% { transform: translateY(-6px) scale(1.04, 0.96); }
+  50% { transform: translateY(2px) scale(0.96, 1.04); }
+  80% { transform: translateY(-2px) scale(1.02, 0.98); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-10px) rotate(-3deg); }
+  75% { transform: translateY(-5px) rotate(3deg); }
+}
+@keyframes burp {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px) scaleY(1.05); }
+}
+.monster-svg { width: 100%; height: 100%; overflow: visible; }
+
+.flying-item {
+  position: absolute;
+  font-size: 44px;
+  pointer-events: none;
+  z-index: 10;
+}
+.flying-item.eaten { animation: eatIt 0.9s cubic-bezier(0.4, 0, 0.6, 1) forwards; }
+@keyframes eatIt {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  40% { transform: translate(0, -30px) scale(1.1) rotate(15deg); opacity: 1; }
+  70% { transform: translate(0, 30px) scale(0.7) rotate(-10deg); opacity: 1; }
+  100% { transform: translate(0, 70px) scale(0.2) rotate(0deg); opacity: 0; }
+}
+.emoji-popup {
+  position: absolute;
+  font-size: 28px;
+  pointer-events: none;
+  animation: popUp 1.6s ease-out forwards;
+  z-index: 15;
+}
+@keyframes popUp {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: 1; transform: translateY(-20px) scale(1); }
+  80% { opacity: 1; transform: translateY(-70px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-110px) scale(0.8); }
+}
+
+.monster-question-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px 28px 22px;
+  border: 1px solid var(--sand);
+  box-shadow: 0 3px 12px rgba(92, 64, 51, 0.08);
+  text-align: center;
+}
+.monster-qlabel {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  color: var(--warm-brown);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0.6;
+  margin-bottom: 6px;
+}
+.monster-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+.monster-word-nl {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--warm-brown);
+  opacity: 0.7;
+  margin-top: 4px;
+}
+.monster-answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.ans-btn {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 18px 8px;
+  border: 3px solid;
+  border-radius: 14px;
+  cursor: pointer;
+  background: var(--warm-white);
+  transition: all 0.2s;
+  font-style: italic;
+  position: relative;
+}
+.ans-btn.masc { border-color: var(--masc); color: var(--masc); }
+.ans-btn.fem { border-color: var(--fem); color: var(--fem); }
+.ans-btn.plur { border-color: var(--plur); color: #A67C00; }
+.ans-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(92, 64, 51, 0.12); }
+.ans-btn.masc.correct, .ans-btn.masc.wrong-correct { background: var(--masc); color: white; }
+.ans-btn.fem.correct, .ans-btn.fem.wrong-correct { background: var(--fem); color: white; }
+.ans-btn.plur.correct, .ans-btn.plur.wrong-correct { background: var(--plur); color: white; }
+.ans-btn.wrong { background: var(--incorrect); color: white; border-color: var(--incorrect); opacity: 0.6; }
+.ans-btn.wrong-correct::after {
+  content: '✓';
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 24px; height: 24px;
+  background: var(--correct);
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulseCheck 1.2s infinite;
+  box-shadow: 0 2px 6px rgba(122, 139, 111, 0.4);
+}
+.ans-btn.wrong-correct { animation: pulseGlow 1.2s infinite; }
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(122, 139, 111, 0.4); }
+  50% { transform: scale(1.04); box-shadow: 0 0 20px rgba(122, 139, 111, 0.6); }
+}
+@keyframes pulseCheck {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.ans-btn:disabled { cursor: default; }
+.sublabel {
+  display: block;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  font-style: normal;
+  opacity: 0.65;
+  margin-top: 4px;
+}
+.monster-feedback {
+  min-height: 30px;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--olive-dark);
+  transition: opacity 0.3s;
+}
+.monster-feedback.bad { color: var(--rust); }
+.monster-feedback .hint-line {
+  display: block;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  font-style: italic;
+  margin-top: 2px;
+  opacity: 0.8;
+}
+
+/* ===== Tab 3: Flashcards met toggle ===== */
+.flashcard-toolbar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.lang-toggle {
+  display: inline-flex;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+.lang-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lang-option:hover:not(.active) { background: var(--cream); }
+.lang-option.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 6px rgba(194, 112, 78, 0.25);
+}
+.lang-option .arrow { font-size: 13px; opacity: 0.8; }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.flashcard { aspect-ratio: 1.4 / 1; perspective: 1000px; cursor: pointer; }
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.1);
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  color: var(--vak-color-dark);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+}
+.flashcard .question-word { font-family: 'Vollkorn', Georgia, serif; font-size: 18px; font-weight: 600; line-height: 1.3; }
+.flashcard .answer-word { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; font-weight: 500; line-height: 1.3; }
+.flashcard .flip-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 8px;
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+/* ===== Tab 4: Vertaal ===== */
+.translate-list { display: flex; flex-direction: column; gap: 14px; }
+.translate-card {
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 18px 22px;
+  border: 1.5px solid var(--sand);
+  transition: border-color 0.2s, opacity 0.5s;
+}
+.translate-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.translate-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.translate-card.fading { opacity: 0.5; }
+.translate-num {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--vak-color);
+  font-weight: 600;
+  margin-right: 10px;
+}
+.translate-sentence {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  margin-bottom: 12px;
+}
+.translate-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+.translate-input {
+  flex: 1;
+  min-width: 200px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 15px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--sand);
+  border-radius: 10px;
+  background: var(--cream);
+  color: var(--dark-brown);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.translate-input:focus { border-color: var(--vak-color-light); }
+.translate-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.translate-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.check-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 18px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.check-btn:hover:not(:disabled) { background: var(--vak-color-dark); }
+.check-btn:disabled { opacity: 0.5; cursor: default; }
+.translate-feedback {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-style: italic;
+  font-size: 14px;
+  margin-top: 10px;
+  color: var(--warm-brown);
+  display: none;
+}
+.translate-feedback.visible { display: block; }
+.translate-feedback.good { color: var(--olive-dark); }
+.translate-feedback.bad { color: var(--rust); }
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.action-btn:hover {
+  background: var(--sand-light);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.1);
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(0.95); opacity: 0; }
+  60% { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.shake { animation: shake 0.3s; }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .header-text h1 { font-size: 22px; }
+  .header-text .date { font-size: 18px; }
+  .vak-icon { width: 52px; height: 52px; font-size: 28px; }
+  .tabs { gap: 4px; padding: 4px; }
+  .tab { font-size: 13px; padding: 8px 12px; }
+  .theory-group { padding: 18px 20px; }
+  .theory-list { grid-template-columns: 1fr; }
+  .monster-word { font-size: 28px; }
+  .ans-btn { font-size: 16px; padding: 16px 6px; }
+  .flashcard-grid { grid-template-columns: 1fr 1fr; }
+  .lang-option { padding: 8px 12px; font-size: 13px; }
+  .translate-row { flex-direction: column; }
+  .translate-input { min-width: 0; width: 100%; }
+  .check-btn { width: 100%; }
+}
+@media (max-width: 400px) {
+  .monster { width: 180px; height: 180px; }
+  .monster-stage { height: 200px; }
+}
+
+/* ===== PRINT STYLES ===== */
+.print-only { display: none; }
+
+@media print {
+  @page { margin: 1.5cm; }
+  .no-print { display: none !important; }
+  body {
+    background: white !important;
+    font-size: 11pt;
+    color: #000;
+  }
+  body::before { display: none; }
+  .container { max-width: none; padding: 0; }
+  .tab-content { display: block !important; page-break-after: always; }
+  .tab-content:last-of-type { page-break-after: auto; }
+  .print-only { display: block !important; }
+
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .tabs, .actions, .breadcrumb { display: none !important; }
+  .reset-btn, .check-btn, .flashcard-toolbar { display: none !important; }
+
+  header { margin-bottom: 14px; }
+  .vak-icon { display: none; }
+  .header-text h1 { font-size: 20pt; }
+
+  .theory-group {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    page-break-inside: avoid;
+    margin-bottom: 12px;
+    padding: 14px 18px;
+  }
+  .theory-word { background: #f8f5ef !important; }
+
+  .monster-exercise { display: none !important; }
+  .monster-print {
+    display: block !important;
+    font-family: 'Vollkorn', Georgia, serif;
+  }
+  .monster-print h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 20pt;
+    color: var(--vak-color) !important;
+    margin-bottom: 8px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .monster-print p { font-size: 11pt; margin-bottom: 14px; font-style: italic; }
+  .monster-print-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 22px;
+    list-style: none;
+    padding: 0;
+  }
+  .monster-print-list li {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 8px;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 0.5px dotted #ccc;
+    font-size: 11pt;
+  }
+  .monster-print-list li .opt {
+    font-size: 9pt;
+    color: #666;
+  }
+
+  .flashcard { aspect-ratio: auto; height: auto; page-break-inside: avoid; }
+  .flashcard-inner { position: static !important; transform: none !important; }
+  .flashcard-front {
+    position: static !important;
+    background: white !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    padding: 10px !important;
+    min-height: 60px;
+  }
+  .flashcard-back { display: none !important; }
+  .flashcard .question-word { display: block !important; font-size: 13pt; }
+  .flashcard .answer-word { display: none !important; }
+  .flashcard .flip-hint { display: none !important; }
+  .flashcard-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+
+  .translate-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .translate-card.correct, .translate-card.incorrect, .translate-card.fading {
+    border-color: #ccc !important;
+    background: white !important;
+    opacity: 1 !important;
+  }
+  .translate-input {
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    background: white !important;
+    border: 1px solid #999 !important;
+  }
+  .translate-input::placeholder { color: transparent !important; }
+  .translate-input.correct-input, .translate-input.wrong-input {
+    border-color: #999 !important;
+    background: white !important;
+  }
+  .translate-feedback { display: none !important; }
+
+  /* Print: toon alle 29 vertaalzinnen in plaats van de 10 op scherm */
+  .translate-list { display: none !important; }
+  .translate-print {
+    display: block !important;
+  }
+  .translate-print h3 {
+    font-family: 'Caveat', cursive;
+    font-size: 20pt;
+    color: var(--vak-color) !important;
+    margin-bottom: 8px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .translate-print p { font-size: 11pt; margin-bottom: 14px; font-style: italic; }
+  .translate-print ol { padding-left: 22px; }
+  .translate-print li {
+    margin-bottom: 12px;
+    font-size: 11pt;
+    page-break-inside: avoid;
+  }
+  .translate-print .ans-line {
+    display: block;
+    border-bottom: 1px solid #999;
+    margin-top: 6px;
+    height: 18px;
+  }
+
+  .print-answers { page-break-before: always; padding-top: 10px; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 26pt;
+    color: var(--vak-color) !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin-bottom: 14px;
+  }
+  .print-answers ol { padding-left: 24px; }
+  .print-answers li { margin-bottom: 10px; font-size: 11pt; }
+  .print-answers .ans { font-weight: 700; color: var(--vak-color-dark) !important; }
+}
+.monster-print, .translate-print { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Mon matériel scolaire</span>
+</nav>
+
+<header>
+  <div class="vak-icon">🇫🇷</div>
+  <div class="header-text">
+    <h1>Mon matériel scolaire</h1>
+    <div class="date">Frans · 22 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">29 schoolspullen in het Frans — van <em>un stylo</em> tot <em>une trousse</em>. Per woord leer je niet alleen de vertaling maar ook het <strong>geslacht</strong>: is het <em>un/le</em>, <em>une/la</em> of <em>des</em>? Een hongerig schooltas-monster helpt je oefenen.</p>
+
+<nav class="tabs no-print" role="tablist">
+  <button class="tab active" data-tab="theorie" role="tab">📚 Theorie</button>
+  <button class="tab" data-tab="monster" role="tab">🎒 Vide ton cartable</button>
+  <button class="tab" data-tab="flashcards" role="tab">🎴 Flashcards</button>
+  <button class="tab" data-tab="vertaal" role="tab">✏️ Vertaal</button>
+</nav>
+
+<!-- ============ TAB 1: THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <div class="theory-intro">
+    In het Frans heeft elk voorwerp een <strong>geslacht</strong>: <em>masculin</em> (mannelijk — <em>un/le</em>) of <em>féminin</em> (vrouwelijk — <em>une/la</em>). Voor meervoud gebruik je altijd <em>des</em>. Je kan het geslacht meestal niet horen — je moet het gewoon leren bij het woord.
+  </div>
+
+  <div class="theory-group masc">
+    <h2>Masculin — un / le</h2>
+    <div class="group-sub">Mannelijk enkelvoud. Gebruik <em>un</em> (een) of <em>le</em> (de/het).</div>
+    <div class="theory-list" id="theory-masc"></div>
+  </div>
+
+  <div class="theory-group fem">
+    <h2>Féminin — une / la</h2>
+    <div class="group-sub">Vrouwelijk enkelvoud. Gebruik <em>une</em> (een) of <em>la</em> (de).</div>
+    <div class="theory-list" id="theory-fem"></div>
+  </div>
+
+  <div class="theory-group plur">
+    <h2>Pluriel — des</h2>
+    <div class="group-sub">Meervoud. Altijd <em>des</em>.</div>
+    <div class="theory-list" id="theory-plur"></div>
+  </div>
+</section>
+
+<!-- ============ TAB 2: SCHOOLTAS-MONSTER ============ -->
+<section class="tab-content" data-content="monster">
+  <div class="score-bar no-print" id="monster-score-bar">
+    <span class="score-text">Cartable: <span id="monster-score">0</span>/<span id="monster-total">29</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="monster-progress"></div></div>
+    <button class="reset-btn" onclick="resetMonster()">🔄 Opnieuw</button>
+  </div>
+
+  <div class="celebration no-print" id="monster-celebration"></div>
+
+  <div class="monster-exercise no-print">
+    <div class="monster-stage">
+      <div class="counter">🎒 <span class="num" id="counter">0</span></div>
+      <div class="monster" id="monster">
+        <svg class="monster-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="120" cy="228" rx="85" ry="8" fill="#5C4033" opacity="0.15"/>
+          <rect x="30" y="200" width="14" height="24" fill="#5C4033" rx="3"/>
+          <rect x="196" y="200" width="14" height="24" fill="#5C4033" rx="3"/>
+          <path d="M 30 90 Q 30 60 55 55 L 60 50 Q 62 35 85 32 L 155 32 Q 178 35 180 50 L 185 55 Q 210 60 210 90 L 210 195 Q 210 215 190 215 L 50 215 Q 30 215 30 195 Z"
+                fill="#8B5A3C" stroke="#5C4033" stroke-width="2.5"/>
+          <path d="M 85 55 Q 85 38 100 36 L 140 36 Q 155 38 155 55"
+                fill="none" stroke="#3D2B1F" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M 45 100 L 195 100 L 195 150 Q 195 158 190 158 L 50 158 Q 45 158 45 150 Z"
+                fill="#6B4423" opacity="0.6"/>
+          <rect x="108" y="130" width="24" height="16" fill="#D4A843" stroke="#5C4033" stroke-width="1" rx="2"/>
+          <rect x="112" y="134" width="16" height="8" fill="#A67C00"/>
+
+          <g id="eyes">
+            <ellipse cx="80" cy="80" rx="14" ry="15" fill="#FFFDF7" stroke="#3D2B1F" stroke-width="1.5"/>
+            <ellipse cx="160" cy="80" rx="14" ry="15" fill="#FFFDF7" stroke="#3D2B1F" stroke-width="1.5"/>
+            <circle id="pupil-l" cx="80" cy="82" r="5" fill="#2C2C2A"/>
+            <circle id="pupil-r" cx="160" cy="82" r="5" fill="#2C2C2A"/>
+            <circle cx="83" cy="78" r="1.5" fill="#FFFDF7"/>
+            <circle cx="163" cy="78" r="1.5" fill="#FFFDF7"/>
+            <path id="brow-l" d="M 68 66 Q 80 62 94 66" stroke="#3D2B1F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path id="brow-r" d="M 148 66 Q 160 62 172 66" stroke="#3D2B1F" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <g id="mouth-group">
+            <path id="mouth-closed" d="M 95 128 Q 120 140 145 128" stroke="#3D2B1F" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path id="mouth-open" d="M 85 120 Q 120 165 155 120 Q 145 150 120 150 Q 95 150 85 120 Z"
+                  fill="#3D2B1F" stroke="#2C2C2A" stroke-width="1.5" opacity="0"/>
+            <ellipse id="tongue" cx="120" cy="145" rx="18" ry="7" fill="#C9A0A0" opacity="0"/>
+            <g id="teeth" opacity="0">
+              <rect x="95" y="122" width="5" height="6" fill="#FFFDF7"/>
+              <rect x="108" y="122" width="5" height="6" fill="#FFFDF7"/>
+              <rect x="127" y="122" width="5" height="6" fill="#FFFDF7"/>
+              <rect x="140" y="122" width="5" height="6" fill="#FFFDF7"/>
+            </g>
+          </g>
+
+          <circle id="cheek-l" cx="62" cy="108" r="8" fill="#E8A8A0" opacity="0"/>
+          <circle id="cheek-r" cx="178" cy="108" r="8" fill="#E8A8A0" opacity="0"/>
+        </svg>
+      </div>
+      <div id="popup-layer" style="position: absolute; inset: 0; pointer-events: none;"></div>
+    </div>
+
+    <div class="monster-question-card">
+      <div class="monster-qlabel">welk lidwoord?</div>
+      <div class="monster-word" id="mword">...</div>
+      <div class="monster-word-nl" id="mword-nl">&nbsp;</div>
+    </div>
+
+    <div class="monster-answers" id="manswers">
+      <button class="ans-btn masc" data-ans="masc">un / le<span class="sublabel">masculin</span></button>
+      <button class="ans-btn fem" data-ans="fem">une / la<span class="sublabel">féminin</span></button>
+      <button class="ans-btn plur" data-ans="plur">des<span class="sublabel">pluriel</span></button>
+    </div>
+
+    <div class="monster-feedback" id="mfeedback">&nbsp;</div>
+  </div>
+
+  <div class="monster-print">
+    <h3>Vide ton cartable — geslachten</h3>
+    <p>Omcirkel het juiste lidwoord voor elk woord:</p>
+    <ul class="monster-print-list" id="monster-print-list"></ul>
+  </div>
+</section>
+
+<!-- ============ TAB 3: FLASHCARDS ============ -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <div class="lang-toggle" role="tablist" aria-label="Taal bovenop">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 <span class="arrow">→</span> 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 <span class="arrow">→</span> 🇫🇷</button>
+    </div>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+</section>
+
+<!-- ============ TAB 4: VERTAAL ============ -->
+<section class="tab-content" data-content="vertaal">
+  <div class="score-bar no-print" id="translate-score-bar">
+    <span class="score-text">Score: <span id="translate-score">0</span>/<span id="translate-total">10</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="translate-progress"></div></div>
+    <button class="reset-btn" onclick="resetTranslate()">🔄 Nieuwe zinnen</button>
+  </div>
+  <div class="celebration no-print" id="translate-celebration"></div>
+  <div class="translate-list" id="translate-list"></div>
+
+  <!-- Print: alle 29 zinnen -->
+  <div class="translate-print">
+    <h3>Vertaal — alle zinnen</h3>
+    <p>Schrijf de Franse vertaling onder elke zin:</p>
+    <ol id="translate-print-list"></ol>
+  </div>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+<!-- ============ PRINT-ONLY OPLOSSINGEN ============ -->
+<div class="print-only print-answers" id="monster-answers-print">
+  <h2>Oplossingen — Vide ton cartable</h2>
+  <ol id="monster-answers-ol"></ol>
+</div>
+
+<div class="print-only print-answers" id="translate-answers-print">
+  <h2>Oplossingen — Vertaal</h2>
+  <ol id="translate-answers-ol"></ol>
+</div>
+
+</div>
+
+<script>
+// ============ VOCABULARIUM (29 woorden) ============
+const vocab = [
+  { fr: 'mot',              article: 'un',   nl: 'een woord',              gender: 'masc', emoji: '💬' },
+  { fr: 'phrase',           article: 'une',  nl: 'een zin',                gender: 'fem',  emoji: '📝' },
+  { fr: 'chiffre',          article: 'un',   nl: 'een getal',              gender: 'masc', emoji: '🔢' },
+  { fr: 'devoir',           article: 'un',   nl: 'een huistaak',           gender: 'masc', emoji: '📋' },
+  { fr: 'manuel',           article: 'un',   nl: 'een handboek',           gender: 'masc', emoji: '📘' },
+  { fr: 'classeur',         article: 'un',   nl: 'een ringmap',            gender: 'masc', emoji: '🗂️' },
+  { fr: 'cahier',           article: 'un',   nl: 'een schrift',            gender: 'masc', emoji: '📓' },
+  { fr: 'cartable',         article: 'un',   nl: 'een schooltas',          gender: 'masc', emoji: '🎒' },
+  { fr: 'stylo',            article: 'un',   nl: 'een balpen',             gender: 'masc', emoji: '🖊️' },
+  { fr: 'agenda',           article: 'un',   nl: 'een agenda',             gender: 'masc', emoji: '📅' },
+  { fr: 'tableau',          article: 'le',   nl: 'het (school)bord',       gender: 'masc', emoji: '🟩' },
+  { fr: 'crayon de couleur',article: 'le',   nl: 'het kleurpotlood',       gender: 'masc', emoji: '✏️' },
+  { fr: 'dictionnaire',     article: 'un',   nl: 'een woordenboek',        gender: 'masc', emoji: '📖' },
+  { fr: 'pinceau',          article: 'le',   nl: 'de verfborstel',         gender: 'masc', emoji: '🖌️' },
+  { fr: 'feutre',           article: 'le',   nl: 'de viltstift',           gender: 'masc', emoji: '🖍️' },
+  { fr: 'surligneur',       article: 'le',   nl: 'de markeerstift',        gender: 'masc', emoji: '🟡' },
+  { fr: 'effaceur',         article: 'un',   nl: 'een wisser / tintenkiller', gender: 'masc', emoji: '🩹' },
+  { fr: 'ruban correcteur', article: 'un',   nl: 'een correctietape',      gender: 'masc', emoji: '🎗️' },
+
+  { fr: 'plume',            article: 'la',   nl: 'de vulpen',              gender: 'fem',  emoji: '🪶' },
+  { fr: 'équerre géométrique', article: 'une', nl: 'een geodriehoek',      gender: 'fem',  emoji: '📐' },
+  { fr: 'clé USB',          article: 'une',  nl: 'een usb-stick',          gender: 'fem',  emoji: '💾' },
+  { fr: 'règle',            article: 'une',  nl: 'een liniaal',            gender: 'fem',  emoji: '📏' },
+  { fr: 'gomme',            article: 'une',  nl: 'een gom',                gender: 'fem',  emoji: '🧽' },
+  { fr: 'calculatrice',     article: 'une',  nl: 'een rekentoestel',       gender: 'fem',  emoji: '🧮' },
+  { fr: 'classe',           article: 'la',   nl: 'de klas',                gender: 'fem',  emoji: '🏫' },
+  { fr: 'colle',            article: 'la',   nl: 'de lijm',                gender: 'fem',  emoji: '🧴' },
+  { fr: 'trousse',          article: 'une',  nl: 'een pennenzak',          gender: 'fem',  emoji: '👝' },
+
+  { fr: 'ciseaux',          article: 'des',  nl: 'een schaar (mv)',        gender: 'plur', emoji: '✂️' },
+  { fr: 'marqueurs',        article: 'des',  nl: 'markeerstiften',         gender: 'plur', emoji: '🎨' }
+];
+
+// ============ UTILITIES ============
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function randomPraise() {
+  const praises = ['Parfait !', 'Bravo !', 'Super !', 'Miam !', 'Très bien !', 'Excellent !', 'Juist!'];
+  return praises[Math.floor(Math.random() * praises.length)];
+}
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ============ THEORIE ============
+function buildTheory() {
+  const lists = { masc: document.getElementById('theory-masc'),
+                  fem: document.getElementById('theory-fem'),
+                  plur: document.getElementById('theory-plur') };
+  Object.values(lists).forEach(l => l.innerHTML = '');
+  vocab.forEach(w => {
+    const div = document.createElement('div');
+    div.className = 'theory-word';
+    div.innerHTML = `<span class="fr">${w.article} ${w.fr}</span><span class="nl">${w.nl}</span>`;
+    lists[w.gender].appendChild(div);
+  });
+}
+buildTheory();
+
+// ============ SCHOOLTAS-MONSTER ============
+let monsterQueue = shuffle(vocab);
+let monsterIdx = 0;
+let monsterScore = 0;
+let monsterLocked = false;
+let monsterAwaitingCorrection = false;
+let monsterCurrentCorrect = null;
+
+document.getElementById('monster-total').textContent = vocab.length;
+
+function loadMonsterWord() {
+  if (monsterIdx >= monsterQueue.length) {
+    document.getElementById('mword').textContent = '🌟';
+    document.getElementById('mword-nl').textContent = 'Cartable plein !';
+    document.querySelectorAll('#manswers .ans-btn').forEach(b => b.disabled = true);
+    document.getElementById('mfeedback').innerHTML = '&nbsp;';
+    showMonsterCelebration();
+    return;
+  }
+  const w = monsterQueue[monsterIdx];
+  document.getElementById('mword').textContent = w.fr;
+  document.getElementById('mword-nl').textContent = '(' + w.nl + ')';
+  document.getElementById('mfeedback').innerHTML = '&nbsp;';
+  document.getElementById('mfeedback').className = 'monster-feedback';
+  document.querySelectorAll('#manswers .ans-btn').forEach(b => {
+    b.className = b.className.replace(/\s*(correct|wrong|wrong-correct)/g, '').trim();
+    b.disabled = false;
+  });
+  monsterLocked = false;
+  monsterAwaitingCorrection = false;
+  setMood('neutral');
+}
+
+function onMonsterAnswer(ans) {
+  if (monsterLocked && !monsterAwaitingCorrection) return;
+  const w = monsterQueue[monsterIdx];
+  const btn = document.querySelector(`#manswers .ans-btn[data-ans="${ans}"]`);
+
+  if (monsterAwaitingCorrection) {
+    if (ans === monsterCurrentCorrect) {
+      monsterIdx++;
+      updateMonsterProgress();
+      loadMonsterWord();
+    }
+    return;
+  }
+  monsterLocked = true;
+
+  if (ans === w.gender) {
+    btn.classList.add('correct');
+    monsterScore++;
+    document.getElementById('counter').textContent = monsterScore;
+    document.getElementById('monster-score').textContent = monsterScore;
+    document.getElementById('mfeedback').textContent = randomPraise();
+    document.getElementById('mfeedback').className = 'monster-feedback';
+    eatItem(w.emoji);
+    setMood('happy');
+    if (monsterScore % 5 === 0 && monsterScore > 0) {
+      setTimeout(() => bigCelebrate(), 600);
+    }
+    setTimeout(() => {
+      monsterIdx++;
+      updateMonsterProgress();
+      loadMonsterWord();
+    }, 1300);
+  } else {
+    btn.classList.add('wrong');
+    btn.disabled = true;
+    const correctBtn = document.querySelector(`#manswers .ans-btn[data-ans="${w.gender}"]`);
+    correctBtn.classList.add('wrong-correct');
+    document.getElementById('mfeedback').innerHTML = `✗ Non… <span class="hint-line">Tap op het juiste antwoord om verder te gaan</span>`;
+    document.getElementById('mfeedback').className = 'monster-feedback bad';
+    setMood('sad');
+    monsterCurrentCorrect = w.gender;
+    monsterAwaitingCorrection = true;
+  }
+}
+document.querySelectorAll('#manswers .ans-btn').forEach(btn => {
+  btn.addEventListener('click', () => onMonsterAnswer(btn.dataset.ans));
+});
+
+function updateMonsterProgress() {
+  document.getElementById('monster-score-bar').classList.add('visible');
+  const pct = (monsterIdx / monsterQueue.length) * 100;
+  document.getElementById('monster-progress').style.width = pct + '%';
+}
+
+function showMonsterCelebration() {
+  const pct = (monsterScore / vocab.length) * 100;
+  const cel = document.getElementById('monster-celebration');
+  let msg;
+  if (pct === 100) msg = '🌟 Cartable plein zonder fouten — fantastique !';
+  else if (pct >= 85) msg = '🎉 Bravo ! Je kent bijna alle geslachten.';
+  else if (pct >= 65) msg = '💪 Goed bezig ! Nog even doorzetten.';
+  else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw.';
+  cel.textContent = `${msg} (${monsterScore}/${vocab.length})`;
+  cel.classList.add('visible');
+  celebrate();
+}
+
+function resetMonster() {
+  monsterQueue = shuffle(vocab);
+  monsterIdx = 0;
+  monsterScore = 0;
+  monsterLocked = false;
+  monsterAwaitingCorrection = false;
+  document.getElementById('counter').textContent = '0';
+  document.getElementById('monster-score').textContent = '0';
+  document.getElementById('monster-progress').style.width = '0%';
+  document.getElementById('monster-celebration').classList.remove('visible');
+  loadMonsterWord();
+}
+
+function setMood(mood) {
+  const monster = document.getElementById('monster');
+  const browL = document.getElementById('brow-l');
+  const browR = document.getElementById('brow-r');
+  const mouthClosed = document.getElementById('mouth-closed');
+  const cheekL = document.getElementById('cheek-l');
+  const cheekR = document.getElementById('cheek-r');
+  monster.classList.remove('chewing', 'happy', 'burp');
+  if (mood === 'neutral') {
+    browL.setAttribute('d', 'M 68 66 Q 80 62 94 66');
+    browR.setAttribute('d', 'M 148 66 Q 160 62 172 66');
+    mouthClosed.setAttribute('d', 'M 95 128 Q 120 140 145 128');
+    mouthClosed.style.opacity = 1;
+    cheekL.style.opacity = 0;
+    cheekR.style.opacity = 0;
+  } else if (mood === 'happy') {
+    browL.setAttribute('d', 'M 68 62 Q 80 58 94 62');
+    browR.setAttribute('d', 'M 148 62 Q 160 58 172 62');
+    cheekL.style.opacity = 0.7;
+    cheekR.style.opacity = 0.7;
+  } else if (mood === 'sad') {
+    browL.setAttribute('d', 'M 68 62 Q 80 70 94 66');
+    browR.setAttribute('d', 'M 148 66 Q 160 70 172 62');
+    mouthClosed.setAttribute('d', 'M 95 138 Q 120 126 145 138');
+    cheekL.style.opacity = 0;
+    cheekR.style.opacity = 0;
+  }
+}
+
+function eatItem(emoji) {
+  const monster = document.getElementById('monster');
+  const stage = document.querySelector('.monster-stage');
+  const popup = document.getElementById('popup-layer');
+  const mouthOpen = document.getElementById('mouth-open');
+  const mouthClosed = document.getElementById('mouth-closed');
+  const tongue = document.getElementById('tongue');
+  const teeth = document.getElementById('teeth');
+
+  setTimeout(() => {
+    mouthClosed.style.opacity = 0;
+    mouthOpen.style.opacity = 1;
+    tongue.style.opacity = 1;
+    teeth.style.opacity = 1;
+  }, 200);
+
+  const item = document.createElement('div');
+  item.className = 'flying-item';
+  item.textContent = emoji;
+  item.style.left = '60%';
+  item.style.top = '30%';
+  stage.appendChild(item);
+  requestAnimationFrame(() => {
+    item.classList.add('eaten');
+    item.style.left = '50%';
+    item.style.top = '50%';
+  });
+
+  setTimeout(() => monster.classList.add('chewing'), 600);
+  setTimeout(() => {
+    mouthClosed.style.opacity = 1;
+    mouthOpen.style.opacity = 0;
+    tongue.style.opacity = 0;
+    teeth.style.opacity = 0;
+    mouthClosed.setAttribute('d', 'M 90 125 Q 120 150 150 125');
+  }, 1100);
+  setTimeout(() => {
+    item.remove();
+    monster.classList.remove('chewing');
+  }, 1500);
+
+  if (Math.random() > 0.4) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'emoji-popup';
+      p.textContent = ['💕', '✨', '😋', '💖', '⭐'][Math.floor(Math.random() * 5)];
+      p.style.left = (42 + Math.random() * 16) + '%';
+      p.style.top = '50%';
+      popup.appendChild(p);
+      setTimeout(() => p.remove(), 1800);
+    }, 900);
+  }
+}
+
+function bigCelebrate() {
+  const monster = document.getElementById('monster');
+  monster.classList.add('burp');
+  const popup = document.getElementById('popup-layer');
+  for (let i = 0; i < 4; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'emoji-popup';
+      p.textContent = ['🫧', '✨', '⭐', '🎉'][i];
+      p.style.left = (35 + i * 10) + '%';
+      p.style.top = '55%';
+      p.style.fontSize = '36px';
+      popup.appendChild(p);
+      setTimeout(() => p.remove(), 1800);
+    }, i * 150);
+  }
+  setTimeout(() => monster.classList.remove('burp'), 600);
+}
+
+function celebrate() {
+  const popup = document.getElementById('popup-layer');
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      const p = document.createElement('div');
+      p.className = 'emoji-popup';
+      p.textContent = ['🌟', '🎉', '✨', '⭐', '🎊'][Math.floor(Math.random() * 5)];
+      p.style.left = (10 + Math.random() * 80) + '%';
+      p.style.top = (40 + Math.random() * 30) + '%';
+      p.style.fontSize = (28 + Math.random() * 20) + 'px';
+      popup.appendChild(p);
+      setTimeout(() => p.remove(), 1800);
+    }, i * 100);
+  }
+}
+
+document.querySelectorAll('#manswers .ans-btn').forEach(btn => {
+  btn.addEventListener('mouseenter', () => {
+    const pupilL = document.getElementById('pupil-l');
+    const pupilR = document.getElementById('pupil-r');
+    const rect = btn.getBoundingClientRect();
+    const monsterEl = document.getElementById('monster');
+    const mRect = monsterEl.getBoundingClientRect();
+    const dx = (rect.left + rect.width / 2 - (mRect.left + mRect.width / 2));
+    const offsetX = Math.max(-3, Math.min(3, dx / 60));
+    pupilL.setAttribute('cx', 80 + offsetX);
+    pupilR.setAttribute('cx', 160 + offsetX);
+  });
+});
+
+function buildMonsterPrint() {
+  const list = document.getElementById('monster-print-list');
+  const ans = document.getElementById('monster-answers-ol');
+  list.innerHTML = '';
+  ans.innerHTML = '';
+  vocab.forEach(w => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${w.fr}</span><span class="opt">un / le</span><span class="opt">une / la</span><span class="opt">des</span>`;
+    list.appendChild(li);
+    const aLi = document.createElement('li');
+    aLi.innerHTML = `${w.fr} — <span class="ans">${w.article}</span>`;
+    ans.appendChild(aLi);
+  });
+}
+buildMonsterPrint();
+loadMonsterWord();
+
+// ============ FLASHCARDS met toggle ============
+let flashDir = 'fr-nl';
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = '';
+  vocab.forEach(w => {
+    const front = flashDir === 'fr-nl' ? `${w.article} ${w.fr}` : w.nl;
+    const back  = flashDir === 'fr-nl' ? w.nl : `${w.article} ${w.fr}`;
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${front}</div>
+          <div class="flip-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${back}</div>
+          <div class="flip-hint">klik om terug te draaien</div>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards();
+  });
+});
+buildFlashcards();
+
+// ============ VERTAAL — 29 zinnen met random sampling ============
+// Eén zin per woord, gevarieerd, 1e middelbaar niveau. Elk woord komt minstens één keer voor.
+const translateBank = [
+  { nl: 'Ik schrijf een woord in mijn schrift.',              fr: ["j'écris un mot dans mon cahier", "j'ecris un mot dans mon cahier"] },
+  { nl: 'Schrijf deze zin in je schrift.',                    fr: ['écris cette phrase dans ton cahier', 'ecris cette phrase dans ton cahier', 'écrivez cette phrase dans votre cahier', 'ecrivez cette phrase dans votre cahier'] },
+  { nl: 'Kies een getal tussen één en tien.',                 fr: ['choisis un chiffre entre un et dix', 'choisissez un chiffre entre un et dix', 'choisis un chiffre entre 1 et 10'] },
+  { nl: 'Ik heb een huistaak voor morgen.',                   fr: ["j'ai un devoir pour demain"] },
+  { nl: 'Open je handboek op pagina tien.',                   fr: ['ouvre ton manuel à la page dix', 'ouvre ton manuel a la page dix', 'ouvrez votre manuel à la page dix', 'ouvrez votre manuel a la page dix', 'ouvre ton manuel page dix'] },
+  { nl: 'Mijn ringmap is blauw.',                             fr: ['mon classeur est bleu'] },
+  { nl: 'Ik heb een nieuw schrift.',                          fr: ["j'ai un nouveau cahier"] },
+  { nl: 'Mijn schooltas is zwaar.',                           fr: ['mon cartable est lourd'] },
+  { nl: 'Leen me een balpen, alsjeblieft.',                   fr: ["prête-moi un stylo, s'il te plaît", "prete-moi un stylo s il te plait", "prete moi un stylo s il te plait", "prête-moi un stylo, s'il vous plaît"] },
+  { nl: 'Ik noteer alles in mijn agenda.',                    fr: ['je note tout dans mon agenda', 'je note tout sur mon agenda'] },
+  { nl: 'De leraar schrijft op het bord.',                    fr: ['le professeur écrit au tableau', 'le professeur ecrit au tableau', 'le prof écrit au tableau', 'le prof ecrit au tableau', 'le professeur écrit sur le tableau', 'le professeur ecrit sur le tableau', 'le prof écrit sur le tableau', 'le prof ecrit sur le tableau'] },
+  { nl: 'Ik kleur met een rood kleurpotlood.',                fr: ['je colorie avec un crayon de couleur rouge', 'je colorie avec un crayon rouge'] },
+  { nl: 'Hij heeft een nieuw woordenboek.',                   fr: ['il a un nouveau dictionnaire'] },
+  { nl: 'Ik schilder met een verfborstel.',                   fr: ['je peins avec un pinceau'] },
+  { nl: 'Geef mij de viltstift, alsjeblieft.',                fr: ["donne-moi le feutre, s'il te plaît", "donne-moi le feutre s il te plait", "donne moi le feutre s il te plait", "passe-moi le feutre, s'il te plaît", "passe-moi le feutre s il te plait"] },
+  { nl: 'Ik markeer de tekst met de markeerstift.',           fr: ['je surligne le texte avec le surligneur', 'je marque le texte avec le surligneur'] },
+  { nl: 'Ik gebruik een wisser om te verbeteren.',            fr: ["j'utilise un effaceur pour corriger", "j utilise un effaceur pour corriger"] },
+  { nl: 'Heb jij correctietape?',                             fr: ['as-tu un ruban correcteur ?', 'as-tu un ruban correcteur', 'tu as un ruban correcteur', 'tu as un ruban correcteur ?', 'est-ce que tu as un ruban correcteur ?', 'est-ce que tu as un ruban correcteur'] },
+  { nl: 'Mijn vulpen schrijft goed.',                         fr: ['ma plume écrit bien', 'ma plume ecrit bien'] },
+  { nl: 'Ik teken een driehoek met mijn geodriehoek.',        fr: ['je dessine un triangle avec mon équerre géométrique', 'je dessine un triangle avec mon equerre geometrique', 'je trace un triangle avec mon équerre géométrique', 'je trace un triangle avec mon equerre geometrique'] },
+  { nl: 'Mijn usb-stick zit in mijn schooltas.',              fr: ['ma clé USB est dans mon cartable', 'ma cle usb est dans mon cartable', 'ma clé usb est dans mon cartable'] },
+  { nl: 'Neem een liniaal om een lijn te trekken.',           fr: ['prends une règle pour tracer une ligne', 'prends une regle pour tracer une ligne', 'prenez une règle pour tracer une ligne', 'prenez une regle pour tracer une ligne'] },
+  { nl: 'Heb jij een gom?',                                   fr: ['as-tu une gomme ?', 'as-tu une gomme', 'tu as une gomme', 'tu as une gomme ?', 'est-ce que tu as une gomme ?', 'est-ce que tu as une gomme'] },
+  { nl: 'Zij gebruikt een rekentoestel.',                     fr: ['elle utilise une calculatrice'] },
+  { nl: 'De klas is stil.',                                   fr: ['la classe est silencieuse', 'la classe est calme', 'la classe est tranquille'] },
+  { nl: 'Ik heb lijm nodig.',                                 fr: ["j'ai besoin de colle", "j'ai besoin de la colle"] },
+  { nl: 'Mijn pennenzak is rood.',                            fr: ['ma trousse est rouge'] },
+  { nl: 'Ik heb een schaar nodig.',                           fr: ["j'ai besoin de ciseaux", "j'ai besoin des ciseaux", "j'ai besoin d'une paire de ciseaux", "j'ai besoin d une paire de ciseaux"] },
+  { nl: 'Zij tekent met markeerstiften.',                     fr: ['elle dessine avec des marqueurs', 'elle colorie avec des marqueurs'] }
+];
+
+const SESSION_SIZE = 10;
+let currentSession = [];
+let translateScore = 0;
+let translateDone = new Set();
+
+function buildTranslate() {
+  translateScore = 0;
+  translateDone = new Set();
+  currentSession = shuffle(translateBank).slice(0, SESSION_SIZE);
+
+  const list = document.getElementById('translate-list');
+  list.innerHTML = '';
+  document.getElementById('translate-total').textContent = currentSession.length;
+  currentSession.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'translate-card';
+    card.dataset.idx = i;
+    card.innerHTML = `
+      <div class="translate-sentence"><span class="translate-num">${i + 1}.</span>${s.nl}</div>
+      <div class="translate-row">
+        <input type="text" class="translate-input" placeholder="Typ de Franse zin..." autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>
+      <div class="translate-feedback"></div>
+    `;
+    const input = card.querySelector('.translate-input');
+    const btn = card.querySelector('.check-btn');
+    btn.addEventListener('click', () => checkTranslate(card, input, s, i));
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); checkTranslate(card, input, s, i); }
+    });
+    list.appendChild(card);
+  });
+
+  // Print: ALLE 29 zinnen als werkblad + oplossingen
+  const printList = document.getElementById('translate-print-list');
+  const ans = document.getElementById('translate-answers-ol');
+  printList.innerHTML = '';
+  ans.innerHTML = '';
+  translateBank.forEach(s => {
+    const capital = s.fr[0].charAt(0).toUpperCase() + s.fr[0].slice(1);
+    const pLi = document.createElement('li');
+    pLi.innerHTML = `${s.nl}<span class="ans-line"></span>`;
+    printList.appendChild(pLi);
+    const aLi = document.createElement('li');
+    aLi.innerHTML = `${s.nl} — <span class="ans">${capital}.</span>`;
+    ans.appendChild(aLi);
+  });
+}
+
+function checkTranslate(card, input, s, i) {
+  if (translateDone.has(String(i))) return;
+  const user = normalize(input.value);
+  if (!user) return;
+  const normalized = s.fr.map(normalize);
+  const isCorrect = normalized.some(c => c === user || c === user.replace(/[.!?]$/, ''));
+
+  card.classList.remove('correct', 'incorrect');
+  input.classList.remove('correct-input', 'wrong-input');
+  const fb = card.querySelector('.translate-feedback');
+  if (isCorrect) {
+    card.classList.add('correct');
+    input.classList.add('correct-input');
+    fb.textContent = `✓ ${randomPraise()}`;
+    fb.className = 'translate-feedback good visible';
+    input.disabled = true;
+    card.querySelector('.check-btn').disabled = true;
+    translateDone.add(String(i));
+    translateScore++;
+    updateTranslateScore();
+
+    setTimeout(() => {
+      card.classList.add('fading');
+      const allCards = Array.from(document.querySelectorAll('.translate-card'));
+      const nextCard = allCards.find(c => !translateDone.has(c.dataset.idx));
+      if (nextCard) {
+        const nextInput = nextCard.querySelector('.translate-input');
+        nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => nextInput && nextInput.focus(), 500);
+      }
+    }, 1200);
+  } else {
+    card.classList.add('incorrect');
+    input.classList.add('wrong-input');
+    const capital = s.fr[0].charAt(0).toUpperCase() + s.fr[0].slice(1);
+    fb.innerHTML = `✗ Probeer nog eens. Tip: <em>${capital}.</em>`;
+    fb.className = 'translate-feedback bad visible';
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 350);
+  }
+}
+
+function updateTranslateScore() {
+  document.getElementById('translate-score-bar').classList.add('visible');
+  document.getElementById('translate-score').textContent = translateScore;
+  const pct = (translateDone.size / currentSession.length) * 100;
+  document.getElementById('translate-progress').style.width = pct + '%';
+  if (translateDone.size === currentSession.length) showTranslateCelebration();
+}
+
+function showTranslateCelebration() {
+  const pct = (translateScore / currentSession.length) * 100;
+  const cel = document.getElementById('translate-celebration');
+  let msg;
+  if (pct === 100) msg = '🌟 Alles juist — fantastisch!';
+  else if (pct >= 80) msg = '🎉 Heel goed!';
+  else if (pct >= 60) msg = '💪 Goed bezig!';
+  else msg = '📚 Bekijk de theorie nog eens!';
+  cel.textContent = `${msg} (${translateScore}/${currentSession.length}) — klik "Nieuwe zinnen" voor een nieuwe ronde`;
+  cel.classList.add('visible');
+}
+
+function resetTranslate() {
+  document.getElementById('translate-celebration').classList.remove('visible');
+  document.getElementById('translate-score').textContent = '0';
+  document.getElementById('translate-progress').style.width = '0%';
+  buildTranslate();
+}
+buildTranslate();
+</script>
+</body>
+</html>
