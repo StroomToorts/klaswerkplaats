@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les verbes pronominaux — Frans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vak-color: #C2704E;
+  --vak-color-dark: #A85E3F;
+  --vak-color-light: #D4916F;
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --correct: #7A8B6F;
+  --incorrect: #B7553D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px solid transparent; }
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+.vak-icon { width: 64px; height: 64px; background: var(--vak-color); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25); }
+.header-text h1 { font-family: 'Vollkorn', Georgia, serif; font-size: 28px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; margin-bottom: 4px; }
+.header-text .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); font-weight: 600; }
+.intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 28px; max-width: 680px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; padding: 6px; background: rgba(232, 220, 200, 0.4); border-radius: 16px; }
+.tab { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 18px; border: none; background: transparent; color: var(--warm-brown); border-radius: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.tab:hover { background: rgba(255, 253, 247, 0.5); }
+.tab.active { background: var(--vak-color); color: var(--warm-white); box-shadow: 0 2px 8px rgba(194, 112, 78, 0.25); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.score-bar { display: none; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; padding: 12px 18px; background: var(--warm-white); border-radius: 12px; border: 1px solid var(--sand); justify-content: space-between; align-items: center; }
+.score-bar.visible { display: flex; }
+.score-bar .score-text { font-weight: 600; }
+.progress-bar-container { flex: 1; height: 8px; background: var(--sand); border-radius: 4px; overflow: hidden; margin: 0 16px; max-width: 200px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vak-color) 0%, var(--ochre) 100%); transition: width 0.4s; width: 0%; }
+.reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 6px 14px; border: 1px solid var(--sand); background: var(--cream); color: var(--warm-brown); border-radius: 8px; cursor: pointer; }
+.reset-btn:hover { background: var(--sand-light); }
+
+.celebration { display: none; background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--ochre) 100%); color: var(--warm-white); padding: 20px 24px; border-radius: 16px; margin: 20px 0; font-size: 17px; text-align: center; box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3); }
+.celebration.visible { display: block; }
+
+/* Theorie */
+.theory-intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 20px; padding: 16px 20px; background: var(--sand-light); border-radius: 12px; border-left: 3px solid var(--vak-color); }
+.theory-block { background: var(--warm-white); border-radius: 16px; padding: 22px 26px; margin-bottom: 18px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.theory-block h2 { font-family: 'Caveat', cursive; font-size: 28px; color: var(--vak-color); margin-bottom: 10px; font-weight: 700; }
+.conj-table { width: 100%; border-collapse: collapse; font-family: 'Vollkorn', Georgia, serif; }
+.conj-table th, .conj-table td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--sand); }
+.conj-table th { background: var(--cream); font-weight: 600; color: var(--vak-color-dark); font-size: 14px; }
+.conj-table td .pronom { color: var(--rust); font-weight: 600; }
+.conj-table td .subj { color: var(--vak-color-dark); font-weight: 600; }
+
+.verb-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.verb-item { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 14px; background: var(--cream); border-radius: 8px; gap: 12px; border-left: 3px solid var(--vak-color); }
+.verb-item .fr { font-family: 'Vollkorn', Georgia, serif; font-weight: 600; color: var(--vak-color-dark); font-size: 16px; font-style: italic; }
+.verb-item .nl { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); text-align: right; }
+
+/* Flashcards */
+.flashcard-toolbar { display: flex; justify-content: center; margin-bottom: 22px; }
+.lang-toggle { display: inline-flex; background: var(--warm-white); border: 1px solid var(--sand); border-radius: 14px; padding: 4px; gap: 2px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06); }
+.lang-option { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 18px; border: none; background: transparent; color: var(--warm-brown); border-radius: 10px; cursor: pointer; }
+.lang-option.active { background: var(--vak-color); color: var(--warm-white); }
+
+.flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.flashcard { aspect-ratio: 1.4 / 1; perspective: 1000px; cursor: pointer; }
+.flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px; text-align: center; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.1); }
+.flashcard-front { background: var(--warm-white); border: 1px solid var(--sand); color: var(--vak-color-dark); }
+.flashcard-back { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); transform: rotateY(180deg); }
+.flashcard .question-word { font-family: 'Vollkorn', Georgia, serif; font-size: 18px; font-weight: 600; }
+.flashcard .answer-word { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; font-weight: 500; }
+.flashcard .flip-hint { font-family: 'Source Sans 3', sans-serif; font-size: 11px; margin-top: 8px; opacity: 0.6; }
+
+/* Vul in (pronom réfléchi invullen) */
+.fill-list { display: flex; flex-direction: column; gap: 12px; }
+.fill-card { background: var(--warm-white); border-radius: 14px; padding: 16px 22px; border: 1.5px solid var(--sand); transition: all 0.2s; }
+.fill-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.fill-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.fill-num { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); font-weight: 600; margin-right: 10px; }
+.fill-sentence { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; color: var(--dark-brown); line-height: 1.7; }
+.fill-input { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-weight: 600; font-size: 16px; padding: 4px 12px; border: 1.5px solid var(--sand); border-radius: 8px; background: var(--cream); color: var(--vak-color-dark); outline: none; width: 80px; text-align: center; margin: 0 2px; }
+.fill-input:focus { border-color: var(--vak-color-light); }
+.fill-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.fill-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.fill-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.7; margin-top: 4px; font-style: italic; }
+.fill-feedback { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 8px; display: none; }
+.fill-feedback.visible { display: block; }
+.fill-feedback.good { color: var(--olive-dark); }
+.fill-feedback.bad { color: var(--rust); }
+
+/* Vervoeg */
+.conj-list { display: flex; flex-direction: column; gap: 12px; }
+.conj-card { background: var(--warm-white); border-radius: 14px; padding: 18px 22px; border: 1.5px solid var(--sand); }
+.conj-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.conj-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.conj-task { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; color: var(--dark-brown); margin-bottom: 10px; }
+.conj-task .infinitive { color: var(--vak-color-dark); font-style: italic; font-weight: 600; }
+.conj-task .subject { color: var(--rust); font-weight: 600; }
+.conj-row { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.conj-input { flex: 1; min-width: 200px; font-family: 'Vollkorn', Georgia, serif; font-size: 15px; padding: 10px 14px; border: 1.5px solid var(--sand); border-radius: 10px; background: var(--cream); color: var(--dark-brown); outline: none; }
+.conj-input:focus { border-color: var(--vak-color-light); }
+.conj-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.conj-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.check-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 18px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
+.check-btn:hover:not(:disabled) { background: var(--vak-color-dark); }
+.check-btn:disabled { opacity: 0.5; cursor: default; }
+.conj-feedback { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 8px; display: none; }
+.conj-feedback.visible { display: block; }
+.conj-feedback.good { color: var(--olive-dark); }
+.conj-feedback.bad { color: var(--rust); }
+
+/* Actions */
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; }
+.action-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 12px 22px; border-radius: 10px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.action-btn:hover { background: var(--sand-light); }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .header-text h1 { font-size: 22px; }
+  .vak-icon { width: 52px; height: 52px; font-size: 28px; }
+  .tab { font-size: 13px; padding: 8px 12px; }
+  .flashcard-grid { grid-template-columns: 1fr 1fr; }
+  .verb-list { grid-template-columns: 1fr; }
+  .conj-row { flex-direction: column; }
+  .conj-input { min-width: 0; width: 100%; }
+  .check-btn { width: 100%; }
+}
+
+/* Print */
+.print-only { display: none; }
+@media print {
+  @page { margin: 1.5cm; }
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; }
+  .container { max-width: none; padding: 0; }
+  .tab-content { display: block !important; page-break-after: always; }
+  .tab-content:last-of-type { page-break-after: auto; }
+  .print-only { display: block !important; }
+  .score-bar, .celebration, .tabs, .actions, .breadcrumb, .reset-btn, .check-btn, .flashcard-toolbar { display: none !important; }
+  .vak-icon { display: none; }
+  .header-text h1 { font-size: 20pt; }
+  .theory-block { box-shadow: none !important; border: 1px solid #ddd !important; page-break-inside: avoid; margin-bottom: 12px; padding: 14px 18px; }
+  .verb-item { background: #f8f5ef !important; }
+  /* Flashcards */
+  .flashcard { aspect-ratio: auto; height: auto; page-break-inside: avoid; }
+  .flashcard-inner { position: static !important; transform: none !important; }
+  .flashcard-front { position: static !important; background: white !important; color: #000 !important; border: 1px solid #ccc !important; box-shadow: none !important; padding: 10px !important; min-height: 60px; }
+  .flashcard-back { display: none !important; }
+  .flashcard .question-word { display: block !important; font-size: 13pt; }
+  .flashcard .answer-word, .flashcard .flip-hint { display: none !important; }
+  .flashcard-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  /* Fill */
+  .fill-card, .conj-card { box-shadow: none !important; border: 1px solid #ccc !important; background: white !important; page-break-inside: avoid; }
+  .fill-card.correct, .fill-card.incorrect, .conj-card.correct, .conj-card.incorrect { border-color: #ccc !important; background: white !important; }
+  .fill-input, .conj-input { color: transparent !important; -webkit-text-fill-color: transparent !important; background: white !important; border: 1px solid #999 !important; }
+  .fill-input::placeholder, .conj-input::placeholder { color: transparent !important; }
+  .fill-input.correct-input, .fill-input.wrong-input, .conj-input.correct-input, .conj-input.wrong-input { border-color: #999 !important; background: white !important; }
+  .fill-feedback, .conj-feedback { display: none !important; }
+  /* Oplossingen */
+  .print-answers { page-break-before: always; padding-top: 10px; }
+  .print-answers h2 { font-family: 'Caveat', cursive; font-size: 26pt; color: var(--vak-color) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin-bottom: 14px; }
+  .print-answers ol { padding-left: 24px; }
+  .print-answers li { margin-bottom: 10px; font-size: 11pt; }
+  .print-answers .ans { font-weight: 700; color: var(--vak-color-dark) !important; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Les verbes pronominaux</span>
+</nav>
+
+<header>
+  <div class="vak-icon">🇫🇷</div>
+  <div class="header-text">
+    <h1>Les verbes pronominaux</h1>
+    <div class="date">Frans · 23 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Wederkerige werkwoorden — werkwoorden waarvan de handeling terugkeert op het onderwerp (<em>zich wassen, opstaan, zich vergissen…</em>). Je leert hier de 15 werkwoorden, de zes <em>pronoms réfléchis</em> (me, te, se, nous, vous, se) en hoe je ze vervoegt.</p>
+
+<nav class="tabs no-print" role="tablist">
+  <button class="tab active" data-tab="theorie">📚 Theorie</button>
+  <button class="tab" data-tab="flashcards">🎴 Flashcards</button>
+  <button class="tab" data-tab="fill">✏️ Vul in</button>
+  <button class="tab" data-tab="conj">🔧 Vervoeg</button>
+</nav>
+
+<!-- TAB 1: THEORIE -->
+<section class="tab-content active" data-content="theorie">
+  <div class="theory-intro">
+    Een <strong>verbe pronominal</strong> heeft altijd een <em>pronom réfléchi</em> bij zich. Dat pronom verwijst terug naar het onderwerp: <em>Je <strong>me</strong> lave</em> = ik was <strong>mezelf</strong>. Het pronom past bij het onderwerp (niet bij het werkwoord).
+  </div>
+
+  <div class="theory-block">
+    <h2>De 6 pronoms réfléchis + vervoeging van <em>se laver</em></h2>
+    <table class="conj-table">
+      <thead>
+        <tr><th>Onderwerp</th><th>Pronom</th><th>Werkwoord</th><th>Nederlands</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="subj">je</span></td><td><span class="pronom">me</span></td><td>lave</td><td>ik was me</td></tr>
+        <tr><td><span class="subj">tu</span></td><td><span class="pronom">te</span></td><td>laves</td><td>jij wast je</td></tr>
+        <tr><td><span class="subj">il / elle / on</span></td><td><span class="pronom">se</span></td><td>lave</td><td>hij/zij/men wast zich</td></tr>
+        <tr><td><span class="subj">nous</span></td><td><span class="pronom">nous</span></td><td>lavons</td><td>wij wassen ons</td></tr>
+        <tr><td><span class="subj">vous</span></td><td><span class="pronom">vous</span></td><td>lavez</td><td>u wast / jullie wassen zich</td></tr>
+        <tr><td><span class="subj">ils / elles</span></td><td><span class="pronom">se</span></td><td>lavent</td><td>zij wassen zich</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px; font-size:14px; font-family:'Source Sans 3',sans-serif; color:var(--warm-brown);"><strong>Let op:</strong> voor een klinker worden <em>me, te, se</em> → <em>m', t', s'</em>. Bijvoorbeeld <em>je <strong>m'</strong>habille</em> (ik kleed me aan).</p>
+  </div>
+
+  <div class="theory-block">
+    <h2>De 15 werkwoorden</h2>
+    <div class="verb-list" id="verb-list"></div>
+  </div>
+</section>
+
+<!-- TAB 2: FLASHCARDS -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <div class="lang-toggle">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 → 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 → 🇫🇷</button>
+    </div>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+</section>
+
+<!-- TAB 3: VUL IN (pronom réfléchi) -->
+<section class="tab-content" data-content="fill">
+  <div class="score-bar no-print" id="fill-score-bar">
+    <span class="score-text">Score: <span id="fill-score">0</span>/<span id="fill-total">12</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="fill-progress"></div></div>
+    <button class="reset-btn" onclick="resetFill()">🔄 Opnieuw</button>
+  </div>
+  <div class="celebration no-print" id="fill-celebration"></div>
+  <p style="font-family:'Source Sans 3',sans-serif; color:var(--warm-brown); margin-bottom:16px; font-size:14px;">Vul het juiste <em>pronom réfléchi</em> in (me, te, se, nous, vous, of de apostrof-vorm m', t', s').</p>
+  <div class="fill-list" id="fill-list"></div>
+</section>
+
+<!-- TAB 4: VERVOEG -->
+<section class="tab-content" data-content="conj">
+  <div class="score-bar no-print" id="conj-score-bar">
+    <span class="score-text">Score: <span id="conj-score">0</span>/<span id="conj-total">10</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="conj-progress"></div></div>
+    <button class="reset-btn" onclick="resetConj()">🔄 Nieuwe oefeningen</button>
+  </div>
+  <div class="celebration no-print" id="conj-celebration"></div>
+  <p style="font-family:'Source Sans 3',sans-serif; color:var(--warm-brown); margin-bottom:16px; font-size:14px;">Vervoeg het werkwoord voor het gegeven onderwerp. Typ <strong>pronom + werkwoord</strong> (bv. <em>me lave</em>, <em>nous levons</em>, <em>s'habille</em>).</p>
+  <div class="conj-list" id="conj-list"></div>
+</section>
+
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+<div class="print-only print-answers" id="fill-answers-print">
+  <h2>Oplossingen — Vul in</h2>
+  <ol id="fill-answers-ol"></ol>
+</div>
+<div class="print-only print-answers" id="conj-answers-print">
+  <h2>Oplossingen — Vervoeg</h2>
+  <ol id="conj-answers-ol"></ol>
+</div>
+
+</div>
+
+<script>
+// ========== DATA ==========
+const verbs = [
+  { inf: 'se coucher',          stem: 'couch',    conj: ['couche','couches','couche','couchons','couchez','couchent'],       nl: 'gaan slapen',       vowel: false },
+  { inf: 'se réveiller',        stem: 'réveill',  conj: ['réveille','réveilles','réveille','réveillons','réveillez','réveillent'], nl: 'wakker worden',     vowel: true },
+  { inf: 'se lever',            stem: 'lev',      conj: ['lève','lèves','lève','levons','levez','lèvent'],                    nl: 'opstaan',           vowel: false },
+  { inf: 'se laver',            stem: 'lav',      conj: ['lave','laves','lave','lavons','lavez','lavent'],                    nl: 'zich wassen',       vowel: false },
+  { inf: "s'habiller",          stem: 'habill',   conj: ['habille','habilles','habille','habillons','habillez','habillent'],  nl: 'zich aankleden',    vowel: true },
+  { inf: 'se brosser',          stem: 'bross',    conj: ['brosse','brosses','brosse','brossons','brossez','brossent'],        nl: '(tanden) poetsen',  vowel: false },
+  { inf: 'se raser',            stem: 'ras',      conj: ['rase','rases','rase','rasons','rasez','rasent'],                    nl: 'zich scheren',      vowel: false },
+  { inf: 'se peigner',          stem: 'peign',    conj: ['peigne','peignes','peigne','peignons','peignez','peignent'],        nl: '(zich) kammen',     vowel: false },
+  { inf: 'se sentir',           stem: 'sent',     conj: ['sens','sens','sent','sentons','sentez','sentent'],                  nl: 'zich voelen',       vowel: false },
+  { inf: 'se tromper',          stem: 'tromp',    conj: ['trompe','trompes','trompe','trompons','trompez','trompent'],        nl: 'zich vergissen',    vowel: false },
+  { inf: 'se situer',           stem: 'situ',     conj: ['situe','situes','situe','situons','situez','situent'],              nl: 'zich bevinden',     vowel: false },
+  { inf: 'se présenter',        stem: 'présent',  conj: ['présente','présentes','présente','présentons','présentez','présentent'], nl: 'zich voorstellen', vowel: false },
+  { inf: 'se promener',         stem: 'promen',   conj: ['promène','promènes','promène','promenons','promenez','promènent'],  nl: 'wandelen',          vowel: false },
+  { inf: 'se détendre',         stem: 'détend',   conj: ['détends','détends','détend','détendons','détendez','détendent'],    nl: 'zich ontspannen',   vowel: false },
+  { inf: "s'amuser",            stem: 'amus',     conj: ['amuse','amuses','amuse','amusons','amusez','amusent'],              nl: 'zich amuseren',     vowel: true }
+];
+
+const pronouns = [
+  { subject: 'je',        pronom: 'me',   pronomElided: "m'", personIdx: 0 },
+  { subject: 'tu',        pronom: 'te',   pronomElided: "t'", personIdx: 1 },
+  { subject: 'il',        pronom: 'se',   pronomElided: "s'", personIdx: 2 },
+  { subject: 'elle',      pronom: 'se',   pronomElided: "s'", personIdx: 2 },
+  { subject: 'on',        pronom: 'se',   pronomElided: "s'", personIdx: 2 },
+  { subject: 'nous',      pronom: 'nous', pronomElided: 'nous', personIdx: 3 },
+  { subject: 'vous',      pronom: 'vous', pronomElided: 'vous', personIdx: 4 },
+  { subject: 'ils',       pronom: 'se',   pronomElided: "s'", personIdx: 5 },
+  { subject: 'elles',     pronom: 'se',   pronomElided: "s'", personIdx: 5 }
+];
+
+// ========== UTILS ==========
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/\s+/g, ' ')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function randomPraise() {
+  const p = ['Parfait !','Bravo !','Super !','Très bien !','Excellent !','Juist!'];
+  return p[Math.floor(Math.random() * p.length)];
+}
+function startsWithVowel(s) {
+  return /^[aeiouhéèêëàâäîïôöùûü]/i.test(s);
+}
+
+// Combine pronoun + verb with elision
+function combinePronounVerb(pronom, pronomElided, verbForm) {
+  if (pronom === 'nous' || pronom === 'vous') return pronom + ' ' + verbForm;
+  if (startsWithVowel(verbForm)) return pronomElided + verbForm;
+  return pronom + ' ' + verbForm;
+}
+
+// ========== TABS ==========
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.tab-content[data-content="${target}"]`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ========== THEORIE ==========
+function buildTheory() {
+  const list = document.getElementById('verb-list');
+  list.innerHTML = '';
+  verbs.forEach(v => {
+    const div = document.createElement('div');
+    div.className = 'verb-item';
+    div.innerHTML = `<span class="fr">${v.inf}</span><span class="nl">${v.nl}</span>`;
+    list.appendChild(div);
+  });
+}
+buildTheory();
+
+// ========== FLASHCARDS ==========
+let flashDir = 'fr-nl';
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = '';
+  verbs.forEach(v => {
+    const front = flashDir === 'fr-nl' ? v.inf : v.nl;
+    const back  = flashDir === 'fr-nl' ? v.nl : v.inf;
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front"><div class="question-word">${front}</div><div class="flip-hint">klik om te draaien</div></div>
+        <div class="flashcard-face flashcard-back"><div class="answer-word">${back}</div><div class="flip-hint">klik om terug te draaien</div></div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards();
+  });
+});
+buildFlashcards();
+
+// ========== VUL IN ==========
+// Bank van zinnen. Elke zin heeft een pronom-blanco; leerling vult juiste pronom réfléchi in.
+const fillBankClean = [
+  { pre: 'Je ',              verbAfter: 'lave tous les matins.',              answers: ['me'] },
+  { pre: 'Tu ',              verbAfter: 'brosses les dents après le repas.',  answers: ['te'] },
+  { pre: 'Il ',              verbAfter: 'réveille à 7 heures.',               answers: ['se'] },
+  { pre: 'Elle ',            verbAfter: 'couche à 22 heures.',                answers: ['se'] },
+  { pre: 'Nous ',            verbAfter: 'levons à 7 heures.',                 answers: ['nous'] },
+  { pre: 'Vous ',            verbAfter: 'présentez, s\'il vous plaît ?',      answers: ['vous'] },
+  { pre: 'Ils ',             verbAfter: 'amusent bien.',                      answers: ["s'"] },
+  { pre: 'Elles ',           verbAfter: 'habillent en noir.',                 answers: ["s'"] },
+  { pre: 'Papa ',            verbAfter: 'rase tous les jours.',               answers: ['se'] },
+  { pre: 'Maman et moi, nous ', verbAfter: 'trompons souvent.',               answers: ['nous'] },
+  { pre: 'Je ',              verbAfter: "habille en noir.",                   answers: ["m'"] },
+  { pre: 'Tu ',              verbAfter: 'promènes dans le parc.',             answers: ['te'] },
+  { pre: 'On ',              verbAfter: 'détend le weekend.',                 answers: ['se'] },
+  { pre: 'Nina ',            verbAfter: 'peigne les cheveux.',                answers: ['se'] },
+  { pre: 'Vous ',            verbAfter: 'sentez bien aujourd\'hui ?',         answers: ['vous'] }
+];
+
+let fillSession = [];
+let fillScore = 0;
+let fillDone = new Set();
+const FILL_SIZE = 12;
+
+function buildFill() {
+  fillScore = 0;
+  fillDone = new Set();
+  fillSession = shuffle(fillBankClean).slice(0, FILL_SIZE);
+  document.getElementById('fill-total').textContent = fillSession.length;
+  const list = document.getElementById('fill-list');
+  list.innerHTML = '';
+  fillSession.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'fill-card';
+    card.dataset.idx = i;
+    card.innerHTML = `
+      <div class="fill-sentence"><span class="fill-num">${i+1}.</span>${q.pre}<input type="text" class="fill-input" autocomplete="off" spellcheck="false" maxlength="6"> ${q.verbAfter}</div>
+      <div class="fill-feedback"></div>`;
+    const input = card.querySelector('.fill-input');
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkFill(card, input, q, i); } });
+    input.addEventListener('blur', () => { if (input.value.trim() !== '') checkFill(card, input, q, i); });
+    list.appendChild(card);
+  });
+
+  // Print answers
+  const ans = document.getElementById('fill-answers-ol');
+  ans.innerHTML = '';
+  fillBankClean.forEach(q => {
+    const li = document.createElement('li');
+    li.innerHTML = `${q.pre}<span class="ans">${q.answers[0]}${q.answers[0].endsWith("'") ? '' : ' '}</span>${q.verbAfter}`;
+    ans.appendChild(li);
+  });
+}
+
+function checkFill(card, input, q, i) {
+  if (fillDone.has(String(i))) return;
+  const user = normalize(input.value).replace(/\s/g,'');
+  if (!user) return;
+  const normalized = q.answers.map(a => normalize(a).replace(/\s/g,''));
+  const isCorrect = normalized.includes(user);
+  const fb = card.querySelector('.fill-feedback');
+  card.classList.remove('correct','incorrect');
+  input.classList.remove('correct-input','wrong-input');
+  if (isCorrect) {
+    card.classList.add('correct');
+    input.classList.add('correct-input');
+    input.disabled = true;
+    fb.textContent = `✓ ${randomPraise()}`;
+    fb.className = 'fill-feedback good visible';
+    fillDone.add(String(i));
+    fillScore++;
+    updateFillScore();
+    setTimeout(() => {
+      const allCards = Array.from(document.querySelectorAll('.fill-card'));
+      const next = allCards.find(c => !fillDone.has(c.dataset.idx));
+      if (next) next.querySelector('.fill-input').focus();
+    }, 800);
+  } else {
+    card.classList.add('incorrect');
+    input.classList.add('wrong-input');
+    fb.innerHTML = `✗ Probeer nog eens. Tip: juiste antwoord is <em>${q.answers[0]}</em>`;
+    fb.className = 'fill-feedback bad visible';
+  }
+}
+
+function updateFillScore() {
+  document.getElementById('fill-score-bar').classList.add('visible');
+  document.getElementById('fill-score').textContent = fillScore;
+  const pct = (fillDone.size / fillSession.length) * 100;
+  document.getElementById('fill-progress').style.width = pct + '%';
+  if (fillDone.size === fillSession.length) {
+    const cel = document.getElementById('fill-celebration');
+    const p = (fillScore/fillSession.length)*100;
+    let msg = p===100 ? '🌟 Alles juist — parfait !' : p>=80 ? '🎉 Heel goed !' : p>=60 ? '💪 Goed bezig!' : '📚 Bekijk de theorie nog eens.';
+    cel.textContent = `${msg} (${fillScore}/${fillSession.length})`;
+    cel.classList.add('visible');
+  }
+}
+
+function resetFill() {
+  document.getElementById('fill-celebration').classList.remove('visible');
+  document.getElementById('fill-score').textContent = '0';
+  document.getElementById('fill-progress').style.width = '0%';
+  buildFill();
+}
+buildFill();
+
+// ========== VERVOEG ==========
+// Per oefening: kies willekeurig werkwoord + willekeurig subject, leerling moet "pronom verbForm" typen
+function generateConjQuestions(n) {
+  const questions = [];
+  const used = new Set();
+  let tries = 0;
+  while (questions.length < n && tries < 200) {
+    tries++;
+    const v = verbs[Math.floor(Math.random() * verbs.length)];
+    const p = pronouns[Math.floor(Math.random() * pronouns.length)];
+    const key = v.inf + '|' + p.subject;
+    if (used.has(key)) continue;
+    used.add(key);
+    const verbForm = v.conj[p.personIdx];
+    const answer = combinePronounVerb(p.pronom, p.pronomElided, verbForm);
+    // Alternatieve spellingen (zonder accent)
+    const answerAlt = normalize(answer);
+    questions.push({
+      subject: p.subject,
+      inf: v.inf,
+      nl: v.nl,
+      answer: answer,
+      answerNormalized: answerAlt
+    });
+  }
+  return questions;
+}
+
+let conjSession = [];
+let conjScore = 0;
+let conjDone = new Set();
+const CONJ_SIZE = 10;
+
+function buildConj() {
+  conjScore = 0;
+  conjDone = new Set();
+  conjSession = generateConjQuestions(CONJ_SIZE);
+  document.getElementById('conj-total').textContent = conjSession.length;
+  const list = document.getElementById('conj-list');
+  list.innerHTML = '';
+  conjSession.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'conj-card';
+    card.dataset.idx = i;
+    card.innerHTML = `
+      <div class="conj-task">${i+1}. <span class="subject">${q.subject}</span> + <span class="infinitive">${q.inf}</span> <span style="color:var(--warm-brown);opacity:0.6;font-size:14px;">(${q.nl})</span></div>
+      <div class="conj-row">
+        <input type="text" class="conj-input" placeholder="bv. me lave" autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>
+      <div class="conj-feedback"></div>`;
+    const input = card.querySelector('.conj-input');
+    const btn = card.querySelector('.check-btn');
+    btn.addEventListener('click', () => checkConj(card, input, q, i));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkConj(card, input, q, i); } });
+    list.appendChild(card);
+  });
+
+  // Print answers (we tonen huidige sessie)
+  const ans = document.getElementById('conj-answers-ol');
+  ans.innerHTML = '';
+  conjSession.forEach(q => {
+    const li = document.createElement('li');
+    li.innerHTML = `${q.subject} + ${q.inf} → <span class="ans">${q.subject} ${q.answer}</span>`;
+    ans.appendChild(li);
+  });
+}
+
+function checkConj(card, input, q, i) {
+  if (conjDone.has(String(i))) return;
+  const user = normalize(input.value);
+  if (!user) return;
+  // Acceptable if matches with or without accent
+  const isCorrect = user === q.answerNormalized || user === normalize(q.answer);
+  const fb = card.querySelector('.conj-feedback');
+  card.classList.remove('correct','incorrect');
+  input.classList.remove('correct-input','wrong-input');
+  if (isCorrect) {
+    card.classList.add('correct');
+    input.classList.add('correct-input');
+    input.disabled = true;
+    card.querySelector('.check-btn').disabled = true;
+    fb.textContent = `✓ ${randomPraise()}`;
+    fb.className = 'conj-feedback good visible';
+    conjDone.add(String(i));
+    conjScore++;
+    updateConjScore();
+    setTimeout(() => {
+      const allCards = Array.from(document.querySelectorAll('.conj-card'));
+      const next = allCards.find(c => !conjDone.has(c.dataset.idx));
+      if (next) {
+        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => next.querySelector('.conj-input').focus(), 400);
+      }
+    }, 1000);
+  } else {
+    card.classList.add('incorrect');
+    input.classList.add('wrong-input');
+    fb.innerHTML = `✗ Probeer nog eens. Tip: <em>${q.answer}</em>`;
+    fb.className = 'conj-feedback bad visible';
+  }
+}
+
+function updateConjScore() {
+  document.getElementById('conj-score-bar').classList.add('visible');
+  document.getElementById('conj-score').textContent = conjScore;
+  const pct = (conjDone.size / conjSession.length) * 100;
+  document.getElementById('conj-progress').style.width = pct + '%';
+  if (conjDone.size === conjSession.length) {
+    const cel = document.getElementById('conj-celebration');
+    const p = (conjScore/conjSession.length)*100;
+    let msg = p===100 ? '🌟 Alles juist — parfait !' : p>=80 ? '🎉 Heel goed !' : p>=60 ? '💪 Goed bezig!' : '📚 Bekijk de theorie nog eens.';
+    cel.textContent = `${msg} (${conjScore}/${conjSession.length}) — klik "Nieuwe oefeningen" voor nog een ronde`;
+    cel.classList.add('visible');
+  }
+}
+
+function resetConj() {
+  document.getElementById('conj-celebration').classList.remove('visible');
+  document.getElementById('conj-score').textContent = '0';
+  document.getElementById('conj-progress').style.width = '0%';
+  buildConj();
+}
+buildConj();
+</script>
+</body>
+</html>
