@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herhalingstoets Frans — 28 april 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vak-color: #C2704E;
+  --vak-color-dark: #A85E3F;
+  --vak-color-light: #D4916F;
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --masc: #6A9BB5;
+  --fem: #C9A0A0;
+  --plur: #D4A843;
+  --correct: #7A8B6F;
+  --incorrect: #B7553D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px solid transparent; }
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+.vak-icon { width: 64px; height: 64px; background: var(--vak-color); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25); }
+.header-text h1 { font-family: 'Vollkorn', Georgia, serif; font-size: 28px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; margin-bottom: 4px; }
+.header-text .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); font-weight: 600; }
+.intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 24px; max-width: 700px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; padding: 6px; background: rgba(232, 220, 200, 0.4); border-radius: 16px; }
+.tab { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 18px; border: none; background: transparent; color: var(--warm-brown); border-radius: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; position: relative; }
+.tab:hover { background: rgba(255, 253, 247, 0.5); }
+.tab.active { background: var(--vak-color); color: var(--warm-white); box-shadow: 0 2px 8px rgba(194, 112, 78, 0.25); }
+.tab .badge { display: inline-block; min-width: 20px; padding: 1px 6px; background: var(--rust); color: white; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 4px; }
+.tab.active .badge { background: rgba(255,255,255,0.3); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeSlideUp 0.4s ease-out; }
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.score-bar { display: none; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; padding: 12px 18px; background: var(--warm-white); border-radius: 12px; border: 1px solid var(--sand); justify-content: space-between; align-items: center; }
+.score-bar.visible { display: flex; }
+.score-bar .score-text { font-weight: 600; }
+.progress-bar-container { flex: 1; height: 8px; background: var(--sand); border-radius: 4px; overflow: hidden; margin: 0 16px; max-width: 200px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vak-color) 0%, var(--ochre) 100%); transition: width 0.4s; width: 0%; }
+.reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 6px 14px; border: 1px solid var(--sand); background: var(--cream); color: var(--warm-brown); border-radius: 8px; cursor: pointer; }
+.reset-btn:hover { background: var(--sand-light); }
+
+/* ============ DIAGNOSE ============ */
+.diag-intro { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 22px 26px; margin-bottom: 22px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.diag-intro h2 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 8px; }
+.diag-intro p { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 12px; }
+.diag-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.start-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 15px; padding: 12px 24px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
+.start-btn:hover { background: var(--vak-color-dark); }
+.skip-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 12px 20px; background: transparent; color: var(--warm-brown); border: 1px solid var(--sand); border-radius: 10px; cursor: pointer; }
+.skip-btn:hover { background: var(--sand-light); }
+
+.diag-quiz { display: none; }
+.diag-quiz.active { display: block; }
+.diag-q-card { background: var(--warm-white); border-radius: 16px; padding: 22px 26px; margin-bottom: 16px; border: 1px solid var(--sand); box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.diag-q-meta { font-family: 'Source Sans 3', sans-serif; font-size: 12px; color: var(--warm-brown); text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.diag-q-text { font-family: 'Vollkorn', Georgia, serif; font-size: 18px; color: var(--dark-brown); margin-bottom: 12px; }
+.diag-q-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.75; font-style: italic; margin-bottom: 14px; }
+
+.diag-results { display: none; }
+.diag-results.active { display: block; }
+.diag-result-card { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 24px 28px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); margin-bottom: 20px; }
+.diag-result-card h2 { font-family: 'Caveat', cursive; font-size: 32px; color: var(--vak-color); margin-bottom: 16px; }
+.diag-score-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding: 12px 14px; background: var(--cream); border-radius: 10px; border-left: 4px solid; }
+.diag-score-row.strong { border-left-color: var(--correct); }
+.diag-score-row.medium { border-left-color: var(--ochre); }
+.diag-score-row.weak { border-left-color: var(--rust); }
+.diag-score-icon { font-size: 24px; }
+.diag-score-info { flex: 1; }
+.diag-score-info h4 { font-family: 'Vollkorn', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--dark-brown); margin-bottom: 2px; }
+.diag-score-info p { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); margin: 0; }
+.diag-score-num { font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700; color: var(--vak-color); }
+
+.diag-advice { background: var(--sand-light); border-left: 3px solid var(--vak-color); padding: 16px 20px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-top: 16px; line-height: 1.6; }
+.diag-advice strong { color: var(--vak-color-dark); }
+
+/* Generic answer cards (used in all tabs) */
+.q-card { background: var(--warm-white); border-radius: 16px; padding: 20px 24px; border: 1.5px solid var(--sand); margin-bottom: 14px; transition: border-color 0.2s, opacity 0.4s; }
+.q-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.q-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.q-card.fading { opacity: 0.5; }
+.q-tag { display: inline-block; font-family: 'Source Sans 3', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; }
+.q-tag.lieu { background: rgba(106, 155, 181, 0.15); color: var(--sky-blue); }
+.q-tag.materiel { background: rgba(212, 168, 67, 0.15); color: #A67C00; }
+.q-tag.pronominaux { background: rgba(168, 184, 154, 0.2); color: var(--olive-dark); }
+.q-num { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); font-weight: 600; margin-right: 8px; }
+.q-text { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; font-weight: 600; color: var(--dark-brown); margin-bottom: 12px; line-height: 1.5; }
+.q-text .blank { display: inline-block; min-width: 60px; border-bottom: 2px dotted var(--vak-color-dark); padding: 0 6px; color: var(--vak-color-dark); font-style: italic; text-align: center; }
+.q-text .ctx { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.75; font-style: italic; font-weight: 400; }
+.q-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+.q-input { flex: 1; min-width: 180px; font-family: 'Vollkorn', Georgia, serif; font-size: 15px; padding: 10px 14px; border: 1.5px solid var(--sand); border-radius: 10px; background: var(--cream); color: var(--dark-brown); outline: none; }
+.q-input:focus { border-color: var(--vak-color-light); }
+.q-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.q-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.q-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.q-option { font-family: 'Vollkorn', Georgia, serif; font-size: 14px; padding: 9px 16px; background: var(--cream); border: 1.5px solid var(--sand); border-radius: 20px; cursor: pointer; color: var(--dark-brown); transition: all 0.2s; }
+.q-option:hover:not(:disabled) { background: var(--sand-light); border-color: var(--vak-color-light); }
+.q-option.correct { background: #E8F0DE; border-color: var(--correct); color: var(--olive-dark); font-weight: 600; }
+.q-option.incorrect { background: #F5E5E0; border-color: var(--incorrect); color: var(--rust); }
+.q-option:disabled { cursor: default; }
+.check-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 18px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
+.check-btn:hover:not(:disabled) { background: var(--vak-color-dark); }
+.check-btn:disabled { opacity: 0.5; cursor: default; }
+.q-feedback { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 10px; display: none; }
+.q-feedback.visible { display: block; }
+.q-feedback.good { color: var(--olive-dark); }
+.q-feedback.bad { color: var(--rust); }
+
+/* Storm */
+.storm-intro { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 18px 22px; margin-bottom: 16px; }
+.storm-intro p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); }
+
+/* Mijn fouten */
+.errors-empty { background: var(--warm-white); border: 1px dashed var(--sand); border-radius: 16px; padding: 28px 24px; text-align: center; font-family: 'Source Sans 3', sans-serif; color: var(--warm-brown); }
+.errors-empty .emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+.errors-empty h3 { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); margin-bottom: 6px; }
+
+/* Spiekkaart */
+.cheat-block { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.cheat-block h2 { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); margin-bottom: 6px; }
+.cheat-block .sub { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.8; margin-bottom: 14px; }
+.cheat-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.cheat-col h4 { font-family: 'Vollkorn', Georgia, serif; font-size: 14px; font-weight: 700; color: var(--vak-color-dark); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--sand); }
+.cheat-col.masc h4 { color: var(--masc); }
+.cheat-col.fem h4 { color: var(--fem); }
+.cheat-col.plur h4 { color: #A67C00; }
+.cheat-col ul { list-style: none; padding: 0; margin: 0; }
+.cheat-col li { padding: 4px 0; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; color: var(--dark-brown); border-bottom: 0.5px dotted var(--sand); }
+.cheat-col li .nl { color: var(--warm-brown); opacity: 0.7; font-size: 11px; font-family: 'Source Sans 3', sans-serif; margin-left: 6px; }
+
+.cheat-prep-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.cheat-prep-list .item { padding: 6px 10px; background: var(--cream); border-radius: 6px; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; }
+.cheat-prep-list .item .fr { color: var(--vak-color-dark); font-weight: 600; }
+.cheat-prep-list .item .nl { color: var(--warm-brown); font-size: 11px; font-family: 'Source Sans 3', sans-serif; display: block; opacity: 0.75; }
+
+.conj-table { width: 100%; border-collapse: collapse; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; }
+.conj-table th, .conj-table td { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--sand); }
+.conj-table th { background: var(--cream); font-weight: 600; color: var(--vak-color-dark); }
+.conj-table .pronom { color: var(--rust); font-weight: 600; }
+.conj-table .subj { color: var(--vak-color-dark); font-weight: 600; }
+
+.cheat-verbs-list { columns: 2; column-gap: 18px; }
+.cheat-verbs-list li { padding: 3px 0; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; break-inside: avoid; list-style: none; border-bottom: 0.5px dotted var(--sand); }
+.cheat-verbs-list .fr { color: var(--vak-color-dark); font-weight: 600; font-style: italic; }
+.cheat-verbs-list .nl { color: var(--warm-brown); font-size: 11px; font-family: 'Source Sans 3', sans-serif; margin-left: 6px; opacity: 0.75; }
+
+/* Download menu */
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; }
+.action-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 12px 22px; border-radius: 10px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.action-btn:hover { background: var(--sand-light); }
+
+.download-modal { display: none; position: fixed; inset: 0; background: rgba(60, 40, 30, 0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+.download-modal.active { display: flex; }
+.download-modal-inner { background: var(--warm-white); border-radius: 18px; padding: 26px; max-width: 540px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+.download-modal h3 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 10px; }
+.download-modal .modal-sub { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 18px; line-height: 1.5; }
+.download-set { margin-bottom: 14px; }
+.download-set .set-title { font-family: 'Vollkorn', Georgia, serif; font-size: 15px; font-weight: 700; color: var(--vak-color-dark); margin-bottom: 6px; }
+.set-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.dl-link {
+  flex: 1; min-width: 130px;
+  text-align: center;
+  padding: 10px 8px;
+  background: var(--cream); border: 1.5px solid var(--sand);
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500; font-size: 13px;
+  color: var(--dark-brown);
+  transition: all 0.2s;
+}
+.dl-link:hover { background: var(--sand-light); border-color: var(--vak-color-light); transform: translateY(-1px); }
+.legend { font-family: 'Source Sans 3', sans-serif; font-size: 12px; color: var(--warm-brown); margin-top: 16px; padding: 12px 14px; background: var(--sand-light); border-radius: 8px; }
+.legend p { margin-bottom: 4px; line-height: 1.4; }
+.legend p:last-child { margin-bottom: 0; }
+
+.paper-tip {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: #FFF8EE;
+  border: 1px solid var(--sand);
+  border-left: 3px solid var(--ochre);
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.paper-tip h4 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vak-color-dark);
+  margin: 0 0 6px 0;
+}
+.paper-tip p {
+  font-size: 13px;
+  color: var(--warm-brown);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.paper-tip p:last-child { margin-bottom: 0; }
+.paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+.paper-link {
+  flex: 1;
+  min-width: 130px;
+  padding: 8px 12px;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--dark-brown);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s;
+}
+.paper-link:hover {
+  background: var(--cream);
+  border-color: var(--vak-color-light);
+}
+.paper-tip .disclaimer {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--warm-brown);
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+.modal-close { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 8px 18px; background: transparent; border: 1px solid var(--sand); color: var(--warm-brown); border-radius: 8px; cursor: pointer; margin-top: 14px; width: 100%; }
+.modal-close:hover { background: var(--sand-light); }
+
+@media (max-width: 700px) {
+  .container { padding: 16px 14px 40px; }
+  .header-text h1 { font-size: 22px; }
+  .vak-icon { width: 52px; height: 52px; font-size: 28px; }
+  .tab { font-size: 13px; padding: 8px 12px; }
+  .cheat-grid-3 { grid-template-columns: 1fr; }
+  .cheat-verbs-list { columns: 1; }
+  .q-row { flex-direction: column; }
+  .q-input { min-width: 0; width: 100%; }
+  .check-btn { width: 100%; }
+}
+
+/* Print fallback (browser print of the page itself - basic) */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Herhalingstoets Frans</span>
+</nav>
+
+<header>
+  <div class="vak-icon">🇫🇷</div>
+  <div class="header-text">
+    <h1>Herhalingstoets Frans</h1>
+    <div class="date">Toets maandag 27 april 2026 · prep-pagina</div>
+  </div>
+</header>
+
+<p class="intro">Voorbereiding op de toets: <strong>les prépositions de lieu</strong>, <strong>mon matériel scolaire</strong> en <strong>les verbes pronominaux</strong>. Begin met de diagnose om te ontdekken waar je staat, oefen vervolgens gericht in de Storm, herhaal je fouten, en gebruik de spiekkaart vlak voor de toets.</p>
+
+<nav class="tabs no-print" role="tablist">
+  <button class="tab active" data-tab="diagnose">🎯 Diagnose</button>
+  <button class="tab" data-tab="storm">🌪️ Storm</button>
+  <button class="tab" data-tab="errors">🔥 Mijn fouten <span class="badge" id="errors-count" style="display:none">0</span></button>
+  <button class="tab" data-tab="cheat">📚 Spiekkaart</button>
+</nav>
+
+<!-- ============ DIAGNOSE ============ -->
+<section class="tab-content active" data-content="diagnose">
+  <div id="diag-start">
+    <div class="diag-intro">
+      <h2>Klaar voor de toets?</h2>
+      <p>Doe deze diagnose-test van 12 vragen (ongeveer 5 minuten). Je krijgt nadien een score per onderwerp en een advies waar je het best mee verder oefent.</p>
+      <p style="opacity:0.75;font-size:14px;">De vragen komen uit de drie thema's: plaatsbepalingen, schoolspullen en wederkerige werkwoorden.</p>
+      <div class="diag-actions">
+        <button class="start-btn" onclick="startDiag()">🎯 Start diagnose</button>
+        <button class="skip-btn" onclick="goToTab('storm')">Overslaan, ga naar Storm</button>
+        <button class="skip-btn" onclick="goToTab('cheat')">Bekijk eerst de spiekkaart</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="diag-quiz" class="diag-quiz">
+    <div class="score-bar visible" style="display:flex;">
+      <span class="score-text">Vraag <span id="diag-current">1</span>/<span id="diag-total">12</span></span>
+      <div class="progress-bar-container"><div class="progress-bar" id="diag-progress"></div></div>
+      <button class="reset-btn" onclick="restartDiag()">🔄 Opnieuw</button>
+    </div>
+    <div id="diag-q-container"></div>
+  </div>
+
+  <div id="diag-results" class="diag-results">
+    <div class="diag-result-card">
+      <h2>Resultaat van de diagnose</h2>
+      <div id="diag-result-rows"></div>
+      <div class="diag-advice" id="diag-advice"></div>
+      <div class="diag-actions">
+        <button class="start-btn" onclick="goToTab('storm')">🌪️ Naar Storm</button>
+        <button class="skip-btn" onclick="restartDiag()">🔄 Diagnose opnieuw</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORM ============ -->
+<section class="tab-content" data-content="storm">
+  <div class="storm-intro">
+    <p><strong>🌪️ Storm-modus:</strong> 15 willekeurige vragen door elkaar uit alle drie de thema's. Auto-advance na elk antwoord. Fouten verschijnen automatisch in <em>Mijn fouten</em>.</p>
+  </div>
+  <div class="score-bar" id="storm-score-bar">
+    <span class="score-text">Score: <span id="storm-score">0</span>/<span id="storm-total">15</span></span>
+    <div class="progress-bar-container"><div class="progress-bar" id="storm-progress"></div></div>
+    <button class="reset-btn" onclick="resetStorm()">🔄 Nieuwe ronde</button>
+  </div>
+  <div id="storm-container"></div>
+</section>
+
+<!-- ============ MIJN FOUTEN ============ -->
+<section class="tab-content" data-content="errors">
+  <div id="errors-content"></div>
+</section>
+
+<!-- ============ SPIEKKAART ============ -->
+<section class="tab-content" data-content="cheat">
+  <div id="cheat-content"></div>
+</section>
+
+<div class="actions no-print">
+  <button class="action-btn" onclick="openDownloadModal()">📥 Download oefenwerkblad (PDF)</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div>
+
+<!-- Download modal -->
+<div class="download-modal" id="download-modal">
+  <div class="download-modal-inner">
+    <h3>Download oefenwerkbladen</h3>
+    <p class="modal-sub">6 oefenwerkbladen klaar als PDF: <strong>3 verschillende werkbladen</strong> (A, B en C), elk in 2 varianten. Per werkblad zijn de oefeningen identiek over de twee varianten — alleen de layout verschilt.</p>
+
+    <div class="download-set">
+      <h4 class="set-title">Werkblad A</h4>
+      <div class="set-row">
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-A_standaard.pdf" download>🖨️ Standaard</a>
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-A_combi.pdf" download>🔠 Toegankelijk</a>
+      </div>
+    </div>
+    <div class="download-set">
+      <h4 class="set-title">Werkblad B</h4>
+      <div class="set-row">
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-B_standaard.pdf" download>🖨️ Standaard</a>
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-B_combi.pdf" download>🔠 Toegankelijk</a>
+      </div>
+    </div>
+    <div class="download-set">
+      <h4 class="set-title">Werkblad C</h4>
+      <div class="set-row">
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-C_standaard.pdf" download>🖨️ Standaard</a>
+        <a class="dl-link" href="2026-04-25_frans_herhalingstoets-pdfs/werkblad-C_combi.pdf" download>🔠 Toegankelijk</a>
+      </div>
+    </div>
+
+    <div class="legend">
+      <p><strong>🖨️ Standaard</strong> — klassieke layout met Vollkorn-lettertype, compact (8 pagina's)</p>
+      <p><strong>🔠 Toegankelijk</strong> — Atkinson Hyperlegible-lettertype, ruime spacing, oefeningen in afzonderlijke blokken (13 pagina's). Geschikt voor leerlingen met dyslexie, ADHD of andere leerstoornissen, of voor wie graag rustiger leest.</p>
+    </div>
+
+    <div class="paper-tip">
+      <h4>💡 Tip voor extra leescomfort</h4>
+      <p>Voor leerlingen die gevoelig zijn aan helder wit papier (vaak bij dyslexie of visuele stress) kan <strong>ivoor printpapier</strong> prettiger zijn om te lezen. Het is licht crèmekleurig en vermindert de schittering.</p>
+      <div class="paper-links">
+        <a class="paper-link" href="https://www.bol.com/be/nl/p/clairefontaine-trophee-ivoor-kopieerpapier-a4-80-gram-100-vellen/9300000031658132/" target="_blank" rel="noopener">📦 Clairefontaine Trophée Ivoor — A4, 80 gram, 100 vellen (bol.com) →</a>
+      </div>
+      <p class="disclaimer">Geen samenwerking, geen sponsoring — dit is gewoon een verwijzing naar een product dat aan deze beschrijving voldoet.</p>
+    </div>
+
+    <button class="modal-close" onclick="closeDownloadModal()">Sluiten</button>
+  </div>
+</div>
+
+<script>
+// ==========================================================================
+// DATA - alle vragen gegroepeerd per thema (backlog)
+// ==========================================================================
+
+const VOCAB_MATERIEL = [
+  { fr: 'mot', article: 'un', nl: 'een woord', gender: 'masc' },
+  { fr: 'phrase', article: 'une', nl: 'een zin', gender: 'fem' },
+  { fr: 'chiffre', article: 'un', nl: 'een getal', gender: 'masc' },
+  { fr: 'devoir', article: 'un', nl: 'een huistaak', gender: 'masc' },
+  { fr: 'manuel', article: 'un', nl: 'een handboek', gender: 'masc' },
+  { fr: 'classeur', article: 'un', nl: 'een ringmap', gender: 'masc' },
+  { fr: 'cahier', article: 'un', nl: 'een schrift', gender: 'masc' },
+  { fr: 'cartable', article: 'un', nl: 'een schooltas', gender: 'masc' },
+  { fr: 'stylo', article: 'un', nl: 'een balpen', gender: 'masc' },
+  { fr: 'agenda', article: 'un', nl: 'een agenda', gender: 'masc' },
+  { fr: 'tableau', article: 'le', nl: 'het (school)bord', gender: 'masc' },
+  { fr: 'crayon de couleur', article: 'le', nl: 'het kleurpotlood', gender: 'masc' },
+  { fr: 'dictionnaire', article: 'un', nl: 'een woordenboek', gender: 'masc' },
+  { fr: 'pinceau', article: 'le', nl: 'de verfborstel', gender: 'masc' },
+  { fr: 'feutre', article: 'le', nl: 'de viltstift', gender: 'masc' },
+  { fr: 'surligneur', article: 'le', nl: 'de markeerstift', gender: 'masc' },
+  { fr: 'effaceur', article: 'un', nl: 'een wisser / tintenkiller', gender: 'masc' },
+  { fr: 'ruban correcteur', article: 'un', nl: 'een correctietape', gender: 'masc' },
+  { fr: 'plume', article: 'la', nl: 'de vulpen', gender: 'fem' },
+  { fr: 'équerre géométrique', article: 'une', nl: 'een geodriehoek', gender: 'fem' },
+  { fr: 'clé USB', article: 'une', nl: 'een usb-stick', gender: 'fem' },
+  { fr: 'règle', article: 'une', nl: 'een liniaal', gender: 'fem' },
+  { fr: 'gomme', article: 'une', nl: 'een gom', gender: 'fem' },
+  { fr: 'calculatrice', article: 'une', nl: 'een rekentoestel', gender: 'fem' },
+  { fr: 'classe', article: 'la', nl: 'de klas', gender: 'fem' },
+  { fr: 'colle', article: 'la', nl: 'de lijm', gender: 'fem' },
+  { fr: 'trousse', article: 'une', nl: 'een pennenzak', gender: 'fem' },
+  { fr: 'ciseaux', article: 'des', nl: 'een schaar', gender: 'plur' },
+  { fr: 'marqueurs', article: 'des', nl: 'markeerstiften', gender: 'plur' }
+];
+
+const PREPOSITIONS = [
+  { fr: 'à droite de', nl: 'rechts van' },
+  { fr: 'à gauche de', nl: 'links van' },
+  { fr: 'à côté de', nl: 'naast' },
+  { fr: 'derrière', nl: 'achter' },
+  { fr: 'devant', nl: 'voor' },
+  { fr: 'dans', nl: 'in' },
+  { fr: 'entre', nl: 'tussen' },
+  { fr: 'sous', nl: 'onder' },
+  { fr: 'sur', nl: 'op' },
+  { fr: 'au-dessus de', nl: 'bovenop' },
+  { fr: 'au milieu de', nl: 'in het midden van' },
+  { fr: 'en bas', nl: 'onderaan' },
+  { fr: 'dans le coin', nl: 'in de hoek' },
+  { fr: 'près de', nl: 'vlakbij' },
+  { fr: 'loin de', nl: 'veraf van' },
+  { fr: 'au bon endroit', nl: 'op de juiste plek' },
+  { fr: 'se trouver', nl: 'zich bevinden' },
+  { fr: 'se situer', nl: 'zich situeren' }
+];
+
+const VERBS_PRONOM = [
+  { inf: 'se coucher', stem: 'couch', conj: ['couche','couches','couche','couchons','couchez','couchent'], nl: 'gaan slapen', vowel: false },
+  { inf: 'se réveiller', stem: 'réveill', conj: ['réveille','réveilles','réveille','réveillons','réveillez','réveillent'], nl: 'wakker worden', vowel: true },
+  { inf: 'se lever', stem: 'lev', conj: ['lève','lèves','lève','levons','levez','lèvent'], nl: 'opstaan', vowel: false },
+  { inf: 'se laver', stem: 'lav', conj: ['lave','laves','lave','lavons','lavez','lavent'], nl: 'zich wassen', vowel: false },
+  { inf: "s'habiller", stem: 'habill', conj: ['habille','habilles','habille','habillons','habillez','habillent'], nl: 'zich aankleden', vowel: true },
+  { inf: 'se brosser', stem: 'bross', conj: ['brosse','brosses','brosse','brossons','brossez','brossent'], nl: '(tanden) poetsen', vowel: false },
+  { inf: 'se raser', stem: 'ras', conj: ['rase','rases','rase','rasons','rasez','rasent'], nl: 'zich scheren', vowel: false },
+  { inf: 'se peigner', stem: 'peign', conj: ['peigne','peignes','peigne','peignons','peignez','peignent'], nl: '(zich) kammen', vowel: false },
+  { inf: 'se sentir', stem: 'sent', conj: ['sens','sens','sent','sentons','sentez','sentent'], nl: 'zich voelen', vowel: false },
+  { inf: 'se tromper', stem: 'tromp', conj: ['trompe','trompes','trompe','trompons','trompez','trompent'], nl: 'zich vergissen', vowel: false },
+  { inf: 'se situer', stem: 'situ', conj: ['situe','situes','situe','situons','situez','situent'], nl: 'zich bevinden', vowel: false },
+  { inf: 'se présenter', stem: 'présent', conj: ['présente','présentes','présente','présentons','présentez','présentent'], nl: 'zich voorstellen', vowel: false },
+  { inf: 'se promener', stem: 'promen', conj: ['promène','promènes','promène','promenons','promenez','promènent'], nl: 'wandelen', vowel: false },
+  { inf: 'se détendre', stem: 'détend', conj: ['détends','détends','détend','détendons','détendez','détendent'], nl: 'zich ontspannen', vowel: false },
+  { inf: "s'amuser", stem: 'amus', conj: ['amuse','amuses','amuse','amusons','amusez','amusent'], nl: 'zich amuseren', vowel: true }
+];
+
+const SUBJECTS = [
+  { subj: 'je', pron: 'me', pronEl: "m'", idx: 0 },
+  { subj: 'tu', pron: 'te', pronEl: "t'", idx: 1 },
+  { subj: 'il', pron: 'se', pronEl: "s'", idx: 2 },
+  { subj: 'elle', pron: 'se', pronEl: "s'", idx: 2 },
+  { subj: 'on', pron: 'se', pronEl: "s'", idx: 2 },
+  { subj: 'nous', pron: 'nous', pronEl: 'nous', idx: 3 },
+  { subj: 'vous', pron: 'vous', pronEl: 'vous', idx: 4 },
+  { subj: 'ils', pron: 'se', pronEl: "s'", idx: 5 },
+  { subj: 'elles', pron: 'se', pronEl: "s'", idx: 5 }
+];
+
+// ==========================================================================
+// QUESTION POOLS — backlog van ~30 vragen per type
+// ==========================================================================
+
+// LIEU - kies juist (multiple choice met blanco)
+const POOL_LIEU_MC = [
+  { pre: 'Le chat est ', post: ' la table.', hint: '(op)', correct: 'sur', opts: ['sur','sous','dans'] },
+  { pre: 'Le livre est ', post: ' la chaise.', hint: '(onder)', correct: 'sous', opts: ['sur','sous','entre'] },
+  { pre: "L'école est ", post: ' la maison.', hint: '(vlakbij)', correct: 'près de', opts: ['loin de','près de','dans'] },
+  { pre: 'Les enfants jouent ', post: ' les arbres.', hint: '(tussen)', correct: 'entre', opts: ['dans','entre','derrière'] },
+  { pre: 'Le poster est ', post: ' du lit.', hint: '(boven)', correct: 'au-dessus', opts: ['au-dessus','en bas','à côté'] },
+  { pre: 'La voiture est ', post: ' la maison.', hint: '(voor)', correct: 'devant', opts: ['derrière','devant','sur'] },
+  { pre: 'Le chat dort ', post: ' le canapé.', hint: '(achter)', correct: 'derrière', opts: ['devant','derrière','sur'] },
+  { pre: 'Le village se trouve ', post: ' la forêt.', hint: '(ver van)', correct: 'loin de', opts: ['près de','loin de','dans'] },
+  { pre: 'Elmo est assis ', post: ' Louis.', hint: '(naast)', correct: 'à côté de', opts: ['au milieu de','à côté de','sous'] },
+  { pre: "L'horloge est ", post: ' du tableau.', hint: '(boven)', correct: 'au-dessus', opts: ['au-dessus','sous','derrière'] },
+  { pre: 'Le sac est ', post: ' la porte.', hint: '(achter)', correct: 'derrière', opts: ['devant','derrière','sur'] },
+  { pre: 'Le crayon est ', post: ' la trousse.', hint: '(in)', correct: 'dans', opts: ['sur','dans','entre'] },
+  { pre: 'Le tableau est ', post: ' la classe.', hint: '(in het midden van)', correct: 'au milieu de', opts: ['à côté de','au milieu de','loin de'] },
+  { pre: 'La gomme est ', post: ' du bureau.', hint: '(in de hoek)', correct: 'dans le coin', opts: ['dans le coin','au milieu','sous'] },
+  { pre: 'Mon stylo se trouve ', post: ' deux livres.', hint: '(tussen)', correct: 'entre', opts: ['dans','entre','sur'] },
+  { pre: 'Le chien dort ', post: ' la table.', hint: '(onder)', correct: 'sous', opts: ['sur','sous','derrière'] },
+  { pre: 'Le miroir est ', post: ' la porte.', hint: '(rechts van)', correct: 'à droite de', opts: ['à droite de','à gauche de','sous'] },
+  { pre: 'La cuisine est ', post: ' du salon.', hint: '(links van)', correct: 'à gauche de', opts: ['à droite de','à gauche de','dans'] },
+  { pre: 'Les fleurs sont ', post: ' le vase.', hint: '(in)', correct: 'dans', opts: ['sur','dans','entre'] },
+  { pre: 'Le café est ', post: ' la table.', hint: '(op)', correct: 'sur', opts: ['sur','sous','dans'] },
+  { pre: 'Mon vélo est ', post: ' le garage.', hint: '(in)', correct: 'dans', opts: ['dans','sur','sous'] },
+  { pre: 'Le chien est ', post: ' du jardin.', hint: '(in het midden van)', correct: 'au milieu', opts: ['au milieu','dans le coin','en bas'] },
+  { pre: 'Mon stylo est ', post: ' du sac.', hint: '(onderaan)', correct: 'en bas', opts: ['en bas','au-dessus','dans'] },
+  { pre: 'La gare est ', post: ' centre-ville.', hint: '(vlakbij)', correct: 'près du', opts: ['près du','loin du','sur'] },
+  { pre: 'La règle est ', post: ' du livre.', hint: '(naast)', correct: 'à côté', opts: ['à côté','sous','sur'] },
+  { pre: "L'oiseau vole ", post: ' la maison.', hint: '(boven)', correct: 'au-dessus de', opts: ['au-dessus de','sous','dans'] },
+  { pre: 'Mon livre est ', post: ' la table.', hint: '(op)', correct: 'sur', opts: ['sur','sous','entre'] },
+  { pre: 'La balle est ', post: ' la chaise et la table.', hint: '(tussen)', correct: 'entre', opts: ['entre','dans','sous'] },
+  { pre: 'Le chat se promène ', post: ' jardin.', hint: '(in)', correct: 'dans le', opts: ['dans le','sur le','sous le'] },
+  { pre: 'Le cahier est ', post: ' du bureau.', hint: '(in de hoek)', correct: 'dans le coin', opts: ['dans le coin','au milieu','en bas'] }
+];
+
+// LIEU - vertaal NL→FR
+const POOL_LIEU_TR = [
+  { nl: 'De kat is op de tafel.', fr: ['le chat est sur la table'] },
+  { nl: 'Het boek is in de tas.', fr: ['le livre est dans le sac'] },
+  { nl: 'De school is vlakbij het huis.', fr: ["l'ecole est pres de la maison","l ecole est pres de la maison"] },
+  { nl: 'De auto staat voor de deur.', fr: ['la voiture est devant la porte'] },
+  { nl: 'De pen ligt onder de stoel.', fr: ['le stylo est sous la chaise'] },
+  { nl: 'De klok hangt boven het bed.', fr: ["l'horloge est au-dessus du lit","l horloge est au-dessus du lit"] },
+  { nl: 'Het station is ver van de school.', fr: ["la gare est loin de l'ecole","la gare est loin de l ecole"] },
+  { nl: 'De tas staat achter de deur.', fr: ['le sac est derriere la porte'] },
+  { nl: 'De kat zit tussen twee kussens.', fr: ['le chat est entre deux coussins'] },
+  { nl: 'De hond slaapt onder de tafel.', fr: ['le chien dort sous la table'] },
+  { nl: 'Mijn schrift is in mijn schooltas.', fr: ['mon cahier est dans mon cartable'] },
+  { nl: 'De winkel is naast het huis.', fr: ['le magasin est a cote de la maison'] }
+];
+
+// MATERIEL - geslacht (woord zonder lidwoord, kies un/le, une/la, des)
+function makeGenderPool() {
+  return VOCAB_MATERIEL.map(w => ({ word: w.fr, nl: w.nl, gender: w.gender }));
+}
+
+// MATERIEL - vertaal
+const POOL_MATERIEL_TR = [
+  { nl: 'Ik heb een balpen in mijn pennenzak.', fr: ["j'ai un stylo dans ma trousse"] },
+  { nl: 'Mijn schrift is in mijn schooltas.', fr: ['mon cahier est dans mon cartable'] },
+  { nl: 'Heb jij een gom?', fr: ['as-tu une gomme','tu as une gomme','est-ce que tu as une gomme'] },
+  { nl: 'De leraar schrijft op het bord.', fr: ['le professeur ecrit sur le tableau','le prof ecrit sur le tableau'] },
+  { nl: 'Ik heb een schaar nodig.', fr: ["j'ai besoin de ciseaux","j'ai besoin des ciseaux"] },
+  { nl: 'Zij gebruikt een rekentoestel.', fr: ['elle utilise une calculatrice'] },
+  { nl: 'Hij heeft een nieuw woordenboek.', fr: ['il a un nouveau dictionnaire'] },
+  { nl: 'Ik heb een nieuw schrift.', fr: ["j'ai un nouveau cahier"] },
+  { nl: 'Open je handboek op pagina tien.', fr: ['ouvre ton manuel a la page dix','ouvre ton manuel page dix'] },
+  { nl: 'Mijn pennenzak is rood.', fr: ['ma trousse est rouge'] },
+  { nl: 'Ik heb lijm nodig.', fr: ["j'ai besoin de colle","j'ai besoin de la colle"] },
+  { nl: 'Zij tekent met markeerstiften.', fr: ['elle dessine avec des marqueurs'] }
+];
+
+// PRONOMINAUX - vul pronom in
+const POOL_PRON_FILL = [
+  { pre: 'Je ', post: 'lave tous les matins.', answers: ['me'] },
+  { pre: 'Tu ', post: 'brosses les dents.', answers: ['te'] },
+  { pre: 'Il ', post: 'réveille à 7 heures.', answers: ['se'] },
+  { pre: 'Elle ', post: 'couche à 22 heures.', answers: ['se'] },
+  { pre: 'Nous ', post: 'levons à 7 heures.', answers: ['nous'] },
+  { pre: 'Vous ', post: "présentez, s'il vous plaît ?", answers: ['vous'] },
+  { pre: 'Ils ', post: 'amusent bien.', answers: ["s'"] },
+  { pre: 'Elles ', post: 'habillent en noir.', answers: ["s'"] },
+  { pre: 'Papa ', post: 'rase tous les jours.', answers: ['se'] },
+  { pre: 'Tu ', post: 'promènes dans le parc.', answers: ['te'] },
+  { pre: 'On ', post: 'détend le weekend.', answers: ['se'] },
+  { pre: 'Nina ', post: 'peigne les cheveux.', answers: ['se'] },
+  { pre: 'Vous ', post: "sentez bien aujourd'hui ?", answers: ['vous'] },
+  { pre: 'Je ', post: 'habille en noir.', answers: ["m'"] },
+  { pre: 'Marc et Léa ', post: 'trompent souvent.', answers: ['se'] },
+  { pre: 'Tu ', post: 'amuses bien ?', answers: ["t'"] },
+  { pre: 'Le matin, je ', post: 'lève à 7 heures.', answers: ['me'] },
+  { pre: 'Mes amis ', post: 'détendent dans le jardin.', answers: ['se'] },
+  { pre: 'Nous ', post: 'présentons à la classe.', answers: ['nous'] },
+  { pre: 'On ', post: 'lave les mains avant le repas.', answers: ['se'] },
+  { pre: 'Je ', post: 'sens fatigué.', answers: ['me'] },
+  { pre: 'Vous ', post: 'trompez de chemin.', answers: ['vous'] },
+  { pre: 'Tu ', post: 'couches tard ?', answers: ['te'] },
+  { pre: 'Il ', post: 'habille rapidement.', answers: ["s'"] },
+  { pre: 'Elle ', post: 'amuse au cinéma.', answers: ["s'"] },
+  { pre: 'Nous ', post: 'promenons le dimanche.', answers: ['nous'] },
+  { pre: 'Les enfants ', post: 'lavent les mains.', answers: ['se'] },
+  { pre: 'Je ', post: 'amuse beaucoup.', answers: ["m'"] },
+  { pre: 'Tu ', post: 'habilles vite.', answers: ["t'"] },
+  { pre: 'On ', post: 'présente toujours poliment.', answers: ['se'] }
+];
+
+// ==========================================================================
+// UTILS
+// ==========================================================================
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function startsWithVowel(s) { return /^[aeiouhéèêëàâäîïôöùûü]/i.test(s); }
+function combinePronoun(pron, pronEl, verb) {
+  if (pron === 'nous' || pron === 'vous') return pron + ' ' + verb;
+  if (startsWithVowel(verb)) return pronEl + verb;
+  return pron + ' ' + verb;
+}
+function randomPraise() {
+  const p = ['Parfait !','Bravo !','Très bien !','Super !','Excellent !','Juist!'];
+  return p[Math.floor(Math.random()*p.length)];
+}
+
+// ==========================================================================
+// QUESTION GENERATORS — produceren één willekeurige vraag van een gegeven type
+// ==========================================================================
+
+function genGenderQ() {
+  const w = VOCAB_MATERIEL[Math.floor(Math.random()*VOCAB_MATERIEL.length)];
+  return {
+    type: 'gender',
+    theme: 'materiel',
+    prompt: `Welk lidwoord hoort bij <em>${w.fr}</em>?`,
+    promptHint: '(' + w.nl + ')',
+    options: [
+      { label: 'un / le', value: 'masc' },
+      { label: 'une / la', value: 'fem' },
+      { label: 'des', value: 'plur' }
+    ],
+    correct: w.gender,
+    correctLabel: w.article === 'des' ? 'des' : (w.gender === 'masc' ? 'un / le' : 'une / la'),
+    review: { word: w.fr, gender: w.gender, article: w.article, nl: w.nl }
+  };
+}
+
+function genLieuMC() {
+  const q = POOL_LIEU_MC[Math.floor(Math.random()*POOL_LIEU_MC.length)];
+  return {
+    type: 'mc-lieu',
+    theme: 'lieu',
+    prompt: `${q.pre}<span class="blank">___</span>${q.post}`,
+    promptHint: q.hint,
+    options: shuffle(q.opts).map(o => ({ label: o, value: o })),
+    correct: q.correct,
+    correctLabel: q.correct,
+    review: { sentence: q.pre + q.correct + q.post, hint: q.hint }
+  };
+}
+
+function genLieuTR() {
+  const q = POOL_LIEU_TR[Math.floor(Math.random()*POOL_LIEU_TR.length)];
+  return {
+    type: 'translate',
+    theme: 'lieu',
+    prompt: q.nl,
+    promptHint: 'Vertaal in het Frans',
+    answers: q.fr,
+    correctLabel: q.fr[0].charAt(0).toUpperCase() + q.fr[0].slice(1) + '.',
+    review: { nl: q.nl, fr: q.fr[0] }
+  };
+}
+
+function genMaterielTR() {
+  const q = POOL_MATERIEL_TR[Math.floor(Math.random()*POOL_MATERIEL_TR.length)];
+  return {
+    type: 'translate',
+    theme: 'materiel',
+    prompt: q.nl,
+    promptHint: 'Vertaal in het Frans',
+    answers: q.fr,
+    correctLabel: q.fr[0].charAt(0).toUpperCase() + q.fr[0].slice(1) + '.',
+    review: { nl: q.nl, fr: q.fr[0] }
+  };
+}
+
+function genPronomFill() {
+  const q = POOL_PRON_FILL[Math.floor(Math.random()*POOL_PRON_FILL.length)];
+  return {
+    type: 'fill-pron',
+    theme: 'pronominaux',
+    prompt: `${q.pre}<span class="blank">___</span> ${q.post}`,
+    promptHint: 'Vul het juiste pronom réfléchi in (me, te, se, nous, vous, m\', t\' of s\')',
+    answers: q.answers,
+    correctLabel: q.answers[0],
+    review: { sentence: q.pre + q.answers[0] + (q.answers[0].endsWith("'") ? '' : ' ') + q.post, answer: q.answers[0] }
+  };
+}
+
+function genConjugate() {
+  const v = VERBS_PRONOM[Math.floor(Math.random()*VERBS_PRONOM.length)];
+  const s = SUBJECTS[Math.floor(Math.random()*SUBJECTS.length)];
+  const verbForm = v.conj[s.idx];
+  const answer = combinePronoun(s.pron, s.pronEl, verbForm);
+  return {
+    type: 'conjugate',
+    theme: 'pronominaux',
+    prompt: `Vervoeg <em>${v.inf}</em> bij <strong>${s.subj}</strong>`,
+    promptHint: `(${v.nl}) — typ <em>pronom + werkwoord</em>, bv. "me lave"`,
+    answers: [answer],
+    correctLabel: s.subj + ' ' + answer,
+    review: { subject: s.subj, inf: v.inf, answer: s.subj + ' ' + answer }
+  };
+}
+
+// Random vraag uit gegeven thema's
+function pickRandomQuestion(themes) {
+  const generators = [];
+  if (themes.includes('lieu')) {
+    generators.push(genLieuMC, genLieuMC, genLieuTR); // 2x MC, 1x translate
+  }
+  if (themes.includes('materiel')) {
+    generators.push(genGenderQ, genGenderQ, genMaterielTR);
+  }
+  if (themes.includes('pronominaux')) {
+    generators.push(genPronomFill, genPronomFill, genConjugate);
+  }
+  return generators[Math.floor(Math.random()*generators.length)]();
+}
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'errors') renderErrors();
+  if (name === 'cheat') renderCheat();
+}
+
+// ==========================================================================
+// MIJN FOUTEN — collector voor wrong answers from Storm/Diagnose
+// ==========================================================================
+const errorBag = []; // {q, userAnswer, ts}
+function logError(q, userAnswer) {
+  // Avoid duplicates: we keep most recent of each (based on prompt)
+  const key = q.prompt + (q.promptHint || '');
+  const existingIdx = errorBag.findIndex(e => (e.q.prompt + (e.q.promptHint||'')) === key);
+  if (existingIdx >= 0) errorBag.splice(existingIdx, 1);
+  errorBag.push({ q, userAnswer, ts: Date.now() });
+  updateErrorBadge();
+}
+function updateErrorBadge() {
+  const badge = document.getElementById('errors-count');
+  if (errorBag.length > 0) {
+    badge.textContent = errorBag.length;
+    badge.style.display = 'inline-block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+function clearErrors() {
+  errorBag.length = 0;
+  updateErrorBadge();
+  renderErrors();
+}
+function renderErrors() {
+  const c = document.getElementById('errors-content');
+  if (errorBag.length === 0) {
+    c.innerHTML = `
+      <div class="errors-empty">
+        <span class="emoji">✨</span>
+        <h3>Nog geen fouten verzameld</h3>
+        <p>Tijdens de Diagnose en Storm worden je fouten hier verzameld om gericht te oefenen.<br>Begin met de <strong>Diagnose</strong> of <strong>Storm</strong> om te starten.</p>
+      </div>`;
+    return;
+  }
+  c.innerHTML = `
+    <div class="storm-intro">
+      <p><strong>🔥 Mijn fouten:</strong> de vragen waar je struikelde, opnieuw te oefenen. Goed antwoord = de vraag verdwijnt uit de lijst.</p>
+    </div>
+    <div class="score-bar visible" style="display:flex;">
+      <span class="score-text">Te oefenen: <span id="errors-remaining">${errorBag.length}</span></span>
+      <div class="progress-bar-container"><div class="progress-bar" style="width:0%"></div></div>
+      <button class="reset-btn" onclick="clearErrors()">🗑️ Lijst wissen</button>
+    </div>
+    <div id="errors-list"></div>`;
+  const list = document.getElementById('errors-list');
+  list.innerHTML = '';
+  errorBag.forEach((e, idx) => {
+    const card = renderQuestionCard(e.q, idx, 'errors', list);
+  });
+}
+
+// ==========================================================================
+// QUESTION CARD RENDERER — renders one question into a container
+// ctx = 'diag' | 'storm' | 'errors'
+// onAnswer(correct, q) = callback after answer
+// ==========================================================================
+function renderQuestionCard(q, idx, ctx, container) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.dataset.idx = idx;
+  card.dataset.theme = q.theme;
+
+  const themeLabels = { lieu: 'plaatsbepalingen', materiel: 'schoolspullen', pronominaux: 'wederkerige werkwoorden' };
+  const themeIcons = { lieu: '📍', materiel: '🎒', pronominaux: '🔁' };
+
+  let inner = `
+    <div class="q-tag ${q.theme}">${themeIcons[q.theme]} ${themeLabels[q.theme]}</div>
+    <div class="q-text"><span class="q-num">${idx+1}.</span>${q.prompt}<br><span class="ctx">${q.promptHint || ''}</span></div>`;
+
+  if (q.options) {
+    // Multiple choice
+    inner += `<div class="q-options">`;
+    q.options.forEach(o => {
+      inner += `<button class="q-option" data-val="${o.value}">${o.label}</button>`;
+    });
+    inner += `</div>`;
+  } else {
+    // Text input
+    inner += `
+      <div class="q-row">
+        <input type="text" class="q-input" placeholder="Typ je antwoord..." autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>`;
+  }
+  inner += `<div class="q-feedback"></div>`;
+  card.innerHTML = inner;
+  container.appendChild(card);
+
+  let answered = false;
+
+  const handleAnswer = (userInput, isOption, optBtn) => {
+    if (answered) return;
+    let correct = false;
+    if (q.options) {
+      correct = (userInput === q.correct);
+    } else {
+      const norm = normalize(userInput);
+      if (!norm) return;
+      correct = q.answers.some(a => {
+        const an = normalize(a);
+        return an === norm || an === norm.replace(/[.!?]$/, '') || an + '.' === norm;
+      });
+    }
+    answered = true;
+
+    const fb = card.querySelector('.q-feedback');
+
+    if (correct) {
+      card.classList.add('correct');
+      if (q.options) optBtn.classList.add('correct');
+      else card.querySelector('.q-input').classList.add('correct-input');
+      card.querySelectorAll('button, input').forEach(el => el.disabled = true);
+      fb.textContent = `✓ ${randomPraise()}`;
+      fb.className = 'q-feedback good visible';
+
+      // If errors-context, remove from bag
+      if (ctx === 'errors') {
+        // Remove from errorBag
+        const realIdx = errorBag.findIndex(e => e.q === q);
+        if (realIdx >= 0) errorBag.splice(realIdx, 1);
+        updateErrorBadge();
+        const remEl = document.getElementById('errors-remaining');
+        if (remEl) remEl.textContent = errorBag.length;
+        setTimeout(() => {
+          card.classList.add('fading');
+          setTimeout(() => {
+            card.style.display = 'none';
+            if (errorBag.length === 0) renderErrors();
+          }, 500);
+        }, 1000);
+      } else if (ctx === 'storm') {
+        setTimeout(() => stormNext(true), 1000);
+      } else if (ctx === 'diag') {
+        setTimeout(() => diagNext(true), 1000);
+      }
+    } else {
+      card.classList.add('incorrect');
+      if (q.options) {
+        optBtn.classList.add('incorrect');
+        // Mark correct one too
+        card.querySelectorAll('.q-option').forEach(b => {
+          if (b.dataset.val === q.correct) b.classList.add('correct');
+        });
+      } else {
+        card.querySelector('.q-input').classList.add('wrong-input');
+      }
+      card.querySelectorAll('button, input').forEach(el => el.disabled = true);
+      fb.innerHTML = `✗ Het juiste antwoord is: <em>${q.correctLabel}</em>`;
+      fb.className = 'q-feedback bad visible';
+
+      // Log error (for both storm and diag)
+      if (ctx === 'storm' || ctx === 'diag') {
+        logError(q, userInput);
+        setTimeout(() => {
+          if (ctx === 'storm') stormNext(false);
+          else if (ctx === 'diag') diagNext(false);
+        }, 2200);
+      }
+    }
+  };
+
+  if (q.options) {
+    card.querySelectorAll('.q-option').forEach(btn => {
+      btn.addEventListener('click', () => handleAnswer(btn.dataset.val, true, btn));
+    });
+  } else {
+    const input = card.querySelector('.q-input');
+    const btn = card.querySelector('.check-btn');
+    btn.addEventListener('click', () => handleAnswer(input.value, false));
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); handleAnswer(input.value, false); }
+    });
+    setTimeout(() => input.focus(), 50);
+  }
+  return card;
+}
+
+// ==========================================================================
+// DIAGNOSE
+// ==========================================================================
+let diagQuestions = [];
+let diagCurrent = 0;
+let diagScores = { lieu: { correct: 0, total: 0 }, materiel: { correct: 0, total: 0 }, pronominaux: { correct: 0, total: 0 } };
+
+function startDiag() {
+  document.getElementById('diag-start').style.display = 'none';
+  document.getElementById('diag-results').classList.remove('active');
+  document.getElementById('diag-quiz').classList.add('active');
+  // 12 questions: 4 per thema, gemixt
+  const lieuQs = [genLieuMC(), genLieuMC(), genLieuTR(), genLieuTR()];
+  const matQs = [genGenderQ(), genGenderQ(), genGenderQ(), genMaterielTR()];
+  const pronQs = [genPronomFill(), genPronomFill(), genConjugate(), genConjugate()];
+  diagQuestions = shuffle([...lieuQs, ...matQs, ...pronQs]);
+  diagCurrent = 0;
+  diagScores = { lieu: { correct: 0, total: 0 }, materiel: { correct: 0, total: 0 }, pronominaux: { correct: 0, total: 0 } };
+  document.getElementById('diag-total').textContent = diagQuestions.length;
+  renderDiagCurrent();
+}
+
+function renderDiagCurrent() {
+  const container = document.getElementById('diag-q-container');
+  container.innerHTML = '';
+  document.getElementById('diag-current').textContent = diagCurrent + 1;
+  document.getElementById('diag-progress').style.width = ((diagCurrent / diagQuestions.length) * 100) + '%';
+  const q = diagQuestions[diagCurrent];
+  diagScores[q.theme].total++;
+  renderQuestionCard(q, diagCurrent, 'diag', container);
+}
+
+function diagNext(wasCorrect) {
+  const q = diagQuestions[diagCurrent];
+  if (wasCorrect) diagScores[q.theme].correct++;
+  diagCurrent++;
+  if (diagCurrent >= diagQuestions.length) {
+    showDiagResults();
+  } else {
+    renderDiagCurrent();
+  }
+}
+
+function showDiagResults() {
+  document.getElementById('diag-quiz').classList.remove('active');
+  document.getElementById('diag-results').classList.add('active');
+  document.getElementById('diag-progress').style.width = '100%';
+
+  const rowsContainer = document.getElementById('diag-result-rows');
+  rowsContainer.innerHTML = '';
+
+  const themes = [
+    { key: 'lieu', label: 'Plaatsbepalingen', icon: '📍' },
+    { key: 'materiel', label: 'Schoolspullen', icon: '🎒' },
+    { key: 'pronominaux', label: 'Wederkerige werkwoorden', icon: '🔁' }
+  ];
+
+  let weakest = null, weakestPct = 101;
+  themes.forEach(t => {
+    const s = diagScores[t.key];
+    const pct = s.total > 0 ? (s.correct / s.total * 100) : 0;
+    let cls = 'medium';
+    if (pct >= 80) cls = 'strong';
+    else if (pct < 50) cls = 'weak';
+    if (pct < weakestPct) { weakestPct = pct; weakest = t; }
+    const msg = pct >= 80 ? 'Sterk — kort herhalen volstaat.' : pct >= 50 ? 'Redelijk — extra oefening nuttig.' : 'Hier ligt de meeste leerwinst.';
+    rowsContainer.innerHTML += `
+      <div class="diag-score-row ${cls}">
+        <div class="diag-score-icon">${t.icon}</div>
+        <div class="diag-score-info">
+          <h4>${t.label}</h4>
+          <p>${msg}</p>
+        </div>
+        <div class="diag-score-num">${s.correct}/${s.total}</div>
+      </div>`;
+  });
+
+  const advice = document.getElementById('diag-advice');
+  if (weakest && weakestPct < 80) {
+    advice.innerHTML = `<strong>Advies:</strong> begin met de <strong>${weakest.label.toLowerCase()}</strong>. Open de tab <strong>Mijn fouten</strong> — daar staan de vragen die net fout gingen. Daarna kan je de <strong>Storm-modus</strong> doen om alle thema's gemixt te oefenen.`;
+  } else {
+    advice.innerHTML = `<strong>Sterk over de hele lijn!</strong> Doe een paar rondjes <strong>Storm</strong> om scherp te blijven en bekijk vlak voor de toets de <strong>Spiekkaart</strong>.`;
+  }
+}
+
+function restartDiag() {
+  document.getElementById('diag-results').classList.remove('active');
+  document.getElementById('diag-quiz').classList.remove('active');
+  document.getElementById('diag-start').style.display = 'block';
+}
+
+// ==========================================================================
+// STORM
+// ==========================================================================
+let stormQuestions = [];
+let stormCurrent = 0;
+let stormScore = 0;
+const STORM_SIZE = 15;
+
+function buildStorm() {
+  stormQuestions = [];
+  for (let i = 0; i < STORM_SIZE; i++) {
+    stormQuestions.push(pickRandomQuestion(['lieu', 'materiel', 'pronominaux']));
+  }
+  stormCurrent = 0;
+  stormScore = 0;
+  document.getElementById('storm-total').textContent = STORM_SIZE;
+  document.getElementById('storm-score').textContent = '0';
+  document.getElementById('storm-progress').style.width = '0%';
+  document.getElementById('storm-score-bar').classList.add('visible');
+  renderStormCurrent();
+}
+
+function renderStormCurrent() {
+  const container = document.getElementById('storm-container');
+  container.innerHTML = '';
+  if (stormCurrent >= stormQuestions.length) {
+    container.innerHTML = `
+      <div class="diag-result-card">
+        <h2>🎉 Storm voltooid!</h2>
+        <p style="font-family:'Source Sans 3',sans-serif;font-size:16px;color:var(--warm-brown);margin-bottom:14px;">Je behaalde <strong>${stormScore}/${STORM_SIZE}</strong>. ${errorBag.length > 0 ? `Er zijn <strong>${errorBag.length}</strong> fouten verzameld in <em>Mijn fouten</em>.` : 'Geen fouten — uitstekend!'}</p>
+        <div class="diag-actions">
+          <button class="start-btn" onclick="resetStorm()">🌪️ Nieuwe storm</button>
+          ${errorBag.length > 0 ? '<button class="skip-btn" onclick="goToTab(\'errors\')">🔥 Mijn fouten oefenen</button>' : ''}
+          <button class="skip-btn" onclick="goToTab('cheat')">📚 Spiekkaart</button>
+        </div>
+      </div>`;
+    return;
+  }
+  document.getElementById('storm-progress').style.width = ((stormCurrent / STORM_SIZE) * 100) + '%';
+  const q = stormQuestions[stormCurrent];
+  renderQuestionCard(q, stormCurrent, 'storm', container);
+}
+
+function stormNext(wasCorrect) {
+  if (wasCorrect) {
+    stormScore++;
+    document.getElementById('storm-score').textContent = stormScore;
+  }
+  stormCurrent++;
+  document.getElementById('storm-progress').style.width = ((stormCurrent / STORM_SIZE) * 100) + '%';
+  renderStormCurrent();
+}
+
+function resetStorm() { buildStorm(); }
+
+// Initialize storm on first visit only when tab is opened
+let stormBuilt = false;
+const origGoToTab = goToTab;
+goToTab = function(name) {
+  origGoToTab(name);
+  if (name === 'storm' && !stormBuilt) {
+    buildStorm();
+    stormBuilt = true;
+  }
+};
+
+// ==========================================================================
+// SPIEKKAART
+// ==========================================================================
+function renderCheat() {
+  const c = document.getElementById('cheat-content');
+  if (c.dataset.rendered === '1') return;
+
+  // Materiel: groep per geslacht
+  const masc = VOCAB_MATERIEL.filter(w => w.gender === 'masc');
+  const fem = VOCAB_MATERIEL.filter(w => w.gender === 'fem');
+  const plur = VOCAB_MATERIEL.filter(w => w.gender === 'plur');
+
+  c.innerHTML = `
+    <div class="cheat-block">
+      <h2>📍 Plaatsbepalingen</h2>
+      <div class="sub">De 18 prépositions de lieu — alle vormen die je moet kennen.</div>
+      <div class="cheat-prep-list">
+        ${PREPOSITIONS.map(p => `<div class="item"><span class="fr">${p.fr}</span><span class="nl">${p.nl}</span></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🎒 Schoolspullen — geslachten</h2>
+      <div class="sub">29 woorden gegroepeerd per geslacht. Onthoud: het lidwoord hoort bij het woord.</div>
+      <div class="cheat-grid-3">
+        <div class="cheat-col masc">
+          <h4>Masculin (un / le)</h4>
+          <ul>${masc.map(w => `<li>${w.article} <strong>${w.fr}</strong><span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+        <div class="cheat-col fem">
+          <h4>Féminin (une / la)</h4>
+          <ul>${fem.map(w => `<li>${w.article} <strong>${w.fr}</strong><span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+        <div class="cheat-col plur">
+          <h4>Pluriel (des)</h4>
+          <ul>${plur.map(w => `<li>${w.article} <strong>${w.fr}</strong><span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🔁 Wederkerige werkwoorden</h2>
+      <div class="sub">De 6 pronoms réfléchis + voorbeeld <em>se laver</em>. Voor klinker: <em>me/te/se</em> → <em>m'/t'/s'</em>.</div>
+      <table class="conj-table">
+        <thead><tr><th>Onderwerp</th><th>Pronom</th><th>Werkwoord</th></tr></thead>
+        <tbody>
+          <tr><td><span class="subj">je</span></td><td><span class="pronom">me</span></td><td>lave</td></tr>
+          <tr><td><span class="subj">tu</span></td><td><span class="pronom">te</span></td><td>laves</td></tr>
+          <tr><td><span class="subj">il / elle / on</span></td><td><span class="pronom">se</span></td><td>lave</td></tr>
+          <tr><td><span class="subj">nous</span></td><td><span class="pronom">nous</span></td><td>lavons</td></tr>
+          <tr><td><span class="subj">vous</span></td><td><span class="pronom">vous</span></td><td>lavez</td></tr>
+          <tr><td><span class="subj">ils / elles</span></td><td><span class="pronom">se</span></td><td>lavent</td></tr>
+        </tbody>
+      </table>
+      <h4 style="font-family:'Vollkorn',Georgia,serif;font-size:14px;color:var(--vak-color-dark);margin-top:16px;margin-bottom:8px;">De 15 werkwoorden:</h4>
+      <ul class="cheat-verbs-list">
+        ${VERBS_PRONOM.map(v => `<li><span class="fr">${v.inf}</span><span class="nl">${v.nl}</span></li>`).join('')}
+      </ul>
+    </div>`;
+  c.dataset.rendered = '1';
+}
+
+// ==========================================================================
+// PDF DOWNLOAD
+// ==========================================================================
+function openDownloadModal() { document.getElementById('download-modal').classList.add('active'); }
+function closeDownloadModal() { document.getElementById('download-modal').classList.remove('active'); }
+
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+renderCheat(); // pre-render zodat het snel laadt bij eerste bezoek
+</script>
+</body>
+</html>
