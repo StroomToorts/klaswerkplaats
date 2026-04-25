@@ -134,6 +134,9 @@ header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
 .check-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 18px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
 .check-btn:hover:not(:disabled) { background: var(--vak-color-dark); }
 .check-btn:disabled { opacity: 0.5; cursor: default; }
+.next-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 22px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; display: inline-block; }
+.next-btn:hover { background: var(--vak-color-dark); }
+.next-btn:focus { outline: 2px solid var(--vak-color-light); outline-offset: 2px; }
 .q-feedback { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 10px; display: none; }
 .q-feedback.visible { display: block; }
 .q-feedback.good { color: var(--olive-dark); }
@@ -352,7 +355,7 @@ header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
 <!-- ============ STORM ============ -->
 <section class="tab-content" data-content="storm">
   <div class="storm-intro">
-    <p><strong>🌪️ Storm-modus:</strong> 15 willekeurige vragen door elkaar uit alle drie de thema's. Auto-advance na elk antwoord. Fouten verschijnen automatisch in <em>Mijn fouten</em>.</p>
+    <p><strong>🌪️ Storm-modus:</strong> 15 willekeurige vragen door elkaar uit alle drie de thema's. Bij een fout antwoord kan je het juiste antwoord rustig bestuderen voor je doorklikt. Fouten verschijnen automatisch in <em>Mijn fouten</em>.</p>
   </div>
   <div class="score-bar" id="storm-score-bar">
     <span class="score-text">Score: <span id="storm-score">0</span>/<span id="storm-total">15</span></span>
@@ -781,9 +784,13 @@ function goToTab(name) {
 // ==========================================================================
 const errorBag = []; // {q, userAnswer, ts}
 function logError(q, userAnswer) {
-  // Avoid duplicates: we keep most recent of each (based on prompt)
-  const key = q.prompt + (q.promptHint || '');
-  const existingIdx = errorBag.findIndex(e => (e.q.prompt + (e.q.promptHint||'')) === key);
+  // Avoid duplicates: we keep most recent of each
+  // Key bevat type + theme + prompt + hint zodat vragen uit verschillende pools
+  // (bv. een lieu-vertaling en materiel-vertaling met toevallig dezelfde NL-zin)
+  // niet als duplicates worden beschouwd.
+  const makeKey = (qq) => (qq.type || '') + '|' + (qq.theme || '') + '|' + qq.prompt + '|' + (qq.promptHint || '');
+  const key = makeKey(q);
+  const existingIdx = errorBag.findIndex(e => makeKey(e.q) === key);
   if (existingIdx >= 0) errorBag.splice(existingIdx, 1);
   errorBag.push({ q, userAnswer, ts: Date.now() });
   updateErrorBadge();
@@ -929,13 +936,24 @@ function renderQuestionCard(q, idx, ctx, container) {
       fb.innerHTML = `✗ Het juiste antwoord is: <em>${q.correctLabel}</em>`;
       fb.className = 'q-feedback bad visible';
 
-      // Log error (for both storm and diag)
+      // Log error (for both storm and diag) en toon Volgende-knop ipv auto-advance
+      // Zo kan de leerling de fout grondig bestuderen voor verder te gaan.
       if (ctx === 'storm' || ctx === 'diag') {
         logError(q, userInput);
-        setTimeout(() => {
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'next-btn';
+        nextBtn.textContent = 'Volgende →';
+        nextBtn.addEventListener('click', () => {
           if (ctx === 'storm') stormNext(false);
           else if (ctx === 'diag') diagNext(false);
-        }, 2200);
+        });
+        // Enter-toets kan ook de Volgende-knop activeren
+        nextBtn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); nextBtn.click(); }
+        });
+        fb.appendChild(document.createElement('br'));
+        fb.appendChild(nextBtn);
+        setTimeout(() => nextBtn.focus(), 50);
       }
     }
   };
