@@ -306,11 +306,10 @@ header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
   </div>
 </header>
 
-<p class="intro">Voorbereiding op de toets: <strong>les prépositions de lieu</strong>, <strong>mon matériel scolaire</strong> en <strong>les verbes pronominaux</strong>. Begin met de diagnose om te ontdekken waar je staat, oefen vervolgens gericht in de Storm, herhaal je fouten, en gebruik de spiekkaart vlak voor de toets.</p>
+<p class="intro">Voorbereiding op de toets: <strong>les prépositions de lieu</strong>, <strong>mon matériel scolaire</strong> en <strong>les verbes pronominaux</strong>. Doe een oefenronde om te zien waar je staat, herhaal je fouten in <em>Mijn fouten</em>, en gebruik de spiekkaart vlak voor de toets.</p>
 
 <nav class="tabs no-print" role="tablist">
-  <button class="tab active" data-tab="diagnose">🎯 Diagnose</button>
-  <button class="tab" data-tab="storm">🌪️ Storm</button>
+  <button class="tab active" data-tab="diagnose">🎯 Oefenronde</button>
   <button class="tab" data-tab="errors">🔥 Mijn fouten <span class="badge" id="errors-count" style="display:none">0</span></button>
   <button class="tab" data-tab="cheat">📚 Spiekkaart</button>
 </nav>
@@ -319,12 +318,11 @@ header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
 <section class="tab-content active" data-content="diagnose">
   <div id="diag-start">
     <div class="diag-intro">
-      <h2>Klaar voor de toets?</h2>
-      <p>Doe deze diagnose-test van 12 vragen (ongeveer 5 minuten). Je krijgt nadien een score per onderwerp en een advies waar je het best mee verder oefent.</p>
+      <h2>Klaar voor een oefenronde?</h2>
+      <p>Een ronde van 12 vragen (ongeveer 5 minuten). Je krijgt nadien een score per onderwerp en advies waar je het best mee verder oefent. Je kan de oefenronde zo vaak doen als je wil — telkens met andere vragen.</p>
       <p style="opacity:0.75;font-size:14px;">De vragen komen uit de drie thema's: plaatsbepalingen, schoolspullen en wederkerige werkwoorden.</p>
       <div class="diag-actions">
-        <button class="start-btn" onclick="startDiag()">🎯 Start diagnose</button>
-        <button class="skip-btn" onclick="goToTab('storm')">Overslaan, ga naar Storm</button>
+        <button class="start-btn" onclick="startDiag()">🎯 Start oefenronde</button>
         <button class="skip-btn" onclick="goToTab('cheat')">Bekijk eerst de spiekkaart</button>
       </div>
     </div>
@@ -341,28 +339,16 @@ header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
 
   <div id="diag-results" class="diag-results">
     <div class="diag-result-card">
-      <h2>Resultaat van de diagnose</h2>
+      <h2>Resultaat van de oefenronde</h2>
       <div id="diag-result-rows"></div>
       <div class="diag-advice" id="diag-advice"></div>
       <div class="diag-actions">
-        <button class="start-btn" onclick="goToTab('storm')">🌪️ Naar Storm</button>
-        <button class="skip-btn" onclick="restartDiag()">🔄 Diagnose opnieuw</button>
+        <button class="start-btn" onclick="startDiag()">🎯 Nieuwe oefenronde</button>
+        <button class="skip-btn" onclick="goToTab('errors')">🔥 Naar Mijn fouten</button>
+        <button class="skip-btn" onclick="goToTab('cheat')">📚 Spiekkaart</button>
       </div>
     </div>
   </div>
-</section>
-
-<!-- ============ STORM ============ -->
-<section class="tab-content" data-content="storm">
-  <div class="storm-intro">
-    <p><strong>🌪️ Storm-modus:</strong> 15 willekeurige vragen door elkaar uit alle drie de thema's. Bij een fout antwoord kan je het juiste antwoord rustig bestuderen voor je doorklikt. Fouten verschijnen automatisch in <em>Mijn fouten</em>.</p>
-  </div>
-  <div class="score-bar" id="storm-score-bar">
-    <span class="score-text">Score: <span id="storm-score">0</span>/<span id="storm-total">15</span></span>
-    <div class="progress-bar-container"><div class="progress-bar" id="storm-progress"></div></div>
-    <button class="reset-btn" onclick="resetStorm()">🔄 Nieuwe ronde</button>
-  </div>
-  <div id="storm-container"></div>
 </section>
 
 <!-- ============ MIJN FOUTEN ============ -->
@@ -749,21 +735,6 @@ function genConjugate() {
   };
 }
 
-// Random vraag uit gegeven thema's
-function pickRandomQuestion(themes) {
-  const generators = [];
-  if (themes.includes('lieu')) {
-    generators.push(genLieuMC, genLieuMC, genLieuTR); // 2x MC, 1x translate
-  }
-  if (themes.includes('materiel')) {
-    generators.push(genGenderQ, genGenderQ, genMaterielTR);
-  }
-  if (themes.includes('pronominaux')) {
-    generators.push(genPronomFill, genPronomFill, genConjugate);
-  }
-  return generators[Math.floor(Math.random()*generators.length)]();
-}
-
 // ==========================================================================
 // TAB SWITCHING
 // ==========================================================================
@@ -781,7 +752,7 @@ function goToTab(name) {
 }
 
 // ==========================================================================
-// MIJN FOUTEN — collector voor wrong answers from Storm/Diagnose
+// MIJN FOUTEN — collector voor wrong answers uit de oefenronde
 // ==========================================================================
 const errorBag = []; // {q, userAnswer, ts}
 function logError(q, userAnswer) {
@@ -817,7 +788,7 @@ function renderErrors() {
       <div class="errors-empty">
         <span class="emoji">✨</span>
         <h3>Nog geen fouten verzameld</h3>
-        <p>Tijdens de Diagnose en Storm worden je fouten hier verzameld om gericht te oefenen.<br>Begin met de <strong>Diagnose</strong> of <strong>Storm</strong> om te starten.</p>
+        <p>Tijdens de oefenronde worden je fouten hier verzameld om gericht te oefenen.<br>Begin met de <strong>Oefenronde</strong> om te starten.</p>
       </div>`;
     return;
   }
@@ -840,7 +811,7 @@ function renderErrors() {
 
 // ==========================================================================
 // QUESTION CARD RENDERER — renders one question into a container
-// ctx = 'diag' | 'storm' | 'errors'
+// ctx = 'diag' | 'errors'
 // onAnswer(correct, q) = callback after answer
 // ==========================================================================
 function renderQuestionCard(q, idx, ctx, container) {
@@ -917,8 +888,6 @@ function renderQuestionCard(q, idx, ctx, container) {
             if (errorBag.length === 0) renderErrors();
           }, 500);
         }, 1000);
-      } else if (ctx === 'storm') {
-        setTimeout(() => stormNext(true), 1000);
       } else if (ctx === 'diag') {
         setTimeout(() => diagNext(true), 1000);
       }
@@ -937,18 +906,14 @@ function renderQuestionCard(q, idx, ctx, container) {
       fb.innerHTML = `✗ Het juiste antwoord is: <em>${q.correctLabel}</em>`;
       fb.className = 'q-feedback bad visible';
 
-      // Log error (for both storm and diag) en toon Volgende-knop ipv auto-advance
+      // Log error en toon Volgende-knop ipv auto-advance
       // Zo kan de leerling de fout grondig bestuderen voor verder te gaan.
-      if (ctx === 'storm' || ctx === 'diag') {
+      if (ctx === 'diag') {
         logError(q, userInput);
         const nextBtn = document.createElement('button');
         nextBtn.className = 'next-btn';
         nextBtn.textContent = 'Volgende →';
-        nextBtn.addEventListener('click', () => {
-          if (ctx === 'storm') stormNext(false);
-          else if (ctx === 'diag') diagNext(false);
-        });
-        // Enter-toets kan ook de Volgende-knop activeren
+        nextBtn.addEventListener('click', () => diagNext(false));
         nextBtn.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') { e.preventDefault(); nextBtn.click(); }
         });
@@ -1054,9 +1019,9 @@ function showDiagResults() {
 
   const advice = document.getElementById('diag-advice');
   if (weakest && weakestPct < 80) {
-    advice.innerHTML = `<strong>Advies:</strong> begin met de <strong>${weakest.label.toLowerCase()}</strong>. Open de tab <strong>Mijn fouten</strong> — daar staan de vragen die net fout gingen. Daarna kan je de <strong>Storm-modus</strong> doen om alle thema's gemixt te oefenen.`;
+    advice.innerHTML = `<strong>Advies:</strong> begin met de <strong>${weakest.label.toLowerCase()}</strong>. Open de tab <strong>Mijn fouten</strong> — daar staan de vragen die net fout gingen. Als die opgelost zijn, doe gerust een nieuwe oefenronde om je voortgang te zien.`;
   } else {
-    advice.innerHTML = `<strong>Sterk over de hele lijn!</strong> Doe een paar rondjes <strong>Storm</strong> om scherp te blijven en bekijk vlak voor de toets de <strong>Spiekkaart</strong>.`;
+    advice.innerHTML = `<strong>Sterk over de hele lijn!</strong> Doe nog een oefenronde om scherp te blijven en bekijk vlak voor de toets de <strong>Spiekkaart</strong>.`;
   }
 }
 
@@ -1065,72 +1030,6 @@ function restartDiag() {
   document.getElementById('diag-quiz').classList.remove('active');
   document.getElementById('diag-start').style.display = 'block';
 }
-
-// ==========================================================================
-// STORM
-// ==========================================================================
-let stormQuestions = [];
-let stormCurrent = 0;
-let stormScore = 0;
-const STORM_SIZE = 15;
-
-function buildStorm() {
-  stormQuestions = [];
-  for (let i = 0; i < STORM_SIZE; i++) {
-    stormQuestions.push(pickRandomQuestion(['lieu', 'materiel', 'pronominaux']));
-  }
-  stormCurrent = 0;
-  stormScore = 0;
-  document.getElementById('storm-total').textContent = STORM_SIZE;
-  document.getElementById('storm-score').textContent = '0';
-  document.getElementById('storm-progress').style.width = '0%';
-  document.getElementById('storm-score-bar').classList.add('visible');
-  renderStormCurrent();
-}
-
-function renderStormCurrent() {
-  const container = document.getElementById('storm-container');
-  container.innerHTML = '';
-  if (stormCurrent >= stormQuestions.length) {
-    container.innerHTML = `
-      <div class="diag-result-card">
-        <h2>🎉 Storm voltooid!</h2>
-        <p style="font-family:'Source Sans 3',sans-serif;font-size:16px;color:var(--warm-brown);margin-bottom:14px;">Je behaalde <strong>${stormScore}/${STORM_SIZE}</strong>. ${errorBag.length > 0 ? `Er zijn <strong>${errorBag.length}</strong> fouten verzameld in <em>Mijn fouten</em>.` : 'Geen fouten — uitstekend!'}</p>
-        <div class="diag-actions">
-          <button class="start-btn" onclick="resetStorm()">🌪️ Nieuwe storm</button>
-          ${errorBag.length > 0 ? '<button class="skip-btn" onclick="goToTab(\'errors\')">🔥 Mijn fouten oefenen</button>' : ''}
-          <button class="skip-btn" onclick="goToTab('cheat')">📚 Spiekkaart</button>
-        </div>
-      </div>`;
-    return;
-  }
-  document.getElementById('storm-progress').style.width = ((stormCurrent / STORM_SIZE) * 100) + '%';
-  const q = stormQuestions[stormCurrent];
-  renderQuestionCard(q, stormCurrent, 'storm', container);
-}
-
-function stormNext(wasCorrect) {
-  if (wasCorrect) {
-    stormScore++;
-    document.getElementById('storm-score').textContent = stormScore;
-  }
-  stormCurrent++;
-  document.getElementById('storm-progress').style.width = ((stormCurrent / STORM_SIZE) * 100) + '%';
-  renderStormCurrent();
-}
-
-function resetStorm() { buildStorm(); }
-
-// Initialize storm on first visit only when tab is opened
-let stormBuilt = false;
-const origGoToTab = goToTab;
-goToTab = function(name) {
-  origGoToTab(name);
-  if (name === 'storm' && !stormBuilt) {
-    buildStorm();
-    stormBuilt = true;
-  }
-};
 
 // ==========================================================================
 // SPIEKKAART
