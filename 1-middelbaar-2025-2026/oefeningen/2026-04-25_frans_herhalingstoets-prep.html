@@ -736,15 +736,16 @@ function genConjugate() {
   const v = VERBS_PRONOM[Math.floor(Math.random()*VERBS_PRONOM.length)];
   const s = SUBJECTS[Math.floor(Math.random()*SUBJECTS.length)];
   const verbForm = v.conj[s.idx];
-  const answer = combinePronoun(s.pron, s.pronEl, verbForm);
+  const shortAnswer = combinePronoun(s.pron, s.pronEl, verbForm);
+  const longAnswer = s.subj + ' ' + shortAnswer;
   return {
     type: 'conjugate',
     theme: 'pronominaux',
     prompt: `Vervoeg <em>${v.inf}</em> bij <strong>${s.subj}</strong>`,
-    promptHint: `(${v.nl}) — typ <em>pronom + werkwoord</em>, bv. "me lave"`,
-    answers: [answer],
-    correctLabel: s.subj + ' ' + answer,
-    review: { subject: s.subj, inf: v.inf, answer: s.subj + ' ' + answer }
+    promptHint: `(${v.nl}) — typ de volledige vervoeging, bv. "${s.subj} ${shortAnswer}"`,
+    answers: [longAnswer, shortAnswer],
+    correctLabel: longAnswer,
+    review: { subject: s.subj, inf: v.inf, answer: longAnswer }
   };
 }
 
@@ -1203,7 +1204,4 @@ function closeDownloadModal() { document.getElementById('download-modal').classL
 // ==========================================================================
 // INIT
 // ==========================================================================
-renderCheat(); // pre-render zodat het snel laadt bij eerste bezoek
-</script>
-</body>
-</html>
+renderCheat(); // pre-render zod
