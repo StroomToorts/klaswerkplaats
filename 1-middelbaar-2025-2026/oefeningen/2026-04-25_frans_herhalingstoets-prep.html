@@ -742,7 +742,7 @@ function genConjugate() {
     type: 'conjugate',
     theme: 'pronominaux',
     prompt: `Vervoeg <em>${v.inf}</em> bij <strong>${s.subj}</strong>`,
-    promptHint: `(${v.nl}) — typ de volledige vervoeging, bv. "${s.subj} ${shortAnswer}"`,
+    promptHint: `(${v.nl}) — typ de vervoeging, bv. "je m'appelle" of "m'appelle"`,
     answers: [longAnswer, shortAnswer],
     correctLabel: longAnswer,
     review: { subject: s.subj, inf: v.inf, answer: longAnswer }
