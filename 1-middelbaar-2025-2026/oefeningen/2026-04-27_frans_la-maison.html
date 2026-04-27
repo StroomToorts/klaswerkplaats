@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La maison — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+
+  --vak-color: var(--terracotta);
+  --vak-color-light: var(--terracotta-light);
+  --vak-color-dark: var(--rust);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  padding: 20px 16px 60px;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='10' cy='10' r='1' fill='%235C4033' opacity='0.5'/><circle cx='40' cy='30' r='1' fill='%235C4033' opacity='0.5'/><circle cx='70' cy='15' r='1' fill='%235C4033' opacity='0.5'/><circle cx='20' cy='55' r='1' fill='%235C4033' opacity='0.5'/><circle cx='55' cy='65' r='1' fill='%235C4033' opacity='0.5'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+.subject-icon {
+  width: 60px; height: 60px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.title-block h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin-bottom: 2px;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+}
+
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-top: 14px;
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--warm-white);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+.tab {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab:hover { background: var(--sand-light); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 6px rgba(194, 112, 78, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* THEORY */
+.theory-card {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(60, 40, 30, 0.05);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.theory-card p { font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
+.theory-card .accent {
+  background: var(--cream);
+  border-left: 3px solid var(--vak-color);
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+}
+.theory-card .accent strong { color: var(--vak-color-dark); }
+
+.gender-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.gender-pills .pill {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pill.masc { background: rgba(106, 155, 181, 0.15); color: #4A7691; }
+.pill.fem { background: rgba(201, 160, 160, 0.2); color: #9C6868; }
+.pill.plur { background: rgba(212, 168, 67, 0.18); color: #8B6E1E; }
+
+/* FLASHCARDS */
+.flashcard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.flashcard-toolbar .info { font-size: 13px; color: var(--warm-brown); opacity: 0.75; }
+.flashcard-toolbar button {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flashcard-toolbar button:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.flashcard {
+  aspect-ratio: 4/3;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.06);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-light) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.15);
+}
+.flashcard .question-word, .flashcard .answer-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.flashcard .answer-word { font-size: 16px; }
+.flashcard .gender-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+}
+.flashcard-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+.flashcard-front .flashcard-hint { color: var(--warm-brown); }
+.flashcard-back .flashcard-hint { color: rgba(255,255,255,0.8); }
+
+/* COCO — papegaai oefening */
+.coco-intro {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.coco-avatar {
+  font-size: 56px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.coco-intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); line-height: 1.55; }
+.coco-intro-text strong { color: var(--vak-color-dark); font-weight: 600; }
+
+.coco-stage {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.coco-scene {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.coco-bird {
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+  position: relative;
+  animation: cocoFloat 3s ease-in-out infinite;
+}
+@keyframes cocoFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-6px) rotate(2deg); }
+}
+.coco-bird.celebrating { animation: cocoDance 0.5s ease-in-out 3; }
+@keyframes cocoDance {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-10px) rotate(8deg); }
+}
+.coco-bird.laughing { animation: cocoLaugh 0.4s ease-in-out 4; }
+@keyframes cocoLaugh {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.05) rotate(-5deg); }
+}
+
+/* Speech bubble */
+.coco-speech {
+  flex: 1;
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 16px 18px;
+  position: relative;
+  border: 1.5px solid var(--sand);
+}
+.coco-speech::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 22px;
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 11px solid var(--cream);
+  filter: drop-shadow(-1.5px 0 0 var(--sand));
+}
+.coco-says {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.coco-says em { font-style: italic; color: var(--vak-color); font-weight: 700; }
+.coco-question {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  opacity: 0.8;
+}
+
+.coco-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.coco-option {
+  flex: 1;
+  min-width: 130px;
+  padding: 12px 16px;
+  background: var(--warm-white);
+  border: 1.5px solid var(--sand);
+  border-radius: 12px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.coco-option:hover:not(:disabled) {
+  border-color: var(--vak-color);
+  background: var(--cream);
+  transform: translateY(-1px);
+}
+.coco-option.correct {
+  background: rgba(122, 139, 111, 0.15);
+  border-color: var(--olive);
+  color: var(--olive-dark);
+}
+.coco-option.incorrect {
+  background: rgba(183, 85, 61, 0.1);
+  border-color: var(--rust);
+  color: var(--rust);
+}
+.coco-option:disabled { cursor: default; }
+
+.coco-feedback {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  text-align: center;
+  margin-top: 8px;
+  min-height: 28px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: 600;
+}
+.coco-feedback.visible { opacity: 1; }
+.coco-feedback.good { color: var(--olive-dark); }
+.coco-feedback.bad { color: var(--rust); }
+
+.coco-next-btn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 10px 24px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.coco-next-btn:hover { background: var(--vak-color-dark); }
+
+/* Score bar voor Coco */
+.coco-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+}
+.coco-progress .label { white-space: nowrap; opacity: 0.85; }
+.coco-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--sand-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.coco-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  width: 0%;
+  transition: width 0.4s;
+}
+
+/* Eind-scherm Coco */
+.coco-finale {
+  text-align: center;
+  padding: 30px 20px;
+}
+.coco-finale .big-bird { font-size: 80px; line-height: 1; margin-bottom: 12px; animation: cocoDance 0.6s ease-in-out 4; }
+.coco-finale h3 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 10px; font-weight: 700; }
+.coco-finale p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; }
+.coco-finale .restart-btn {
+  padding: 10px 22px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.coco-finale .restart-btn:hover { background: var(--vak-color-dark); }
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 10px 18px;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+.action-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  body { padding: 14px 12px 40px; }
+  .container { padding: 0; }
+  header { gap: 12px; }
+  .subject-icon { width: 50px; height: 50px; font-size: 26px; }
+  .title-block h1 { font-size: 21px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .flashcard .question-word, .flashcard .answer-word { font-size: 14px; }
+  .coco-scene { flex-direction: column; align-items: center; }
+  .coco-bird { width: 80px; height: 80px; }
+  .coco-speech { width: 100%; }
+  .coco-speech::before {
+    left: 30px; top: -10px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+    border-bottom: 11px solid var(--cream);
+    filter: drop-shadow(0 -1.5px 0 var(--sand));
+  }
+  .coco-says { font-size: 19px; }
+  .coco-option { min-width: 100%; }
+}
+
+/* Print */
+@media print {
+  body { background: white !important; padding: 0; font-size: 11pt; }
+  body::before { display: none; }
+  .breadcrumb, .tabs, .actions, .coco-stage, .flashcard-toolbar { display: none !important; }
+  .tab-content { display: block !important; }
+  .theory-card { page-break-inside: avoid; box-shadow: none; border-color: #ddd; }
+  .flashcard { page-break-inside: avoid; }
+  .flashcard .question-word { display: block !important; }
+  .flashcard .answer-word { display: none !important; }
+  .flashcard.flipped { background: white !important; color: black !important; }
+  .flashcard-back { display: none !important; }
+  header { margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>La maison</span>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="subject-icon">🏠</div>
+  <div class="title-block">
+    <h1>La maison — les pièces et les meubles</h1>
+    <div class="date">les van 27 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Vandaag oefenen we de woordenschat van het huis: kamers, structuur en meubels. Bekijk eerst de <strong>theorie</strong>, oefen met de <strong>flashcards</strong>, en help dan <strong>Coco</strong> — de papegaai van Madame Dupont — om de meubels weer in de juiste kamer te zetten. Hij heeft alles door elkaar gehaald!</p>
+
+<!-- Tabs -->
+<div class="tabs no-print">
+  <button class="tab active" data-tab="theorie">📚 Theorie</button>
+  <button class="tab" data-tab="flashcards">🎴 Flashcards</button>
+  <button class="tab" data-tab="coco">🦜 Coco</button>
+</div>
+
+<!-- ============ THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <div class="theory-card">
+    <h3>Geslachten — un, une of les?</h3>
+    <p>Elk Frans woord heeft een geslacht. Voor de woordenschat van het huis gebruiken we vooral:</p>
+    <div class="gender-pills">
+      <span class="pill masc">un / le — masculin</span>
+      <span class="pill fem">une / la — féminin</span>
+      <span class="pill plur">les — pluriel</span>
+    </div>
+    <div class="accent">
+      <strong>Let op:</strong> sommige kamers en meubels zijn niet wat je zou verwachten. <em>Le salon</em> is mannelijk, maar <em>la salle</em> is vrouwelijk. <em>Une armoire</em> is vrouwelijk (geen "un armoire"). En <em>les toilettes</em> staat altijd in het meervoud — alsof er meerdere wc's zijn.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Drie groepen om te leren</h3>
+    <p><strong>1. De kamers (les pièces)</strong> — wat er <em>in</em> het huis is: la cuisine, le salon, la chambre, la salle de bains, les toilettes, la salle à manger, l'entrée, le couloir.</p>
+    <p><strong>2. De structuur (la structure)</strong> — wat het huis <em>maakt</em>: le toit, le sol, un mur, une fenêtre, une porte, un étage, l'escalier.</p>
+    <p><strong>3. De meubels (les meubles)</strong> — wat <em>in</em> de kamers staat: un lit, un canapé, un fauteuil, une table, une chaise, une armoire, un tiroir, une étagère, une bibliothèque, un bureau.</p>
+  </div>
+
+  <div class="theory-card">
+    <h3>Valstrikken</h3>
+    <div class="accent">
+      <strong>Een bibliothèque is een boekenkast</strong>, niet een bibliotheek-gebouw. <strong>Un canapé</strong> is een zetel of sofa, niet een hapje. En <strong>un fauteuil</strong> is een leunstoel — uitspraak: "fo-tuy". Tot slot: <strong>un bureau</strong> betekent zowel "een bureau-meubel" als "een werkkamer".
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <span class="info">💡 Klik op een kaartje om te draaien</span>
+    <button onclick="flipAll()">Toon / verberg alles</button>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+</section>
+
+<!-- ============ COCO ============ -->
+<section class="tab-content" data-content="coco">
+  <div class="coco-intro">
+    <div class="coco-avatar">🦜</div>
+    <div class="coco-intro-text">
+      Dit is <strong>Coco</strong>, de papegaai van Madame Dupont. Hij praat de hele dag, maar hij haalt alles door elkaar! Hij zegt dat het bed in de keuken staat, dat de auto in de badkamer parkeert... <strong>Help hem juist te leren spreken</strong>: kies telkens de juiste kamer.
+    </div>
+  </div>
+
+  <div class="coco-stage" id="coco-stage"></div>
+</section>
+
+<!-- Actions -->
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div>
+
+<script>
+// ==========================================================================
+// VOCABULAIRE
+// ==========================================================================
+const VOCAB = [
+  // Kamers
+  { fr: "une cuisine", nl: "een keuken", gender: "fem" },
+  { fr: "un salon", nl: "een zitkamer", gender: "masc" },
+  { fr: "une salle à manger", nl: "een eetkamer", gender: "fem" },
+  { fr: "une chambre", nl: "een (slaap)kamer", gender: "fem" },
+  { fr: "une salle de bains", nl: "een badkamer", gender: "fem" },
+  { fr: "les toilettes", nl: "de wc / het toilet", gender: "plur" },
+  { fr: "une entrée", nl: "een inkom(hal)", gender: "fem" },
+  { fr: "un couloir", nl: "een gang", gender: "masc" },
+  { fr: "un grenier", nl: "een zolder", gender: "masc" },
+  { fr: "une cave", nl: "een kelder", gender: "fem" },
+  { fr: "un garage", nl: "een garage", gender: "masc" },
+  { fr: "une buanderie", nl: "een wasruimte", gender: "fem" },
+  { fr: "une terrasse", nl: "een terras", gender: "fem" },
+  { fr: "un balcon", nl: "een balkon", gender: "masc" },
+
+  // Structuur
+  { fr: "une maison", nl: "een huis", gender: "fem" },
+  { fr: "un appartement", nl: "een appartement", gender: "masc" },
+  { fr: "un étage", nl: "een verdieping", gender: "masc" },
+  { fr: "le toit", nl: "het dak", gender: "masc" },
+  { fr: "le sol", nl: "de vloer", gender: "masc" },
+  { fr: "un mur", nl: "een muur", gender: "masc" },
+  { fr: "une fenêtre", nl: "een venster", gender: "fem" },
+  { fr: "une porte", nl: "een deur", gender: "fem" },
+  { fr: "un escalier", nl: "een trap", gender: "masc" },
+
+  // Meubels
+  { fr: "un lit", nl: "een bed", gender: "masc" },
+  { fr: "un canapé", nl: "een zetel / sofa", gender: "masc" },
+  { fr: "un fauteuil", nl: "een leunstoel", gender: "masc" },
+  { fr: "une table", nl: "een tafel", gender: "fem" },
+  { fr: "une chaise", nl: "een stoel", gender: "fem" },
+  { fr: "une armoire", nl: "een kast", gender: "fem" },
+  { fr: "un tiroir", nl: "een lade", gender: "masc" },
+  { fr: "une étagère", nl: "een plank", gender: "fem" },
+  { fr: "une bibliothèque", nl: "een boekenkast", gender: "fem" },
+  { fr: "un bureau", nl: "een bureau", gender: "masc" }
+];
+
+// ==========================================================================
+// COCO — DE PAPEGAAI VAN MADAME DUPONT
+// ==========================================================================
+// Mengeling van mild, absurd en surrealistisch — telkens één eenduidig juist antwoord
+const COCO_QUESTIONS = [
+  {
+    cocoSays: "Le grand-père dort dans <em>le frigo</em>! Brrr, il fait froid!",
+    nl: "Waar slaapt opa eigenlijk?",
+    options: ["la chambre", "la cuisine", "le grenier"],
+    correct: "la chambre"
+  },
+  {
+    cocoSays: "La voiture est dans <em>la salle de bains</em>! Elle prend une douche!",
+    nl: "Waar staat de auto eigenlijk?",
+    options: ["le garage", "le couloir", "le balcon"],
+    correct: "le garage"
+  },
+  {
+    cocoSays: "Le canapé est sur <em>le toit</em>! C'est très confortable!",
+    nl: "Waar staat de zetel eigenlijk?",
+    options: ["le salon", "la cuisine", "le grenier"],
+    correct: "le salon"
+  },
+  {
+    cocoSays: "Maman cuisine dans <em>les toilettes</em>! Miam miam!",
+    nl: "Waar kookt mama eigenlijk?",
+    options: ["la cuisine", "la salle à manger", "le balcon"],
+    correct: "la cuisine"
+  },
+  {
+    cocoSays: "Papa prend une douche dans <em>le couloir</em>! Tout le monde regarde!",
+    nl: "Waar neemt papa een douche?",
+    options: ["la salle de bains", "la cuisine", "le garage"],
+    correct: "la salle de bains"
+  },
+  {
+    cocoSays: "On mange dans <em>le garage</em>, à côté de la voiture!",
+    nl: "Waar eet de familie?",
+    options: ["la salle à manger", "la chambre", "le grenier"],
+    correct: "la salle à manger"
+  },
+  {
+    cocoSays: "Le chat dort dans <em>la machine à laver</em>! Tournicoti, tournicoton!",
+    nl: "Waar staat de wasmachine?",
+    options: ["la buanderie", "la cuisine", "le salon"],
+    correct: "la buanderie"
+  },
+  {
+    cocoSays: "Les bouteilles de vin sont dans <em>la chambre</em>, sous le lit!",
+    nl: "Waar bewaart men de wijn meestal?",
+    options: ["la cave", "la salle de bains", "le grenier"],
+    correct: "la cave"
+  }
+];
+
+// Reacties — gemoedelijk plagerig
+const COCO_PRAISE = [
+  "Bravo! Coco a appris quelque chose!",
+  "Oui oui oui! Tu as raison!",
+  "Parfait! Coco comprend maintenant!",
+  "Merci! Coco va se rappeler!",
+  "Super! Coco n'oubliera plus!"
+];
+const COCO_TEASE = [
+  "Hahaha! Tu te trompes! C'est",
+  "Ohhh non non non! C'est",
+  "Coco rigole! La bonne réponse est",
+  "Hihihi! Pas du tout! C'est",
+  "Tut tut tut! C'est"
+];
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  if (name === 'coco' && !cocoStarted) startCoco();
+}
+
+// ==========================================================================
+// FLASHCARDS
+// ==========================================================================
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  VOCAB.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    const tag = w.gender === 'masc' ? 'm' : (w.gender === 'fem' ? 'f' : 'pl');
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${w.fr}</div>
+          <div class="flashcard-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${w.nl}</div>
+          <div class="gender-tag">${tag}</div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+
+function flipAll() {
+  const cards = document.querySelectorAll('.flashcard');
+  const anyUnflipped = Array.from(cards).some(c => !c.classList.contains('flipped'));
+  cards.forEach(c => c.classList.toggle('flipped', anyUnflipped));
+}
+
+// ==========================================================================
+// COCO — RENDERING
+// ==========================================================================
+let cocoStarted = false;
+let cocoQs = [];
+let cocoIdx = 0;
+let cocoScore = 0;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startCoco() {
+  cocoStarted = true;
+  cocoQs = shuffle(COCO_QUESTIONS);
+  cocoIdx = 0;
+  cocoScore = 0;
+  renderCocoQuestion();
+}
+
+function renderCocoQuestion() {
+  const stage = document.getElementById('coco-stage');
+  if (cocoIdx >= cocoQs.length) {
+    renderCocoFinale();
+    return;
+  }
+  const q = cocoQs[cocoIdx];
+  // Shuffle de opties zodat het juiste antwoord niet altijd op dezelfde plek staat
+  const shuffledOptions = shuffle(q.options);
+  const pct = (cocoIdx / cocoQs.length) * 100;
+
+  stage.innerHTML = `
+    <div class="coco-progress">
+      <span class="label">Vraag ${cocoIdx + 1} / ${cocoQs.length}</span>
+      <div class="coco-progress-bar"><div class="coco-progress-fill" style="width:${pct}%"></div></div>
+      <span class="label">Score: ${cocoScore}</span>
+    </div>
+    <div class="coco-scene">
+      <div class="coco-bird" id="coco-bird">${cocoBirdSVG()}</div>
+      <div class="coco-speech">
+        <div class="coco-says">${q.cocoSays}</div>
+        <div class="coco-question">${q.nl}</div>
+      </div>
+    </div>
+    <div class="coco-options">
+      ${shuffledOptions.map(opt => `<button class="coco-option" data-val="${opt}">${opt}</button>`).join('')}
+    </div>
+    <div class="coco-feedback" id="coco-feedback"></div>
+  `;
+
+  stage.querySelectorAll('.coco-option').forEach(btn => {
+    btn.addEventListener('click', () => handleCocoAnswer(btn, q));
+  });
+}
+
+function handleCocoAnswer(btn, q) {
+  const correct = btn.dataset.val === q.correct;
+  const stage = document.getElementById('coco-stage');
+  const fb = document.getElementById('coco-feedback');
+  const bird = document.getElementById('coco-bird');
+
+  // Disable alle knoppen
+  stage.querySelectorAll('.coco-option').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.val === q.correct) b.classList.add('correct');
+    else if (b === btn) b.classList.add('incorrect');
+  });
+
+  if (correct) {
+    cocoScore++;
+    fb.textContent = COCO_PRAISE[Math.floor(Math.random() * COCO_PRAISE.length)];
+    fb.className = 'coco-feedback good visible';
+    bird.classList.add('celebrating');
+  } else {
+    const tease = COCO_TEASE[Math.floor(Math.random() * COCO_TEASE.length)];
+    fb.innerHTML = `${tease} <em>${q.correct}</em>!`;
+    fb.className = 'coco-feedback bad visible';
+    bird.classList.add('laughing');
+  }
+
+  // Toon Volgende-knop
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'coco-next-btn';
+  nextBtn.textContent = cocoIdx + 1 >= cocoQs.length ? 'Bekijk resultaat →' : 'Volgende →';
+  nextBtn.addEventListener('click', () => {
+    cocoIdx++;
+    renderCocoQuestion();
+  });
+  stage.appendChild(nextBtn);
+  setTimeout(() => nextBtn.focus(), 50);
+}
+
+function renderCocoFinale() {
+  const stage = document.getElementById('coco-stage');
+  const total = cocoQs.length;
+  let title, msg;
+  if (cocoScore === total) {
+    title = "Coco a tout appris!";
+    msg = `Alles juist! ${cocoScore}/${total}. Coco zegt nu alles correct — Madame Dupont is heel blij!`;
+  } else if (cocoScore >= total * 0.75) {
+    title = "Bravo! Coco apprend vite!";
+    msg = `Score: ${cocoScore}/${total}. Goed bezig! Nog een rondje doen om te blijven oefenen?`;
+  } else if (cocoScore >= total / 2) {
+    title = "Coco a encore besoin d'aide!";
+    msg = `Score: ${cocoScore}/${total}. Niet slecht — maar Coco haalt nog wat dingen door elkaar. Nog eens proberen?`;
+  } else {
+    title = "Pauvre Coco!";
+    msg = `Score: ${cocoScore}/${total}. Coco is helemaal in de war. Bekijk de woordenschat nog eens en help hem opnieuw!`;
+  }
+  stage.innerHTML = `
+    <div class="coco-finale">
+      <div class="big-bird">🦜</div>
+      <h3>${title}</h3>
+      <p>${msg}</p>
+      <button class="restart-btn" onclick="startCoco()">🔄 Opnieuw spelen</button>
+    </div>
+  `;
+}
+
+// SVG voor felgekleurde papegaai (geel, groen, rood, blauw)
+function cocoBirdSVG() {
+  return `
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <!-- Staart (lange veren) -->
+      <path d="M 30 75 Q 15 85 18 95 L 25 90 L 28 95 L 32 88 L 35 95 L 38 85 Z" fill="#E63946" stroke="#A8201A" stroke-width="0.8"/>
+      <path d="M 30 75 Q 20 80 22 92" fill="none" stroke="#FFD60A" stroke-width="1.5"/>
+      <!-- Lichaam -->
+      <ellipse cx="50" cy="58" rx="22" ry="26" fill="#06A77D" stroke="#04604A" stroke-width="1"/>
+      <!-- Buik (geel) -->
+      <ellipse cx="50" cy="65" rx="14" ry="18" fill="#FFD60A"/>
+      <!-- Vleugel -->
+      <path d="M 55 45 Q 72 55 68 75 Q 60 80 53 72 Q 50 60 55 45 Z" fill="#118AB2" stroke="#0A5E7C" stroke-width="0.8"/>
+      <path d="M 58 50 Q 68 58 66 70" fill="none" stroke="#FFD60A" stroke-width="1.2" opacity="0.8"/>
+      <!-- Hoofd -->
+      <circle cx="48" cy="32" r="16" fill="#E63946" stroke="#A8201A" stroke-width="1"/>
+      <!-- Wang (gele plek) -->
+      <circle cx="42" cy="36" r="4" fill="#FFD60A" opacity="0.85"/>
+      <!-- Oog -->
+      <circle cx="44" cy="28" r="3" fill="white"/>
+      <circle cx="44.5" cy="28.5" r="1.6" fill="#1A1A1A"/>
+      <circle cx="45" cy="27.8" r="0.6" fill="white"/>
+      <!-- Snavel (haakvormig) -->
+      <path d="M 32 30 Q 28 32 30 38 Q 34 36 36 33 Z" fill="#3D2B1F" stroke="#1A1A1A" stroke-width="0.6"/>
+      <path d="M 32 33 Q 33 36 36 35" fill="none" stroke="#1A1A1A" stroke-width="0.5"/>
+      <!-- Pootjes -->
+      <line x1="44" y1="82" x2="42" y2="92" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round"/>
+      <line x1="54" y1="82" x2="56" y2="92" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round"/>
+      <!-- Klauwtjes -->
+      <path d="M 40 92 L 42 92 L 44 92" fill="none" stroke="#3D2B1F" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M 54 92 L 56 92 L 58 92" fill="none" stroke="#3D2B1F" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+  `;
+}
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+buildFlashcards();
+</script>
+
+</body>
+</html>
