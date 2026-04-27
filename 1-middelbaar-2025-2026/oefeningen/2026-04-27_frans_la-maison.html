@@ -203,11 +203,37 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
   font-family: 'Source Sans 3', sans-serif;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-.flashcard-toolbar .info { font-size: 13px; color: var(--warm-brown); opacity: 0.75; }
-.flashcard-toolbar button {
+.lang-toggle {
+  display: inline-flex;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+.lang-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-option.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+}
+.flip-all-btn {
   background: var(--warm-white);
   border: 1px solid var(--sand);
   padding: 8px 14px;
@@ -218,7 +244,12 @@ header {
   cursor: pointer;
   transition: all 0.2s;
 }
-.flashcard-toolbar button:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+.flip-all-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Print-only elementen — standaard verborgen */
+.print-only { display: none; }
+.print-section-title { display: none; }
+.flashcard-print { display: none; }
 
 .flashcard-grid {
   display: grid;
@@ -539,16 +570,115 @@ header {
 
 /* Print */
 @media print {
-  body { background: white !important; padding: 0; font-size: 11pt; }
+  body { background: white !important; padding: 0; font-size: 11pt; color: #000; }
   body::before { display: none; }
-  .breadcrumb, .tabs, .actions, .coco-stage, .flashcard-toolbar { display: none !important; }
-  .tab-content { display: block !important; }
-  .theory-card { page-break-inside: avoid; box-shadow: none; border-color: #ddd; }
-  .flashcard { page-break-inside: avoid; }
-  .flashcard .question-word { display: block !important; }
-  .flashcard .answer-word { display: none !important; }
-  .flashcard.flipped { background: white !important; color: black !important; }
-  .flashcard-back { display: none !important; }
+  .breadcrumb, .tabs, .actions, .flashcard-toolbar { display: none !important; }
+  /* Coco-tab volledig verbergen — runtime gegenereerd, niet bruikbaar op papier */
+  .tab-content[data-content="coco"] { display: none !important; }
+  /* Theorie en flashcards-tab tonen tegelijk */
+  .tab-content[data-content="theorie"],
+  .tab-content[data-content="flashcards"] { display: block !important; }
+
+  /* Theorie: clean styling, gegroepeerd om witte pagina's te voorkomen */
+  .theory-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    padding: 14px 18px !important;
+    margin-bottom: 12px !important;
+    page-break-inside: avoid;
+  }
+  .theory-card h3 { color: #333 !important; }
+  .gender-pills .pill { border: 1px solid #ccc; background: white !important; color: #333 !important; }
+  .accent { background: #f5f5f5 !important; border-left-color: #888 !important; color: #000 !important; }
+
+  /* Print-only blokken zichtbaar */
+  .print-only { display: block !important; }
+  .print-section-title {
+    display: block !important;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 18pt 0 10pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 1.5px solid #888;
+  }
+  .print-instruction {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #444 !important;
+    margin-bottom: 10pt;
+  }
+  .print-subsection {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 14pt 0 6pt 0;
+  }
+  .page-break-before { page-break-before: always; }
+
+  /* Flashcards: schermversie verbergen, print-versie tonen */
+  .flashcard-grid { display: none !important; }
+  .flashcard-print { display: block !important; }
+
+  .print-vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-vocab-table th {
+    text-align: left;
+    padding: 6pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+    background: #f5f5f5;
+  }
+  .print-vocab-table td {
+    padding: 8pt 8pt;
+    border-bottom: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+  .print-vocab-table td:first-child {
+    width: 40%;
+    font-weight: 600;
+  }
+  .print-vocab-table td:last-child {
+    width: 60%;
+    color: transparent;  /* leeg, om in te schrijven */
+  }
+
+  /* Print answers: oplossingen op aparte pagina, beide richtingen */
+  .print-answers { display: block !important; page-break-before: always; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 24pt;
+    color: #000 !important;
+    margin-bottom: 10pt;
+  }
+  .print-answers .ans-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-answers .ans-table th {
+    text-align: left;
+    padding: 5pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+  }
+  .print-answers .ans-table td {
+    padding: 4pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-answers .ans-table td.ans { font-weight: 700; color: #000 !important; }
+
   header { margin-bottom: 14px; }
 }
 </style>
@@ -586,6 +716,7 @@ header {
 
 <!-- ============ THEORIE ============ -->
 <section class="tab-content active" data-content="theorie">
+  <h2 class="print-section-title print-only">📚 Theorie — La maison</h2>
   <div class="theory-card">
     <h3>Geslachten — un, une of les?</h3>
     <p>Elk Frans woord heeft een geslacht. Voor de woordenschat van het huis gebruiken we vooral:</p>
@@ -617,14 +748,101 @@ header {
 <!-- ============ FLASHCARDS ============ -->
 <section class="tab-content" data-content="flashcards">
   <div class="flashcard-toolbar no-print">
-    <span class="info">💡 Klik op een kaartje om te draaien</span>
-    <button onclick="flipAll()">Toon / verberg alles</button>
+    <div class="lang-toggle">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 → 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 → 🇫🇷</button>
+    </div>
+    <button class="flip-all-btn" onclick="flipAll()">Toon / verberg alles</button>
   </div>
   <div class="flashcard-grid" id="flashcard-grid"></div>
+
+  <!-- Print-only: woordenlijst met schrijfruimte -->
+  <div class="flashcard-print print-only">
+    <h2 class="print-section-title">📚 Woordenlijst — vul aan</h2>
+    <p class="print-instruction">Schrijf bij elk Frans woord de Nederlandse vertaling (of omgekeerd, op de tweede lijst).</p>
+    <h3 class="print-subsection">🇫🇷 → 🇳🇱</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+      <tbody id="print-vocab-fr-nl">
+        <tr><td>une cuisine</td><td>een keuken</td></tr>
+        <tr><td>un salon</td><td>een zitkamer</td></tr>
+        <tr><td>une salle à manger</td><td>een eetkamer</td></tr>
+        <tr><td>une chambre</td><td>een (slaap)kamer</td></tr>
+        <tr><td>une salle de bains</td><td>een badkamer</td></tr>
+        <tr><td>les toilettes</td><td>de wc / het toilet</td></tr>
+        <tr><td>une entrée</td><td>een inkom(hal)</td></tr>
+        <tr><td>un couloir</td><td>een gang</td></tr>
+        <tr><td>un grenier</td><td>een zolder</td></tr>
+        <tr><td>une cave</td><td>een kelder</td></tr>
+        <tr><td>un garage</td><td>een garage</td></tr>
+        <tr><td>une buanderie</td><td>een wasruimte</td></tr>
+        <tr><td>une terrasse</td><td>een terras</td></tr>
+        <tr><td>un balcon</td><td>een balkon</td></tr>
+        <tr><td>une maison</td><td>een huis</td></tr>
+        <tr><td>un appartement</td><td>een appartement</td></tr>
+        <tr><td>un étage</td><td>een verdieping</td></tr>
+        <tr><td>le toit</td><td>het dak</td></tr>
+        <tr><td>le sol</td><td>de vloer</td></tr>
+        <tr><td>un mur</td><td>een muur</td></tr>
+        <tr><td>une fenêtre</td><td>een venster</td></tr>
+        <tr><td>une porte</td><td>een deur</td></tr>
+        <tr><td>un escalier</td><td>een trap</td></tr>
+        <tr><td>un lit</td><td>een bed</td></tr>
+        <tr><td>un canapé</td><td>een zetel / sofa</td></tr>
+        <tr><td>un fauteuil</td><td>een leunstoel</td></tr>
+        <tr><td>une table</td><td>een tafel</td></tr>
+        <tr><td>une chaise</td><td>een stoel</td></tr>
+        <tr><td>une armoire</td><td>een kast</td></tr>
+        <tr><td>un tiroir</td><td>een lade</td></tr>
+        <tr><td>une étagère</td><td>een plank</td></tr>
+        <tr><td>une bibliothèque</td><td>een boekenkast</td></tr>
+        <tr><td>un bureau</td><td>een bureau</td></tr>
+      </tbody>
+    </table>
+    <h3 class="print-subsection">🇳🇱 → 🇫🇷</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+      <tbody id="print-vocab-nl-fr">
+        <tr><td>een keuken</td><td>une cuisine</td></tr>
+        <tr><td>een zitkamer</td><td>un salon</td></tr>
+        <tr><td>een eetkamer</td><td>une salle à manger</td></tr>
+        <tr><td>een (slaap)kamer</td><td>une chambre</td></tr>
+        <tr><td>een badkamer</td><td>une salle de bains</td></tr>
+        <tr><td>de wc / het toilet</td><td>les toilettes</td></tr>
+        <tr><td>een inkom(hal)</td><td>une entrée</td></tr>
+        <tr><td>een gang</td><td>un couloir</td></tr>
+        <tr><td>een zolder</td><td>un grenier</td></tr>
+        <tr><td>een kelder</td><td>une cave</td></tr>
+        <tr><td>een garage</td><td>un garage</td></tr>
+        <tr><td>een wasruimte</td><td>une buanderie</td></tr>
+        <tr><td>een terras</td><td>une terrasse</td></tr>
+        <tr><td>een balkon</td><td>un balcon</td></tr>
+        <tr><td>een huis</td><td>une maison</td></tr>
+        <tr><td>een appartement</td><td>un appartement</td></tr>
+        <tr><td>een verdieping</td><td>un étage</td></tr>
+        <tr><td>het dak</td><td>le toit</td></tr>
+        <tr><td>de vloer</td><td>le sol</td></tr>
+        <tr><td>een muur</td><td>un mur</td></tr>
+        <tr><td>een venster</td><td>une fenêtre</td></tr>
+        <tr><td>een deur</td><td>une porte</td></tr>
+        <tr><td>een trap</td><td>un escalier</td></tr>
+        <tr><td>een bed</td><td>un lit</td></tr>
+        <tr><td>een zetel / sofa</td><td>un canapé</td></tr>
+        <tr><td>een leunstoel</td><td>un fauteuil</td></tr>
+        <tr><td>een tafel</td><td>une table</td></tr>
+        <tr><td>een stoel</td><td>une chaise</td></tr>
+        <tr><td>een kast</td><td>une armoire</td></tr>
+        <tr><td>een lade</td><td>un tiroir</td></tr>
+        <tr><td>een plank</td><td>une étagère</td></tr>
+        <tr><td>een boekenkast</td><td>une bibliothèque</td></tr>
+        <tr><td>een bureau</td><td>un bureau</td></tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <!-- ============ COCO ============ -->
-<section class="tab-content" data-content="coco">
+<section class="tab-content no-print" data-content="coco">
   <div class="coco-intro">
     <div class="coco-avatar">🦜</div>
     <div class="coco-intro-text">
@@ -634,6 +852,87 @@ header {
 
   <div class="coco-stage" id="coco-stage"></div>
 </section>
+
+<!-- Print-only: oplossingen voor flashcards (beide richtingen) -->
+<div class="print-only print-answers">
+  <h2>Oplossingen — woordenlijst</h2>
+  <table class="ans-table">
+    <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+    <tbody id="answers-fr-nl">
+      <tr><td>une cuisine</td><td class="ans">een keuken</td></tr>
+      <tr><td>un salon</td><td class="ans">een zitkamer</td></tr>
+      <tr><td>une salle à manger</td><td class="ans">een eetkamer</td></tr>
+      <tr><td>une chambre</td><td class="ans">een (slaap)kamer</td></tr>
+      <tr><td>une salle de bains</td><td class="ans">een badkamer</td></tr>
+      <tr><td>les toilettes</td><td class="ans">de wc / het toilet</td></tr>
+      <tr><td>une entrée</td><td class="ans">een inkom(hal)</td></tr>
+      <tr><td>un couloir</td><td class="ans">een gang</td></tr>
+      <tr><td>un grenier</td><td class="ans">een zolder</td></tr>
+      <tr><td>une cave</td><td class="ans">een kelder</td></tr>
+      <tr><td>un garage</td><td class="ans">een garage</td></tr>
+      <tr><td>une buanderie</td><td class="ans">een wasruimte</td></tr>
+      <tr><td>une terrasse</td><td class="ans">een terras</td></tr>
+      <tr><td>un balcon</td><td class="ans">een balkon</td></tr>
+      <tr><td>une maison</td><td class="ans">een huis</td></tr>
+      <tr><td>un appartement</td><td class="ans">een appartement</td></tr>
+      <tr><td>un étage</td><td class="ans">een verdieping</td></tr>
+      <tr><td>le toit</td><td class="ans">het dak</td></tr>
+      <tr><td>le sol</td><td class="ans">de vloer</td></tr>
+      <tr><td>un mur</td><td class="ans">een muur</td></tr>
+      <tr><td>une fenêtre</td><td class="ans">een venster</td></tr>
+      <tr><td>une porte</td><td class="ans">een deur</td></tr>
+      <tr><td>un escalier</td><td class="ans">een trap</td></tr>
+      <tr><td>un lit</td><td class="ans">een bed</td></tr>
+      <tr><td>un canapé</td><td class="ans">een zetel / sofa</td></tr>
+      <tr><td>un fauteuil</td><td class="ans">een leunstoel</td></tr>
+      <tr><td>une table</td><td class="ans">een tafel</td></tr>
+      <tr><td>une chaise</td><td class="ans">een stoel</td></tr>
+      <tr><td>une armoire</td><td class="ans">een kast</td></tr>
+      <tr><td>un tiroir</td><td class="ans">een lade</td></tr>
+      <tr><td>une étagère</td><td class="ans">een plank</td></tr>
+      <tr><td>une bibliothèque</td><td class="ans">een boekenkast</td></tr>
+      <tr><td>un bureau</td><td class="ans">een bureau</td></tr>
+    </tbody>
+  </table>
+  <table class="ans-table">
+    <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+    <tbody id="answers-nl-fr">
+      <tr><td>een keuken</td><td class="ans">une cuisine</td></tr>
+      <tr><td>een zitkamer</td><td class="ans">un salon</td></tr>
+      <tr><td>een eetkamer</td><td class="ans">une salle à manger</td></tr>
+      <tr><td>een (slaap)kamer</td><td class="ans">une chambre</td></tr>
+      <tr><td>een badkamer</td><td class="ans">une salle de bains</td></tr>
+      <tr><td>de wc / het toilet</td><td class="ans">les toilettes</td></tr>
+      <tr><td>een inkom(hal)</td><td class="ans">une entrée</td></tr>
+      <tr><td>een gang</td><td class="ans">un couloir</td></tr>
+      <tr><td>een zolder</td><td class="ans">un grenier</td></tr>
+      <tr><td>een kelder</td><td class="ans">une cave</td></tr>
+      <tr><td>een garage</td><td class="ans">un garage</td></tr>
+      <tr><td>een wasruimte</td><td class="ans">une buanderie</td></tr>
+      <tr><td>een terras</td><td class="ans">une terrasse</td></tr>
+      <tr><td>een balkon</td><td class="ans">un balcon</td></tr>
+      <tr><td>een huis</td><td class="ans">une maison</td></tr>
+      <tr><td>een appartement</td><td class="ans">un appartement</td></tr>
+      <tr><td>een verdieping</td><td class="ans">un étage</td></tr>
+      <tr><td>het dak</td><td class="ans">le toit</td></tr>
+      <tr><td>de vloer</td><td class="ans">le sol</td></tr>
+      <tr><td>een muur</td><td class="ans">un mur</td></tr>
+      <tr><td>een venster</td><td class="ans">une fenêtre</td></tr>
+      <tr><td>een deur</td><td class="ans">une porte</td></tr>
+      <tr><td>een trap</td><td class="ans">un escalier</td></tr>
+      <tr><td>een bed</td><td class="ans">un lit</td></tr>
+      <tr><td>een zetel / sofa</td><td class="ans">un canapé</td></tr>
+      <tr><td>een leunstoel</td><td class="ans">un fauteuil</td></tr>
+      <tr><td>een tafel</td><td class="ans">une table</td></tr>
+      <tr><td>een stoel</td><td class="ans">une chaise</td></tr>
+      <tr><td>een kast</td><td class="ans">une armoire</td></tr>
+      <tr><td>een lade</td><td class="ans">un tiroir</td></tr>
+      <tr><td>een plank</td><td class="ans">une étagère</td></tr>
+      <tr><td>een boekenkast</td><td class="ans">une bibliothèque</td></tr>
+      <tr><td>een bureau</td><td class="ans">un bureau</td></tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- Actions -->
 <div class="actions no-print">
@@ -776,21 +1075,30 @@ function goToTab(name) {
 // ==========================================================================
 // FLASHCARDS
 // ==========================================================================
+let flashDir = 'fr-nl'; // standaard: Frans → Nederlands
+
 function buildFlashcards() {
   const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = ''; // ALWAYS leegmaken voor herbouw
   VOCAB.forEach(w => {
     const card = document.createElement('div');
     card.className = 'flashcard';
     const tag = w.gender === 'masc' ? 'm' : (w.gender === 'fem' ? 'f' : 'pl');
+    const front = flashDir === 'fr-nl' ? w.fr : w.nl;
+    const back  = flashDir === 'fr-nl' ? w.nl : w.fr;
+    // Geslachts-tag tonen we altijd op de Franse kant
+    const showTag = flashDir === 'fr-nl' ? false : true; // bij nl→fr staat fr op back, dus tag op back
+    const tagFront = flashDir === 'fr-nl' ? `<div class="gender-tag-front">${tag}</div>` : '';
+    const tagBack = flashDir === 'fr-nl' ? `<div class="gender-tag">${tag}</div>` : '';
     card.innerHTML = `
       <div class="flashcard-inner">
         <div class="flashcard-face flashcard-front">
-          <div class="question-word">${w.fr}</div>
+          <div class="question-word">${front}</div>
           <div class="flashcard-hint">klik om te draaien</div>
         </div>
         <div class="flashcard-face flashcard-back">
-          <div class="answer-word">${w.nl}</div>
-          <div class="gender-tag">${tag}</div>
+          <div class="answer-word">${back}</div>
+          ${tagBack}
         </div>
       </div>`;
     card.addEventListener('click', () => card.classList.toggle('flipped'));
@@ -798,11 +1106,29 @@ function buildFlashcards() {
   });
 }
 
+// Lang-toggle handler
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards(); // herbouw alle kaarten in nieuwe richting (automatisch teruggedraaid)
+  });
+});
+
 function flipAll() {
   const cards = document.querySelectorAll('.flashcard');
   const anyUnflipped = Array.from(cards).some(c => !c.classList.contains('flipped'));
   cards.forEach(c => c.classList.toggle('flipped', anyUnflipped));
 }
+
+// ==========================================================================
+// PRINT-TABELLEN
+// (De rijen staan al statisch in de HTML — geen JS-build meer nodig.
+// Dit maakt de printversie robuuster en werkt ook bij print-engines die
+// geen JavaScript uitvoeren.)
+// ==========================================================================
 
 // ==========================================================================
 // COCO — RENDERING
