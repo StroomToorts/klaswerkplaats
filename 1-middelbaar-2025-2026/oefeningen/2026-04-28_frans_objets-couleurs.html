@@ -1183,13 +1183,15 @@ function buildFlashcards() {
   VOCAB.forEach(w => {
     const card = document.createElement('div');
     card.className = 'flashcard';
-    const tag = w.gender === 'masc' ? 'm' : (w.gender === 'fem' ? 'f' : 'pl');
+    // Geslachts-tag alleen voor zelfstandige naamwoorden — kleuren hebben geen tag nodig
+    let tag = '';
+    if (w.gender === 'masc') tag = 'm';
+    else if (w.gender === 'fem') tag = 'f';
+    else if (w.gender === 'plur') tag = 'pl';
+    // adj en adj-inv → geen tag
     const front = flashDir === 'fr-nl' ? w.fr : w.nl;
     const back  = flashDir === 'fr-nl' ? w.nl : w.fr;
-    // Geslachts-tag tonen we altijd op de Franse kant
-    const showTag = flashDir === 'fr-nl' ? false : true; // bij nl→fr staat fr op back, dus tag op back
-    const tagFront = flashDir === 'fr-nl' ? `<div class="gender-tag-front">${tag}</div>` : '';
-    const tagBack = flashDir === 'fr-nl' ? `<div class="gender-tag">${tag}</div>` : '';
+    const tagBack = tag ? `<div class="gender-tag">${tag}</div>` : '';
     card.innerHTML = `
       <div class="flashcard-inner">
         <div class="flashcard-face flashcard-front">
