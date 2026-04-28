@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les objets et les couleurs — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+
+  --vak-color: var(--terracotta);
+  --vak-color-light: var(--terracotta-light);
+  --vak-color-dark: var(--rust);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  padding: 20px 16px 60px;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='10' cy='10' r='1' fill='%235C4033' opacity='0.5'/><circle cx='40' cy='30' r='1' fill='%235C4033' opacity='0.5'/><circle cx='70' cy='15' r='1' fill='%235C4033' opacity='0.5'/><circle cx='20' cy='55' r='1' fill='%235C4033' opacity='0.5'/><circle cx='55' cy='65' r='1' fill='%235C4033' opacity='0.5'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+.subject-icon {
+  width: 60px; height: 60px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.title-block h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin-bottom: 2px;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+}
+
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-top: 14px;
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--warm-white);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+.tab {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab:hover { background: var(--sand-light); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 6px rgba(194, 112, 78, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* THEORY */
+.theory-card {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(60, 40, 30, 0.05);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.theory-card p { font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
+.theory-card .accent {
+  background: var(--cream);
+  border-left: 3px solid var(--vak-color);
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+}
+.theory-card .accent strong { color: var(--vak-color-dark); }
+
+.gender-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.gender-pills .pill {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pill.masc { background: rgba(106, 155, 181, 0.15); color: #4A7691; }
+.pill.fem { background: rgba(201, 160, 160, 0.2); color: #9C6868; }
+.pill.plur { background: rgba(212, 168, 67, 0.18); color: #8B6E1E; }
+
+/* FLASHCARDS */
+.flashcard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.lang-toggle {
+  display: inline-flex;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+.lang-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-option.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+}
+.flip-all-btn {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flip-all-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Print-only elementen — standaard verborgen */
+.print-only { display: none; }
+.print-section-title { display: none; }
+.flashcard-print { display: none; }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.flashcard {
+  aspect-ratio: 4/3;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.06);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-light) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.15);
+}
+.flashcard .question-word, .flashcard .answer-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.flashcard .answer-word { font-size: 16px; }
+.flashcard .gender-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+}
+.flashcard-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+.flashcard-front .flashcard-hint { color: var(--warm-brown); }
+.flashcard-back .flashcard-hint { color: rgba(255,255,255,0.8); }
+
+/* KLEURMENGER */
+.kleur-intro {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.kleur-avatar { font-size: 56px; line-height: 1; flex-shrink: 0; }
+.kleur-intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); line-height: 1.55; }
+.kleur-intro-text strong { color: var(--vak-color-dark); font-weight: 600; }
+
+.kleur-stage {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+}
+
+.kleur-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+}
+.kleur-progress .label { white-space: nowrap; opacity: 0.85; }
+.kleur-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--sand-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.kleur-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  width: 0%;
+  transition: width 0.4s;
+}
+
+.kleur-task {
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 28px;
+  color: var(--dark-brown);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.kleur-svg-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 18px;
+  min-height: 280px;
+  margin-bottom: 18px;
+}
+.kleur-svg-stage svg { max-width: 240px; max-height: 240px; }
+
+.kleur-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.kleur-option {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--warm-white);
+  border: 1.5px solid var(--sand);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kleur-option:hover:not(:disabled) {
+  border-color: var(--vak-color);
+  transform: translateY(-2px) scale(1.05);
+}
+.kleur-option:disabled { cursor: default; opacity: 0.5; }
+.kleur-option.shake {
+  animation: shake 0.4s ease-in-out;
+  border-color: var(--rust);
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.kleur-swatch {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.12);
+}
+
+.kleur-feedback {
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  margin-top: 8px;
+  min-height: 28px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.kleur-feedback.visible { opacity: 1; }
+.kleur-feedback.good { color: var(--olive-dark); }
+.kleur-feedback.bad { color: var(--rust); }
+
+.kleur-next-btn {
+  display: block;
+  margin: 12px auto 0;
+  padding: 10px 24px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.kleur-next-btn:hover { background: var(--vak-color-dark); }
+
+.kleur-finale {
+  text-align: center;
+  padding: 30px 20px;
+}
+.kleur-finale .big-emoji { font-size: 80px; line-height: 1; margin-bottom: 12px; }
+.kleur-finale h3 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 10px; font-weight: 700; }
+.kleur-finale p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; }
+.kleur-restart-btn {
+  padding: 10px 22px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.kleur-restart-btn:hover { background: var(--vak-color-dark); }
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 10px 18px;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+.action-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  body { padding: 14px 12px 40px; }
+  .container { padding: 0; }
+  header { gap: 12px; }
+  .subject-icon { width: 50px; height: 50px; font-size: 26px; }
+  .title-block h1 { font-size: 21px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .flashcard .question-word, .flashcard .answer-word { font-size: 14px; }
+  .coco-scene { flex-direction: column; align-items: center; }
+  .coco-bird { width: 80px; height: 80px; }
+  .coco-speech { width: 100%; }
+  .coco-speech::before {
+    left: 30px; top: -10px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+    border-bottom: 11px solid var(--cream);
+    filter: drop-shadow(0 -1.5px 0 var(--sand));
+  }
+  .coco-says { font-size: 19px; }
+  .coco-option { min-width: 100%; }
+}
+
+/* Print */
+@media print {
+  body { background: white !important; padding: 0; font-size: 11pt; color: #000; }
+  body::before { display: none; }
+  .breadcrumb, .tabs, .actions, .flashcard-toolbar { display: none !important; }
+  /* Kleurmenger-tab volledig verbergen — runtime gegenereerd, niet bruikbaar op papier */
+  .tab-content[data-content="kleur"] { display: none !important; }
+  /* Theorie en flashcards-tab tonen tegelijk */
+  .tab-content[data-content="theorie"],
+  .tab-content[data-content="flashcards"] { display: block !important; }
+
+  /* Theorie: clean styling, gegroepeerd om witte pagina's te voorkomen */
+  .theory-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    padding: 14px 18px !important;
+    margin-bottom: 12px !important;
+    page-break-inside: avoid;
+  }
+  .theory-card h3 { color: #333 !important; }
+  .gender-pills .pill { border: 1px solid #ccc; background: white !important; color: #333 !important; }
+  .accent { background: #f5f5f5 !important; border-left-color: #888 !important; color: #000 !important; }
+
+  /* Print-only blokken zichtbaar */
+  .print-only { display: block !important; }
+  .print-section-title {
+    display: block !important;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 18pt 0 10pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 1.5px solid #888;
+  }
+  .print-instruction {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #444 !important;
+    margin-bottom: 10pt;
+  }
+  .print-subsection {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 14pt 0 6pt 0;
+  }
+  .page-break-before { page-break-before: always; }
+
+  /* Flashcards: schermversie verbergen, print-versie tonen */
+  .flashcard-grid { display: none !important; }
+  .flashcard-print { display: block !important; }
+
+  .print-vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-vocab-table th {
+    text-align: left;
+    padding: 6pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+    background: #f5f5f5;
+  }
+  .print-vocab-table td {
+    padding: 8pt 8pt;
+    border-bottom: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+  .print-vocab-table td:first-child {
+    width: 40%;
+    font-weight: 600;
+  }
+  .print-vocab-table td:last-child {
+    width: 60%;
+    color: transparent;  /* leeg, om in te schrijven */
+  }
+
+  /* Print answers: oplossingen op aparte pagina, beide richtingen */
+  .print-answers { display: block !important; page-break-before: always; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 24pt;
+    color: #000 !important;
+    margin-bottom: 10pt;
+  }
+  .print-answers .ans-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-answers .ans-table th {
+    text-align: left;
+    padding: 5pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+  }
+  .print-answers .ans-table td {
+    padding: 4pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-answers .ans-table td.ans { font-weight: 700; color: #000 !important; }
+
+  header { margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Les objets et les couleurs</span>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="subject-icon">🎨</div>
+  <div class="title-block">
+    <h1>Les objets de la maison et les couleurs</h1>
+    <div class="date">les van 28 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Vandaag oefenen we de woordenschat van <strong>voorwerpen in huis</strong> en <strong>kleuren</strong>. Bekijk eerst de <strong>theorie</strong>, oefen met de <strong>flashcards</strong>, en speel daarna met de <strong>kleurmenger</strong>: kleur de voorwerpen in volgens de Franse opdracht.</p>
+
+<!-- Tabs -->
+<div class="tabs no-print">
+  <button class="tab active" data-tab="theorie">📚 Theorie</button>
+  <button class="tab" data-tab="flashcards">🎴 Flashcards</button>
+  <button class="tab" data-tab="kleur">🎨 Kleurmenger</button>
+</div>
+
+<!-- ============ THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <h2 class="print-section-title print-only">📚 Theorie — Les objets et les couleurs</h2>
+  <div class="theory-card">
+    <h3>De woordenschat — twee groepen</h3>
+    <p><strong>1. Les objets (de voorwerpen)</strong> — wat er in een kamer staat of hangt: meubels, elektronica, decoratie. Bijvoorbeeld <em>un poster</em>, <em>une lampe</em>, <em>un ordinateur</em>, <em>une plante</em>.</p>
+    <p><strong>2. Les couleurs (de kleuren)</strong> — om die voorwerpen te beschrijven. <em>Le canapé est rouge. La lampe est verte.</em></p>
+  </div>
+
+  <div class="theory-card">
+    <h3>Kleuren stemmen overeen met het voorwerp</h3>
+    <p>De meeste kleuren krijgen een <strong>extra -e</strong> als het voorwerp vrouwelijk is:</p>
+    <div class="gender-pills">
+      <span class="pill masc">le mur <strong>vert</strong></span>
+      <span class="pill fem">la porte <strong>verte</strong></span>
+    </div>
+    <p style="margin-top:10px;">Hetzelfde geldt voor <em>brun/brune</em>, <em>gris/grise</em>, <em>blanc/blanche</em>, <em>noir/noire</em>, <em>bleu/bleue</em>.</p>
+    <div class="accent">
+      <strong>Niet alle kleuren veranderen:</strong> <em>jaune</em>, <em>rouge</em>, <em>orange</em>, <em>rose</em> en <em>mauve</em> blijven altijd hetzelfde, of het voorwerp nu mannelijk of vrouwelijk is. Dus: <em>le canapé rouge</em> én <em>la chaise rouge</em>.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Lichter of donkerder — clair en foncé</h3>
+    <p>Met <em>clair</em> (licht) of <em>foncé</em> (donker) maak je een kleur lichter of donkerder. Het komt <strong>achter</strong> de kleur:</p>
+    <div class="gender-pills">
+      <span class="pill masc">bleu clair — lichtblauw</span>
+      <span class="pill masc">bleu foncé — donkerblauw</span>
+      <span class="pill fem">vert clair — lichtgroen</span>
+      <span class="pill fem">vert foncé — donkergroen</span>
+    </div>
+    <div class="accent">
+      <strong>Belangrijk:</strong> als je <em>clair</em> of <em>foncé</em> toevoegt, blijven beide woorden in de mannelijke vorm — ook bij een vrouwelijk voorwerp. Dus: <em>une porte bleu clair</em> (niet "bleue claire").
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Valstrikken</h3>
+    <div class="accent">
+      <strong>Une horloge</strong> is vrouwelijk (geen "un horloge"). <strong>Des rideaux</strong> staat altijd in het meervoud (m. pl.) — gordijnen komen meestal als paar voor. <strong>Une housse de couette</strong> is een dekbedovertrek, niet de hele couette zelf. En <strong>la peinture</strong> kan zowel "het schilderij" als "de verf" betekenen — in deze les is het het schilderij.
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <div class="lang-toggle">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 → 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 → 🇫🇷</button>
+    </div>
+    <button class="flip-all-btn" onclick="flipAll()">Toon / verberg alles</button>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+
+  <!-- Print-only: woordenlijst met schrijfruimte -->
+  <div class="flashcard-print print-only">
+    <h2 class="print-section-title">📚 Woordenlijst — vul aan</h2>
+    <p class="print-instruction">Schrijf bij elk Frans woord de Nederlandse vertaling (of omgekeerd, op de tweede lijst).</p>
+    <h3 class="print-subsection">🇫🇷 → 🇳🇱</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+      <tbody id="print-vocab-fr-nl">
+        <tr><td>un tabouret</td><td>een kruk</td></tr>
+        <tr><td>un réveil</td><td>een wekker</td></tr>
+        <tr><td>une console de jeux vidéo</td><td>een spelconsole</td></tr>
+        <tr><td>un haut-parleur</td><td>een luidspreker</td></tr>
+        <tr><td>une télé(vision)</td><td>een televisietoestel</td></tr>
+        <tr><td>un ordinateur</td><td>een computer</td></tr>
+        <tr><td>un écran</td><td>een scherm</td></tr>
+        <tr><td>des rideaux (m. pl.)</td><td>gordijnen</td></tr>
+        <tr><td>un pot de fleurs</td><td>een bloempot</td></tr>
+        <tr><td>une plante</td><td>een plant</td></tr>
+        <tr><td>un poster</td><td>een poster</td></tr>
+        <tr><td>un vase</td><td>een vaas</td></tr>
+        <tr><td>une horloge</td><td>een (wand)klok</td></tr>
+        <tr><td>le sol</td><td>de vloer / bodem</td></tr>
+        <tr><td>le tapis</td><td>het tapijt</td></tr>
+        <tr><td>le miroir</td><td>de spiegel</td></tr>
+        <tr><td>la peinture</td><td>het schilderij</td></tr>
+        <tr><td>la serviette</td><td>de handdoek</td></tr>
+        <tr><td>le portemanteau</td><td>de kapstok</td></tr>
+        <tr><td>une lampe</td><td>een lamp</td></tr>
+        <tr><td>un oreiller</td><td>een kussen</td></tr>
+        <tr><td>une housse de couette</td><td>een dekbedovertrek</td></tr>
+        <tr><td>brun / brune</td><td>bruin</td></tr>
+        <tr><td>gris / grise</td><td>grijs</td></tr>
+        <tr><td>vert / verte</td><td>groen</td></tr>
+        <tr><td>blanc / blanche</td><td>wit</td></tr>
+        <tr><td>noir / noire</td><td>zwart</td></tr>
+        <tr><td>bleu / bleue</td><td>blauw</td></tr>
+        <tr><td>clair / claire</td><td>licht</td></tr>
+        <tr><td>foncé / foncée</td><td>donker</td></tr>
+        <tr><td>jaune</td><td>geel</td></tr>
+        <tr><td>mauve</td><td>paars</td></tr>
+        <tr><td>rouge</td><td>rood</td></tr>
+        <tr><td>orange</td><td>oranje</td></tr>
+        <tr><td>rose</td><td>roos / roze</td></tr>
+      </tbody>
+    </table>
+    <h3 class="print-subsection">🇳🇱 → 🇫🇷</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+      <tbody id="print-vocab-nl-fr">
+        <tr><td>een kruk</td><td>un tabouret</td></tr>
+        <tr><td>een wekker</td><td>un réveil</td></tr>
+        <tr><td>een spelconsole</td><td>une console de jeux vidéo</td></tr>
+        <tr><td>een luidspreker</td><td>un haut-parleur</td></tr>
+        <tr><td>een televisietoestel</td><td>une télé(vision)</td></tr>
+        <tr><td>een computer</td><td>un ordinateur</td></tr>
+        <tr><td>een scherm</td><td>un écran</td></tr>
+        <tr><td>gordijnen</td><td>des rideaux (m. pl.)</td></tr>
+        <tr><td>een bloempot</td><td>un pot de fleurs</td></tr>
+        <tr><td>een plant</td><td>une plante</td></tr>
+        <tr><td>een poster</td><td>un poster</td></tr>
+        <tr><td>een vaas</td><td>un vase</td></tr>
+        <tr><td>een (wand)klok</td><td>une horloge</td></tr>
+        <tr><td>de vloer / bodem</td><td>le sol</td></tr>
+        <tr><td>het tapijt</td><td>le tapis</td></tr>
+        <tr><td>de spiegel</td><td>le miroir</td></tr>
+        <tr><td>het schilderij</td><td>la peinture</td></tr>
+        <tr><td>de handdoek</td><td>la serviette</td></tr>
+        <tr><td>de kapstok</td><td>le portemanteau</td></tr>
+        <tr><td>een lamp</td><td>une lampe</td></tr>
+        <tr><td>een kussen</td><td>un oreiller</td></tr>
+        <tr><td>een dekbedovertrek</td><td>une housse de couette</td></tr>
+        <tr><td>bruin</td><td>brun / brune</td></tr>
+        <tr><td>grijs</td><td>gris / grise</td></tr>
+        <tr><td>groen</td><td>vert / verte</td></tr>
+        <tr><td>wit</td><td>blanc / blanche</td></tr>
+        <tr><td>zwart</td><td>noir / noire</td></tr>
+        <tr><td>blauw</td><td>bleu / bleue</td></tr>
+        <tr><td>licht</td><td>clair / claire</td></tr>
+        <tr><td>donker</td><td>foncé / foncée</td></tr>
+        <tr><td>geel</td><td>jaune</td></tr>
+        <tr><td>paars</td><td>mauve</td></tr>
+        <tr><td>rood</td><td>rouge</td></tr>
+        <tr><td>oranje</td><td>orange</td></tr>
+        <tr><td>roos / roze</td><td>rose</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ KLEURMENGER ============ -->
+<section class="tab-content no-print" data-content="kleur">
+  <div class="kleur-intro">
+    <div class="kleur-avatar">🎨</div>
+    <div class="kleur-intro-text">
+      Lees de Franse opdracht boven het voorwerp en klik op de <strong>juiste kleur</strong>. Let op de vorm van de kleur — bij een vrouwelijk woord (la, une) krijgt de kleur soms een extra -e. Klik fout? Probeer opnieuw, het bolletje schudt.
+    </div>
+  </div>
+
+  <div class="kleur-stage" id="kleur-stage"></div>
+</section>
+
+<!-- Print-only: oplossingen voor flashcards (beide richtingen) -->
+<div class="print-only print-answers">
+  <h2>Oplossingen — woordenlijst</h2>
+  <table class="ans-table">
+    <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+    <tbody id="answers-fr-nl">
+      <tr><td>un tabouret</td><td class="ans">een kruk</td></tr>
+      <tr><td>un réveil</td><td class="ans">een wekker</td></tr>
+      <tr><td>une console de jeux vidéo</td><td class="ans">een spelconsole</td></tr>
+      <tr><td>un haut-parleur</td><td class="ans">een luidspreker</td></tr>
+      <tr><td>une télé(vision)</td><td class="ans">een televisietoestel</td></tr>
+      <tr><td>un ordinateur</td><td class="ans">een computer</td></tr>
+      <tr><td>un écran</td><td class="ans">een scherm</td></tr>
+      <tr><td>des rideaux (m. pl.)</td><td class="ans">gordijnen</td></tr>
+      <tr><td>un pot de fleurs</td><td class="ans">een bloempot</td></tr>
+      <tr><td>une plante</td><td class="ans">een plant</td></tr>
+      <tr><td>un poster</td><td class="ans">een poster</td></tr>
+      <tr><td>un vase</td><td class="ans">een vaas</td></tr>
+      <tr><td>une horloge</td><td class="ans">een (wand)klok</td></tr>
+      <tr><td>le sol</td><td class="ans">de vloer / bodem</td></tr>
+      <tr><td>le tapis</td><td class="ans">het tapijt</td></tr>
+      <tr><td>le miroir</td><td class="ans">de spiegel</td></tr>
+      <tr><td>la peinture</td><td class="ans">het schilderij</td></tr>
+      <tr><td>la serviette</td><td class="ans">de handdoek</td></tr>
+      <tr><td>le portemanteau</td><td class="ans">de kapstok</td></tr>
+      <tr><td>une lampe</td><td class="ans">een lamp</td></tr>
+      <tr><td>un oreiller</td><td class="ans">een kussen</td></tr>
+      <tr><td>une housse de couette</td><td class="ans">een dekbedovertrek</td></tr>
+      <tr><td>brun / brune</td><td class="ans">bruin</td></tr>
+      <tr><td>gris / grise</td><td class="ans">grijs</td></tr>
+      <tr><td>vert / verte</td><td class="ans">groen</td></tr>
+      <tr><td>blanc / blanche</td><td class="ans">wit</td></tr>
+      <tr><td>noir / noire</td><td class="ans">zwart</td></tr>
+      <tr><td>bleu / bleue</td><td class="ans">blauw</td></tr>
+      <tr><td>clair / claire</td><td class="ans">licht</td></tr>
+      <tr><td>foncé / foncée</td><td class="ans">donker</td></tr>
+      <tr><td>jaune</td><td class="ans">geel</td></tr>
+      <tr><td>mauve</td><td class="ans">paars</td></tr>
+      <tr><td>rouge</td><td class="ans">rood</td></tr>
+      <tr><td>orange</td><td class="ans">oranje</td></tr>
+      <tr><td>rose</td><td class="ans">roos / roze</td></tr>
+      </tbody>
+  </table>
+  <table class="ans-table">
+    <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+    <tbody id="answers-nl-fr">
+      <tr><td>een kruk</td><td class="ans">un tabouret</td></tr>
+      <tr><td>een wekker</td><td class="ans">un réveil</td></tr>
+      <tr><td>een spelconsole</td><td class="ans">une console de jeux vidéo</td></tr>
+      <tr><td>een luidspreker</td><td class="ans">un haut-parleur</td></tr>
+      <tr><td>een televisietoestel</td><td class="ans">une télé(vision)</td></tr>
+      <tr><td>een computer</td><td class="ans">un ordinateur</td></tr>
+      <tr><td>een scherm</td><td class="ans">un écran</td></tr>
+      <tr><td>gordijnen</td><td class="ans">des rideaux (m. pl.)</td></tr>
+      <tr><td>een bloempot</td><td class="ans">un pot de fleurs</td></tr>
+      <tr><td>een plant</td><td class="ans">une plante</td></tr>
+      <tr><td>een poster</td><td class="ans">un poster</td></tr>
+      <tr><td>een vaas</td><td class="ans">un vase</td></tr>
+      <tr><td>een (wand)klok</td><td class="ans">une horloge</td></tr>
+      <tr><td>de vloer / bodem</td><td class="ans">le sol</td></tr>
+      <tr><td>het tapijt</td><td class="ans">le tapis</td></tr>
+      <tr><td>de spiegel</td><td class="ans">le miroir</td></tr>
+      <tr><td>het schilderij</td><td class="ans">la peinture</td></tr>
+      <tr><td>de handdoek</td><td class="ans">la serviette</td></tr>
+      <tr><td>de kapstok</td><td class="ans">le portemanteau</td></tr>
+      <tr><td>een lamp</td><td class="ans">une lampe</td></tr>
+      <tr><td>een kussen</td><td class="ans">un oreiller</td></tr>
+      <tr><td>een dekbedovertrek</td><td class="ans">une housse de couette</td></tr>
+      <tr><td>bruin</td><td class="ans">brun / brune</td></tr>
+      <tr><td>grijs</td><td class="ans">gris / grise</td></tr>
+      <tr><td>groen</td><td class="ans">vert / verte</td></tr>
+      <tr><td>wit</td><td class="ans">blanc / blanche</td></tr>
+      <tr><td>zwart</td><td class="ans">noir / noire</td></tr>
+      <tr><td>blauw</td><td class="ans">bleu / bleue</td></tr>
+      <tr><td>licht</td><td class="ans">clair / claire</td></tr>
+      <tr><td>donker</td><td class="ans">foncé / foncée</td></tr>
+      <tr><td>geel</td><td class="ans">jaune</td></tr>
+      <tr><td>paars</td><td class="ans">mauve</td></tr>
+      <tr><td>rood</td><td class="ans">rouge</td></tr>
+      <tr><td>oranje</td><td class="ans">orange</td></tr>
+      <tr><td>roos / roze</td><td class="ans">rose</td></tr>
+      </tbody>
+  </table>
+</div>
+
+<!-- Actions -->
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div>
+
+<script>
+// ==========================================================================
+// VOCABULAIRE
+// ==========================================================================
+const VOCAB = [
+  // Voorwerpen — décoration / loisirs
+  { fr: "un tabouret", nl: "een kruk", gender: "masc" },
+  { fr: "un réveil", nl: "een wekker", gender: "masc" },
+  { fr: "une console de jeux vidéo", nl: "een spelconsole", gender: "fem" },
+  { fr: "un haut-parleur", nl: "een luidspreker", gender: "masc" },
+  { fr: "une télé(vision)", nl: "een televisietoestel", gender: "fem" },
+  { fr: "un ordinateur", nl: "een computer", gender: "masc" },
+  { fr: "un écran", nl: "een scherm", gender: "masc" },
+  { fr: "des rideaux (m. pl.)", nl: "gordijnen", gender: "plur" },
+  { fr: "un pot de fleurs", nl: "een bloempot", gender: "masc" },
+  { fr: "une plante", nl: "een plant", gender: "fem" },
+  { fr: "un poster", nl: "een poster", gender: "masc" },
+  { fr: "un vase", nl: "een vaas", gender: "masc" },
+  { fr: "une horloge", nl: "een (wand)klok", gender: "fem" },
+
+  // Voorwerpen — bodem / wand / textiel
+  { fr: "le sol", nl: "de vloer / bodem", gender: "masc" },
+  { fr: "le tapis", nl: "het tapijt", gender: "masc" },
+  { fr: "le miroir", nl: "de spiegel", gender: "masc" },
+  { fr: "la peinture", nl: "het schilderij", gender: "fem" },
+  { fr: "la serviette", nl: "de handdoek", gender: "fem" },
+  { fr: "le portemanteau", nl: "de kapstok", gender: "masc" },
+  { fr: "une lampe", nl: "een lamp", gender: "fem" },
+  { fr: "un oreiller", nl: "een kussen", gender: "masc" },
+  { fr: "une housse de couette", nl: "een dekbedovertrek", gender: "fem" },
+
+  // Kleuren — variabel (hebben een vrouwelijke vorm)
+  { fr: "brun / brune", nl: "bruin", gender: "adj" },
+  { fr: "gris / grise", nl: "grijs", gender: "adj" },
+  { fr: "vert / verte", nl: "groen", gender: "adj" },
+  { fr: "blanc / blanche", nl: "wit", gender: "adj" },
+  { fr: "noir / noire", nl: "zwart", gender: "adj" },
+  { fr: "bleu / bleue", nl: "blauw", gender: "adj" },
+  { fr: "clair / claire", nl: "licht", gender: "adj" },
+  { fr: "foncé / foncée", nl: "donker", gender: "adj" },
+
+  // Kleuren — onveranderlijk
+  { fr: "jaune", nl: "geel", gender: "adj-inv" },
+  { fr: "mauve", nl: "paars", gender: "adj-inv" },
+  { fr: "rouge", nl: "rood", gender: "adj-inv" },
+  { fr: "orange", nl: "oranje", gender: "adj-inv" },
+  { fr: "rose", nl: "roos / roze", gender: "adj-inv" }
+];
+
+// ==========================================================================
+// KLEURMENGER — voorwerpen + opdrachten
+// ==========================================================================
+// Elke opdracht koppelt een voorwerp aan een doelkleur.
+// targetColor matcht een entry uit de COLORS array (Frans woord).
+// De opdracht-tekst gebruikt de juiste vorm (m of f) voor het voorwerpsgeslacht.
+
+const KLEUR_OBJECTS = [
+  {
+    name: "la lampe", gender: "f",
+    task: "Rends la lampe rouge",
+    targetColor: "rouge",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="40" ry="8" fill="#3D2B1F"/>
+      <rect x="96" y="100" width="8" height="100" fill="#5C4033"/>
+      <path class="colorable" d="M 60 50 L 140 50 L 155 100 L 45 100 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="75" x2="145" y2="75" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <ellipse cx="100" cy="50" rx="40" ry="5" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+    </svg>`
+  },
+  {
+    name: "le tapis", gender: "m",
+    task: "Rends le tapis bleu",
+    targetColor: "bleu",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 L 190 50 L 210 130 L 10 130 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 40 60 L 180 60 L 196 122 L 24 122 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 110 70 L 150 90 L 110 110 L 70 90 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="35" y1="50" x2="33" y2="44"/><line x1="55" y1="50" x2="55" y2="44"/>
+        <line x1="75" y1="50" x2="77" y2="44"/><line x1="95" y1="50" x2="97" y2="44"/>
+        <line x1="115" y1="50" x2="117" y2="44"/><line x1="135" y1="50" x2="137" y2="44"/>
+        <line x1="155" y1="50" x2="157" y2="44"/><line x1="175" y1="50" x2="177" y2="44"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "l'oreiller", gender: "m",
+    task: "Rends l'oreiller jaune",
+    targetColor: "jaune",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 Q 25 40 38 38 L 180 35 Q 195 35 195 50 L 198 110 Q 198 125 185 125 L 35 128 Q 22 128 22 115 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 38 50 Q 35 48 40 46" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <path d="M 180 48 Q 188 50 185 56" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="110" cy="80" rx="65" ry="20" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  },
+  {
+    name: "le vase", gender: "m",
+    task: "Rends le vase vert",
+    targetColor: "vert",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 70 60 L 70 80 Q 50 100 50 130 Q 50 180 100 190 Q 150 180 150 130 Q 150 100 130 80 L 130 60 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="70" y1="80" x2="130" y2="80" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="100" cy="60" rx="30" ry="4" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+      <path d="M 75 130 Q 100 140 125 130" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+    </svg>`
+  },
+  {
+    name: "le poster", gender: "m",
+    task: "Rends le poster orange",
+    targetColor: "orange",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <rect class="colorable" x="40" y="30" width="120" height="160" rx="2"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="80" cy="80" r="14" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 120 70 L 140 100 L 100 100 Z" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="155" x2="125" y2="155" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="170" x2="135" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <circle cx="40" cy="30" r="2" fill="#5C4033"/>
+      <circle cx="160" cy="30" r="2" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "l'horloge", gender: "f",
+    task: "Rends l'horloge mauve",
+    targetColor: "mauve",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle class="colorable" cx="100" cy="100" r="78"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="65" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <text x="100" y="38" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">12</text>
+      <text x="160" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">3</text>
+      <text x="100" y="172" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">6</text>
+      <text x="40" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">9</text>
+      <line x1="100" y1="100" x2="100" y2="55" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round"/>
+      <line x1="100" y1="100" x2="135" y2="100" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="4" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "le réveil", gender: "m",
+    task: "Rends le réveil noir",
+    targetColor: "noir",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="60" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <ellipse cx="140" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="40" x2="48" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="152" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <circle class="colorable" cx="100" cy="115" r="65"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="115" r="52" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <line x1="100" y1="115" x2="100" y2="80" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="100" y1="115" x2="125" y2="115" stroke="#3D2B1F" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="100" cy="115" r="3" fill="#5C4033"/>
+      <line x1="60" y1="178" x2="55" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="140" y1="178" x2="145" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+    </svg>`
+  },
+  {
+    name: "la serviette", gender: "f",
+    task: "Rends la serviette rose",
+    targetColor: "rose",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="30" x2="180" y2="30" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <path class="colorable" d="M 50 30 Q 45 30 45 38 L 50 180 Q 50 195 65 195 L 135 195 Q 150 195 150 180 L 155 38 Q 155 30 150 30 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="60" x2="145" y2="60" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="100" x2="145" y2="100" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="180" x2="145" y2="180" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="60" y1="195" x2="58" y2="205"/>
+        <line x1="80" y1="195" x2="80" y2="205"/>
+        <line x1="100" y1="195" x2="100" y2="205"/>
+        <line x1="120" y1="195" x2="120" y2="205"/>
+        <line x1="140" y1="195" x2="142" y2="205"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "le portemanteau", gender: "m",
+    task: "Rends le portemanteau brun",
+    targetColor: "brun",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="50" ry="6" fill="#3D2B1F"/>
+      <rect class="colorable" x="96" y="40" width="8" height="160"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 100 40 Q 70 50 70 70 Q 70 80 80 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 40 Q 130 50 130 70 Q 130 80 120 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 70 92 70 110 Q 70 120 80 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 130 92 130 110 Q 130 120 120 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="40" rx="14" ry="6" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+    </svg>`
+  },
+  {
+    name: "le tabouret", gender: "m",
+    task: "Rends le tabouret gris",
+    targetColor: "gris",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse class="colorable" cx="100" cy="80" rx="60" ry="14"
+               fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 40 80 L 40 92 Q 100 100 160 92 L 160 80"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="92" x2="48" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="145" y1="92" x2="152" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="80" y1="98" x2="78" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="120" y1="98" x2="122" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="48" y1="170" x2="152" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  }
+];
+
+// Kleurpalet — Frans woord + hex (in dezelfde volgorde altijd, geshuffled bij render)
+const COLORS = [
+  { fr: "rouge", hex: "#C8453B" },
+  { fr: "bleu", hex: "#3F6FA8" },
+  { fr: "vert", hex: "#5E8B4E" },
+  { fr: "jaune", hex: "#E5B636" },
+  { fr: "mauve", hex: "#9C7FB5" },
+  { fr: "orange", hex: "#D88440" },
+  { fr: "rose", hex: "#D89BAE" },
+  { fr: "noir", hex: "#3D2B1F" },
+  { fr: "blanc", hex: "#FAFAFA" },
+  { fr: "brun", hex: "#7A5A3D" },
+  { fr: "gris", hex: "#8A8A8A" }
+];
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+
+// Kleurmenger state — declareren vóór goToTab zodat er geen TDZ-fout is
+let kleurStarted = false;
+let kleurQs = [];
+let kleurIdx = 0;
+let kleurScore = 0;
+
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  if (name === 'kleur' && !kleurStarted) startKleur();
+}
+
+// ==========================================================================
+// FLASHCARDS
+// ==========================================================================
+let flashDir = 'fr-nl'; // standaard: Frans → Nederlands
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = ''; // ALWAYS leegmaken voor herbouw
+  VOCAB.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    const tag = w.gender === 'masc' ? 'm' : (w.gender === 'fem' ? 'f' : 'pl');
+    const front = flashDir === 'fr-nl' ? w.fr : w.nl;
+    const back  = flashDir === 'fr-nl' ? w.nl : w.fr;
+    // Geslachts-tag tonen we altijd op de Franse kant
+    const showTag = flashDir === 'fr-nl' ? false : true; // bij nl→fr staat fr op back, dus tag op back
+    const tagFront = flashDir === 'fr-nl' ? `<div class="gender-tag-front">${tag}</div>` : '';
+    const tagBack = flashDir === 'fr-nl' ? `<div class="gender-tag">${tag}</div>` : '';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${front}</div>
+          <div class="flashcard-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${back}</div>
+          ${tagBack}
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+
+// Lang-toggle handler
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards(); // herbouw alle kaarten in nieuwe richting (automatisch teruggedraaid)
+  });
+});
+
+function flipAll() {
+  const cards = document.querySelectorAll('.flashcard');
+  const anyUnflipped = Array.from(cards).some(c => !c.classList.contains('flipped'));
+  cards.forEach(c => c.classList.toggle('flipped', anyUnflipped));
+}
+
+// ==========================================================================
+// PRINT-TABELLEN
+// (De rijen staan al statisch in de HTML — geen JS-build meer nodig.
+// Dit maakt de printversie robuuster en werkt ook bij print-engines die
+// geen JavaScript uitvoeren.)
+// ==========================================================================
+
+// ==========================================================================
+// KLEURMENGER — RENDERING
+// ==========================================================================
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startKleur() {
+  kleurStarted = true;
+  kleurQs = shuffle(KLEUR_OBJECTS);
+  kleurIdx = 0;
+  kleurScore = 0;
+  renderKleurStage();
+}
+
+function renderKleurStage() {
+  const stage = document.getElementById('kleur-stage');
+  if (kleurIdx >= kleurQs.length) {
+    renderKleurFinale();
+    return;
+  }
+  const obj = kleurQs[kleurIdx];
+  const shuffledColors = shuffle(COLORS);
+  const pct = (kleurIdx / kleurQs.length) * 100;
+
+  stage.innerHTML = `
+    <div class="kleur-progress">
+      <span class="label">Voorwerp ${kleurIdx + 1} / ${kleurQs.length}</span>
+      <div class="kleur-progress-bar"><div class="kleur-progress-fill" style="width:${pct}%"></div></div>
+      <span class="label">Score: ${kleurScore}</span>
+    </div>
+    <div class="kleur-task">${obj.task}</div>
+    <div class="kleur-svg-stage">${obj.svg}</div>
+    <div class="kleur-options">
+      ${shuffledColors.map(c => `
+        <button class="kleur-option" aria-label="${c.fr}" data-color="${c.fr}">
+          <span class="kleur-swatch" style="background:${c.hex}"></span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="kleur-feedback" id="kleur-feedback"></div>
+  `;
+
+  stage.querySelectorAll('.kleur-option').forEach(btn => {
+    btn.addEventListener('click', () => handleKleurAnswer(btn, obj));
+  });
+}
+
+function handleKleurAnswer(btn, obj) {
+  const stage = document.getElementById('kleur-stage');
+  const fb = document.getElementById('kleur-feedback');
+  const colorName = btn.dataset.color;
+  const colorHex = COLORS.find(c => c.fr === colorName).hex;
+
+  if (colorName === obj.targetColor) {
+    // Correct: kleur toepassen, alle knoppen disabled, volgende-knop tonen
+    stage.querySelectorAll('.colorable').forEach(el => {
+      // Voor stroke-elementen (zoals de portemanteau-haken die als stroke gekleurd zijn)
+      if (el.getAttribute('stroke') && el.getAttribute('fill') === 'none') {
+        el.setAttribute('stroke', colorHex);
+      } else {
+        el.setAttribute('fill', colorHex);
+      }
+    });
+    kleurScore++;
+    fb.textContent = "Parfait !";
+    fb.className = 'kleur-feedback good visible';
+    stage.querySelectorAll('.kleur-option').forEach(b => b.disabled = true);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'kleur-next-btn';
+    nextBtn.textContent = kleurIdx + 1 >= kleurQs.length ? 'Bekijk resultaat →' : 'Volgend voorwerp →';
+    nextBtn.addEventListener('click', () => {
+      kleurIdx++;
+      renderKleurStage();
+    });
+    stage.appendChild(nextBtn);
+    setTimeout(() => nextBtn.focus(), 50);
+  } else {
+    // Fout: niet kleuren, schudden, "probeer opnieuw"
+    fb.textContent = "Probeer opnieuw — dat is niet de juiste kleur.";
+    fb.className = 'kleur-feedback bad visible';
+    btn.classList.add('shake');
+    setTimeout(() => btn.classList.remove('shake'), 400);
+  }
+}
+
+function renderKleurFinale() {
+  const stage = document.getElementById('kleur-stage');
+  const total = kleurQs.length;
+  let title, msg;
+  if (kleurScore === total) {
+    title = "Bravo! Tu connais toutes les couleurs!";
+    msg = `Score: ${kleurScore}/${total} bij de eerste poging. Schitterend!`;
+  } else if (kleurScore >= total * 0.75) {
+    title = "Très bien!";
+    msg = `Score: ${kleurScore}/${total} bij de eerste poging. Goed bezig!`;
+  } else {
+    title = "Bien joué!";
+    msg = `Score: ${kleurScore}/${total} bij de eerste poging. Nog een rondje doen om te oefenen?`;
+  }
+  stage.innerHTML = `
+    <div class="kleur-finale">
+      <div class="big-emoji">🎨</div>
+      <h3>${title}</h3>
+      <p>${msg}</p>
+      <button class="kleur-restart-btn" onclick="startKleur()">🔄 Opnieuw spelen</button>
+    </div>
+  `;
+}
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+buildFlashcards();
+</script>
+
+</body>
+</html>
