@@ -1013,7 +1013,7 @@ header {
 
 <!-- Actions -->
 <div class="actions no-print">
-  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <button class="action-btn" id="print-btn" onclick="window.print()">🖨️ Afdrukken</button>
   <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
 </div>
 
@@ -1319,6 +1319,9 @@ function goToTab(name) {
   document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
   document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
   if (name === 'valstrik' && !valstrikStarted) startValstrik();
+  // Print-knop verbergen op valstrik-tab (runtime quiz, niet zinvol op papier)
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) printBtn.style.display = (name === 'valstrik') ? 'none' : '';
 }
 
 // ==========================================================================
