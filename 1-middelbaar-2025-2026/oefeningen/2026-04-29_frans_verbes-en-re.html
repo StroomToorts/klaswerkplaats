@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les verbes en -RE — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+
+  --vak-color: var(--terracotta);
+  --vak-color-light: var(--terracotta-light);
+  --vak-color-dark: var(--rust);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  padding: 20px 16px 60px;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='10' cy='10' r='1' fill='%235C4033' opacity='0.5'/><circle cx='40' cy='30' r='1' fill='%235C4033' opacity='0.5'/><circle cx='70' cy='15' r='1' fill='%235C4033' opacity='0.5'/><circle cx='20' cy='55' r='1' fill='%235C4033' opacity='0.5'/><circle cx='55' cy='65' r='1' fill='%235C4033' opacity='0.5'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+.subject-icon {
+  width: 60px; height: 60px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.title-block h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin-bottom: 2px;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+}
+
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-top: 14px;
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--warm-white);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+.tab {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab:hover { background: var(--sand-light); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 6px rgba(194, 112, 78, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* THEORY */
+.theory-card {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(60, 40, 30, 0.05);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.theory-card p { font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
+.theory-card .accent {
+  background: var(--cream);
+  border-left: 3px solid var(--vak-color);
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+}
+.theory-card .accent strong { color: var(--vak-color-dark); }
+
+.gender-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.gender-pills .pill {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pill.masc { background: rgba(106, 155, 181, 0.15); color: #4A7691; }
+.pill.fem { background: rgba(201, 160, 160, 0.2); color: #9C6868; }
+.pill.plur { background: rgba(212, 168, 67, 0.18); color: #8B6E1E; }
+
+/* Vervoegingstabellen in de theorie */
+.verb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Vollkorn', Georgia, serif;
+  margin: 12px 0 8px;
+  font-size: 15px;
+}
+.verb-table th, .verb-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand);
+}
+.verb-table th {
+  background: var(--sand-light);
+  font-weight: 700;
+  color: var(--dark-brown);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.verb-table td:first-child {
+  color: var(--warm-brown);
+  font-style: italic;
+  width: 28%;
+  font-size: 14px;
+}
+.verb-table td strong {
+  color: var(--vak-color-dark);
+  font-weight: 700;
+}
+.verb-table.compact td { padding: 6px 10px; font-size: 14px; }
+.verb-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Patroon-overzicht tabel */
+.patterns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Vollkorn', Georgia, serif;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.patterns-table th, .patterns-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand);
+  vertical-align: top;
+}
+.patterns-table th {
+  background: var(--sand-light);
+  font-weight: 700;
+  color: var(--dark-brown);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.patterns-table strong { color: var(--vak-color-dark); }
+.patterns-table .other { color: var(--warm-brown); font-size: 13px; opacity: 0.85; }
+
+/* FLASHCARDS */
+.flashcard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.lang-toggle {
+  display: inline-flex;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+.lang-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-option.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+}
+.flip-all-btn {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flip-all-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Print-only elementen — standaard verborgen */
+.print-only { display: none; }
+.print-section-title { display: none; }
+.flashcard-print { display: none; }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.flashcard {
+  aspect-ratio: 4/3;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.06);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-light) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.15);
+}
+.flashcard .question-word, .flashcard .answer-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.flashcard .answer-word { font-size: 16px; }
+.flashcard .gender-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+}
+.flashcard-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+.flashcard-front .flashcard-hint { color: var(--warm-brown); }
+.flashcard-back .flashcard-hint { color: rgba(255,255,255,0.8); }
+
+/* VALSTRIK-DETECTOR */
+.valstrik-intro {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.valstrik-avatar { font-size: 56px; line-height: 1; flex-shrink: 0; }
+.valstrik-intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); line-height: 1.55; }
+.valstrik-intro-text strong { color: var(--vak-color-dark); font-weight: 600; }
+
+.valstrik-stage {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+}
+
+.valstrik-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+}
+.valstrik-progress .label { white-space: nowrap; opacity: 0.85; }
+.valstrik-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--sand-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.valstrik-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  width: 0%;
+  transition: width 0.4s;
+}
+
+.valstrik-instruction {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  opacity: 0.8;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.valstrik-sentence {
+  text-align: center;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--dark-brown);
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin-bottom: 18px;
+  line-height: 1.45;
+  border: 1px dashed var(--sand);
+}
+
+.valstrik-options {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.valstrik-btn {
+  flex: 1;
+  min-width: 130px;
+  max-width: 220px;
+  padding: 14px 20px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.valstrik-btn:hover:not(:disabled) {
+  border-color: var(--vak-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(60, 40, 30, 0.08);
+}
+.valstrik-btn:disabled { cursor: default; }
+.valstrik-btn.juist { color: var(--olive-dark); }
+.valstrik-btn.fout { color: var(--rust); }
+.valstrik-btn.correct {
+  background: rgba(122, 139, 111, 0.18);
+  border-color: var(--olive-dark);
+  color: var(--olive-dark);
+}
+.valstrik-btn.wrong {
+  background: rgba(183, 85, 61, 0.15);
+  border-color: var(--rust);
+  color: var(--rust);
+  animation: shakeBtn 0.4s ease-in-out;
+}
+@keyframes shakeBtn {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.valstrik-feedback {
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: var(--sand-light);
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-left: 4px solid var(--sand);
+}
+.valstrik-feedback.visible { opacity: 1; }
+.valstrik-feedback .fb-status {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.valstrik-feedback .fb-status.good { color: var(--olive-dark); }
+.valstrik-feedback .fb-status.bad { color: var(--rust); }
+.valstrik-feedback .fb-explanation { color: var(--warm-brown); }
+.valstrik-feedback .fb-explanation em { color: var(--vak-color-dark); font-weight: 600; font-style: normal; }
+.valstrik-feedback .fb-explanation strong { color: var(--vak-color-dark); }
+
+.valstrik-next-btn {
+  display: block;
+  margin: 14px auto 0;
+  padding: 11px 26px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.valstrik-next-btn:hover { background: var(--vak-color-dark); }
+
+.valstrik-finale {
+  text-align: center;
+  padding: 30px 20px;
+}
+.valstrik-finale .big-emoji { font-size: 72px; line-height: 1; margin-bottom: 12px; }
+.valstrik-finale h3 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 10px; font-weight: 700; }
+.valstrik-finale p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; }
+.valstrik-restart-btn {
+  padding: 11px 24px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.valstrik-restart-btn:hover { background: var(--vak-color-dark); }
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 10px 18px;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+.action-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  body { padding: 14px 12px 40px; }
+  .container { padding: 0; }
+  header { gap: 12px; }
+  .subject-icon { width: 50px; height: 50px; font-size: 26px; }
+  .title-block h1 { font-size: 21px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .flashcard .question-word, .flashcard .answer-word { font-size: 14px; }
+  .coco-scene { flex-direction: column; align-items: center; }
+  .coco-bird { width: 80px; height: 80px; }
+  .coco-speech { width: 100%; }
+  .coco-speech::before {
+    left: 30px; top: -10px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+    border-bottom: 11px solid var(--cream);
+    filter: drop-shadow(0 -1.5px 0 var(--sand));
+  }
+  .coco-says { font-size: 19px; }
+  .coco-option { min-width: 100%; }
+}
+
+/* Print */
+@media print {
+  body { background: white !important; padding: 0; font-size: 11pt; color: #000; }
+  body::before { display: none; }
+  .breadcrumb, .tabs, .actions, .flashcard-toolbar { display: none !important; }
+  /* Valstrik-tab volledig verbergen — runtime gegenereerd, niet bruikbaar op papier */
+  .tab-content[data-content="valstrik"] { display: none !important; }
+  /* Theorie en flashcards-tab tonen tegelijk */
+  .tab-content[data-content="theorie"],
+  .tab-content[data-content="flashcards"] { display: block !important; }
+
+  /* Theorie: clean styling, gegroepeerd om witte pagina's te voorkomen */
+  .theory-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    padding: 14px 18px !important;
+    margin-bottom: 12px !important;
+    page-break-inside: avoid;
+  }
+  .theory-card h3 { color: #333 !important; }
+  .gender-pills .pill { border: 1px solid #ccc; background: white !important; color: #333 !important; }
+  .accent { background: #f5f5f5 !important; border-left-color: #888 !important; color: #000 !important; }
+
+  /* Print-only blokken zichtbaar */
+  .print-only { display: block !important; }
+  .print-section-title {
+    display: block !important;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 18pt 0 10pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 1.5px solid #888;
+  }
+  .print-instruction {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #444 !important;
+    margin-bottom: 10pt;
+  }
+  .print-subsection {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 14pt 0 6pt 0;
+  }
+  .page-break-before { page-break-before: always; }
+
+  /* Flashcards: schermversie verbergen, print-versie tonen */
+  .flashcard-grid { display: none !important; }
+  .flashcard-print { display: block !important; }
+
+  .print-vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-vocab-table th {
+    text-align: left;
+    padding: 5pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+    background: #f5f5f5;
+  }
+  .print-vocab-table td {
+    padding: 6pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-vocab-table td:first-child {
+    width: 40%;
+    font-weight: 600;
+  }
+  .print-vocab-table td:last-child {
+    width: 60%;
+    color: transparent;  /* leeg, om in te schrijven */
+  }
+
+  /* Print answers: oplossingen op aparte pagina, beide richtingen */
+  .print-answers { display: block !important; page-break-before: always; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 22pt;
+    color: #000 !important;
+    margin-bottom: 8pt;
+  }
+  .print-answers h3 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11pt;
+    color: #555 !important;
+    margin: 10pt 0 4pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .print-answers .ans-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    margin-bottom: 10pt;
+  }
+  .print-answers .ans-table th {
+    text-align: left;
+    padding: 4pt 8pt;
+    border-bottom: 1.2px solid #888;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+  .print-answers .ans-table td {
+    padding: 3pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-answers .ans-table td.ans { font-weight: 700; color: #000 !important; }
+
+  header { margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Les verbes en -RE</span>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="subject-icon">📝</div>
+  <div class="title-block">
+    <h1>Les verbes en -RE</h1>
+    <div class="date">les van 29 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Vandaag oefenen we de werkwoorden op <strong>-RE</strong> en <strong>-IRE</strong>. Niet alle werkwoorden in deze familie volgen dezelfde regel — er zijn vier patronen om uit elkaar te houden. Bekijk eerst de <strong>theorie</strong>, oefen met de <strong>flashcards</strong>, en daag jezelf uit met de <strong>valstrik-detector</strong>: juist of fout?</p>
+
+<!-- Tabs -->
+<div class="tabs no-print">
+  <button class="tab active" data-tab="theorie">📚 Theorie</button>
+  <button class="tab" data-tab="flashcards">🎴 Flashcards</button>
+  <button class="tab" data-tab="valstrik">🎯 Valstrik-detector</button>
+</div>
+
+<!-- ============ THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <h2 class="print-section-title print-only">📚 Theorie — Les verbes en -RE</h2>
+
+  <div class="theory-card">
+    <h3>Vier patronen om te herkennen</h3>
+    <p>Werkwoorden die op <strong>-re</strong> of <strong>-ire</strong> eindigen volgen <strong>niet allemaal dezelfde regel</strong>. Er zijn vier patronen om uit elkaar te houden:</p>
+    <div class="verb-table-wrap">
+      <table class="patterns-table">
+        <thead><tr><th>Patroon</th><th>Voorbeeld</th><th>Andere werkwoorden</th></tr></thead>
+        <tbody>
+          <tr><td>Regelmatig -RE</td><td><strong>perdre</strong></td><td class="other">rendre, attendre, vendre</td></tr>
+          <tr><td>-ENDRE met dubbele n</td><td><strong>prendre</strong></td><td class="other">comprendre</td></tr>
+          <tr><td>-RE met t-verlies</td><td><strong>mettre</strong></td><td class="other">(alleen mettre)</td></tr>
+          <tr><td>-IRE (sterk -s in mv)</td><td><strong>écrire</strong> / <strong>traduire</strong></td><td class="other">conduire, lire, dire</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Het regelmatige patroon — perdre (verliezen)</h3>
+    <div class="verb-table-wrap">
+      <table class="verb-table">
+        <thead><tr><th>Persoon</th><th>Vorm</th><th>Stam + uitgang</th></tr></thead>
+        <tbody>
+          <tr><td>je</td><td>perd<strong>s</strong></td><td>perd + s</td></tr>
+          <tr><td>tu</td><td>perd<strong>s</strong></td><td>perd + s</td></tr>
+          <tr><td>il / elle / on</td><td>perd</td><td>perd + ∅</td></tr>
+          <tr><td>nous</td><td>perd<strong>ons</strong></td><td>perd + ons</td></tr>
+          <tr><td>vous</td><td>perd<strong>ez</strong></td><td>perd + ez</td></tr>
+          <tr><td>ils / elles</td><td>perd<strong>ent</strong></td><td>perd + ent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Kernregel:</strong> stam = infinitief min <em>-re</em>. Daarna gewoon de uitgangen toevoegen. Bij <em>il/elle/on</em> komt er <strong>geen extra t</strong> bij — de stam eindigt al op een -d.</p>
+    <div class="accent">
+      <strong>Andere werkwoorden die dit patroon volgen:</strong> <em>rendre</em> (teruggeven), <em>attendre</em> (wachten), <em>vendre</em> (verkopen). Allemaal hetzelfde patroon: je rends, tu rends, il rend...
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Prendre en comprendre — let op de dubbele n</h3>
+    <div class="verb-table-wrap">
+      <table class="verb-table">
+        <thead><tr><th>Persoon</th><th>prendre (nemen)</th><th>comprendre (begrijpen)</th></tr></thead>
+        <tbody>
+          <tr><td>je</td><td>prends</td><td>comprends</td></tr>
+          <tr><td>tu</td><td>prends</td><td>comprends</td></tr>
+          <tr><td>il / elle / on</td><td>prend</td><td>comprend</td></tr>
+          <tr><td>nous</td><td>pre<strong>n</strong>ons</td><td>compre<strong>n</strong>ons</td></tr>
+          <tr><td>vous</td><td>pre<strong>n</strong>ez</td><td>compre<strong>n</strong>ez</td></tr>
+          <tr><td>ils / elles</td><td>pre<strong>nn</strong>ent</td><td>compre<strong>nn</strong>ent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="accent">
+      <strong>Valstrik:</strong> <em>ils prennent</em> en <em>ils comprennent</em> hebben <strong>dubbele n</strong>. Dat is een klassieke fout: leerlingen schrijven "ils prenent" — dat bestaat niet in het Frans.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Mettre — een vreemde eend</h3>
+    <p><em>Mettre</em> (plaatsen / neerzetten) lijkt op een -RE-werkwoord, maar de stam <strong>verliest een t</strong> bij je/tu/il:</p>
+    <div class="verb-table-wrap">
+      <table class="verb-table compact">
+        <thead><tr><th>Persoon</th><th>mettre</th></tr></thead>
+        <tbody>
+          <tr><td>je</td><td>me<strong>t</strong>s</td></tr>
+          <tr><td>tu</td><td>me<strong>t</strong>s</td></tr>
+          <tr><td>il / elle / on</td><td>me<strong>t</strong></td></tr>
+          <tr><td>nous</td><td>me<strong>tt</strong>ons</td></tr>
+          <tr><td>vous</td><td>me<strong>tt</strong>ez</td></tr>
+          <tr><td>ils / elles</td><td>me<strong>tt</strong>ent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="accent">
+      <strong>Onthoud:</strong> <em>je mets, tu mets, il met</em> — slechts <strong>één t</strong>. Vanaf <em>nous</em> komen er twee t's terug. Dit is het enige werkwoord uit deze les met deze regel.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Écrire en traduire — de -IRE familie</h3>
+    <p>Deze werkwoorden eindigen op <strong>-ire</strong>, niet op -re. Ze krijgen vanaf <em>nous</em> een extra <strong>letter in de stam</strong> (v of s):</p>
+    <div class="verb-table-wrap">
+      <table class="verb-table">
+        <thead><tr><th>Persoon</th><th>écrire</th><th>traduire</th><th>conduire</th></tr></thead>
+        <tbody>
+          <tr><td>je / j'</td><td>écris</td><td>traduis</td><td>conduis</td></tr>
+          <tr><td>tu</td><td>écris</td><td>traduis</td><td>conduis</td></tr>
+          <tr><td>il / elle / on</td><td>écrit</td><td>traduit</td><td>conduit</td></tr>
+          <tr><td>nous</td><td>écri<strong>v</strong>ons</td><td>tradui<strong>s</strong>ons</td><td>condui<strong>s</strong>ons</td></tr>
+          <tr><td>vous</td><td>écri<strong>v</strong>ez</td><td>tradui<strong>s</strong>ez</td><td>condui<strong>s</strong>ez</td></tr>
+          <tr><td>ils / elles</td><td>écri<strong>v</strong>ent</td><td>tradui<strong>s</strong>ent</td><td>condui<strong>s</strong>ent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul style="margin: 6px 0 8px 22px; font-family: 'Vollkorn', Georgia, serif; font-size: 14.5px; line-height: 1.7;">
+      <li><em>écrire</em> (schrijven) krijgt een <strong>v</strong> vanaf <em>nous</em></li>
+      <li><em>traduire</em> (vertalen) en <em>conduire</em> (rijden) krijgen een <strong>s</strong> vanaf <em>nous</em></li>
+    </ul>
+    <div class="accent">
+      <strong>Valstrik:</strong> "nous écrions" of "ils écrient" bestaat niet. Het is altijd <em>écri<strong>v</strong>ons / écri<strong>v</strong>ent</em>.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Lire en dire — extra werkwoorden</h3>
+    <div class="verb-table-wrap">
+      <table class="verb-table">
+        <thead><tr><th>Persoon</th><th>lire (lezen)</th><th>dire (zeggen)</th></tr></thead>
+        <tbody>
+          <tr><td>je</td><td>lis</td><td>dis</td></tr>
+          <tr><td>tu</td><td>lis</td><td>dis</td></tr>
+          <tr><td>il / elle / on</td><td>lit</td><td>dit</td></tr>
+          <tr><td>nous</td><td>li<strong>s</strong>ons</td><td>di<strong>s</strong>ons</td></tr>
+          <tr><td>vous</td><td>li<strong>s</strong>ez</td><td><strong>dites</strong> ⚠️</td></tr>
+          <tr><td>ils / elles</td><td>li<strong>s</strong>ent</td><td>di<strong>s</strong>ent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="accent">
+      <strong>De grootste valstrik van de hele les:</strong> bij <em>dire</em> is het <strong>vous dites</strong>, niet "vous disez". Dit is een toets-favoriet. Lees: <em>vous <strong>dites</strong> la vérité</em> (jullie zeggen de waarheid). Niet "vous disez". <em>Lire</em> volgt het normale patroon met -s vanaf nous.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Vertalingen — alle werkwoorden samen</h3>
+    <div class="verb-table-wrap">
+      <table class="verb-table compact">
+        <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+        <tbody>
+          <tr><td>prendre</td><td>nemen</td></tr>
+          <tr><td>comprendre</td><td>begrijpen</td></tr>
+          <tr><td>perdre</td><td>verliezen</td></tr>
+          <tr><td>rendre</td><td>teruggeven</td></tr>
+          <tr><td>attendre</td><td>wachten</td></tr>
+          <tr><td>mettre</td><td>plaatsen / neerzetten</td></tr>
+          <tr><td>vendre</td><td>verkopen</td></tr>
+          <tr><td>écrire</td><td>schrijven</td></tr>
+          <tr><td>traduire</td><td>vertalen</td></tr>
+          <tr><td>conduire</td><td>rijden</td></tr>
+          <tr><td>lire</td><td>lezen</td></tr>
+          <tr><td>dire</td><td>zeggen</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <div class="lang-toggle">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 → 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 → 🇫🇷</button>
+    </div>
+    <button class="flip-all-btn" onclick="flipAll()">Toon / verberg alles</button>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+
+  <!-- Print-only: woordenlijst met schrijfruimte -->
+  <div class="flashcard-print print-only">
+    <h2 class="print-section-title">📚 Woordenlijst — vul aan</h2>
+    <p class="print-instruction">Schrijf bij elk Frans woord de Nederlandse vertaling (of omgekeerd, op de tweede lijst).</p>
+    <h3 class="print-subsection">🇫🇷 → 🇳🇱</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+      <tbody id="print-vocab-fr-nl">
+        <tr><td>perdre</td><td>verliezen</td></tr>
+        <tr><td>rendre</td><td>teruggeven</td></tr>
+        <tr><td>attendre</td><td>wachten</td></tr>
+        <tr><td>vendre</td><td>verkopen</td></tr>
+        <tr><td>prendre</td><td>nemen</td></tr>
+        <tr><td>comprendre</td><td>begrijpen</td></tr>
+        <tr><td>mettre</td><td>plaatsen / neerzetten</td></tr>
+        <tr><td>écrire</td><td>schrijven</td></tr>
+        <tr><td>traduire</td><td>vertalen</td></tr>
+        <tr><td>conduire</td><td>rijden</td></tr>
+        <tr><td>lire</td><td>lezen</td></tr>
+        <tr><td>dire</td><td>zeggen</td></tr>
+      </tbody>
+    </table>
+    <h3 class="print-subsection">🇳🇱 → 🇫🇷</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+      <tbody id="print-vocab-nl-fr">
+        <tr><td>verliezen</td><td>perdre</td></tr>
+        <tr><td>teruggeven</td><td>rendre</td></tr>
+        <tr><td>wachten</td><td>attendre</td></tr>
+        <tr><td>verkopen</td><td>vendre</td></tr>
+        <tr><td>nemen</td><td>prendre</td></tr>
+        <tr><td>begrijpen</td><td>comprendre</td></tr>
+        <tr><td>plaatsen / neerzetten</td><td>mettre</td></tr>
+        <tr><td>schrijven</td><td>écrire</td></tr>
+        <tr><td>vertalen</td><td>traduire</td></tr>
+        <tr><td>rijden</td><td>conduire</td></tr>
+        <tr><td>lezen</td><td>lire</td></tr>
+        <tr><td>zeggen</td><td>dire</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ VALSTRIK-DETECTOR ============ -->
+<section class="tab-content no-print" data-content="valstrik">
+  <div class="valstrik-intro">
+    <div class="valstrik-avatar">🎯</div>
+    <div class="valstrik-intro-text">
+      Lees de Franse zin en beslis: is de vervoeging <strong>juist</strong> of <strong>fout</strong>? Elke ronde 10 willekeurige zinnen uit een grote pool, dus elke keer een nieuwe oefening. Bij fout krijg je uitleg.
+    </div>
+  </div>
+
+  <div class="valstrik-stage" id="valstrik-stage"></div>
+</section>
+
+<!-- Print-only: oplossingen voor flashcards (beide richtingen) -->
+<div class="print-only print-answers">
+  <h2>Oplossingen — werkwoorden</h2>
+  <table class="ans-table">
+    <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+    <tbody id="answers-fr-nl">
+      <tr><td>perdre</td><td class="ans">verliezen</td></tr>
+      <tr><td>rendre</td><td class="ans">teruggeven</td></tr>
+      <tr><td>attendre</td><td class="ans">wachten</td></tr>
+      <tr><td>vendre</td><td class="ans">verkopen</td></tr>
+      <tr><td>prendre</td><td class="ans">nemen</td></tr>
+      <tr><td>comprendre</td><td class="ans">begrijpen</td></tr>
+      <tr><td>mettre</td><td class="ans">plaatsen / neerzetten</td></tr>
+      <tr><td>écrire</td><td class="ans">schrijven</td></tr>
+      <tr><td>traduire</td><td class="ans">vertalen</td></tr>
+      <tr><td>conduire</td><td class="ans">rijden</td></tr>
+      <tr><td>lire</td><td class="ans">lezen</td></tr>
+      <tr><td>dire</td><td class="ans">zeggen</td></tr>
+      </tbody>
+  </table>
+  <table class="ans-table">
+    <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+    <tbody id="answers-nl-fr">
+      <tr><td>verliezen</td><td class="ans">perdre</td></tr>
+      <tr><td>teruggeven</td><td class="ans">rendre</td></tr>
+      <tr><td>wachten</td><td class="ans">attendre</td></tr>
+      <tr><td>verkopen</td><td class="ans">vendre</td></tr>
+      <tr><td>nemen</td><td class="ans">prendre</td></tr>
+      <tr><td>begrijpen</td><td class="ans">comprendre</td></tr>
+      <tr><td>plaatsen / neerzetten</td><td class="ans">mettre</td></tr>
+      <tr><td>schrijven</td><td class="ans">écrire</td></tr>
+      <tr><td>vertalen</td><td class="ans">traduire</td></tr>
+      <tr><td>rijden</td><td class="ans">conduire</td></tr>
+      <tr><td>lezen</td><td class="ans">lire</td></tr>
+      <tr><td>zeggen</td><td class="ans">dire</td></tr>
+      </tbody>
+  </table>
+</div>
+
+<!-- Actions -->
+<div class="actions no-print">
+  <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div>
+
+<script>
+// ==========================================================================
+// VOCABULAIRE
+// ==========================================================================
+const VOCAB = [
+  // Patroon: regelmatig -RE
+  { fr: "perdre", nl: "verliezen", gender: "verb" },
+  { fr: "rendre", nl: "teruggeven", gender: "verb" },
+  { fr: "attendre", nl: "wachten", gender: "verb" },
+  { fr: "vendre", nl: "verkopen", gender: "verb" },
+  // Patroon: -ENDRE met dubbele n
+  { fr: "prendre", nl: "nemen", gender: "verb" },
+  { fr: "comprendre", nl: "begrijpen", gender: "verb" },
+  // Patroon: -RE met t-verlies
+  { fr: "mettre", nl: "plaatsen / neerzetten", gender: "verb" },
+  // Patroon: -IRE
+  { fr: "écrire", nl: "schrijven", gender: "verb" },
+  { fr: "traduire", nl: "vertalen", gender: "verb" },
+  { fr: "conduire", nl: "rijden", gender: "verb" },
+  { fr: "lire", nl: "lezen", gender: "verb" },
+  { fr: "dire", nl: "zeggen", gender: "verb" }
+];
+
+// ==========================================================================
+// VALSTRIK-DETECTOR — pool van 50 zinnen
+// ==========================================================================
+// Per zin: sentence (de zin), correct (true/false), explanation (uitleg na antwoord)
+
+const VALSTRIK_POOL = [
+  // Prendre / comprendre (10)
+  { sentence: "Nous prenons le bus à huit heures.", correct: true, explanation: "Bij prendre: nous prenons met <strong>één</strong> n. De dubbele n komt pas bij ils/elles." },
+  { sentence: "Ils prenent leurs livres avant de partir.", correct: false, explanation: "Bij ils/elles wordt het <em>prennent</em> — met <strong>dubbele n</strong>." },
+  { sentence: "Tu prends une glace au chocolat?", correct: true, explanation: "Bij tu krijgt prendre een -s erbij: <em>prends</em>." },
+  { sentence: "Je comprend la leçon maintenant.", correct: false, explanation: "Bij je hoort er een -s bij: <em>comprends</em>." },
+  { sentence: "Vous prenez le train ou la voiture?", correct: true, explanation: "Vous-vorm: <em>prenez</em>. Klopt." },
+  { sentence: "Elles comprenent toutes les règles.", correct: false, explanation: "Net als bij prendre: <em>comprennent</em> met <strong>dubbele n</strong>." },
+  { sentence: "Mon frère prend toujours le même chemin.", correct: true, explanation: "Bij il/elle: <em>prend</em>. Geen extra letter erbij." },
+  { sentence: "Nous comprenons cette histoire.", correct: true, explanation: "Nous-vorm: één n is goed. Pas bij ils/elles dubbele n." },
+  { sentence: "Il prends son sac et il part.", correct: false, explanation: "De -s is alleen voor je en tu. Bij il is het <em>prend</em>." },
+  { sentence: "Tu comprend bien la question?", correct: false, explanation: "Tu krijgt altijd een -s: <em>comprends</em>." },
+
+  // Perdre / rendre / attendre / vendre (12)
+  { sentence: "Je perds mes clés tout le temps.", correct: true, explanation: "Je-vorm: <em>perds</em> met -s." },
+  { sentence: "Il perd souvent son parapluie.", correct: true, explanation: "Bij il/elle: <em>perd</em>. Geen -t toegevoegd, want de stam eindigt al op -d." },
+  { sentence: "Nous attendent le bus depuis dix minutes.", correct: false, explanation: "<em>Attendent</em> is de ils-vorm. Met nous moet het <em>attendons</em> zijn." },
+  { sentence: "Vous rendez les livres à la bibliothèque.", correct: true, explanation: "Vous-vorm: <em>rendez</em>." },
+  { sentence: "Mes parents vendent leur vieille voiture.", correct: true, explanation: "&laquo;Mes parents&raquo; = ils. Dus <em>vendent</em>." },
+  { sentence: "Tu attend ton ami devant l'école.", correct: false, explanation: "Bij tu altijd -s erbij: <em>attends</em>." },
+  { sentence: "Elle perde son cahier dans le bus.", correct: false, explanation: "Bij elle: <em>perd</em>. Geen -e erachter — dat lijkt op een -er werkwoord, maar het is -re." },
+  { sentence: "Je rend toujours mes devoirs à temps.", correct: false, explanation: "Je-vorm krijgt -s: <em>rends</em>." },
+  { sentence: "Nous vendons des gâteaux pour la fête.", correct: true, explanation: "Nous-vorm: <em>vendons</em>." },
+  { sentence: "Ils attendons le professeur.", correct: false, explanation: "<em>Attendons</em> is de nous-vorm. Bij ils moet het <em>attendent</em> zijn." },
+  { sentence: "Vous perdent toujours vos affaires.", correct: false, explanation: "<em>Perdent</em> is de ils-vorm. Bij vous moet het <em>perdez</em> zijn." },
+  { sentence: "On rend visite à ma grand-mère.", correct: true, explanation: "&laquo;On&raquo; gedraagt zich als il/elle. Dus <em>on rend</em> (zoals il rend)." },
+
+  // Mettre (6)
+  { sentence: "Je met mon manteau parce qu'il fait froid.", correct: false, explanation: "Bij je hoort -s erbij: <em>je mets</em>. Onthoud: één t bij je/tu/il, dubbele t vanaf nous." },
+  { sentence: "Nous mettons la table avant de manger.", correct: true, explanation: "Vanaf nous komen er twee t's terug: <em>mettons</em>." },
+  { sentence: "Tu metts tes chaussures avant de sortir.", correct: false, explanation: "Bij tu maar <strong>één</strong> t: <em>tu mets</em>. De dubbele t komt pas bij nous." },
+  { sentence: "Il mette son livre sur le bureau.", correct: false, explanation: "Bij il is het kort: <em>il met</em>. Eén t, geen -e erachter." },
+  { sentence: "Vous mettez vos sacs dans le casier.", correct: true, explanation: "Vous-vorm: <em>mettez</em> met dubbele t." },
+  { sentence: "Elles met leurs bottes pour la pluie.", correct: false, explanation: "Bij elles moet het <em>mettent</em> zijn. <em>Met</em> is de il-vorm." },
+
+  // Écrire (6)
+  { sentence: "J'écris une lettre à ma grand-mère.", correct: true, explanation: "Bij j': <em>écris</em>. De v komt pas vanaf nous." },
+  { sentence: "Nous écrions un message au professeur.", correct: false, explanation: "Bij écrire komt vanaf nous een <strong>v</strong> in de stam: <em>écrivons</em>." },
+  { sentence: "Tu écris très bien le français.", correct: true, explanation: "Tu-vorm: <em>écris</em>." },
+  { sentence: "Ils écrient une longue histoire.", correct: false, explanation: "Bij ils ook met v: <em>écrivent</em>." },
+  { sentence: "Vous écrivons souvent des emails.", correct: false, explanation: "<em>Écrivons</em> is de nous-vorm. Bij vous moet het <em>écrivez</em> zijn." },
+  { sentence: "Elle écrit dans son journal chaque soir.", correct: true, explanation: "Bij elle: <em>écrit</em>. Geen v want we zijn nog vóór nous." },
+
+  // Traduire / conduire (6)
+  { sentence: "Mon père conduit la voiture prudemment.", correct: true, explanation: "Bij il: <em>conduit</em>. De s komt pas vanaf nous." },
+  { sentence: "Nous traduions le texte en néerlandais.", correct: false, explanation: "Bij traduire komt vanaf nous een <strong>s</strong> in de stam: <em>traduisons</em>." },
+  { sentence: "Vous traduisez très bien.", correct: true, explanation: "Vous-vorm met s in stam: <em>traduisez</em>." },
+  { sentence: "Ils conduient depuis dix ans.", correct: false, explanation: "Net als traduire: vanaf nous een s erbij. Dus <em>conduisent</em>." },
+  { sentence: "Tu traduit cette phrase, s'il te plaît?", correct: false, explanation: "Bij tu altijd -s: <em>traduis</em>." },
+  { sentence: "Je conduise la nouvelle voiture.", correct: false, explanation: "Bij je: <em>conduis</em>. Geen -e erachter — dat lijkt op een -er werkwoord." },
+
+  // Lire (5)
+  { sentence: "Nous lisons un roman pour l'école.", correct: true, explanation: "Bij lire: vanaf nous komt er een s in de stam: <em>lisons</em>." },
+  { sentence: "Tu lit beaucoup de bandes dessinées.", correct: false, explanation: "Bij tu altijd -s: <em>tu lis</em>." },
+  { sentence: "Ils lient le journal tous les matins.", correct: false, explanation: "Bij ils komt s in stam erbij: <em>lisent</em>." },
+  { sentence: "Elle lit son livre dans le jardin.", correct: true, explanation: "Bij elle: <em>lit</em>. De s komt pas vanaf nous." },
+  { sentence: "Vous lisons cette histoire?", correct: false, explanation: "<em>Lisons</em> is de nous-vorm. Bij vous moet het <em>lisez</em> zijn." },
+
+  // Dire (5)
+  { sentence: "Vous disez toujours la vérité.", correct: false, explanation: "<strong>De grote valstrik!</strong> Bij dire is het <em>vous <strong>dites</strong></em>, niet &laquo;disez&raquo;." },
+  { sentence: "Mes amis disent bonjour à tout le monde.", correct: true, explanation: "Bij ils komt s erbij: <em>disent</em>." },
+  { sentence: "Tu dis quoi à ta sœur?", correct: true, explanation: "Bij tu: <em>dis</em>." },
+  { sentence: "Nous dions toujours merci après le repas.", correct: false, explanation: "Bij nous komt s erbij: <em>disons</em>." },
+  { sentence: "Vous dites bonjour au professeur.", correct: true, explanation: "<strong>Dit is de juiste vorm!</strong> <em>Vous dites</em> — onthoud deze, het is een uitzondering." }
+];
+
+// ==========================================================================
+// Elke opdracht koppelt een voorwerp aan een doelkleur.
+// targetColor matcht een entry uit de COLORS array (Frans woord).
+// De opdracht-tekst gebruikt de juiste vorm (m of f) voor het voorwerpsgeslacht.
+
+const KLEUR_OBJECTS = [
+  {
+    name: "la lampe", gender: "f",
+    task: "Rends la lampe rouge",
+    targetColor: "rouge",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="40" ry="8" fill="#3D2B1F"/>
+      <rect x="96" y="100" width="8" height="100" fill="#5C4033"/>
+      <path class="colorable" d="M 60 50 L 140 50 L 155 100 L 45 100 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="75" x2="145" y2="75" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <ellipse cx="100" cy="50" rx="40" ry="5" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+    </svg>`
+  },
+  {
+    name: "le tapis", gender: "m",
+    task: "Rends le tapis bleu",
+    targetColor: "bleu",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 L 190 50 L 210 130 L 10 130 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 40 60 L 180 60 L 196 122 L 24 122 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 110 70 L 150 90 L 110 110 L 70 90 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="35" y1="50" x2="33" y2="44"/><line x1="55" y1="50" x2="55" y2="44"/>
+        <line x1="75" y1="50" x2="77" y2="44"/><line x1="95" y1="50" x2="97" y2="44"/>
+        <line x1="115" y1="50" x2="117" y2="44"/><line x1="135" y1="50" x2="137" y2="44"/>
+        <line x1="155" y1="50" x2="157" y2="44"/><line x1="175" y1="50" x2="177" y2="44"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "l'oreiller", gender: "m",
+    task: "Rends l'oreiller jaune",
+    targetColor: "jaune",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 Q 25 40 38 38 L 180 35 Q 195 35 195 50 L 198 110 Q 198 125 185 125 L 35 128 Q 22 128 22 115 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 38 50 Q 35 48 40 46" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <path d="M 180 48 Q 188 50 185 56" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="110" cy="80" rx="65" ry="20" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  },
+  {
+    name: "le vase", gender: "m",
+    task: "Rends le vase vert",
+    targetColor: "vert",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 70 60 L 70 80 Q 50 100 50 130 Q 50 180 100 190 Q 150 180 150 130 Q 150 100 130 80 L 130 60 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="70" y1="80" x2="130" y2="80" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="100" cy="60" rx="30" ry="4" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+      <path d="M 75 130 Q 100 140 125 130" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+    </svg>`
+  },
+  {
+    name: "le poster", gender: "m",
+    task: "Rends le poster orange",
+    targetColor: "orange",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <rect class="colorable" x="40" y="30" width="120" height="160" rx="2"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="80" cy="80" r="14" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 120 70 L 140 100 L 100 100 Z" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="155" x2="125" y2="155" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="170" x2="135" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <circle cx="40" cy="30" r="2" fill="#5C4033"/>
+      <circle cx="160" cy="30" r="2" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "l'horloge", gender: "f",
+    task: "Rends l'horloge mauve",
+    targetColor: "mauve",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle class="colorable" cx="100" cy="100" r="78"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="65" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <text x="100" y="38" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">12</text>
+      <text x="160" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">3</text>
+      <text x="100" y="172" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">6</text>
+      <text x="40" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">9</text>
+      <line x1="100" y1="100" x2="100" y2="55" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round"/>
+      <line x1="100" y1="100" x2="135" y2="100" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="4" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "le réveil", gender: "m",
+    task: "Rends le réveil noir",
+    targetColor: "noir",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="60" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <ellipse cx="140" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="40" x2="48" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="152" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <circle class="colorable" cx="100" cy="115" r="65"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="115" r="52" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <line x1="100" y1="115" x2="100" y2="80" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="100" y1="115" x2="125" y2="115" stroke="#3D2B1F" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="100" cy="115" r="3" fill="#5C4033"/>
+      <line x1="60" y1="178" x2="55" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="140" y1="178" x2="145" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+    </svg>`
+  },
+  {
+    name: "la serviette", gender: "f",
+    task: "Rends la serviette rose",
+    targetColor: "rose",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="30" x2="180" y2="30" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <path class="colorable" d="M 50 30 Q 45 30 45 38 L 50 180 Q 50 195 65 195 L 135 195 Q 150 195 150 180 L 155 38 Q 155 30 150 30 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="60" x2="145" y2="60" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="100" x2="145" y2="100" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="180" x2="145" y2="180" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="60" y1="195" x2="58" y2="205"/>
+        <line x1="80" y1="195" x2="80" y2="205"/>
+        <line x1="100" y1="195" x2="100" y2="205"/>
+        <line x1="120" y1="195" x2="120" y2="205"/>
+        <line x1="140" y1="195" x2="142" y2="205"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "le portemanteau", gender: "m",
+    task: "Rends le portemanteau brun",
+    targetColor: "brun",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="50" ry="6" fill="#3D2B1F"/>
+      <rect class="colorable" x="96" y="40" width="8" height="160"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 100 40 Q 70 50 70 70 Q 70 80 80 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 40 Q 130 50 130 70 Q 130 80 120 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 70 92 70 110 Q 70 120 80 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 130 92 130 110 Q 130 120 120 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="40" rx="14" ry="6" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+    </svg>`
+  },
+  {
+    name: "le tabouret", gender: "m",
+    task: "Rends le tabouret gris",
+    targetColor: "gris",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse class="colorable" cx="100" cy="80" rx="60" ry="14"
+               fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 40 80 L 40 92 Q 100 100 160 92 L 160 80"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="92" x2="48" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="145" y1="92" x2="152" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="80" y1="98" x2="78" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="120" y1="98" x2="122" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="48" y1="170" x2="152" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  }
+];
+
+// Kleurpalet — Frans woord + hex (in dezelfde volgorde altijd, geshuffled bij render)
+const COLORS = [
+  { fr: "rouge", hex: "#C8453B" },
+  { fr: "bleu", hex: "#3F6FA8" },
+  { fr: "vert", hex: "#5E8B4E" },
+  { fr: "jaune", hex: "#E5B636" },
+  { fr: "mauve", hex: "#9C7FB5" },
+  { fr: "orange", hex: "#D88440" },
+  { fr: "rose", hex: "#D89BAE" },
+  { fr: "noir", hex: "#3D2B1F" },
+  { fr: "blanc", hex: "#FAFAFA" },
+  { fr: "brun", hex: "#7A5A3D" },
+  { fr: "gris", hex: "#8A8A8A" }
+];
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+
+// Valstrik state — declareren vóór goToTab zodat er geen TDZ-fout is
+let valstrikStarted = false;
+let valstrikQs = [];
+let valstrikIdx = 0;
+let valstrikScore = 0;
+
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  if (name === 'valstrik' && !valstrikStarted) startValstrik();
+}
+
+// ==========================================================================
+// FLASHCARDS
+// ==========================================================================
+let flashDir = 'fr-nl'; // standaard: Frans → Nederlands
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = ''; // ALWAYS leegmaken voor herbouw
+  VOCAB.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    // Geslachts-tag alleen voor zelfstandige naamwoorden — kleuren hebben geen tag nodig
+    let tag = '';
+    if (w.gender === 'masc') tag = 'm';
+    else if (w.gender === 'fem') tag = 'f';
+    else if (w.gender === 'plur') tag = 'pl';
+    // adj en adj-inv → geen tag
+    const front = flashDir === 'fr-nl' ? w.fr : w.nl;
+    const back  = flashDir === 'fr-nl' ? w.nl : w.fr;
+    const tagBack = tag ? `<div class="gender-tag">${tag}</div>` : '';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${front}</div>
+          <div class="flashcard-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${back}</div>
+          ${tagBack}
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+
+// Lang-toggle handler
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards(); // herbouw alle kaarten in nieuwe richting (automatisch teruggedraaid)
+  });
+});
+
+function flipAll() {
+  const cards = document.querySelectorAll('.flashcard');
+  const anyUnflipped = Array.from(cards).some(c => !c.classList.contains('flipped'));
+  cards.forEach(c => c.classList.toggle('flipped', anyUnflipped));
+}
+
+// ==========================================================================
+// PRINT-TABELLEN
+// (De rijen staan al statisch in de HTML — geen JS-build meer nodig.
+// Dit maakt de printversie robuuster en werkt ook bij print-engines die
+// geen JavaScript uitvoeren.)
+// ==========================================================================
+
+// ==========================================================================
+// VALSTRIK-DETECTOR — RENDERING
+// ==========================================================================
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const QUESTIONS_PER_ROUND = 10;
+
+function startValstrik() {
+  valstrikStarted = true;
+  // Pak 10 random zinnen uit de pool van 50
+  valstrikQs = shuffle(VALSTRIK_POOL).slice(0, QUESTIONS_PER_ROUND);
+  valstrikIdx = 0;
+  valstrikScore = 0;
+  renderValstrikStage();
+}
+
+function renderValstrikStage() {
+  const stage = document.getElementById('valstrik-stage');
+  if (valstrikIdx >= valstrikQs.length) {
+    renderValstrikFinale();
+    return;
+  }
+  const q = valstrikQs[valstrikIdx];
+  const pct = (valstrikIdx / valstrikQs.length) * 100;
+
+  stage.innerHTML = `
+    <div class="valstrik-progress">
+      <span class="label">Zin ${valstrikIdx + 1} / ${valstrikQs.length}</span>
+      <div class="valstrik-progress-bar"><div class="valstrik-progress-fill" style="width:${pct}%"></div></div>
+      <span class="label">Score: ${valstrikScore}</span>
+    </div>
+    <div class="valstrik-instruction">Is deze zin juist of fout?</div>
+    <div class="valstrik-sentence">${q.sentence}</div>
+    <div class="valstrik-options">
+      <button class="valstrik-btn juist" data-answer="true">✓ Juist</button>
+      <button class="valstrik-btn fout" data-answer="false">✗ Fout</button>
+    </div>
+    <div class="valstrik-feedback" id="valstrik-feedback"></div>
+  `;
+
+  stage.querySelectorAll('.valstrik-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleValstrikAnswer(btn, q));
+  });
+}
+
+function handleValstrikAnswer(btn, q) {
+  const stage = document.getElementById('valstrik-stage');
+  const fb = document.getElementById('valstrik-feedback');
+  const userAnswer = btn.dataset.answer === 'true';
+  const isCorrect = userAnswer === q.correct;
+
+  // Disable beide knoppen na antwoord
+  stage.querySelectorAll('.valstrik-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    valstrikScore++;
+    btn.classList.add('correct');
+    fb.innerHTML = `
+      <div class="fb-status good">✓ Bien vu !</div>
+      <div class="fb-explanation">${q.explanation}</div>
+    `;
+  } else {
+    btn.classList.add('wrong');
+    // Toon de juiste knop ook
+    const correctBtn = stage.querySelector(`.valstrik-btn[data-answer="${q.correct}"]`);
+    if (correctBtn) correctBtn.classList.add('correct');
+    fb.innerHTML = `
+      <div class="fb-status bad">✗ Aïe — de zin was ${q.correct ? 'juist' : 'fout'}.</div>
+      <div class="fb-explanation">${q.explanation}</div>
+    `;
+  }
+  fb.classList.add('visible');
+
+  // Volgende-knop
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'valstrik-next-btn';
+  nextBtn.textContent = valstrikIdx + 1 >= valstrikQs.length ? 'Bekijk resultaat →' : 'Volgende zin →';
+  nextBtn.addEventListener('click', () => {
+    valstrikIdx++;
+    renderValstrikStage();
+  });
+  stage.appendChild(nextBtn);
+  setTimeout(() => nextBtn.focus(), 50);
+}
+
+function renderValstrikFinale() {
+  const stage = document.getElementById('valstrik-stage');
+  const total = valstrikQs.length;
+  const pct = (valstrikScore / total) * 100;
+  let title, msg;
+  if (valstrikScore === total) {
+    title = "Bravo ! Score parfait !";
+    msg = `${valstrikScore}/${total} — geen enkele valstrik gemist. Je kent de patronen!`;
+  } else if (pct >= 80) {
+    title = "Très bien !";
+    msg = `${valstrikScore}/${total} — sterk werk. Nog een rondje voor de finishing touch?`;
+  } else if (pct >= 60) {
+    title = "Goed bezig.";
+    msg = `${valstrikScore}/${total} — de basis zit. Speel nog een rondje om de valstrikken in te oefenen.`;
+  } else {
+    title = "Doe rustig nog een rondje.";
+    msg = `${valstrikScore}/${total} — ga eerst even terug naar de theorie en speel daarna opnieuw. Je krijgt elke keer 10 nieuwe zinnen.`;
+  }
+  stage.innerHTML = `
+    <div class="valstrik-finale">
+      <div class="big-emoji">🎯</div>
+      <h3>${title}</h3>
+      <p>${msg}</p>
+      <button class="valstrik-restart-btn" onclick="startValstrik()">🔄 Nieuwe ronde</button>
+    </div>
+  `;
+}
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+buildFlashcards();
+</script>
+
+</body>
+</html>
