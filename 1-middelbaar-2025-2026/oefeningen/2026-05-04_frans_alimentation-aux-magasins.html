@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'alimentation aux magasins — Klaswerkplaats</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+
+  --vak-color: var(--terracotta);
+  --vak-color-light: var(--terracotta-light);
+  --vak-color-dark: var(--rust);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  color: var(--dark-brown);
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  padding: 20px 16px 60px;
+  line-height: 1.6;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='10' cy='10' r='1' fill='%235C4033' opacity='0.5'/><circle cx='40' cy='30' r='1' fill='%235C4033' opacity='0.5'/><circle cx='70' cy='15' r='1' fill='%235C4033' opacity='0.5'/><circle cx='20' cy='55' r='1' fill='%235C4033' opacity='0.5'/><circle cx='55' cy='65' r='1' fill='%235C4033' opacity='0.5'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+}
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+.subject-icon {
+  width: 60px; height: 60px;
+  background: var(--vak-color);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25);
+}
+.title-block h1 {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin-bottom: 2px;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color);
+}
+
+.intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-top: 14px;
+  margin-bottom: 22px;
+  line-height: 1.55;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+  background: var(--warm-white);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+.tab {
+  flex: 1;
+  min-width: 120px;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab:hover { background: var(--sand-light); }
+.tab.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+  box-shadow: 0 2px 6px rgba(194, 112, 78, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* THEORY */
+.theory-card {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(60, 40, 30, 0.05);
+}
+.theory-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color);
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.theory-card p { font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
+.theory-card .accent {
+  background: var(--cream);
+  border-left: 3px solid var(--vak-color);
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+}
+.theory-card .accent strong { color: var(--vak-color-dark); }
+
+.gender-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.gender-pills .pill {
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+.pill.masc { background: rgba(106, 155, 181, 0.15); color: #4A7691; }
+.pill.fem { background: rgba(201, 160, 160, 0.2); color: #9C6868; }
+.pill.plur { background: rgba(212, 168, 67, 0.18); color: #8B6E1E; }
+
+/* Vervoegingstabellen in de theorie */
+.verb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Vollkorn', Georgia, serif;
+  margin: 12px 0 8px;
+  font-size: 15px;
+}
+.verb-table th, .verb-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand);
+}
+.verb-table th {
+  background: var(--sand-light);
+  font-weight: 700;
+  color: var(--dark-brown);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.verb-table td:first-child {
+  color: var(--warm-brown);
+  font-style: italic;
+  width: 28%;
+  font-size: 14px;
+}
+.verb-table td strong {
+  color: var(--vak-color-dark);
+  font-weight: 700;
+}
+.verb-table.compact td { padding: 6px 10px; font-size: 14px; }
+.verb-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Patroon-overzicht tabel */
+.patterns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Vollkorn', Georgia, serif;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.patterns-table th, .patterns-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand);
+  vertical-align: top;
+}
+.patterns-table th {
+  background: var(--sand-light);
+  font-weight: 700;
+  color: var(--dark-brown);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.patterns-table strong { color: var(--vak-color-dark); }
+.patterns-table .other { color: var(--warm-brown); font-size: 13px; opacity: 0.85; }
+
+/* FLASHCARDS */
+.flashcard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.lang-toggle {
+  display: inline-flex;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 4px;
+  gap: 2px;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+.lang-option {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-option.active {
+  background: var(--vak-color);
+  color: var(--warm-white);
+}
+.flip-all-btn {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.flip-all-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Print-only elementen — standaard verborgen */
+.print-only { display: none; }
+.print-section-title { display: none; }
+.flashcard-print { display: none; }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.flashcard {
+  aspect-ratio: 4/3;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.06);
+}
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-light) 100%);
+  color: var(--warm-white);
+  transform: rotateY(180deg);
+  box-shadow: 0 2px 8px rgba(60, 40, 30, 0.15);
+}
+.flashcard .question-word, .flashcard .answer-word {
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.flashcard .answer-word { font-size: 16px; }
+.flashcard .gender-tag {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+}
+.flashcard-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  margin-top: 8px;
+  opacity: 0.7;
+}
+.flashcard-front .flashcard-hint { color: var(--warm-brown); }
+.flashcard-back .flashcard-hint { color: rgba(255,255,255,0.8); }
+
+/* FRUIT OU LÉGUME */
+.categorie-intro {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.categorie-avatar { font-size: 56px; line-height: 1; flex-shrink: 0; }
+.categorie-intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); line-height: 1.55; }
+.categorie-intro-text strong { color: var(--vak-color-dark); font-weight: 600; }
+
+.categorie-stage {
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 18px;
+  padding: 22px 22px 26px;
+}
+
+.categorie-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+}
+.categorie-progress .label { white-space: nowrap; opacity: 0.85; }
+.categorie-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--sand-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.categorie-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vak-color), var(--ochre));
+  width: 0%;
+  transition: width 0.4s;
+}
+
+.categorie-instruction {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--warm-brown);
+  opacity: 0.8;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+.categorie-word {
+  text-align: center;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--dark-brown);
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 28px 20px;
+  margin-bottom: 18px;
+  line-height: 1.3;
+  border: 1px dashed var(--sand);
+  font-weight: 600;
+}
+
+.categorie-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.categorie-btn {
+  flex: 1;
+  min-width: 100px;
+  max-width: 180px;
+  padding: 16px 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.categorie-btn .cat-emoji { font-size: 28px; line-height: 1; }
+.categorie-btn .cat-label { font-weight: 600; }
+.categorie-btn:hover:not(:disabled) {
+  border-color: var(--vak-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(60, 40, 30, 0.08);
+}
+.categorie-btn:disabled { cursor: default; }
+.categorie-btn.correct {
+  background: rgba(122, 139, 111, 0.18);
+  border-color: var(--olive-dark);
+  color: var(--olive-dark);
+}
+.categorie-btn.wrong {
+  background: rgba(183, 85, 61, 0.15);
+  border-color: var(--rust);
+  color: var(--rust);
+  animation: shakeBtn 0.4s ease-in-out;
+}
+@keyframes shakeBtn {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.categorie-feedback {
+  margin-top: 14px;
+  padding: 14px 18px;
+  background: var(--sand-light);
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-left: 4px solid var(--sand);
+}
+.categorie-feedback.visible { opacity: 1; }
+.categorie-feedback .fb-status {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.categorie-feedback .fb-status.good { color: var(--olive-dark); }
+.categorie-feedback .fb-status.bad { color: var(--rust); }
+.categorie-feedback .fb-explanation { color: var(--warm-brown); }
+.categorie-feedback .fb-explanation em { color: var(--vak-color-dark); font-weight: 600; font-style: normal; }
+.categorie-feedback .fb-explanation strong { color: var(--vak-color-dark); }
+
+.categorie-next-btn {
+  display: block;
+  margin: 14px auto 0;
+  padding: 11px 26px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.categorie-next-btn:hover { background: var(--vak-color-dark); }
+
+.categorie-finale {
+  text-align: center;
+  padding: 30px 20px;
+}
+.categorie-finale .big-emoji { font-size: 72px; line-height: 1; margin-bottom: 12px; }
+.categorie-finale h3 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 10px; font-weight: 700; }
+.categorie-finale p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; }
+.categorie-restart-btn {
+  padding: 11px 24px;
+  background: var(--vak-color);
+  color: var(--warm-white);
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+.categorie-restart-btn:hover { background: var(--vak-color-dark); }
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 10px 18px;
+  background: var(--warm-white);
+  border: 1px solid var(--sand);
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+}
+.action-btn:hover { background: var(--sand-light); border-color: var(--vak-color-light); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  body { padding: 14px 12px 40px; }
+  .container { padding: 0; }
+  header { gap: 12px; }
+  .subject-icon { width: 50px; height: 50px; font-size: 26px; }
+  .title-block h1 { font-size: 21px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .flashcard .question-word, .flashcard .answer-word { font-size: 14px; }
+  .coco-scene { flex-direction: column; align-items: center; }
+  .coco-bird { width: 80px; height: 80px; }
+  .coco-speech { width: 100%; }
+  .coco-speech::before {
+    left: 30px; top: -10px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 0;
+    border-bottom: 11px solid var(--cream);
+    filter: drop-shadow(0 -1.5px 0 var(--sand));
+  }
+  .coco-says { font-size: 19px; }
+  .coco-option { min-width: 100%; }
+}
+
+/* Print */
+@media print {
+  body { background: white !important; padding: 0; font-size: 11pt; color: #000; }
+  body::before { display: none; }
+  .breadcrumb, .tabs, .actions, .flashcard-toolbar { display: none !important; }
+  /* Categorie-tab volledig verbergen — runtime gegenereerd, niet bruikbaar op papier */
+  .tab-content[data-content="categorie"] { display: none !important; }
+  /* Theorie en flashcards-tab tonen tegelijk */
+  .tab-content[data-content="theorie"],
+  .tab-content[data-content="flashcards"] { display: block !important; }
+
+  /* Theorie: clean styling, gegroepeerd om witte pagina's te voorkomen */
+  .theory-card {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: white !important;
+    padding: 14px 18px !important;
+    margin-bottom: 12px !important;
+    page-break-inside: avoid;
+  }
+  .theory-card h3 { color: #333 !important; }
+  .gender-pills .pill { border: 1px solid #ccc; background: white !important; color: #333 !important; }
+  .accent { background: #f5f5f5 !important; border-left-color: #888 !important; color: #000 !important; }
+
+  /* Print-only blokken zichtbaar */
+  .print-only { display: block !important; }
+  .print-section-title {
+    display: block !important;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 18pt 0 10pt 0;
+    padding-bottom: 4pt;
+    border-bottom: 1.5px solid #888;
+  }
+  .print-instruction {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #444 !important;
+    margin-bottom: 10pt;
+  }
+  .print-subsection {
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #000 !important;
+    margin: 14pt 0 6pt 0;
+  }
+  .page-break-before { page-break-before: always; }
+
+  /* Flashcards: schermversie verbergen, print-versie tonen */
+  .flashcard-grid { display: none !important; }
+  .flashcard-print { display: block !important; }
+
+  .print-vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 11pt;
+    margin-bottom: 14pt;
+  }
+  .print-vocab-table th {
+    text-align: left;
+    padding: 5pt 8pt;
+    border-bottom: 1.5px solid #888;
+    font-weight: 700;
+    background: #f5f5f5;
+  }
+  .print-vocab-table td {
+    padding: 6pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-vocab-table td:first-child {
+    width: 40%;
+    font-weight: 600;
+  }
+  .print-vocab-table td:last-child {
+    width: 60%;
+    color: transparent;  /* leeg, om in te schrijven */
+  }
+
+  /* Print answers: oplossingen op aparte pagina, beide richtingen */
+  .print-answers { display: block !important; page-break-before: always; }
+  .print-answers h2 {
+    font-family: 'Caveat', cursive;
+    font-size: 22pt;
+    color: #000 !important;
+    margin-bottom: 8pt;
+  }
+  .print-answers h3 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11pt;
+    color: #555 !important;
+    margin: 10pt 0 4pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  .print-answers .ans-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Vollkorn', Georgia, serif;
+    font-size: 10.5pt;
+    margin-bottom: 10pt;
+  }
+  .print-answers .ans-table th {
+    text-align: left;
+    padding: 4pt 8pt;
+    border-bottom: 1.2px solid #888;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+  .print-answers .ans-table td {
+    padding: 3pt 8pt;
+    border-bottom: 1px solid #ddd;
+  }
+  .print-answers .ans-table td.ans { font-weight: 700; color: #000 !important; }
+
+  header { margin-bottom: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>L'alimentation aux magasins</span>
+</nav>
+
+<!-- Header -->
+<header>
+  <div class="subject-icon">🛒</div>
+  <div class="title-block">
+    <h1>L'alimentation aux magasins</h1>
+    <div class="date">les van 30 april 2026</div>
+  </div>
+</header>
+
+<p class="intro">Vandaag oefenen we de woordenschat van <strong>voeding en winkelen</strong>: fruit, groenten, zuivel en algemene begrippen. Bekijk eerst de <strong>theorie</strong>, oefen met de <strong>flashcards</strong>, en daag jezelf uit met <strong>Fruit ou légume?</strong>: kies snel de juiste categorie.</p>
+
+<!-- Tabs -->
+<div class="tabs no-print">
+  <button class="tab active" data-tab="theorie">📚 Theorie</button>
+  <button class="tab" data-tab="flashcards">🎴 Flashcards</button>
+  <button class="tab" data-tab="categorie">🍎 Fruit ou légume?</button>
+</div>
+
+<!-- ============ THEORIE ============ -->
+<section class="tab-content active" data-content="theorie">
+  <h2 class="print-section-title print-only">📚 Theorie — L'alimentation aux magasins</h2>
+
+  <div class="theory-card">
+    <h3>De woordenschat — vier categorieën</h3>
+    <p>De woorden van deze les vallen uit elkaar in <strong>vier groepen</strong>:</p>
+    <div class="verb-table-wrap">
+      <table class="patterns-table">
+        <thead><tr><th>Categorie</th><th>Voorbeelden</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Algemeen</strong></td><td class="other">l'alimentation, la nourriture, le prix, le supermarché, faire des courses...</td></tr>
+          <tr><td><strong>Les fruits</strong> (m.)</td><td class="other">une pomme, une banane, un citron, une orange...</td></tr>
+          <tr><td><strong>Les légumes</strong></td><td class="other">une tomate, un concombre, un poireau, une courgette...</td></tr>
+          <tr><td><strong>Les produits laitiers</strong></td><td class="other">de zuivel — als categorie</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="accent">
+      <strong>Onthoud:</strong> <em>les fruits</em> is mannelijk meervoud (m.), <em>les boissons</em> is vrouwelijk meervoud (f.). Bij elke nieuwe woord moet je het lidwoord meeleren — un, une of les.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Twee uitdrukkingen met "de"</h3>
+    <p>Deze twee uitdrukkingen werken altijd met <strong>de</strong> erachter:</p>
+    <div class="verb-table-wrap">
+      <table class="verb-table">
+        <thead><tr><th>Uitdrukking</th><th>Betekenis</th><th>Voorbeeld</th></tr></thead>
+        <tbody>
+          <tr><td><em>avoir besoin <strong>de</strong>...</em></td><td>... nodig hebben</td><td>J'ai besoin <strong>de</strong> pain.</td></tr>
+          <tr><td><em>avoir envie <strong>de</strong>...</em></td><td>zin hebben in ...</td><td>J'ai envie <strong>d'</strong>une glace.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="accent">
+      <strong>Belangrijk:</strong> in het Frans hoort er altijd <em>de</em> bij — ook al laat je in het Nederlands soms een voorzetsel weg ("ik heb een appel nodig" zonder "van"). Voor een klinker wordt <em>de</em> → <em>d'</em>: <em>j'ai envie d'une orange</em>, niet "j'ai envie de une orange".
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Valstrikken</h3>
+    <div class="accent">
+      <strong>Une orange</strong> is een appelsien, niet de kleur oranje. <strong>Une laitue</strong> is sla — niets met "lait" (melk) te maken. <strong>Un poireau</strong> (prei) en <strong>un poivron</strong> (paprika) lijken op elkaar maar zijn totaal verschillende groenten. <strong>Un concombre</strong> (komkommer) en <strong>un chou-fleur</strong> (bloemkool) beginnen allebei met een Q-klank — let op de uitspraak.
+    </div>
+  </div>
+
+  <div class="theory-card">
+    <h3>Vertalingen — alle woorden samen</h3>
+    <div class="verb-table-wrap">
+      <table class="verb-table compact">
+        <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+        <tbody>
+          <tr><td>l'alimentation</td><td>voedingswaren</td></tr>
+          <tr><td>la nourriture</td><td>de voeding</td></tr>
+          <tr><td>avoir besoin de ...</td><td>... nodig hebben</td></tr>
+          <tr><td>avoir envie de ...</td><td>zin hebben in ...</td></tr>
+          <tr><td>faire des courses</td><td>boodschappen doen</td></tr>
+          <tr><td>le prix</td><td>de prijs</td></tr>
+          <tr><td>le supermarché</td><td>de supermarkt</td></tr>
+          <tr><td>les boissons (f.)</td><td>de dranken</td></tr>
+          <tr><td>les fruits (m.)</td><td>het fruit</td></tr>
+          <tr><td>une fraise</td><td>een aardbei</td></tr>
+          <tr><td>une pomme</td><td>een appel</td></tr>
+          <tr><td>une poire</td><td>een peer</td></tr>
+          <tr><td>une banane</td><td>een banaan</td></tr>
+          <tr><td>un melon</td><td>een meloen</td></tr>
+          <tr><td>un citron</td><td>een citroen</td></tr>
+          <tr><td>une orange</td><td>een appelsien</td></tr>
+          <tr><td>une nectarine</td><td>een nectarine</td></tr>
+          <tr><td>une pêche</td><td>een perzik</td></tr>
+          <tr><td>les légumes</td><td>de groenten</td></tr>
+          <tr><td>un poireau</td><td>een prei</td></tr>
+          <tr><td>un chou-fleur</td><td>een bloemkool</td></tr>
+          <tr><td>une courgette</td><td>een courgette</td></tr>
+          <tr><td>un concombre</td><td>een komkommer</td></tr>
+          <tr><td>une tomate</td><td>een tomaat</td></tr>
+          <tr><td>une laitue</td><td>een sla</td></tr>
+          <tr><td>un poivron</td><td>een paprika</td></tr>
+          <tr><td>les produits laitiers</td><td>de zuivel</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="tab-content" data-content="flashcards">
+  <div class="flashcard-toolbar no-print">
+    <div class="lang-toggle">
+      <button class="lang-option active" data-dir="fr-nl">🇫🇷 → 🇳🇱</button>
+      <button class="lang-option" data-dir="nl-fr">🇳🇱 → 🇫🇷</button>
+    </div>
+    <button class="flip-all-btn" onclick="flipAll()">Toon / verberg alles</button>
+  </div>
+  <div class="flashcard-grid" id="flashcard-grid"></div>
+
+  <!-- Print-only: woordenlijst met schrijfruimte -->
+  <div class="flashcard-print print-only">
+    <h2 class="print-section-title">📚 Woordenlijst — vul aan</h2>
+    <p class="print-instruction">Schrijf bij elk Frans woord de Nederlandse vertaling (of omgekeerd, op de tweede lijst).</p>
+    <h3 class="print-subsection">🇫🇷 → 🇳🇱</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+      <tbody id="print-vocab-fr-nl">
+        <tr><td>l'alimentation</td><td>voedingswaren</td></tr>
+        <tr><td>la nourriture</td><td>de voeding</td></tr>
+        <tr><td>avoir besoin de ...</td><td>... nodig hebben</td></tr>
+        <tr><td>avoir envie de ...</td><td>zin hebben in ...</td></tr>
+        <tr><td>faire des courses</td><td>boodschappen doen</td></tr>
+        <tr><td>le prix</td><td>de prijs</td></tr>
+        <tr><td>le supermarché</td><td>de supermarkt</td></tr>
+        <tr><td>les boissons (f.)</td><td>de dranken</td></tr>
+        <tr><td>les fruits (m.)</td><td>het fruit</td></tr>
+        <tr><td>une fraise</td><td>een aardbei</td></tr>
+        <tr><td>une pomme</td><td>een appel</td></tr>
+        <tr><td>une poire</td><td>een peer</td></tr>
+        <tr><td>une banane</td><td>een banaan</td></tr>
+        <tr><td>un melon</td><td>een meloen</td></tr>
+        <tr><td>un citron</td><td>een citroen</td></tr>
+        <tr><td>une orange</td><td>een appelsien</td></tr>
+        <tr><td>une nectarine</td><td>een nectarine</td></tr>
+        <tr><td>une pêche</td><td>een perzik</td></tr>
+        <tr><td>les légumes</td><td>de groenten</td></tr>
+        <tr><td>un poireau</td><td>een prei</td></tr>
+        <tr><td>un chou-fleur</td><td>een bloemkool</td></tr>
+        <tr><td>une courgette</td><td>een courgette</td></tr>
+        <tr><td>un concombre</td><td>een komkommer</td></tr>
+        <tr><td>une tomate</td><td>een tomaat</td></tr>
+        <tr><td>une laitue</td><td>een sla</td></tr>
+        <tr><td>un poivron</td><td>een paprika</td></tr>
+        <tr><td>les produits laitiers</td><td>de zuivel</td></tr>
+      </tbody>
+    </table>
+    <h3 class="print-subsection">🇳🇱 → 🇫🇷</h3>
+    <table class="print-vocab-table">
+      <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+      <tbody id="print-vocab-nl-fr">
+        <tr><td>voedingswaren</td><td>l'alimentation</td></tr>
+        <tr><td>de voeding</td><td>la nourriture</td></tr>
+        <tr><td>... nodig hebben</td><td>avoir besoin de ...</td></tr>
+        <tr><td>zin hebben in ...</td><td>avoir envie de ...</td></tr>
+        <tr><td>boodschappen doen</td><td>faire des courses</td></tr>
+        <tr><td>de prijs</td><td>le prix</td></tr>
+        <tr><td>de supermarkt</td><td>le supermarché</td></tr>
+        <tr><td>de dranken</td><td>les boissons (f.)</td></tr>
+        <tr><td>het fruit</td><td>les fruits (m.)</td></tr>
+        <tr><td>een aardbei</td><td>une fraise</td></tr>
+        <tr><td>een appel</td><td>une pomme</td></tr>
+        <tr><td>een peer</td><td>une poire</td></tr>
+        <tr><td>een banaan</td><td>une banane</td></tr>
+        <tr><td>een meloen</td><td>un melon</td></tr>
+        <tr><td>een citroen</td><td>un citron</td></tr>
+        <tr><td>een appelsien</td><td>une orange</td></tr>
+        <tr><td>een nectarine</td><td>une nectarine</td></tr>
+        <tr><td>een perzik</td><td>une pêche</td></tr>
+        <tr><td>de groenten</td><td>les légumes</td></tr>
+        <tr><td>een prei</td><td>un poireau</td></tr>
+        <tr><td>een bloemkool</td><td>un chou-fleur</td></tr>
+        <tr><td>een courgette</td><td>une courgette</td></tr>
+        <tr><td>een komkommer</td><td>un concombre</td></tr>
+        <tr><td>een tomaat</td><td>une tomate</td></tr>
+        <tr><td>een sla</td><td>une laitue</td></tr>
+        <tr><td>een paprika</td><td>un poivron</td></tr>
+        <tr><td>de zuivel</td><td>les produits laitiers</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ FRUIT OU LÉGUME ============ -->
+<section class="tab-content no-print" data-content="categorie">
+  <div class="categorie-intro">
+    <div class="categorie-avatar">🍎</div>
+    <div class="categorie-intro-text">
+      Lees het Franse woord en kies de juiste categorie: <strong>fruit</strong>, <strong>légume</strong> of <strong>autre</strong>. Elke ronde 12 willekeurige woorden uit een grote pool. Bij fout krijg je de juiste categorie te zien.
+    </div>
+  </div>
+
+  <div class="categorie-stage" id="categorie-stage"></div>
+</section>
+
+<!-- Print-only: oplossingen voor flashcards (beide richtingen) -->
+<div class="print-only print-answers">
+  <h2>Oplossingen — woordenlijst</h2>
+  <table class="ans-table">
+    <thead><tr><th>Frans</th><th>Nederlands</th></tr></thead>
+    <tbody id="answers-fr-nl">
+      <tr><td>l'alimentation</td><td class="ans">voedingswaren</td></tr>
+      <tr><td>la nourriture</td><td class="ans">de voeding</td></tr>
+      <tr><td>avoir besoin de ...</td><td class="ans">... nodig hebben</td></tr>
+      <tr><td>avoir envie de ...</td><td class="ans">zin hebben in ...</td></tr>
+      <tr><td>faire des courses</td><td class="ans">boodschappen doen</td></tr>
+      <tr><td>le prix</td><td class="ans">de prijs</td></tr>
+      <tr><td>le supermarché</td><td class="ans">de supermarkt</td></tr>
+      <tr><td>les boissons (f.)</td><td class="ans">de dranken</td></tr>
+      <tr><td>les fruits (m.)</td><td class="ans">het fruit</td></tr>
+      <tr><td>une fraise</td><td class="ans">een aardbei</td></tr>
+      <tr><td>une pomme</td><td class="ans">een appel</td></tr>
+      <tr><td>une poire</td><td class="ans">een peer</td></tr>
+      <tr><td>une banane</td><td class="ans">een banaan</td></tr>
+      <tr><td>un melon</td><td class="ans">een meloen</td></tr>
+      <tr><td>un citron</td><td class="ans">een citroen</td></tr>
+      <tr><td>une orange</td><td class="ans">een appelsien</td></tr>
+      <tr><td>une nectarine</td><td class="ans">een nectarine</td></tr>
+      <tr><td>une pêche</td><td class="ans">een perzik</td></tr>
+      <tr><td>les légumes</td><td class="ans">de groenten</td></tr>
+      <tr><td>un poireau</td><td class="ans">een prei</td></tr>
+      <tr><td>un chou-fleur</td><td class="ans">een bloemkool</td></tr>
+      <tr><td>une courgette</td><td class="ans">een courgette</td></tr>
+      <tr><td>un concombre</td><td class="ans">een komkommer</td></tr>
+      <tr><td>une tomate</td><td class="ans">een tomaat</td></tr>
+      <tr><td>une laitue</td><td class="ans">een sla</td></tr>
+      <tr><td>un poivron</td><td class="ans">een paprika</td></tr>
+      <tr><td>les produits laitiers</td><td class="ans">de zuivel</td></tr>
+      </tbody>
+  </table>
+  <table class="ans-table">
+    <thead><tr><th>Nederlands</th><th>Frans</th></tr></thead>
+    <tbody id="answers-nl-fr">
+      <tr><td>voedingswaren</td><td class="ans">l'alimentation</td></tr>
+      <tr><td>de voeding</td><td class="ans">la nourriture</td></tr>
+      <tr><td>... nodig hebben</td><td class="ans">avoir besoin de ...</td></tr>
+      <tr><td>zin hebben in ...</td><td class="ans">avoir envie de ...</td></tr>
+      <tr><td>boodschappen doen</td><td class="ans">faire des courses</td></tr>
+      <tr><td>de prijs</td><td class="ans">le prix</td></tr>
+      <tr><td>de supermarkt</td><td class="ans">le supermarché</td></tr>
+      <tr><td>de dranken</td><td class="ans">les boissons (f.)</td></tr>
+      <tr><td>het fruit</td><td class="ans">les fruits (m.)</td></tr>
+      <tr><td>een aardbei</td><td class="ans">une fraise</td></tr>
+      <tr><td>een appel</td><td class="ans">une pomme</td></tr>
+      <tr><td>een peer</td><td class="ans">une poire</td></tr>
+      <tr><td>een banaan</td><td class="ans">une banane</td></tr>
+      <tr><td>een meloen</td><td class="ans">un melon</td></tr>
+      <tr><td>een citroen</td><td class="ans">un citron</td></tr>
+      <tr><td>een appelsien</td><td class="ans">une orange</td></tr>
+      <tr><td>een nectarine</td><td class="ans">une nectarine</td></tr>
+      <tr><td>een perzik</td><td class="ans">une pêche</td></tr>
+      <tr><td>de groenten</td><td class="ans">les légumes</td></tr>
+      <tr><td>een prei</td><td class="ans">un poireau</td></tr>
+      <tr><td>een bloemkool</td><td class="ans">un chou-fleur</td></tr>
+      <tr><td>een courgette</td><td class="ans">une courgette</td></tr>
+      <tr><td>een komkommer</td><td class="ans">un concombre</td></tr>
+      <tr><td>een tomaat</td><td class="ans">une tomate</td></tr>
+      <tr><td>een sla</td><td class="ans">une laitue</td></tr>
+      <tr><td>een paprika</td><td class="ans">un poivron</td></tr>
+      <tr><td>de zuivel</td><td class="ans">les produits laitiers</td></tr>
+      </tbody>
+  </table>
+</div>
+
+<!-- Actions -->
+<div class="actions no-print">
+  <button class="action-btn" id="print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div>
+
+<script>
+// ==========================================================================
+// VOCABULAIRE
+// ==========================================================================
+const VOCAB = [
+  // Algemene begrippen
+  { fr: "l'alimentation", nl: "voedingswaren", gender: "fem" },
+  { fr: "la nourriture", nl: "de voeding", gender: "fem" },
+  { fr: "avoir besoin de ...", nl: "... nodig hebben", gender: "expr" },
+  { fr: "avoir envie de ...", nl: "zin hebben in ...", gender: "expr" },
+  { fr: "faire des courses", nl: "boodschappen doen", gender: "expr" },
+  { fr: "le prix", nl: "de prijs", gender: "masc" },
+  { fr: "le supermarché", nl: "de supermarkt", gender: "masc" },
+  { fr: "les boissons (f.)", nl: "de dranken", gender: "plur" },
+
+  // Fruit
+  { fr: "les fruits (m.)", nl: "het fruit", gender: "plur" },
+  { fr: "une fraise", nl: "een aardbei", gender: "fem" },
+  { fr: "une pomme", nl: "een appel", gender: "fem" },
+  { fr: "une poire", nl: "een peer", gender: "fem" },
+  { fr: "une banane", nl: "een banaan", gender: "fem" },
+  { fr: "un melon", nl: "een meloen", gender: "masc" },
+  { fr: "un citron", nl: "een citroen", gender: "masc" },
+  { fr: "une orange", nl: "een appelsien", gender: "fem" },
+  { fr: "une nectarine", nl: "een nectarine", gender: "fem" },
+  { fr: "une pêche", nl: "een perzik", gender: "fem" },
+
+  // Groenten
+  { fr: "les légumes", nl: "de groenten", gender: "plur" },
+  { fr: "un poireau", nl: "een prei", gender: "masc" },
+  { fr: "un chou-fleur", nl: "een bloemkool", gender: "masc" },
+  { fr: "une courgette", nl: "een courgette", gender: "fem" },
+  { fr: "un concombre", nl: "een komkommer", gender: "masc" },
+  { fr: "une tomate", nl: "een tomaat", gender: "fem" },
+  { fr: "une laitue", nl: "een sla", gender: "fem" },
+  { fr: "un poivron", nl: "een paprika", gender: "masc" },
+
+  // Zuivel
+  { fr: "les produits laitiers", nl: "de zuivel", gender: "plur" }
+];
+
+// ==========================================================================
+// FRUIT OU LÉGUME — pool van items met categorie
+// ==========================================================================
+// Per item: word (Frans), category ("fruit", "legume", "autre"), explanation
+
+const CATEGORIE_POOL = [
+  // Fruits (9)
+  { word: "une fraise", category: "fruit", explanation: "Een aardbei is een fruit." },
+  { word: "une pomme", category: "fruit", explanation: "Een appel is een fruit." },
+  { word: "une poire", category: "fruit", explanation: "Een peer is een fruit." },
+  { word: "une banane", category: "fruit", explanation: "Een banaan is een fruit." },
+  { word: "un melon", category: "fruit", explanation: "Een meloen is een fruit." },
+  { word: "un citron", category: "fruit", explanation: "Een citroen is een fruit." },
+  { word: "une orange", category: "fruit", explanation: "<em>Une orange</em> = een appelsien — fruit." },
+  { word: "une nectarine", category: "fruit", explanation: "Een nectarine is een fruit." },
+  { word: "une pêche", category: "fruit", explanation: "Een perzik is een fruit." },
+
+  // Légumes (7)
+  { word: "un poireau", category: "legume", explanation: "<em>Un poireau</em> = een prei — légume. Niet verwarren met <em>poivron</em>!" },
+  { word: "un chou-fleur", category: "legume", explanation: "Een bloemkool is een légume." },
+  { word: "une courgette", category: "legume", explanation: "Een courgette is een légume." },
+  { word: "un concombre", category: "legume", explanation: "Een komkommer is een légume." },
+  { word: "une tomate", category: "legume", explanation: "Een tomaat is botanisch een fruit, maar in deze les staat ze bij de légumes." },
+  { word: "une laitue", category: "legume", explanation: "<em>Une laitue</em> = sla — légume. Niets met <em>lait</em> (melk) te maken!" },
+  { word: "un poivron", category: "legume", explanation: "<em>Un poivron</em> = een paprika — légume. Niet verwarren met <em>poireau</em>!" },
+
+  // Autres (10) — algemene begrippen + categorienaamwoorden
+  { word: "l'alimentation", category: "autre", explanation: "<em>L'alimentation</em> betekent voedingswaren — een algemeen begrip, geen specifiek fruit of légume." },
+  { word: "la nourriture", category: "autre", explanation: "<em>La nourriture</em> = de voeding — algemeen begrip." },
+  { word: "le prix", category: "autre", explanation: "<em>Le prix</em> = de prijs — algemeen begrip." },
+  { word: "le supermarché", category: "autre", explanation: "<em>Le supermarché</em> = de supermarkt — een plaats, geen voedsel." },
+  { word: "les boissons", category: "autre", explanation: "<em>Les boissons</em> = de dranken — een eigen categorie." },
+  { word: "les fruits", category: "autre", explanation: "<em>Les fruits</em> is de categorienaam zelf, niet één specifiek fruit." },
+  { word: "les légumes", category: "autre", explanation: "<em>Les légumes</em> is de categorienaam zelf, niet één specifieke groente." },
+  { word: "les produits laitiers", category: "autre", explanation: "<em>Les produits laitiers</em> = de zuivel — een eigen categorie." },
+  { word: "avoir besoin de ...", category: "autre", explanation: "Een uitdrukking, geen voedsel: \"... nodig hebben\"." },
+  { word: "faire des courses", category: "autre", explanation: "Een uitdrukking: \"boodschappen doen\"." }
+];
+
+// ==========================================================================
+// Elke opdracht koppelt een voorwerp aan een doelkleur.
+// targetColor matcht een entry uit de COLORS array (Frans woord).
+// De opdracht-tekst gebruikt de juiste vorm (m of f) voor het voorwerpsgeslacht.
+
+const KLEUR_OBJECTS = [
+  {
+    name: "la lampe", gender: "f",
+    task: "Rends la lampe rouge",
+    targetColor: "rouge",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="40" ry="8" fill="#3D2B1F"/>
+      <rect x="96" y="100" width="8" height="100" fill="#5C4033"/>
+      <path class="colorable" d="M 60 50 L 140 50 L 155 100 L 45 100 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="75" x2="145" y2="75" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <ellipse cx="100" cy="50" rx="40" ry="5" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+    </svg>`
+  },
+  {
+    name: "le tapis", gender: "m",
+    task: "Rends le tapis bleu",
+    targetColor: "bleu",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 L 190 50 L 210 130 L 10 130 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 40 60 L 180 60 L 196 122 L 24 122 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 110 70 L 150 90 L 110 110 L 70 90 Z"
+            fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="35" y1="50" x2="33" y2="44"/><line x1="55" y1="50" x2="55" y2="44"/>
+        <line x1="75" y1="50" x2="77" y2="44"/><line x1="95" y1="50" x2="97" y2="44"/>
+        <line x1="115" y1="50" x2="117" y2="44"/><line x1="135" y1="50" x2="137" y2="44"/>
+        <line x1="155" y1="50" x2="157" y2="44"/><line x1="175" y1="50" x2="177" y2="44"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "l'oreiller", gender: "m",
+    task: "Rends l'oreiller jaune",
+    targetColor: "jaune",
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 30 50 Q 25 40 38 38 L 180 35 Q 195 35 195 50 L 198 110 Q 198 125 185 125 L 35 128 Q 22 128 22 115 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M 38 50 Q 35 48 40 46" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <path d="M 180 48 Q 188 50 185 56" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="110" cy="80" rx="65" ry="20" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  },
+  {
+    name: "le vase", gender: "m",
+    task: "Rends le vase vert",
+    targetColor: "vert",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <path class="colorable" d="M 70 60 L 70 80 Q 50 100 50 130 Q 50 180 100 190 Q 150 180 150 130 Q 150 100 130 80 L 130 60 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="70" y1="80" x2="130" y2="80" stroke="#5C4033" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="100" cy="60" rx="30" ry="4" fill="#A8987F" stroke="#5C4033" stroke-width="1"/>
+      <path d="M 75 130 Q 100 140 125 130" fill="none" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+    </svg>`
+  },
+  {
+    name: "le poster", gender: "m",
+    task: "Rends le poster orange",
+    targetColor: "orange",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <rect class="colorable" x="40" y="30" width="120" height="160" rx="2"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="80" cy="80" r="14" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <path d="M 120 70 L 140 100 L 100 100 Z" fill="none" stroke="#5C4033" stroke-width="1" opacity="0.5"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="155" x2="125" y2="155" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <line x1="55" y1="170" x2="135" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.4"/>
+      <circle cx="40" cy="30" r="2" fill="#5C4033"/>
+      <circle cx="160" cy="30" r="2" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "l'horloge", gender: "f",
+    task: "Rends l'horloge mauve",
+    targetColor: "mauve",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle class="colorable" cx="100" cy="100" r="78"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="65" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <text x="100" y="38" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">12</text>
+      <text x="160" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">3</text>
+      <text x="100" y="172" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">6</text>
+      <text x="40" y="105" text-anchor="middle" font-family="serif" font-size="14" fill="#3D2B1F" font-weight="600">9</text>
+      <line x1="100" y1="100" x2="100" y2="55" stroke="#3D2B1F" stroke-width="3" stroke-linecap="round"/>
+      <line x1="100" y1="100" x2="135" y2="100" stroke="#3D2B1F" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="4" fill="#5C4033"/>
+    </svg>`
+  },
+  {
+    name: "le réveil", gender: "m",
+    task: "Rends le réveil noir",
+    targetColor: "noir",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="60" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <ellipse cx="140" cy="48" rx="14" ry="14" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="40" x2="48" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <line x1="145" y1="40" x2="152" y2="34" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+      <circle class="colorable" cx="100" cy="115" r="65"
+              fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <circle cx="100" cy="115" r="52" fill="#FFFDF7" stroke="#5C4033" stroke-width="1"/>
+      <line x1="100" y1="115" x2="100" y2="80" stroke="#3D2B1F" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="100" y1="115" x2="125" y2="115" stroke="#3D2B1F" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="100" cy="115" r="3" fill="#5C4033"/>
+      <line x1="60" y1="178" x2="55" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="140" y1="178" x2="145" y2="190" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+    </svg>`
+  },
+  {
+    name: "la serviette", gender: "f",
+    task: "Rends la serviette rose",
+    targetColor: "rose",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="30" x2="180" y2="30" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <path class="colorable" d="M 50 30 Q 45 30 45 38 L 50 180 Q 50 195 65 195 L 135 195 Q 150 195 150 180 L 155 38 Q 155 30 150 30 Z"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="55" y1="60" x2="145" y2="60" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="100" x2="145" y2="100" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="140" x2="145" y2="140" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <line x1="55" y1="180" x2="145" y2="180" stroke="#5C4033" stroke-width="0.6" opacity="0.4"/>
+      <g stroke="#5C4033" stroke-width="0.8" opacity="0.5">
+        <line x1="60" y1="195" x2="58" y2="205"/>
+        <line x1="80" y1="195" x2="80" y2="205"/>
+        <line x1="100" y1="195" x2="100" y2="205"/>
+        <line x1="120" y1="195" x2="120" y2="205"/>
+        <line x1="140" y1="195" x2="142" y2="205"/>
+      </g>
+    </svg>`
+  },
+  {
+    name: "le portemanteau", gender: "m",
+    task: "Rends le portemanteau brun",
+    targetColor: "brun",
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="200" rx="50" ry="6" fill="#3D2B1F"/>
+      <rect class="colorable" x="96" y="40" width="8" height="160"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 100 40 Q 70 50 70 70 Q 70 80 80 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 40 Q 130 50 130 70 Q 130 80 120 80"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 70 92 70 110 Q 70 120 80 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <path class="colorable" d="M 100 80 Q 130 92 130 110 Q 130 120 120 120"
+            fill="none" stroke="#C9B8A1" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="100" cy="40" rx="14" ry="6" fill="#A8987F" stroke="#5C4033" stroke-width="1.5"/>
+    </svg>`
+  },
+  {
+    name: "le tabouret", gender: "m",
+    task: "Rends le tabouret gris",
+    targetColor: "gris",
+    svg: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <ellipse class="colorable" cx="100" cy="80" rx="60" ry="14"
+               fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <path class="colorable" d="M 40 80 L 40 92 Q 100 100 160 92 L 160 80"
+            fill="#C9B8A1" stroke="#5C4033" stroke-width="1.5"/>
+      <line x1="55" y1="92" x2="48" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="145" y1="92" x2="152" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="80" y1="98" x2="78" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="120" y1="98" x2="122" y2="170" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+      <line x1="48" y1="170" x2="152" y2="170" stroke="#5C4033" stroke-width="0.8" opacity="0.3"/>
+    </svg>`
+  }
+];
+
+// Kleurpalet — Frans woord + hex (in dezelfde volgorde altijd, geshuffled bij render)
+const COLORS = [
+  { fr: "rouge", hex: "#C8453B" },
+  { fr: "bleu", hex: "#3F6FA8" },
+  { fr: "vert", hex: "#5E8B4E" },
+  { fr: "jaune", hex: "#E5B636" },
+  { fr: "mauve", hex: "#9C7FB5" },
+  { fr: "orange", hex: "#D88440" },
+  { fr: "rose", hex: "#D89BAE" },
+  { fr: "noir", hex: "#3D2B1F" },
+  { fr: "blanc", hex: "#FAFAFA" },
+  { fr: "brun", hex: "#7A5A3D" },
+  { fr: "gris", hex: "#8A8A8A" }
+];
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+
+// Categorie state — declareren vóór goToTab zodat er geen TDZ-fout is
+let categorieStarted = false;
+let categorieQs = [];
+let categorieIdx = 0;
+let categorieScore = 0;
+
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  if (name === 'categorie' && !categorieStarted) startCategorie();
+  // Print-knop verbergen op categorie-tab (runtime quiz, niet zinvol op papier)
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) printBtn.style.display = (name === 'categorie') ? 'none' : '';
+}
+
+// ==========================================================================
+// FLASHCARDS
+// ==========================================================================
+let flashDir = 'fr-nl'; // standaard: Frans → Nederlands
+
+function buildFlashcards() {
+  const grid = document.getElementById('flashcard-grid');
+  grid.innerHTML = ''; // ALWAYS leegmaken voor herbouw
+  VOCAB.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    // Geslachts-tag alleen voor zelfstandige naamwoorden — kleuren hebben geen tag nodig
+    let tag = '';
+    if (w.gender === 'masc') tag = 'm';
+    else if (w.gender === 'fem') tag = 'f';
+    else if (w.gender === 'plur') tag = 'pl';
+    // adj en adj-inv → geen tag
+    const front = flashDir === 'fr-nl' ? w.fr : w.nl;
+    const back  = flashDir === 'fr-nl' ? w.nl : w.fr;
+    const tagBack = tag ? `<div class="gender-tag">${tag}</div>` : '';
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front">
+          <div class="question-word">${front}</div>
+          <div class="flashcard-hint">klik om te draaien</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="answer-word">${back}</div>
+          ${tagBack}
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+
+// Lang-toggle handler
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards(); // herbouw alle kaarten in nieuwe richting (automatisch teruggedraaid)
+  });
+});
+
+function flipAll() {
+  const cards = document.querySelectorAll('.flashcard');
+  const anyUnflipped = Array.from(cards).some(c => !c.classList.contains('flipped'));
+  cards.forEach(c => c.classList.toggle('flipped', anyUnflipped));
+}
+
+// ==========================================================================
+// PRINT-TABELLEN
+// (De rijen staan al statisch in de HTML — geen JS-build meer nodig.
+// Dit maakt de printversie robuuster en werkt ook bij print-engines die
+// geen JavaScript uitvoeren.)
+// ==========================================================================
+
+// ==========================================================================
+// FRUIT OU LÉGUME — RENDERING
+// ==========================================================================
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const ITEMS_PER_ROUND = 12;
+
+const CATEGORIE_LABELS = {
+  fruit: { label: "Fruit", emoji: "🍎" },
+  legume: { label: "Légume", emoji: "🥦" },
+  autre: { label: "Autre", emoji: "📦" }
+};
+
+function startCategorie() {
+  categorieStarted = true;
+  categorieQs = shuffle(CATEGORIE_POOL).slice(0, ITEMS_PER_ROUND);
+  categorieIdx = 0;
+  categorieScore = 0;
+  renderCategorieStage();
+}
+
+function renderCategorieStage() {
+  const stage = document.getElementById('categorie-stage');
+  if (categorieIdx >= categorieQs.length) {
+    renderCategorieFinale();
+    return;
+  }
+  const q = categorieQs[categorieIdx];
+  const pct = (categorieIdx / categorieQs.length) * 100;
+
+  stage.innerHTML = `
+    <div class="categorie-progress">
+      <span class="label">Woord ${categorieIdx + 1} / ${categorieQs.length}</span>
+      <div class="categorie-progress-bar"><div class="categorie-progress-fill" style="width:${pct}%"></div></div>
+      <span class="label">Score: ${categorieScore}</span>
+    </div>
+    <div class="categorie-instruction">In welke categorie hoort dit woord?</div>
+    <div class="categorie-word">${q.word}</div>
+    <div class="categorie-options">
+      <button class="categorie-btn" data-cat="fruit"><span class="cat-emoji">🍎</span><span class="cat-label">Fruit</span></button>
+      <button class="categorie-btn" data-cat="legume"><span class="cat-emoji">🥦</span><span class="cat-label">Légume</span></button>
+      <button class="categorie-btn" data-cat="autre"><span class="cat-emoji">📦</span><span class="cat-label">Autre</span></button>
+    </div>
+    <div class="categorie-feedback" id="categorie-feedback"></div>
+  `;
+
+  stage.querySelectorAll('.categorie-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleCategorieAnswer(btn, q));
+  });
+}
+
+function handleCategorieAnswer(btn, q) {
+  const stage = document.getElementById('categorie-stage');
+  const fb = document.getElementById('categorie-feedback');
+  const userCat = btn.dataset.cat;
+  const isCorrect = userCat === q.category;
+
+  // Disable alle knoppen
+  stage.querySelectorAll('.categorie-btn').forEach(b => b.disabled = true);
+
+  if (isCorrect) {
+    categorieScore++;
+    btn.classList.add('correct');
+    fb.innerHTML = `
+      <div class="fb-status good">✓ Bien !</div>
+      <div class="fb-explanation">${q.explanation}</div>
+    `;
+  } else {
+    btn.classList.add('wrong');
+    // Toon de juiste knop ook
+    const correctBtn = stage.querySelector(`.categorie-btn[data-cat="${q.category}"]`);
+    if (correctBtn) correctBtn.classList.add('correct');
+    const correctLabel = CATEGORIE_LABELS[q.category].label.toLowerCase();
+    fb.innerHTML = `
+      <div class="fb-status bad">✗ Aïe — het is een ${correctLabel}.</div>
+      <div class="fb-explanation">${q.explanation}</div>
+    `;
+  }
+  fb.classList.add('visible');
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'categorie-next-btn';
+  nextBtn.textContent = categorieIdx + 1 >= categorieQs.length ? 'Bekijk resultaat →' : 'Volgend woord →';
+  nextBtn.addEventListener('click', () => {
+    categorieIdx++;
+    renderCategorieStage();
+  });
+  stage.appendChild(nextBtn);
+  setTimeout(() => nextBtn.focus(), 50);
+}
+
+function renderCategorieFinale() {
+  const stage = document.getElementById('categorie-stage');
+  const total = categorieQs.length;
+  const pct = (categorieScore / total) * 100;
+  let title, msg;
+  if (categorieScore === total) {
+    title = "Bravo ! Score parfait !";
+    msg = `${categorieScore}/${total} — alles goed gecategoriseerd. Je kent je woordenschat!`;
+  } else if (pct >= 80) {
+    title = "Très bien !";
+    msg = `${categorieScore}/${total} — sterk werk. Nog een rondje voor de finishing touch?`;
+  } else if (pct >= 60) {
+    title = "Goed bezig.";
+    msg = `${categorieScore}/${total} — de basis zit. Speel nog een rondje om het in te oefenen.`;
+  } else {
+    title = "Doe rustig nog een rondje.";
+    msg = `${categorieScore}/${total} — ga eerst even terug naar de theorie en speel daarna opnieuw. Je krijgt elke keer 12 nieuwe woorden.`;
+  }
+  stage.innerHTML = `
+    <div class="categorie-finale">
+      <div class="big-emoji">🛒</div>
+      <h3>${title}</h3>
+      <p>${msg}</p>
+      <button class="categorie-restart-btn" onclick="startCategorie()">🔄 Nieuwe ronde</button>
+    </div>
+  `;
+}
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+buildFlashcards();
+</script>
+
+</body>
+</html>
