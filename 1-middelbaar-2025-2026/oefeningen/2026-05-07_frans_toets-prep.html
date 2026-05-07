@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toets Frans — toets-prep mei 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --vak-color: #C2704E;
+  --vak-color-dark: #A85E3F;
+  --vak-color-light: #D4916F;
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --masc: #6A9BB5;
+  --fem: #C9A0A0;
+  --plur: #D4A843;
+  --correct: #7A8B6F;
+  --incorrect: #B7553D;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='10' cy='10' r='1' fill='%235C4033' opacity='0.5'/><circle cx='40' cy='30' r='1' fill='%235C4033' opacity='0.5'/><circle cx='70' cy='15' r='1' fill='%235C4033' opacity='0.5'/><circle cx='20' cy='55' r='1' fill='%235C4033' opacity='0.5'/><circle cx='55' cy='65' r='1' fill='%235C4033' opacity='0.5'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+.container { max-width: 920px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px solid transparent; }
+.breadcrumb a:hover { border-bottom-color: var(--vak-color); }
+.breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+header { display: flex; align-items: center; gap: 18px; margin-bottom: 18px; }
+.vak-icon { width: 64px; height: 64px; background: var(--vak-color); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(194, 112, 78, 0.25); }
+.header-text h1 { font-family: 'Vollkorn', Georgia, serif; font-size: 28px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; margin-bottom: 4px; }
+.header-text .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color); font-weight: 600; }
+.intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 24px; max-width: 760px; }
+.intro strong { color: var(--vak-color-dark); }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; padding: 6px; background: rgba(232, 220, 200, 0.4); border-radius: 16px; }
+.tab { font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 500; padding: 10px 18px; border: none; background: transparent; color: var(--warm-brown); border-radius: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.tab:hover { background: rgba(255, 253, 247, 0.5); }
+.tab.active { background: var(--vak-color); color: var(--warm-white); box-shadow: 0 2px 8px rgba(194, 112, 78, 0.25); }
+.tab .badge { display: inline-block; min-width: 20px; padding: 1px 6px; background: var(--rust); color: white; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 4px; }
+.tab.active .badge { background: rgba(255,255,255,0.3); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeSlideUp 0.4s ease-out; }
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.score-bar { display: none; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 16px; padding: 12px 18px; background: var(--warm-white); border-radius: 12px; border: 1px solid var(--sand); justify-content: space-between; align-items: center; }
+.score-bar.visible { display: flex; }
+.score-bar .score-text { font-weight: 600; }
+.progress-bar-container { flex: 1; height: 8px; background: var(--sand); border-radius: 4px; overflow: hidden; margin: 0 16px; max-width: 200px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--vak-color) 0%, var(--ochre) 100%); transition: width 0.4s; width: 0%; }
+.reset-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 6px 14px; border: 1px solid var(--sand); background: var(--cream); color: var(--warm-brown); border-radius: 8px; cursor: pointer; }
+.reset-btn:hover { background: var(--sand-light); }
+
+/* ============ INTRO BLOCK ============ */
+.diag-intro { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 22px 26px; margin-bottom: 22px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.diag-intro h2 { font-family: 'Caveat', cursive; font-size: 30px; color: var(--vak-color); margin-bottom: 8px; }
+.diag-intro p { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); margin-bottom: 12px; }
+.diag-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.start-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 15px; padding: 12px 24px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
+.start-btn:hover { background: var(--vak-color-dark); }
+.skip-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 12px 20px; background: transparent; color: var(--warm-brown); border: 1px solid var(--sand); border-radius: 10px; cursor: pointer; }
+.skip-btn:hover { background: var(--sand-light); }
+
+/* Quiz / Question cards */
+.quiz-area { display: none; }
+.quiz-area.active { display: block; }
+.q-card { background: var(--warm-white); border-radius: 16px; padding: 20px 24px; border: 1.5px solid var(--sand); margin-bottom: 14px; transition: border-color 0.2s, opacity 0.4s; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.q-card.correct { border-color: var(--correct); background: #F0F5E8; }
+.q-card.incorrect { border-color: var(--incorrect); background: #F9EFEB; }
+.q-card.fading { opacity: 0.5; }
+.q-tag { display: inline-block; font-family: 'Source Sans 3', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; background: rgba(194, 112, 78, 0.15); color: var(--vak-color-dark); }
+.q-tag.re { background: rgba(168, 184, 154, 0.2); color: var(--olive-dark); }
+.q-tag.pron { background: rgba(106, 155, 181, 0.15); color: var(--sky-blue); }
+.q-tag.demo { background: rgba(212, 168, 67, 0.2); color: #A67C00; }
+.q-tag.adj { background: rgba(201, 160, 160, 0.25); color: #8E5959; }
+.q-tag.vocab { background: rgba(212, 145, 111, 0.2); color: var(--vak-color-dark); }
+.q-tag.passe { background: rgba(183, 85, 61, 0.2); color: var(--rust); }
+.q-tag.plur { background: rgba(168, 184, 154, 0.25); color: var(--olive-dark); }
+.q-num { font-family: 'Caveat', cursive; font-size: 18px; color: var(--vak-color); font-weight: 600; margin-right: 8px; }
+.q-text { font-family: 'Vollkorn', Georgia, serif; font-size: 17px; font-weight: 600; color: var(--dark-brown); margin-bottom: 12px; line-height: 1.5; }
+.q-text .blank { display: inline-block; min-width: 60px; border-bottom: 2px dotted var(--vak-color-dark); padding: 0 6px; color: var(--vak-color-dark); font-style: italic; text-align: center; }
+.q-text .ctx { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.75; font-style: italic; font-weight: 400; }
+.q-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+.q-input { flex: 1; min-width: 180px; font-family: 'Vollkorn', Georgia, serif; font-size: 15px; padding: 10px 14px; border: 1.5px solid var(--sand); border-radius: 10px; background: var(--cream); color: var(--dark-brown); outline: none; }
+.q-input:focus { border-color: var(--vak-color-light); }
+.q-input.correct-input { border-color: var(--correct); background: #F0F5E8; }
+.q-input.wrong-input { border-color: var(--incorrect); background: #F9EFEB; }
+.q-row-stacked { flex-direction: column; }
+.q-row-stacked .q-input { width: 100%; }
+.q-row-stacked .check-btn { align-self: flex-start; }
+.q-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.q-option { font-family: 'Vollkorn', Georgia, serif; font-size: 14px; padding: 9px 16px; background: var(--cream); border: 1.5px solid var(--sand); border-radius: 20px; cursor: pointer; color: var(--dark-brown); transition: all 0.2s; }
+.q-option:hover:not(:disabled) { background: var(--sand-light); border-color: var(--vak-color-light); }
+.q-option.correct { background: #E8F0DE; border-color: var(--correct); color: var(--olive-dark); font-weight: 600; }
+.q-option.incorrect { background: #F5E5E0; border-color: var(--incorrect); color: var(--rust); }
+.q-option:disabled { cursor: default; }
+.check-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 18px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; }
+.check-btn:hover:not(:disabled) { background: var(--vak-color-dark); }
+.check-btn:disabled { opacity: 0.5; cursor: default; }
+.next-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 10px 22px; background: var(--vak-color); color: var(--warm-white); border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; display: inline-block; }
+.next-btn:hover { background: var(--vak-color-dark); }
+.q-feedback { font-family: 'Vollkorn', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 10px; display: none; }
+.q-feedback.visible { display: block; }
+.q-feedback.good { color: var(--olive-dark); }
+.q-feedback.bad { color: var(--rust); }
+.q-feedback small { font-family: 'Source Sans 3', sans-serif; display: block; margin-top: 4px; font-style: normal; opacity: 0.85; }
+
+/* Per toetsvraag — type-picker */
+.type-picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.type-card { background: var(--warm-white); border: 1.5px solid var(--sand); border-radius: 14px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit; color: var(--dark-brown); }
+.type-card:hover { border-color: var(--vak-color-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(92, 64, 51, 0.08); }
+.type-card.active { background: var(--vak-color); color: var(--warm-white); border-color: var(--vak-color-dark); }
+.type-card.active .type-vraag { color: rgba(255,253,247,0.85); }
+.type-card .type-vraag { font-family: 'Source Sans 3', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--vak-color); font-weight: 600; margin-bottom: 4px; }
+.type-card .type-titel { font-family: 'Vollkorn', Georgia, serif; font-size: 16px; font-weight: 600; line-height: 1.3; }
+.type-card .type-sub { font-family: 'Source Sans 3', sans-serif; font-size: 12px; opacity: 0.75; margin-top: 4px; }
+
+.type-active-header { background: var(--sand-light); border-left: 4px solid var(--vak-color); padding: 14px 18px; border-radius: 8px; margin-bottom: 16px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.type-active-header strong { color: var(--vak-color-dark); }
+.back-types-btn { font-family: 'Source Sans 3', sans-serif; font-size: 13px; padding: 6px 14px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); border-radius: 8px; cursor: pointer; }
+.back-types-btn:hover { background: var(--cream); }
+
+/* Mijn fouten */
+.errors-empty { background: var(--warm-white); border: 1px dashed var(--sand); border-radius: 16px; padding: 28px 24px; text-align: center; font-family: 'Source Sans 3', sans-serif; color: var(--warm-brown); }
+.errors-empty .emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+.errors-empty h3 { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); margin-bottom: 6px; }
+
+/* Spiekkaart / Cheat */
+.cheat-block { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); }
+.cheat-block h2 { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); margin-bottom: 6px; }
+.cheat-block .sub { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.8; margin-bottom: 14px; }
+.cheat-block p { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--dark-brown); margin-bottom: 8px; }
+.cheat-block ul.notes { padding-left: 20px; margin-bottom: 8px; }
+.cheat-block ul.notes li { font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--warm-brown); padding: 2px 0; }
+
+.cheat-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.cheat-col h4 { font-family: 'Vollkorn', Georgia, serif; font-size: 14px; font-weight: 700; color: var(--vak-color-dark); margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--sand); }
+.cheat-col.masc h4 { color: var(--masc); }
+.cheat-col.fem h4 { color: var(--fem); }
+.cheat-col.plur h4 { color: #A67C00; }
+.cheat-col ul { list-style: none; padding: 0; margin: 0; }
+.cheat-col li { padding: 4px 0; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; color: var(--dark-brown); border-bottom: 0.5px dotted var(--sand); }
+.cheat-col li .nl { color: var(--warm-brown); opacity: 0.7; font-size: 11px; font-family: 'Source Sans 3', sans-serif; margin-left: 6px; }
+
+.conj-table { width: 100%; border-collapse: collapse; font-family: 'Vollkorn', Georgia, serif; font-size: 13.5px; margin-top: 8px; }
+.conj-table th, .conj-table td { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--sand); }
+.conj-table th { background: var(--cream); font-weight: 600; color: var(--vak-color-dark); }
+.conj-table .pronom { color: var(--rust); font-weight: 600; }
+.conj-table strong { color: var(--vak-color-dark); }
+
+.cheat-vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.cheat-vocab-grid .item { padding: 6px 10px; background: var(--cream); border-radius: 6px; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; }
+.cheat-vocab-grid .item .fr { color: var(--vak-color-dark); font-weight: 600; }
+.cheat-vocab-grid .item .nl { color: var(--warm-brown); font-size: 11px; font-family: 'Source Sans 3', sans-serif; display: block; opacity: 0.75; }
+
+.demo-table { width: 100%; border-collapse: collapse; font-family: 'Vollkorn', Georgia, serif; font-size: 14px; margin: 8px 0; }
+.demo-table th, .demo-table td { padding: 8px 12px; border: 1px solid var(--sand); text-align: left; }
+.demo-table th { background: var(--cream); color: var(--vak-color-dark); }
+.demo-table .word { color: var(--vak-color-dark); font-weight: 600; }
+
+.attention { background: var(--sand-light); border-left: 3px solid var(--ochre); padding: 12px 16px; border-radius: 8px; margin: 10px 0; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--warm-brown); }
+.attention strong { color: #A67C00; }
+
+/* Eind viering */
+.celebration { display: none; background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px; padding: 28px 32px; text-align: center; box-shadow: 0 2px 8px rgba(92, 64, 51, 0.05); margin-top: 20px; }
+.celebration.visible { display: block; animation: fadeSlideUp 0.5s ease-out; }
+.celebration h2 { font-family: 'Caveat', cursive; font-size: 36px; color: var(--vak-color); margin-bottom: 8px; }
+.celebration p { font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: var(--warm-brown); margin-bottom: 16px; }
+.celebration .score-big { font-family: 'Caveat', cursive; font-size: 52px; color: var(--olive-dark); font-weight: 700; line-height: 1; }
+
+/* Action bar bottom */
+.actions { display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap; }
+.action-btn { font-family: 'Source Sans 3', sans-serif; font-weight: 500; font-size: 14px; padding: 12px 22px; border-radius: 10px; border: 1px solid var(--sand); background: var(--warm-white); color: var(--warm-brown); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.action-btn:hover { background: var(--sand-light); }
+
+/* Print-only blocks */
+.print-only { display: none; }
+.print-section-title { font-family: 'Caveat', cursive; font-size: 32px; color: var(--vak-color); margin: 24px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--sand); }
+.print-block { margin-bottom: 18px; padding: 12px 0; }
+.print-block h3 { font-family: 'Vollkorn', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--dark-brown); margin-bottom: 8px; }
+.print-q { margin-bottom: 12px; font-family: 'Vollkorn', Georgia, serif; font-size: 13.5px; }
+.print-q .num { color: var(--vak-color-dark); font-weight: 600; margin-right: 6px; }
+.print-line { display: inline-block; min-width: 200px; border-bottom: 1px solid var(--warm-brown); height: 18px; vertical-align: bottom; }
+.print-line.short { min-width: 80px; }
+.print-line.long { min-width: 320px; }
+.print-table { width: 100%; border-collapse: collapse; font-family: 'Vollkorn', Georgia, serif; font-size: 13px; margin-bottom: 12px; }
+.print-table th, .print-table td { border: 1px solid #888; padding: 5px 8px; text-align: left; }
+.print-table th { background: #eee; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 14px 12px 40px; }
+  .header-text h1 { font-size: 22px; }
+  .vak-icon { width: 52px; height: 52px; font-size: 28px; }
+  .tabs { gap: 4px; padding: 4px; }
+  .tab { padding: 8px 12px; font-size: 13px; }
+  .cheat-grid-3 { grid-template-columns: 1fr; }
+  .type-picker { grid-template-columns: 1fr; }
+  .q-text { font-size: 16px; }
+  .conj-table { font-size: 12px; }
+  .conj-table th, .conj-table td { padding: 5px 6px; }
+  .demo-table { font-size: 13px; }
+}
+
+/* PRINT */
+@media print {
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .container { max-width: none; padding: 0; }
+  header { margin-bottom: 12px; }
+  .vak-icon { display: none; }
+  .header-text h1 { font-size: 20pt; }
+  .header-text .date { font-size: 14pt; }
+  .intro { font-size: 11pt; margin-bottom: 14px; }
+  .breadcrumb { display: none; }
+  .actions { display: none; }
+  .tabs { display: none !important; }
+
+  /* Verberg alle runtime-tabs */
+  .tab-content { display: none !important; }
+  .tab-content[data-content="cheat"] { display: block !important; }
+
+  .cheat-block { box-shadow: none; border: 1px solid #ccc; padding: 12px 14px; margin-bottom: 12px; page-break-inside: avoid; }
+  .cheat-block h2 { font-size: 18pt; margin-bottom: 4px; }
+  .conj-table { font-size: 10pt; }
+  .demo-table { font-size: 10pt; }
+  .cheat-vocab-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .cheat-vocab-grid .item { background: transparent; padding: 3px 4px; font-size: 10pt; border-bottom: 0.5px dotted #aaa; border-radius: 0; }
+  .cheat-vocab-grid .item .nl { font-size: 9pt; }
+
+  .print-answers { page-break-before: always; }
+  .print-worksheet { page-break-before: always; }
+  .print-q { margin-bottom: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="breadcrumb no-print">
+  <a href="../../index.html">🌱 Klaswerkplaats</a>
+  <span class="sep">›</span>
+  <a href="../index.html">1e middelbaar</a>
+  <span class="sep">›</span>
+  <span>Toets-prep Frans — mei 2026</span>
+</nav>
+
+<header>
+  <div class="vak-icon">🇫🇷</div>
+  <div class="header-text">
+    <h1>Toets-prep Frans — mei 2026</h1>
+    <div class="date">samengesteld op 7 mei 2026</div>
+  </div>
+</header>
+
+<p class="intro">
+  Alles van de afgelopen weken in één bundel: <strong>verbes en -RE</strong>, <strong>verbes pronominaux</strong>, <strong>la maison</strong>, <strong>les objets et les couleurs</strong>, <strong>l'alimentation</strong>, plus drie nieuwe stukken die op de toets kunnen staan: <strong>passé composé</strong>, <strong>les adjectifs démonstratifs</strong> en het <strong>meervoud van zelfstandige naamwoorden</strong>. Begin met een <strong>oefenronde</strong> om te zien waar je staat, oefen daarna gericht <strong>per toetsvraag</strong>, of gebruik de <strong>spiekkaart</strong> om snel iets op te zoeken.
+</p>
+
+<nav class="tabs no-print" role="tablist">
+  <button class="tab active" data-tab="diagnose">🎯 Oefenronde</button>
+  <button class="tab" data-tab="pertype">🎓 Per toetsvraag</button>
+  <button class="tab" data-tab="errors">🔥 Mijn fouten <span class="badge" id="errors-count" style="display:none">0</span></button>
+  <button class="tab" data-tab="cheat">📚 Spiekkaart</button>
+</nav>
+
+<!-- ============ TAB 1 — OEFENRONDE ============ -->
+<section class="tab-content active" data-content="diagnose">
+
+  <div class="diag-intro" id="diag-intro">
+    <h2>Klaar voor een oefenronde?</h2>
+    <p>Een gemixte ronde van <strong>30 vragen</strong> over alle onderwerpen — net zoals op de echte toets. Per vraag krijg je meteen feedback. Je fouten worden verzameld onder <strong>🔥 Mijn fouten</strong> zodat je daarna gericht kan oefenen.</p>
+    <div class="diag-actions">
+      <button class="start-btn" onclick="startDiag()">Start de oefenronde</button>
+      <button class="skip-btn" onclick="goToTab('cheat')">Bekijk eerst de spiekkaart</button>
+    </div>
+  </div>
+
+  <div class="quiz-area" id="diag-quiz">
+    <div class="score-bar visible" id="diag-score-bar" style="display:flex;">
+      <span class="score-text">Vraag <span id="diag-current">1</span>/<span id="diag-total">30</span> — score <span id="diag-score">0</span></span>
+      <div class="progress-bar-container"><div class="progress-bar" id="diag-progress" style="width:0%"></div></div>
+      <button class="reset-btn" onclick="resetDiag()">🔄 Stop</button>
+    </div>
+    <div id="diag-q-container"></div>
+  </div>
+
+  <div class="celebration" id="diag-celebration">
+    <h2 id="diag-celeb-title">Bravo !</h2>
+    <p id="diag-celeb-msg"></p>
+    <div class="score-big" id="diag-celeb-score"></div>
+    <div class="diag-actions" style="justify-content:center;">
+      <button class="start-btn" onclick="resetDiag(); startDiag();">🔄 Nog een oefenronde</button>
+      <button class="skip-btn" onclick="goToTab('errors')">🔥 Mijn fouten herhalen</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ TAB 2 — PER TOETSVRAAG ============ -->
+<section class="tab-content" data-content="pertype">
+
+  <div class="diag-intro" id="pertype-intro">
+    <h2>Oefen gericht per toetsvraag</h2>
+    <p>Hieronder elke vraagtype zoals het op de oefentoets stond. Klik er één om <strong>10 oefenvragen</strong> in dat exacte format te krijgen.</p>
+  </div>
+
+  <div id="pertype-picker" class="type-picker"></div>
+
+  <div class="quiz-area" id="pertype-quiz">
+    <div class="type-active-header">
+      <div><strong id="pertype-active-title">—</strong><br><span id="pertype-active-desc" style="font-size:13px; opacity:0.85;">—</span></div>
+      <button class="back-types-btn" onclick="endPertype()">← Andere vraag kiezen</button>
+    </div>
+    <div class="score-bar visible" id="pertype-score-bar" style="display:flex;">
+      <span class="score-text">Vraag <span id="pertype-current">1</span>/<span id="pertype-total">10</span> — score <span id="pertype-score">0</span></span>
+      <div class="progress-bar-container"><div class="progress-bar" id="pertype-progress" style="width:0%"></div></div>
+    </div>
+    <div id="pertype-q-container"></div>
+  </div>
+
+  <div class="celebration" id="pertype-celebration">
+    <h2 id="pertype-celeb-title">Bravo !</h2>
+    <p id="pertype-celeb-msg"></p>
+    <div class="score-big" id="pertype-celeb-score"></div>
+    <div class="diag-actions" style="justify-content:center;">
+      <button class="start-btn" onclick="restartPertype()">🔄 Zelfde vraag opnieuw</button>
+      <button class="skip-btn" onclick="endPertype()">← Ander vraagtype</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ TAB 3 — MIJN FOUTEN ============ -->
+<section class="tab-content" data-content="errors">
+  <div id="errors-content"></div>
+</section>
+
+<!-- ============ TAB 4 — SPIEKKAART ============ -->
+<section class="tab-content" data-content="cheat">
+  <h2 class="print-section-title print-only">📚 Spiekkaart — Toets Frans mei 2026</h2>
+  <div id="cheat-content">
+    <div class="cheat-block">
+      <h2>📐 Verbes en -RE — vervoegingen</h2>
+      <p class="sub">De drie families: regelmatig (perdre, rendre, attendre, vendre), met dubbele n (prendre, comprendre), met t-verlies (mettre), en de -IRE familie (écrire, lire, dire, traduire, conduire).</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>perdre</th><th>prendre</th><th>mettre</th><th>écrire</th><th>lire</th><th>dire</th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je</td><td>perds</td><td>prends</td><td>mets</td><td>écris</td><td>lis</td><td>dis</td></tr>
+          <tr><td class="pronom">tu</td><td>perds</td><td>prends</td><td>mets</td><td>écris</td><td>lis</td><td>dis</td></tr>
+          <tr><td class="pronom">il/elle</td><td>perd</td><td>prend</td><td>met</td><td>écrit</td><td>lit</td><td>dit</td></tr>
+          <tr><td class="pronom">nous</td><td>perdons</td><td>prenons</td><td>mettons</td><td>écrivons</td><td>lisons</td><td>disons</td></tr>
+          <tr><td class="pronom">vous</td><td>perdez</td><td>prenez</td><td>mettez</td><td>écrivez</td><td>lisez</td><td><strong>dites</strong></td></tr>
+          <tr><td class="pronom">ils/elles</td><td>perdent</td><td><strong>prennent</strong></td><td>mettent</td><td>écrivent</td><td>lisent</td><td>disent</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Valstrik:</strong> bij <em>prendre</em> en <em>comprendre</em> hebben ils/elles <strong>dubbele n</strong> (ils prennent). Bij <em>dire</em> is het <strong>vous dites</strong>, niet "disez". Bij <em>mettre</em>: één t bij je/tu/il, dubbele t vanaf nous.</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🔁 Verbes pronominaux</h2>
+      <p class="sub">Wederkerige werkwoorden — werkwoord + reflexief voornaamwoord.</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>se laver</th><th>s'habiller</th><th>se lever</th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je</td><td>me lave</td><td><strong>m'habille</strong></td><td>me lève</td></tr>
+          <tr><td class="pronom">tu</td><td>te laves</td><td>t'habilles</td><td>te lèves</td></tr>
+          <tr><td class="pronom">il/elle</td><td>se lave</td><td>s'habille</td><td>se lève</td></tr>
+          <tr><td class="pronom">nous</td><td>nous lavons</td><td>nous habillons</td><td>nous levons</td></tr>
+          <tr><td class="pronom">vous</td><td>vous lavez</td><td>vous habillez</td><td>vous levez</td></tr>
+          <tr><td class="pronom">ils/elles</td><td>se lavent</td><td>s'habillent</td><td>se lèvent</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Voor klinker of stille h:</strong> me/te/se worden m'/t'/s' (je <strong>m'</strong>amuse, tu <strong>t'</strong>habilles). Onthoud de werkwoorden: se réveiller, se lever, se laver, s'habiller, se brosser, se raser, se peigner, se sentir, se tromper, se promener, se détendre, s'amuser, se coucher, se présenter.</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>⏪ Passé composé (-ER werkwoorden)</h2>
+      <p class="sub">Voor de toets: enkel werkwoorden op -ER met hulpwerkwoord <em>avoir</em>.</p>
+      <p><strong>Recept:</strong> persoonsvorm van <em>avoir</em> + <strong>participe passé</strong> (-er → <strong>-é</strong>)</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>avoir (hulp)</th><th>+ participe</th><th>= passé composé van <em>parler</em></th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je / j'</td><td>ai</td><td>parlé</td><td><strong>j'ai parlé</strong></td></tr>
+          <tr><td class="pronom">tu</td><td>as</td><td>parlé</td><td>tu as parlé</td></tr>
+          <tr><td class="pronom">il/elle/on</td><td>a</td><td>parlé</td><td>il a parlé</td></tr>
+          <tr><td class="pronom">nous</td><td>avons</td><td>parlé</td><td>nous avons parlé</td></tr>
+          <tr><td class="pronom">vous</td><td>avez</td><td>parlé</td><td>vous avez parlé</td></tr>
+          <tr><td class="pronom">ils/elles</td><td>ont</td><td>parlé</td><td>ils ont parlé</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Stappenplan voor elk -ER werkwoord:</strong> 1) neem de stam (parler → parl), 2) voeg <strong>-é</strong> toe (parlé), 3) zet er de juiste vorm van <em>avoir</em> voor. <em>Regarder</em> → j'ai regardé, tu as regardé, il a regardé... Werkt voor: parler, regarder, écouter, jouer, danser, chanter, manger, donner, demander, penser, gagner, cacher, porter, chercher, compter, trouver, fermer, raconter, dessiner, sauter, passer, aider, pleurer.</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>👉 Adjectifs démonstratifs (ce/cet/cette/ces)</h2>
+      <p class="sub">Aanwijzende voornaamwoorden — vervangen het lidwoord en betekenen "deze/dit/die/dat".</p>
+      <table class="demo-table">
+        <thead><tr><th></th><th>Enkelvoud</th><th>Meervoud</th></tr></thead>
+        <tbody>
+          <tr><th>Mannelijk</th><td><span class="word">ce</span> garage, <span class="word">ce</span> lit</td><td rowspan="2"><span class="word">ces</span> toilettes, <span class="word">ces</span> chambres</td></tr>
+          <tr><th>Vrouwelijk</th><td><span class="word">cette</span> cuisine, <span class="word">cette</span> table</td></tr>
+          <tr><th>Mannelijk + klinker/h</th><td colspan="2"><span class="word">cet</span> appartement, <span class="word">cet</span> escalier, <span class="word">cet</span> ordinateur</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Onthoud:</strong> alleen mannelijke woorden die met een <strong>klinker (a, e, i, o, u) of stille h</strong> beginnen krijgen <em>cet</em>. Zo voorkom je een lelijke botsing: niet "ce ordinateur" maar <em>cet ordinateur</em>. Vrouwelijke woorden zijn altijd <em>cette</em>, ook als ze met een klinker beginnen (cette armoire, cette horloge).</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>➕ Meervoud van zelfstandige naamwoorden</h2>
+      <p class="sub">Les van 6 mei — de regels voor het meervoud.</p>
+      <table class="demo-table">
+        <thead><tr><th>Regel</th><th>Voorbeeld enkelvoud</th><th>Meervoud</th></tr></thead>
+        <tbody>
+          <tr><td><strong>+s</strong> (standaard)</td><td>une pomme, un salami</td><td>deux pommes, quatre salamis</td></tr>
+          <tr><td><strong>eau → eaux</strong></td><td>un poireau, un bureau</td><td>des poireaux, des bureaux</td></tr>
+          <tr><td><strong>eu → eux</strong></td><td>un jeu</td><td>des jeux</td></tr>
+          <tr><td><strong>al → aux</strong></td><td>un journal, un cheval</td><td>des journaux, des chevaux</td></tr>
+          <tr><td><strong>x = x</strong> (eindigt al op -x)</td><td>un prix</td><td>des prix</td></tr>
+          <tr><td><strong>s = s</strong> (eindigt al op -s)</td><td>un jus, un mois</td><td>des jus, des mois</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Onthoud:</strong> de <em>s</em> wordt niet uitgesproken (uitspraak is dezelfde voor enkelvoud en meervoud), <strong>behalve</strong> als het volgende woord met een klinker of stille h begint — dan hoor je een [z]: des écoles [dez_ekol], des hôtels [dez_otel].</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🏠 La maison — woorden + geslacht</h2>
+      <p class="sub">Onthoud altijd <strong>het lidwoord</strong> erbij — un, une of les.</p>
+      <div class="cheat-grid-3">
+      <div class="cheat-col masc"><h4>m. (un / le)</h4><ul><li>salon<span class="nl">een zitkamer</span></li><li>couloir<span class="nl">een gang</span></li><li>grenier<span class="nl">een zolder</span></li><li>garage<span class="nl">een garage</span></li><li>balcon<span class="nl">een balkon</span></li><li>appartement<span class="nl">een appartement</span></li><li>étage<span class="nl">een verdieping</span></li><li>toit<span class="nl">het dak</span></li><li>sol<span class="nl">de vloer</span></li><li>mur<span class="nl">een muur</span></li><li>escalier<span class="nl">een trap</span></li><li>lit<span class="nl">een bed</span></li><li>canapé<span class="nl">een zetel</span></li><li>fauteuil<span class="nl">een (zetel)stoel</span></li><li>tiroir<span class="nl">een lade</span></li><li>bureau<span class="nl">een bureau</span></li></ul></div>
+      <div class="cheat-col fem"><h4>f. (une / la)</h4><ul><li>cuisine<span class="nl">een keuken</span></li><li>salle à manger<span class="nl">een eetkamer</span></li><li>chambre<span class="nl">een (slaap)kamer</span></li><li>salle de bains<span class="nl">een badkamer</span></li><li>entrée<span class="nl">een inkom</span></li><li>cave<span class="nl">een kelder</span></li><li>buanderie<span class="nl">een wasruimte</span></li><li>terrasse<span class="nl">een terras</span></li><li>maison<span class="nl">een huis</span></li><li>fenêtre<span class="nl">een venster</span></li><li>porte<span class="nl">een deur</span></li><li>table<span class="nl">een tafel</span></li><li>chaise<span class="nl">een stoel</span></li><li>armoire<span class="nl">een kast</span></li><li>étagère<span class="nl">een plank</span></li><li>bibliothèque<span class="nl">een boekenkast</span></li></ul></div>
+      <div class="cheat-col plur"><h4>pl. (les)</h4><ul><li>toilettes<span class="nl">de wc</span></li></ul></div>
+    </div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🎨 Adjectief: m. → f.</h2>
+      <p class="sub">Een adjectief past zich aan het geslacht aan. Voor kleuren met <em>twee vormen</em>:</p>
+      <table class="conj-table">
+        <thead><tr><th>NL</th><th>m.</th><th>f.</th></tr></thead>
+        <tbody><tr><td>bruin</td><td>brun</td><td><strong>brune</strong></td></tr><tr><td>grijs</td><td>gris</td><td><strong>grise</strong></td></tr><tr><td>groen</td><td>vert</td><td><strong>verte</strong></td></tr><tr><td>wit</td><td>blanc</td><td><strong>blanche</strong></td></tr><tr><td>zwart</td><td>noir</td><td><strong>noire</strong></td></tr><tr><td>blauw</td><td>bleu</td><td><strong>bleue</strong></td></tr></tbody>
+      </table>
+      <p style="margin-top:8px;"><strong>Onveranderlijk</strong> (zelfde vorm m/f): <em>jaune</em>, <em>mauve</em>, <em>rouge</em>, <em>orange</em>, <em>rose</em>.</p>
+      <div class="attention"><strong>Recept:</strong> kijk naar het lidwoord van het zelfstandig naamwoord. <em>Une lampe</em> → vrouwelijk → <em>une lampe rouge</em> (rouge is invariant — geen verandering nodig). <em>Une porte bleu<strong>e</strong></em> (bleu krijgt een -e). Maar <em>un mur blanc</em> → <em>blanc</em> blijft. Pas op: <em>blanche</em> (f), <em>brune</em> (f), <em>verte</em> (f).</div>
+    </div>
+
+    <div class="cheat-block">
+      <h2>🛒 L'alimentation — woordenschat</h2>
+      <p class="sub">Voor V11: vertaal FR↔NL. Hier alles op een rij.</p>
+      <div class="cheat-vocab-grid"><div class="item"><span class="fr">l'alimentation</span><span class="nl">de voedingswaren</span></div><div class="item"><span class="fr">la nourriture</span><span class="nl">de voeding</span></div><div class="item"><span class="fr">avoir besoin de</span><span class="nl">nodig hebben</span></div><div class="item"><span class="fr">avoir envie de</span><span class="nl">zin hebben in</span></div><div class="item"><span class="fr">faire des courses</span><span class="nl">boodschappen doen</span></div><div class="item"><span class="fr">le prix</span><span class="nl">de prijs</span></div><div class="item"><span class="fr">le supermarché</span><span class="nl">de supermarkt</span></div><div class="item"><span class="fr">les boissons</span><span class="nl">de dranken</span></div><div class="item"><span class="fr">la boucherie</span><span class="nl">de slagerij</span></div><div class="item"><span class="fr">la boulangerie</span><span class="nl">de bakker</span></div><div class="item"><span class="fr">la pâtisserie</span><span class="nl">de banketbakker</span></div><div class="item"><span class="fr">l'épicerie</span><span class="nl">de kruidenierswinkel</span></div><div class="item"><span class="fr">le marché</span><span class="nl">de markt</span></div><div class="item"><span class="fr">les fruits</span><span class="nl">het fruit</span></div><div class="item"><span class="fr">une fraise</span><span class="nl">een aardbei</span></div><div class="item"><span class="fr">une pomme</span><span class="nl">een appel</span></div><div class="item"><span class="fr">une poire</span><span class="nl">een peer</span></div><div class="item"><span class="fr">une banane</span><span class="nl">een banaan</span></div><div class="item"><span class="fr">un melon</span><span class="nl">een meloen</span></div><div class="item"><span class="fr">un citron</span><span class="nl">een citroen</span></div><div class="item"><span class="fr">une orange</span><span class="nl">een appelsien</span></div><div class="item"><span class="fr">une nectarine</span><span class="nl">een nectarine</span></div><div class="item"><span class="fr">une pêche</span><span class="nl">een perzik</span></div><div class="item"><span class="fr">les légumes</span><span class="nl">de groenten</span></div><div class="item"><span class="fr">un poireau</span><span class="nl">een prei</span></div><div class="item"><span class="fr">un chou-fleur</span><span class="nl">een bloemkool</span></div><div class="item"><span class="fr">une courgette</span><span class="nl">een courgette</span></div><div class="item"><span class="fr">un concombre</span><span class="nl">een komkommer</span></div><div class="item"><span class="fr">une tomate</span><span class="nl">een tomaat</span></div><div class="item"><span class="fr">une laitue</span><span class="nl">een sla</span></div><div class="item"><span class="fr">un poivron</span><span class="nl">een paprika</span></div><div class="item"><span class="fr">la viande</span><span class="nl">het vlees</span></div><div class="item"><span class="fr">le poulet</span><span class="nl">het kippenvlees</span></div><div class="item"><span class="fr">le porc</span><span class="nl">het varkensvlees</span></div><div class="item"><span class="fr">le boeuf</span><span class="nl">het rundsvlees</span></div><div class="item"><span class="fr">le poisson</span><span class="nl">de vis</span></div><div class="item"><span class="fr">le pain</span><span class="nl">het brood</span></div><div class="item"><span class="fr">la baguette</span><span class="nl">een stokbrood</span></div><div class="item"><span class="fr">les produits laitiers</span><span class="nl">de zuivel</span></div><div class="item"><span class="fr">le sucre</span><span class="nl">de suiker</span></div><div class="item"><span class="fr">le sel</span><span class="nl">het zout</span></div><div class="item"><span class="fr">le poivre</span><span class="nl">de peper</span></div><div class="item"><span class="fr">le beurre</span><span class="nl">de boter</span></div><div class="item"><span class="fr">le fromage</span><span class="nl">de kaas</span></div><div class="item"><span class="fr">le lait</span><span class="nl">de melk</span></div></div>
+      <div class="attention"><strong>Valstrikken:</strong> <em>une orange</em> = appelsien (fruit), niet de kleur. <em>Une laitue</em> = sla (niets met "lait"/melk). <em>Un poireau</em> = prei, <em>un poivron</em> = paprika. <em>Avoir besoin de ...</em> en <em>avoir envie de ...</em> staan altijd met <strong>de</strong>: j'ai besoin <strong>de</strong> pain, j'ai envie <strong>d'</strong>une glace.</div>
+    </div>
+</div>
+</section>
+
+<!-- ============ PRINT-ONLY: WERKBLAD ============ -->
+<div class="print-only print-worksheet">
+  <h2 class="print-section-title">✏️ Oefen-toetsblad — vul in op papier</h2>
+  <p style="font-family: 'Source Sans 3', sans-serif; font-size: 11pt; margin-bottom: 14px; color: #555;">
+    Dit blad imiteert de echte toets. Vul met balpen in, controleer daarna met de oplossingen op de laatste pagina.
+  </p>
+  <div id="worksheet-content"><div class="print-block"><h3>Vraag 4 — Vervoeg het werkwoord en vertaal de zin</h3><div class="print-q"><span class="num">1.</span> Mon papa <span class="print-line short"></span> le journal. (lire) <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> Ma soeur et moi <span class="print-line short"></span> le train. (attendre) <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> Le professeur <span class="print-line short"></span> une histoire. (écrire) <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> Tu <span class="print-line short"></span> la leçon. (comprendre) <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 5 — Verbeter de fout in de zin</h3><div class="print-q"><span class="num">1.</span> Je écrit une lettre à mon amie. <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> Nous traduisez ce texte. <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> Tu rend ton devoir en classe. <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> Vous disez bonjour. <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 6 — Vertaal in het Nederlands</h3><div class="print-q"><span class="num">1.</span> se réveiller <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> se tromper <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> se détendre <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> se raser <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 7 — Vertaal in het Frans (let op de pronom!)</h3><div class="print-q"><span class="num">1.</span> Jij gaat slapen. <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> Jullie wandelen. <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> Wij kleden ons aan. <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> Zij voelt zich goed. <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 8 — Verander naar het andere onderwerp</h3><div class="print-q"><span class="num">1.</span> Nous lisons → je ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> Tu attends → nous ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> Il prend → ils ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> J'écris → nous ___ <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 9 — Vervang het lidwoord door ce / cet / cette / ces</h3><div class="print-q"><span class="num">1.</span> une cuisine → ___ cuisine <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> un garage → ___ garage <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> une étagère → ___ étagère <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> l'appartement → ___ appartement <span class="print-line long"></span></div><div class="print-q"><span class="num">5.</span> les toilettes → ___ toilettes <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 10 — Encercle: welke vorm is juist?</h3><div class="print-q"><span class="num">1.</span> une armoire grise / un armoire gris <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> un mur blanc / une mur blanche <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> une chaise noire / un chaise noir <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> une porte bleue / un porte bleu <span class="print-line long"></span></div><div class="print-q"><span class="num">5.</span> un fauteuil mauve / une fauteuil mauve <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 11 — Vertaal de woorden</h3><div class="print-q"><span class="num">1.</span> la boucherie <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> de bakker <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> een perzik <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> l'épicerie <span class="print-line long"></span></div><div class="print-q"><span class="num">5.</span> boodschappen doen <span class="print-line long"></span></div><div class="print-q"><span class="num">6.</span> het vlees <span class="print-line long"></span></div></div><div class="print-block"><h3>Vraag 12 — Zet om naar passé composé</h3><div class="print-q"><span class="num">1.</span> je regarde → <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> nous parlons → <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> tu passes → <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> on danse → <span class="print-line long"></span></div><div class="print-q"><span class="num">5.</span> elle aide → <span class="print-line long"></span></div><div class="print-q"><span class="num">6.</span> ils gagnent → <span class="print-line long"></span></div><div class="print-q"><span class="num">7.</span> vous écoutez → <span class="print-line long"></span></div><div class="print-q"><span class="num">8.</span> papa raconte → <span class="print-line long"></span></div></div><div class="print-block"><h3>Extra — Pluriel/singulier</h3><div class="print-q"><span class="num">1.</span> un chat → ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">2.</span> un journal → ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">3.</span> un bureau → ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">4.</span> un prix → ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">5.</span> un jeu → ___ <span class="print-line long"></span></div><div class="print-q"><span class="num">6.</span> un cheveu → ___ <span class="print-line long"></span></div></div></div>
+</div>
+
+<!-- ============ PRINT-ONLY: OPLOSSINGEN ============ -->
+<div class="print-only print-answers">
+  <h2 class="print-section-title">✓ Oplossingen oefen-toetsblad</h2>
+  <div id="answers-content"><div class="print-block"><h3>Vraag 4 — Vervoeg het werkwoord en vertaal de zin</h3><div class="print-q"><span class="num">1.</span> Mon papa ___ le journal. (lire) &nbsp;→&nbsp; <strong>lit</strong> — Mijn papa leest de krant.</div><div class="print-q"><span class="num">2.</span> Ma soeur et moi ___ le train. (attendre) &nbsp;→&nbsp; <strong>attendons</strong> — Mijn zus en ik wachten op de trein.</div><div class="print-q"><span class="num">3.</span> Le professeur ___ une histoire. (écrire) &nbsp;→&nbsp; <strong>écrit</strong> — De leerkracht schrijft een verhaal.</div><div class="print-q"><span class="num">4.</span> Tu ___ la leçon. (comprendre) &nbsp;→&nbsp; <strong>comprends</strong> — Jij begrijpt de les.</div></div><div class="print-block"><h3>Vraag 5 — Verbeter de fout in de zin</h3><div class="print-q"><span class="num">1.</span> Je écrit une lettre à mon amie. &nbsp;→&nbsp; <strong>J'écris une lettre à mon amie.</strong></div><div class="print-q"><span class="num">2.</span> Nous traduisez ce texte. &nbsp;→&nbsp; <strong>Nous traduisons ce texte.</strong></div><div class="print-q"><span class="num">3.</span> Tu rend ton devoir en classe. &nbsp;→&nbsp; <strong>Tu rends ton devoir en classe.</strong></div><div class="print-q"><span class="num">4.</span> Vous disez bonjour. &nbsp;→&nbsp; <strong>Vous dites bonjour.</strong></div></div><div class="print-block"><h3>Vraag 6 — Vertaal in het Nederlands</h3><div class="print-q"><span class="num">1.</span> se réveiller &nbsp;→&nbsp; <strong>wakker worden</strong></div><div class="print-q"><span class="num">2.</span> se tromper &nbsp;→&nbsp; <strong>zich vergissen</strong></div><div class="print-q"><span class="num">3.</span> se détendre &nbsp;→&nbsp; <strong>zich ontspannen</strong></div><div class="print-q"><span class="num">4.</span> se raser &nbsp;→&nbsp; <strong>zich scheren</strong></div></div><div class="print-block"><h3>Vraag 7 — Vertaal in het Frans (let op de pronom!)</h3><div class="print-q"><span class="num">1.</span> Jij gaat slapen. &nbsp;→&nbsp; <strong>tu te couches</strong></div><div class="print-q"><span class="num">2.</span> Jullie wandelen. &nbsp;→&nbsp; <strong>vous vous promenez</strong></div><div class="print-q"><span class="num">3.</span> Wij kleden ons aan. &nbsp;→&nbsp; <strong>nous nous habillons</strong></div><div class="print-q"><span class="num">4.</span> Zij voelt zich goed. &nbsp;→&nbsp; <strong>elle se sent bien</strong></div></div><div class="print-block"><h3>Vraag 8 — Verander naar het andere onderwerp</h3><div class="print-q"><span class="num">1.</span> Nous lisons → je ___ &nbsp;→&nbsp; <strong>je lis</strong></div><div class="print-q"><span class="num">2.</span> Tu attends → nous ___ &nbsp;→&nbsp; <strong>nous attendons</strong></div><div class="print-q"><span class="num">3.</span> Il prend → ils ___ &nbsp;→&nbsp; <strong>ils prennent</strong></div><div class="print-q"><span class="num">4.</span> J'écris → nous ___ &nbsp;→&nbsp; <strong>nous écrivons</strong></div></div><div class="print-block"><h3>Vraag 9 — Vervang het lidwoord door ce / cet / cette / ces</h3><div class="print-q"><span class="num">1.</span> une cuisine → ___ cuisine &nbsp;→&nbsp; <strong>cette cuisine</strong></div><div class="print-q"><span class="num">2.</span> un garage → ___ garage &nbsp;→&nbsp; <strong>ce garage</strong></div><div class="print-q"><span class="num">3.</span> une étagère → ___ étagère &nbsp;→&nbsp; <strong>cette étagère</strong></div><div class="print-q"><span class="num">4.</span> l'appartement → ___ appartement &nbsp;→&nbsp; <strong>cet appartement</strong></div><div class="print-q"><span class="num">5.</span> les toilettes → ___ toilettes &nbsp;→&nbsp; <strong>ces toilettes</strong></div></div><div class="print-block"><h3>Vraag 10 — Encercle: welke vorm is juist?</h3><div class="print-q"><span class="num">1.</span> une armoire grise / un armoire gris &nbsp;→&nbsp; <strong>une armoire grise</strong></div><div class="print-q"><span class="num">2.</span> un mur blanc / une mur blanche &nbsp;→&nbsp; <strong>un mur blanc</strong></div><div class="print-q"><span class="num">3.</span> une chaise noire / un chaise noir &nbsp;→&nbsp; <strong>une chaise noire</strong></div><div class="print-q"><span class="num">4.</span> une porte bleue / un porte bleu &nbsp;→&nbsp; <strong>une porte bleue</strong></div><div class="print-q"><span class="num">5.</span> un fauteuil mauve / une fauteuil mauve &nbsp;→&nbsp; <strong>un fauteuil mauve</strong></div></div><div class="print-block"><h3>Vraag 11 — Vertaal de woorden</h3><div class="print-q"><span class="num">1.</span> la boucherie &nbsp;→&nbsp; <strong>de slagerij</strong></div><div class="print-q"><span class="num">2.</span> de bakker &nbsp;→&nbsp; <strong>la boulangerie</strong></div><div class="print-q"><span class="num">3.</span> een perzik &nbsp;→&nbsp; <strong>une pêche</strong></div><div class="print-q"><span class="num">4.</span> l'épicerie &nbsp;→&nbsp; <strong>de kruidenierswinkel</strong></div><div class="print-q"><span class="num">5.</span> boodschappen doen &nbsp;→&nbsp; <strong>faire des courses</strong></div><div class="print-q"><span class="num">6.</span> het vlees &nbsp;→&nbsp; <strong>la viande</strong></div></div><div class="print-block"><h3>Vraag 12 — Zet om naar passé composé</h3><div class="print-q"><span class="num">1.</span> je regarde → &nbsp;→&nbsp; <strong>j'ai regardé</strong></div><div class="print-q"><span class="num">2.</span> nous parlons → &nbsp;→&nbsp; <strong>nous avons parlé</strong></div><div class="print-q"><span class="num">3.</span> tu passes → &nbsp;→&nbsp; <strong>tu as passé</strong></div><div class="print-q"><span class="num">4.</span> on danse → &nbsp;→&nbsp; <strong>on a dansé</strong></div><div class="print-q"><span class="num">5.</span> elle aide → &nbsp;→&nbsp; <strong>elle a aidé</strong></div><div class="print-q"><span class="num">6.</span> ils gagnent → &nbsp;→&nbsp; <strong>ils ont gagné</strong></div><div class="print-q"><span class="num">7.</span> vous écoutez → &nbsp;→&nbsp; <strong>vous avez écouté</strong></div><div class="print-q"><span class="num">8.</span> papa raconte → &nbsp;→&nbsp; <strong>papa a raconté</strong></div></div><div class="print-block"><h3>Extra — Pluriel/singulier</h3><div class="print-q"><span class="num">1.</span> un chat → ___ &nbsp;→&nbsp; <strong>des chats</strong></div><div class="print-q"><span class="num">2.</span> un journal → ___ &nbsp;→&nbsp; <strong>des journaux</strong></div><div class="print-q"><span class="num">3.</span> un bureau → ___ &nbsp;→&nbsp; <strong>des bureaux</strong></div><div class="print-q"><span class="num">4.</span> un prix → ___ &nbsp;→&nbsp; <strong>des prix (x = x)</strong></div><div class="print-q"><span class="num">5.</span> un jeu → ___ &nbsp;→&nbsp; <strong>des jeux (eu → eux)</strong></div><div class="print-q"><span class="num">6.</span> un cheveu → ___ &nbsp;→&nbsp; <strong>des choux-fleurs</strong></div></div></div>
+</div>
+
+<div class="actions no-print">
+  <button class="action-btn" id="print-btn" onclick="window.print()">🖨️ Afdrukken / opslaan als PDF</button>
+  <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+</div>
+
+</div><!-- /container -->
+
+<script>
+'use strict';
+
+// ==========================================================================
+// DATA — VOCABULAIRE
+// ==========================================================================
+
+// VERBES EN -RE — vervoegingen
+const VERBS_RE = [
+  { inf: 'perdre',     nl: 'verliezen',    fam: 'reg', conj: ['perds','perds','perd','perdons','perdez','perdent'] },
+  { inf: 'rendre',     nl: 'teruggeven',   fam: 'reg', conj: ['rends','rends','rend','rendons','rendez','rendent'] },
+  { inf: 'attendre',   nl: 'wachten',      fam: 'reg', conj: ['attends','attends','attend','attendons','attendez','attendent'] },
+  { inf: 'vendre',     nl: 'verkopen',     fam: 'reg', conj: ['vends','vends','vend','vendons','vendez','vendent'] },
+  { inf: 'prendre',    nl: 'nemen',        fam: 'endre', conj: ['prends','prends','prend','prenons','prenez','prennent'] },
+  { inf: 'comprendre', nl: 'begrijpen',    fam: 'endre', conj: ['comprends','comprends','comprend','comprenons','comprenez','comprennent'] },
+  { inf: 'mettre',     nl: 'plaatsen',     fam: 'mettre', conj: ['mets','mets','met','mettons','mettez','mettent'] },
+  { inf: 'écrire',     nl: 'schrijven',    fam: 'ire', conj: ['écris','écris','écrit','écrivons','écrivez','écrivent'] },
+  { inf: 'lire',       nl: 'lezen',        fam: 'ire', conj: ['lis','lis','lit','lisons','lisez','lisent'] },
+  { inf: 'dire',       nl: 'zeggen',       fam: 'ire', conj: ['dis','dis','dit','disons','dites','disent'] },
+  { inf: 'traduire',   nl: 'vertalen',     fam: 'ire', conj: ['traduis','traduis','traduit','traduisons','traduisez','traduisent'] },
+  { inf: 'conduire',   nl: 'rijden',       fam: 'ire', conj: ['conduis','conduis','conduit','conduisons','conduisez','conduisent'] }
+];
+
+// VERBES PRONOMINAUX
+const VERBS_PRONOM = [
+  { inf: 'se coucher',    stem: 'couch',    conj: ['couche','couches','couche','couchons','couchez','couchent'],         nl: 'gaan slapen', vowel: false },
+  { inf: 'se réveiller',  stem: 'réveill',  conj: ['réveille','réveilles','réveille','réveillons','réveillez','réveillent'], nl: 'wakker worden', vowel: true },
+  { inf: 'se lever',      stem: 'lev',      conj: ['lève','lèves','lève','levons','levez','lèvent'],                       nl: 'opstaan', vowel: false },
+  { inf: 'se laver',      stem: 'lav',      conj: ['lave','laves','lave','lavons','lavez','lavent'],                       nl: 'zich wassen', vowel: false },
+  { inf: "s'habiller",    stem: 'habill',   conj: ['habille','habilles','habille','habillons','habillez','habillent'],     nl: 'zich aankleden', vowel: true },
+  { inf: 'se brosser',    stem: 'bross',    conj: ['brosse','brosses','brosse','brossons','brossez','brossent'],           nl: '(tanden) poetsen', vowel: false },
+  { inf: 'se raser',      stem: 'ras',      conj: ['rase','rases','rase','rasons','rasez','rasent'],                       nl: 'zich scheren', vowel: false },
+  { inf: 'se peigner',    stem: 'peign',    conj: ['peigne','peignes','peigne','peignons','peignez','peignent'],           nl: '(zich) kammen', vowel: false },
+  { inf: 'se sentir',     stem: 'sent',     conj: ['sens','sens','sent','sentons','sentez','sentent'],                     nl: 'zich voelen', vowel: false },
+  { inf: 'se tromper',    stem: 'tromp',    conj: ['trompe','trompes','trompe','trompons','trompez','trompent'],           nl: 'zich vergissen', vowel: false },
+  { inf: 'se promener',   stem: 'promen',   conj: ['promène','promènes','promène','promenons','promenez','promènent'],     nl: 'wandelen', vowel: false },
+  { inf: 'se détendre',   stem: 'détend',   conj: ['détends','détends','détend','détendons','détendez','détendent'],       nl: 'zich ontspannen', vowel: false },
+  { inf: "s'amuser",      stem: 'amus',     conj: ['amuse','amuses','amuse','amusons','amusez','amusent'],                 nl: 'zich amuseren', vowel: true },
+  { inf: 'se présenter',  stem: 'présent',  conj: ['présente','présentes','présente','présentons','présentez','présentent'], nl: 'zich voorstellen', vowel: false }
+];
+
+const SUBJECTS = [
+  { subj: 'je',    pron: 'me',   pronEl: "m'",  idx: 0 },
+  { subj: 'tu',    pron: 'te',   pronEl: "t'",  idx: 1 },
+  { subj: 'il',    pron: 'se',   pronEl: "s'",  idx: 2 },
+  { subj: 'elle',  pron: 'se',   pronEl: "s'",  idx: 2 },
+  { subj: 'on',    pron: 'se',   pronEl: "s'",  idx: 2 },
+  { subj: 'nous',  pron: 'nous', pronEl: 'nous',idx: 3 },
+  { subj: 'vous',  pron: 'vous', pronEl: 'vous',idx: 4 },
+  { subj: 'ils',   pron: 'se',   pronEl: "s'",  idx: 5 },
+  { subj: 'elles', pron: 'se',   pronEl: "s'",  idx: 5 }
+];
+
+// LA MAISON — woordenschat met geslacht
+const VOCAB_MAISON = [
+  // Kamers
+  { fr: 'cuisine', article: 'une', nl: 'een keuken', gender: 'fem' },
+  { fr: 'salon', article: 'un', nl: 'een zitkamer', gender: 'masc' },
+  { fr: 'salle à manger', article: 'une', nl: 'een eetkamer', gender: 'fem' },
+  { fr: 'chambre', article: 'une', nl: 'een (slaap)kamer', gender: 'fem' },
+  { fr: 'salle de bains', article: 'une', nl: 'een badkamer', gender: 'fem' },
+  { fr: 'toilettes', article: 'les', nl: 'de wc / het toilet', gender: 'plur' },
+  { fr: 'entrée', article: 'une', nl: 'een inkom', gender: 'fem' },
+  { fr: 'couloir', article: 'un', nl: 'een gang', gender: 'masc' },
+  { fr: 'grenier', article: 'un', nl: 'een zolder', gender: 'masc' },
+  { fr: 'cave', article: 'une', nl: 'een kelder', gender: 'fem' },
+  { fr: 'garage', article: 'un', nl: 'een garage', gender: 'masc' },
+  { fr: 'buanderie', article: 'une', nl: 'een wasruimte', gender: 'fem' },
+  { fr: 'terrasse', article: 'une', nl: 'een terras', gender: 'fem' },
+  { fr: 'balcon', article: 'un', nl: 'een balkon', gender: 'masc' },
+  // Structuur
+  { fr: 'maison', article: 'une', nl: 'een huis', gender: 'fem' },
+  { fr: 'appartement', article: 'un', nl: 'een appartement', gender: 'masc' },
+  { fr: 'étage', article: 'un', nl: 'een verdieping', gender: 'masc' },
+  { fr: 'toit', article: 'le', nl: 'het dak', gender: 'masc' },
+  { fr: 'sol', article: 'le', nl: 'de vloer', gender: 'masc' },
+  { fr: 'mur', article: 'un', nl: 'een muur', gender: 'masc' },
+  { fr: 'fenêtre', article: 'une', nl: 'een venster', gender: 'fem' },
+  { fr: 'porte', article: 'une', nl: 'een deur', gender: 'fem' },
+  { fr: 'escalier', article: 'un', nl: 'een trap', gender: 'masc' },
+  // Meubels
+  { fr: 'lit', article: 'un', nl: 'een bed', gender: 'masc' },
+  { fr: 'canapé', article: 'un', nl: 'een zetel', gender: 'masc' },
+  { fr: 'fauteuil', article: 'un', nl: 'een (zetel)stoel', gender: 'masc' },
+  { fr: 'table', article: 'une', nl: 'een tafel', gender: 'fem' },
+  { fr: 'chaise', article: 'une', nl: 'een stoel', gender: 'fem' },
+  { fr: 'armoire', article: 'une', nl: 'een kast', gender: 'fem' },
+  { fr: 'tiroir', article: 'un', nl: 'een lade', gender: 'masc' },
+  { fr: 'étagère', article: 'une', nl: 'een plank', gender: 'fem' },
+  { fr: 'bibliothèque', article: 'une', nl: 'een boekenkast', gender: 'fem' },
+  { fr: 'bureau', article: 'un', nl: 'een bureau', gender: 'masc' }
+];
+
+// OBJECTS + COULEURS
+const VOCAB_OBJETS = [
+  { fr: 'tabouret', article: 'un', nl: 'een kruk', gender: 'masc' },
+  { fr: 'réveil', article: 'un', nl: 'een wekker', gender: 'masc' },
+  { fr: 'haut-parleur', article: 'un', nl: 'een luidspreker', gender: 'masc' },
+  { fr: 'télévision', article: 'une', nl: 'een tv', gender: 'fem' },
+  { fr: 'ordinateur', article: 'un', nl: 'een computer', gender: 'masc' },
+  { fr: 'écran', article: 'un', nl: 'een scherm', gender: 'masc' },
+  { fr: 'pot de fleurs', article: 'un', nl: 'een bloempot', gender: 'masc' },
+  { fr: 'plante', article: 'une', nl: 'een plant', gender: 'fem' },
+  { fr: 'poster', article: 'un', nl: 'een poster', gender: 'masc' },
+  { fr: 'vase', article: 'un', nl: 'een vaas', gender: 'masc' },
+  { fr: 'horloge', article: 'une', nl: 'een (wand)klok', gender: 'fem' },
+  { fr: 'tapis', article: 'le', nl: 'het tapijt', gender: 'masc' },
+  { fr: 'miroir', article: 'le', nl: 'de spiegel', gender: 'masc' },
+  { fr: 'peinture', article: 'la', nl: 'het schilderij', gender: 'fem' },
+  { fr: 'serviette', article: 'la', nl: 'de handdoek', gender: 'fem' },
+  { fr: 'lampe', article: 'une', nl: 'een lamp', gender: 'fem' },
+  { fr: 'oreiller', article: 'un', nl: 'een kussen', gender: 'masc' }
+];
+
+// COULEURS — variabel + invariant
+const COULEURS_VAR = [
+  { m: 'brun',   f: 'brune',   nl: 'bruin' },
+  { m: 'gris',   f: 'grise',   nl: 'grijs' },
+  { m: 'vert',   f: 'verte',   nl: 'groen' },
+  { m: 'blanc',  f: 'blanche', nl: 'wit' },
+  { m: 'noir',   f: 'noire',   nl: 'zwart' },
+  { m: 'bleu',   f: 'bleue',   nl: 'blauw' }
+];
+const COULEURS_INV = [
+  { fr: 'jaune',  nl: 'geel' },
+  { fr: 'mauve',  nl: 'paars' },
+  { fr: 'rouge',  nl: 'rood' },
+  { fr: 'orange', nl: 'oranje' },
+  { fr: 'rose',   nl: 'roze' }
+];
+
+// ALIMENTATION — vocabulaire (FR↔NL, complete set)
+const VOCAB_ALIM = [
+  // Algemene begrippen
+  { fr: "l'alimentation",  nl: 'de voedingswaren',  gender: 'fem' },
+  { fr: 'la nourriture',   nl: 'de voeding',        gender: 'fem' },
+  { fr: "avoir besoin de", nl: 'nodig hebben',      gender: 'expr' },
+  { fr: "avoir envie de",  nl: 'zin hebben in',     gender: 'expr' },
+  { fr: 'faire des courses', nl: 'boodschappen doen', gender: 'expr' },
+  { fr: 'le prix',         nl: 'de prijs',          gender: 'masc' },
+  { fr: 'le supermarché',  nl: 'de supermarkt',     gender: 'masc' },
+  { fr: 'les boissons',    nl: 'de dranken',        gender: 'plur' },
+  // Winkels
+  { fr: 'la boucherie',    nl: 'de slagerij',       gender: 'fem' },
+  { fr: 'la boulangerie',  nl: 'de bakker',         gender: 'fem' },
+  { fr: 'la pâtisserie',   nl: 'de banketbakker',   gender: 'fem' },
+  { fr: "l'épicerie",      nl: 'de kruidenierswinkel', gender: 'fem' },
+  { fr: 'le marché',       nl: 'de markt',          gender: 'masc' },
+  // Fruit
+  { fr: 'les fruits',      nl: 'het fruit',         gender: 'plur' },
+  { fr: 'une fraise',      nl: 'een aardbei',       gender: 'fem' },
+  { fr: 'une pomme',       nl: 'een appel',         gender: 'fem' },
+  { fr: 'une poire',       nl: 'een peer',          gender: 'fem' },
+  { fr: 'une banane',      nl: 'een banaan',        gender: 'fem' },
+  { fr: 'un melon',        nl: 'een meloen',        gender: 'masc' },
+  { fr: 'un citron',       nl: 'een citroen',       gender: 'masc' },
+  { fr: 'une orange',      nl: 'een appelsien',     gender: 'fem' },
+  { fr: 'une nectarine',   nl: 'een nectarine',     gender: 'fem' },
+  { fr: 'une pêche',       nl: 'een perzik',        gender: 'fem' },
+  // Groenten
+  { fr: 'les légumes',     nl: 'de groenten',       gender: 'plur' },
+  { fr: 'un poireau',      nl: 'een prei',          gender: 'masc' },
+  { fr: 'un chou-fleur',   nl: 'een bloemkool',     gender: 'masc' },
+  { fr: 'une courgette',   nl: 'een courgette',     gender: 'fem' },
+  { fr: 'un concombre',    nl: 'een komkommer',     gender: 'masc' },
+  { fr: 'une tomate',      nl: 'een tomaat',        gender: 'fem' },
+  { fr: 'une laitue',      nl: 'een sla',           gender: 'fem' },
+  { fr: 'un poivron',      nl: 'een paprika',       gender: 'masc' },
+  // Vlees + zuivel + brood
+  { fr: 'la viande',       nl: 'het vlees',         gender: 'fem' },
+  { fr: 'le poulet',       nl: 'het kippenvlees',   gender: 'masc' },
+  { fr: 'le porc',         nl: 'het varkensvlees',  gender: 'masc' },
+  { fr: 'le boeuf',        nl: 'het rundsvlees',    gender: 'masc' },
+  { fr: 'le poisson',      nl: 'de vis',            gender: 'masc' },
+  { fr: 'le pain',         nl: 'het brood',         gender: 'masc' },
+  { fr: 'la baguette',     nl: 'een stokbrood',     gender: 'fem' },
+  { fr: 'les produits laitiers', nl: 'de zuivel',   gender: 'plur' },
+  { fr: 'le sucre',        nl: 'de suiker',         gender: 'masc' },
+  { fr: 'le sel',          nl: 'het zout',          gender: 'masc' },
+  { fr: 'le poivre',       nl: 'de peper',          gender: 'masc' },
+  { fr: 'le beurre',       nl: 'de boter',          gender: 'masc' },
+  { fr: 'le fromage',      nl: 'de kaas',           gender: 'masc' },
+  { fr: 'le lait',         nl: 'de melk',           gender: 'masc' }
+];
+
+// ==========================================================================
+// POOLS — POOL_RE_FILL_TR : vraag V4 stijl - werkwoord vervoegen + zin vertalen NL
+// ==========================================================================
+// Zin in FR met werkwoord-blanco. Studied: ze vervoegen, en vertalen
+const POOL_RE_FILL_TR = [
+  { pre: 'Mon papa ',     post: ' le journal.',         inf: 'lire',       subjIdx: 2, nlVert: 'Mijn papa leest de krant.' },
+  { pre: 'Ma soeur et moi ', post: ' le train.',         inf: 'attendre',   subjIdx: 3, nlVert: 'Mijn zus en ik wachten op de trein.' },
+  { pre: 'Le professeur ',  post: ' une histoire.',      inf: 'écrire',     subjIdx: 2, nlVert: 'De leerkracht schrijft een verhaal.' },
+  { pre: 'Les élèves ',   post: ' leurs cahiers.',         inf: 'prendre',    subjIdx: 5, nlVert: 'De leerlingen nemen hun schriften.' },
+  { pre: 'Tu ',           post: ' la leçon.',            inf: 'comprendre', subjIdx: 1, nlVert: 'Jij begrijpt de les.' },
+  { pre: 'Mon frère ',    post: ' ses clés.',            inf: 'perdre',     subjIdx: 2, nlVert: 'Mijn broer verliest zijn sleutels.' },
+  { pre: 'Vous ',         post: ' la table.',            inf: 'mettre',     subjIdx: 4, nlVert: 'Jullie dekken de tafel.' },
+  { pre: 'Nous ',         post: ' le texte en français.', inf: 'traduire',   subjIdx: 3, nlVert: 'Wij vertalen de tekst in het Frans.' },
+  { pre: 'Ma mère ',      post: ' la voiture.',          inf: 'conduire',   subjIdx: 2, nlVert: 'Mijn moeder rijdt met de auto.' },
+  { pre: 'Les enfants ',  post: ' bonjour au professeur.', inf: 'dire',     subjIdx: 5, nlVert: 'De kinderen zeggen goedendag tegen de leerkracht.' },
+  { pre: 'Je ',           post: ' mes livres à la bibliothèque.', inf: 'rendre', subjIdx: 0, nlVert: 'Ik geef mijn boeken terug aan de bibliotheek.' },
+  { pre: 'Mes voisins ',  post: ' leur maison.',         inf: 'vendre',     subjIdx: 5, nlVert: 'Mijn buren verkopen hun huis.' }
+];
+
+// POOL V5 stijl - fouten zoeken + corrigeren
+const POOL_RE_ERRORS = [
+  { wrong: 'Maman mette ses chaussures.',  correct: 'Maman met ses chaussures.',         hint: 'mettre — il/elle (één t, geen -e)' },
+  { wrong: "Je écrit une lettre à mon amie.", correct: "J'écris une lettre à mon amie.", hint: 'écrire — je' },
+  { wrong: 'Nous traduisez ce texte.',   correct: 'Nous traduisons ce texte.',          hint: 'traduire — nous' },
+  { wrong: 'Tu rend ton devoir en classe.', correct: 'Tu rends ton devoir en classe.', hint: 'rendre — tu' },
+  { wrong: 'Elle perds ses clés.',       correct: 'Elle perd ses clés.',                hint: 'perdre — elle' },
+  { wrong: 'Ils prenent le bus.',        correct: 'Ils prennent le bus.',               hint: 'prendre — ils (dubbele n)' },
+  { wrong: 'Vous disez bonjour.',        correct: 'Vous dites bonjour.',                hint: 'dire — vous (uitzondering!)' },
+  { wrong: 'Je conduise prudemment.',    correct: 'Je conduis prudemment.',             hint: 'conduire — je' },
+  { wrong: 'Tu attend ton ami.',         correct: 'Tu attends ton ami.',                hint: 'attendre — tu' },
+  { wrong: 'Il mette ses bottes.',       correct: 'Il met ses bottes.',                 hint: 'mettre — il (één t, geen -e)' }
+];
+
+// POOL V6 stijl - pronominale werkwoorden vertalen FR→NL (infinitief)
+const POOL_PRON_INF_FRNL = [
+  { fr: 'se réveiller', nl: ['wakker worden'] },
+  { fr: 'se tromper',   nl: ['zich vergissen'] },
+  { fr: 'se détendre',  nl: ['zich ontspannen'] },
+  { fr: 'se raser',     nl: ['zich scheren'] },
+  { fr: "s'habiller",   nl: ['zich aankleden'] },
+  { fr: 'se peigner',   nl: ['zich kammen','kammen'] },
+  { fr: 'se lever',     nl: ['opstaan'] },
+  { fr: 'se laver',     nl: ['zich wassen','wassen'] },
+  { fr: 'se coucher',   nl: ['gaan slapen','slapen gaan'] },
+  { fr: 'se promener',  nl: ['wandelen','gaan wandelen'] },
+  { fr: 'se brosser',   nl: ['zich poetsen','tanden poetsen','poetsen'] },
+  { fr: "s'amuser",     nl: ['zich amuseren'] },
+  { fr: 'se sentir',    nl: ['zich voelen'] },
+  { fr: 'se présenter', nl: ['zich voorstellen'] }
+];
+
+// POOL V7 stijl - pronominale werkwoorden: NL-zin → FR vervoeging
+const POOL_PRON_NLFR = [
+  { nl: 'Jij gaat slapen.',     fr: ['tu te couches'],         inf: 'se coucher',   subj: 'tu' },
+  { nl: 'Jullie wandelen.',     fr: ['vous vous promenez'],    inf: 'se promener',  subj: 'vous' },
+  { nl: 'Wij kleden ons aan.',  fr: ["nous nous habillons"],   inf: "s'habiller",   subj: 'nous' },
+  { nl: 'Papa scheert zich.',   fr: ['papa se rase'],          inf: 'se raser',     subj: 'papa' },
+  { nl: 'Zij voelt zich goed.', fr: ['elle se sent bien'],     inf: 'se sentir',    subj: 'elle' },
+  { nl: 'Ik sta op.',           fr: ['je me lève'],            inf: 'se lever',     subj: 'je' },
+  { nl: 'Hij wast zich.',       fr: ['il se lave'],            inf: 'se laver',     subj: 'il' },
+  { nl: 'Wij vergissen ons.',   fr: ['nous nous trompons'],    inf: 'se tromper',   subj: 'nous' },
+  { nl: 'Jullie ontspannen.',   fr: ['vous vous détendez'],    inf: 'se détendre',  subj: 'vous' },
+  { nl: 'Zij amuseren zich.',   fr: ["ils s'amusent","elles s'amusent"], inf: "s'amuser", subj: 'ils' },
+  { nl: 'Jij wordt wakker.',    fr: ['tu te réveilles'],       inf: 'se réveiller', subj: 'tu' },
+  { nl: 'Mama kamt zich.',      fr: ['maman se peigne'],       inf: 'se peigner',   subj: 'maman' }
+];
+
+// POOL V8 stijl - werkwoord aanpassen aan ander onderwerp
+const POOL_RE_TRANSFORM = [
+  { from: 'Nous lisons.',   target: 'je',    answer: 'je lis' },
+  { from: 'Tu attends.',    target: 'nous',  answer: 'nous attendons' },
+  { from: 'Il prend.',      target: 'ils',   answer: 'ils prennent' },
+  { from: "J'écris.",       target: 'nous',  answer: 'nous écrivons' },
+  { from: 'Elles perdent.', target: 'il',    answer: 'il perd' },
+  { from: 'Vous mettez.',   target: 'tu',    answer: 'tu mets' },
+  { from: 'Je dis.',        target: 'vous',  answer: 'vous dites' },
+  { from: 'Nous comprenons.', target: 'elle', answer: 'elle comprend' },
+  { from: 'Ils traduisent.', target: 'je',   answer: 'je traduis' },
+  { from: 'Tu rends.',      target: 'nous',  answer: 'nous rendons' },
+  { from: 'Elle conduit.',  target: 'vous',  answer: 'vous conduisez' },
+  { from: 'Vous vendez.',   target: 'il',    answer: 'il vend' }
+];
+
+// POOL V9 stijl - lidwoord → ce/cet/cette/ces (gebruikt huiswoorden)
+// regel: ce (masc enkv) | cet (masc enkv + klinker/h) | cette (fem enkv) | ces (meerv)
+const POOL_DEMO = [
+  { article: 'une', word: 'cuisine',      gender: 'fem',  expected: ['cette'] },
+  { article: 'un',  word: 'garage',       gender: 'masc', expected: ['ce'] },
+  { article: 'le',  word: 'grenier',      gender: 'masc', expected: ['ce'] },
+  { article: "l'",  word: 'étagère',      gender: 'fem-vow', expected: ['cette'] },
+  { article: 'le',  word: 'couloir',      gender: 'masc', expected: ['ce'] },
+  { article: 'les', word: 'toilettes',    gender: 'plur', expected: ['ces'] },
+  { article: 'la',  word: 'terrasse',     gender: 'fem',  expected: ['cette'] },
+  { article: 'le',  word: 'toit',         gender: 'masc', expected: ['ce'] },
+  { article: 'une', word: 'règle',        gender: 'fem',  expected: ['cette'] },
+  { article: 'des', word: 'ciseaux',      gender: 'plur', expected: ['ces'] },
+  { article: "l'",  word: 'appartement',  gender: 'masc-vow', expected: ['cet'] },
+  { article: "l'",  word: 'escalier',     gender: 'masc-vow', expected: ['cet'] },
+  { article: 'un',  word: 'lit',          gender: 'masc', expected: ['ce'] },
+  { article: 'une', word: 'chambre',      gender: 'fem',  expected: ['cette'] },
+  { article: 'un',  word: 'fauteuil',     gender: 'masc', expected: ['ce'] },
+  { article: 'une', word: 'porte',        gender: 'fem',  expected: ['cette'] },
+  { article: "l'",  word: 'horloge',      gender: 'fem-vow', expected: ['cette'] },
+  { article: 'des', word: 'rideaux',      gender: 'plur', expected: ['ces'] },
+  { article: 'un',  word: 'ordinateur',   gender: 'masc-vow', expected: ['cet'] },
+  { article: 'une', word: 'armoire',      gender: 'fem-vow', expected: ['cette'] }
+];
+
+// POOL V10 stijl - encercle: geslacht + kleur (multiple choice tussen 2 vormen)
+// genereren we runtime uit VOCAB_OBJETS + COULEURS_VAR
+
+// POOL V11 stijl - vocab vertalen FR↔NL (alimentation + winkels)
+// genereren we runtime uit VOCAB_ALIM
+
+// POOL V12 stijl - présent → passé composé (-ER werkwoorden, avoir + participe passé)
+const POOL_PASSE_COMPOSE = [
+  { pres: 'je regarde',       pp: "j'ai regardé" },
+  { pres: 'nous parlons',     pp: 'nous avons parlé' },
+  { pres: 'tu passes',        pp: 'tu as passé' },
+  { pres: 'il saute',         pp: 'il a sauté' },
+  { pres: 'on danse',         pp: 'on a dansé' },
+  { pres: 'elle aide',        pp: 'elle a aidé' },
+  { pres: 'vous écoutez',     pp: 'vous avez écouté' },
+  { pres: 'il joue',          pp: 'il a joué' },
+  { pres: 'elle pleure',      pp: 'elle a pleuré' },
+  { pres: 'ma soeur et moi dessinons', pp: 'ma soeur et moi avons dessiné' },
+  { pres: 'tu portes',        pp: 'tu as porté' },
+  { pres: 'je cherche',       pp: "j'ai cherché" },
+  { pres: 'nous chantons',    pp: 'nous avons chanté' },
+  { pres: 'vous comptez',     pp: 'vous avez compté' },
+  { pres: 'ils donnent',      pp: 'ils ont donné' },
+  { pres: 'elles demandent',  pp: 'elles ont demandé' },
+  { pres: 'je pense',         pp: "j'ai pensé" },
+  { pres: 'papa raconte',     pp: 'papa a raconté' },
+  { pres: 'ils gagnent',      pp: 'ils ont gagné' },
+  { pres: 'elle cache',       pp: 'elle a caché' },
+  { pres: 'tu manges',        pp: 'tu as mangé' },
+  { pres: 'nous trouvons',    pp: 'nous avons trouvé' },
+  { pres: 'je travaille',     pp: "j'ai travaillé" },
+  { pres: 'vous fermez',      pp: 'vous avez fermé' }
+];
+
+// POOL V-extra stijl - pluriel substantif
+const POOL_PLURIEL = [
+  { sg: 'un chat',      pl: 'des chats',       rule: '+s' },
+  { sg: 'une maison',   pl: 'des maisons',     rule: '+s' },
+  { sg: 'un oeuf',      pl: 'des oeufs',       rule: '+s' },
+  { sg: 'un mois',      pl: 'des mois',        rule: 's = s' },
+  { sg: 'un chien',     pl: 'des chiens',      rule: '+s' },
+  { sg: 'une école',    pl: 'des écoles',      rule: '+s' },
+  { sg: 'un bureau',    pl: 'des bureaux',     rule: 'eau → eaux' },
+  { sg: "l'oiseau",     pl: 'les oiseaux',     rule: 'eau → eaux' },
+  { sg: 'le jeu',       pl: 'les jeux',        rule: 'eu → eux' },
+  { sg: 'un journal',   pl: 'des journaux',    rule: 'al → aux' },
+  { sg: 'un cheval',    pl: 'des chevaux',     rule: 'al → aux' },
+  { sg: 'une pomme',    pl: 'des pommes',      rule: '+s' },
+  { sg: 'un poireau',   pl: 'des poireaux',    rule: 'eau → eaux' },
+  { sg: 'un prix',      pl: 'des prix',        rule: 'x = x' },
+  { sg: 'un jus',       pl: 'des jus',         rule: 's = s' },
+  { sg: 'un cheveu',    pl: 'des cheveux',     rule: 'eu → eux' },
+  { sg: 'une voiture',  pl: 'des voitures',    rule: '+s' },
+  { sg: 'un thé',       pl: 'des thés',        rule: '+s' },
+  { sg: 'un poivron',   pl: 'des poivrons',    rule: '+s' }
+];
+
+// ==========================================================================
+// UTILS
+// ==========================================================================
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+function startsWithVowelOrH(s) { return /^[aeiouhéèêëàâäîïôöùûü]/i.test(s); }
+function combinePronoun(pron, pronEl, verb) {
+  if (pron === 'nous' || pron === 'vous') return pron + ' ' + verb;
+  if (startsWithVowelOrH(verb)) return pronEl + verb;
+  return pron + ' ' + verb;
+}
+function randomPraise() {
+  const p = ['Parfait !','Bravo !','Très bien !','Super !','Excellent !','Juist!','Top!','Goed zo!'];
+  return p[Math.floor(Math.random()*p.length)];
+}
+function checkAnswerText(input, accepted) {
+  const norm = normalize(input);
+  if (!norm) return false;
+  // Hulpfunctie: strip eind-punctuatie
+  const stripPunct = (s) => s.replace(/[.!?]+$/, '').trim();
+  // Hulpfunctie: tolereer "j " als "j'"
+  const fixJ = (s) => s.replace(/^j /, "j'").replace(/(\s)j /, "$1j'");
+  const normVariants = [norm, stripPunct(norm), fixJ(norm), fixJ(stripPunct(norm))];
+  return accepted.some(a => {
+    const an = normalize(a);
+    const anStripped = stripPunct(an);
+    return normVariants.some(v => v === an || v === anStripped);
+  });
+}
+
+// ==========================================================================
+// QUESTION GENERATORS — produceren één willekeurige vraag van een gegeven type
+// ==========================================================================
+
+// V4 — werkwoord vervoegen + zin vertalen NL
+function genV4() {
+  const q = pick(POOL_RE_FILL_TR);
+  const verb = VERBS_RE.find(v => v.inf === q.inf);
+  const correctForm = verb.conj[q.subjIdx];
+  return {
+    type: 'v4', tag: 're', tagLabel: 'verbe -RE',
+    prompt: `${q.pre}<span class="blank">___</span>${q.post}<br><span class="ctx">(${q.inf}) — vul de juiste vorm in én vertaal de zin</span>`,
+    inputs: [
+      { placeholder: 'vervoeging', accepted: [correctForm] },
+      { placeholder: 'vertaling NL', accepted: [q.nlVert] }
+    ],
+    correctLabel: `${correctForm} — &laquo; ${q.nlVert} &raquo;`,
+    review: { sentence: q.pre + correctForm + q.post, nl: q.nlVert }
+  };
+}
+
+// V5 — fouten zoeken + corrigeren
+function genV5() {
+  const q = pick(POOL_RE_ERRORS);
+  return {
+    type: 'v5', tag: 're', tagLabel: 'fout zoeken',
+    prompt: `<em>${q.wrong}</em><br><span class="ctx">deze zin bevat een fout — schrijf hem correct</span>`,
+    inputs: [
+      { placeholder: 'verbeterde zin', accepted: [q.correct] }
+    ],
+    correctLabel: q.correct,
+    review: { wrong: q.wrong, correct: q.correct, hint: q.hint }
+  };
+}
+
+// V6 — pronominaux infinitief vertalen FR→NL
+function genV6() {
+  const q = pick(POOL_PRON_INF_FRNL);
+  return {
+    type: 'v6', tag: 'pron', tagLabel: 'pronominaux',
+    prompt: `Vertaal in het Nederlands: <em>${q.fr}</em>`,
+    inputs: [{ placeholder: 'Nederlandse vertaling', accepted: q.nl }],
+    correctLabel: q.nl[0],
+    review: { fr: q.fr, nl: q.nl[0] }
+  };
+}
+
+// V7 — pronominaux NL → FR
+function genV7() {
+  const q = pick(POOL_PRON_NLFR);
+  return {
+    type: 'v7', tag: 'pron', tagLabel: 'pronominaux',
+    prompt: `Vertaal in het Frans: <em>${q.nl}</em><br><span class="ctx">(${q.inf})</span>`,
+    inputs: [{ placeholder: 'Franse zin', accepted: q.fr }],
+    correctLabel: q.fr[0],
+    review: { nl: q.nl, fr: q.fr[0] }
+  };
+}
+
+// V8 — werkwoord aanpassen aan ander onderwerp
+function genV8() {
+  const q = pick(POOL_RE_TRANSFORM);
+  return {
+    type: 'v8', tag: 're', tagLabel: 'andere persoon',
+    prompt: `<em>${q.from}</em> &nbsp;→&nbsp; verander naar <strong>${q.target}</strong>`,
+    inputs: [{ placeholder: q.target + ' ...', accepted: [q.answer] }],
+    correctLabel: q.answer,
+    review: { from: q.from, target: q.target, answer: q.answer }
+  };
+}
+
+// V9 — démonstratifs (multiple choice)
+function genV9() {
+  const q = pick(POOL_DEMO);
+  const opts = ['ce','cet','cette','ces'];
+  return {
+    type: 'v9', tag: 'demo', tagLabel: 'démonstratifs',
+    prompt: `Vervang het lidwoord door een aanwijzend voornaamwoord:<br><em>${q.article} ${q.word}</em>`,
+    options: shuffle(opts).map(o => ({ label: o, value: o })),
+    correct: q.expected[0],
+    correctLabel: `${q.expected[0]} ${q.word}`,
+    review: { article: q.article, word: q.word, demo: q.expected[0] }
+  };
+}
+
+// V10 — encercle (geslacht + kleur)
+function genV10() {
+  // Pak een object met masc of fem (geen plur, geen "adj-inv" kleur — anders is er geen verschil)
+  const objs = VOCAB_OBJETS.filter(o => o.gender === 'masc' || o.gender === 'fem')
+                .concat(VOCAB_MAISON.filter(o => o.gender === 'masc' || o.gender === 'fem'));
+  const obj = pick(objs);
+  const couleur = pick(COULEURS_VAR);
+  // Twee opties: juist (bv. "une porte bleue") en fout (bv. "un porte bleu")
+  const correctArt = obj.gender === 'masc' ? 'un' : 'une';
+  const wrongArt = obj.gender === 'masc' ? 'une' : 'un';
+  const correctAdj = obj.gender === 'masc' ? couleur.m : couleur.f;
+  const wrongAdj = obj.gender === 'masc' ? couleur.f : couleur.m;
+  const correctPhrase = `${correctArt} ${obj.fr} ${correctAdj}`;
+  const wrongPhrase = `${wrongArt} ${obj.fr} ${wrongAdj}`;
+  const opts = shuffle([
+    { label: correctPhrase, value: 'ok' },
+    { label: wrongPhrase,   value: 'no' }
+  ]);
+  return {
+    type: 'v10', tag: 'adj', tagLabel: 'encercle',
+    prompt: `Welke vorm is juist?<br><span class="ctx">(let op geslacht én kleur)</span>`,
+    options: opts,
+    correct: 'ok',
+    correctLabel: correctPhrase,
+    review: { correct: correctPhrase, wrong: wrongPhrase }
+  };
+}
+
+// V11 — vocab vertalen FR↔NL (alimentation + winkels)
+function genV11() {
+  const w = pick(VOCAB_ALIM);
+  const dir = Math.random() < 0.5 ? 'frnl' : 'nlfr';
+  if (dir === 'frnl') {
+    return {
+      type: 'v11', tag: 'vocab', tagLabel: 'vertaal FR→NL',
+      prompt: `Vertaal in het Nederlands: <em>${w.fr}</em>`,
+      inputs: [{ placeholder: 'Nederlands', accepted: [w.nl, w.nl.replace(/^(de |het |een )/,'')] }],
+      correctLabel: w.nl,
+      review: { fr: w.fr, nl: w.nl }
+    };
+  } else {
+    return {
+      type: 'v11', tag: 'vocab', tagLabel: 'vertaal NL→FR',
+      prompt: `Vertaal in het Frans: <em>${w.nl}</em>`,
+      inputs: [{ placeholder: 'Frans', accepted: [w.fr] }],
+      correctLabel: w.fr,
+      review: { fr: w.fr, nl: w.nl }
+    };
+  }
+}
+
+// V12 — passé composé
+function genV12() {
+  const q = pick(POOL_PASSE_COMPOSE);
+  return {
+    type: 'v12', tag: 'passe', tagLabel: 'passé composé',
+    prompt: `Zet om naar passé composé: <em>${q.pres}</em>`,
+    inputs: [{ placeholder: 'passé composé', accepted: [q.pp] }],
+    correctLabel: q.pp,
+    review: { pres: q.pres, pp: q.pp }
+  };
+}
+
+// V-extra — pluriel substantif
+function genVPL() {
+  const q = pick(POOL_PLURIEL);
+  // Helft sg→pl, helft pl→sg
+  if (Math.random() < 0.5) {
+    return {
+      type: 'vpl', tag: 'plur', tagLabel: 'pluriel',
+      prompt: `Zet in het meervoud: <em>${q.sg}</em>`,
+      inputs: [{ placeholder: 'meervoud', accepted: [q.pl] }],
+      correctLabel: q.pl + ' &nbsp;<small>(' + q.rule + ')</small>',
+      review: { sg: q.sg, pl: q.pl, rule: q.rule }
+    };
+  } else {
+    return {
+      type: 'vpl', tag: 'plur', tagLabel: 'singulier',
+      prompt: `Zet in het enkelvoud: <em>${q.pl}</em>`,
+      inputs: [{ placeholder: 'enkelvoud', accepted: [q.sg] }],
+      correctLabel: q.sg + ' &nbsp;<small>(' + q.rule + ')</small>',
+      review: { sg: q.sg, pl: q.pl, rule: q.rule }
+    };
+  }
+}
+
+// ==========================================================================
+// VRAAGTYPE-DEFINITIE voor de "Per toetsvraag" picker
+// ==========================================================================
+const VRAAGTYPES = [
+  { id: 'v4',  vraag: 'Vraag 4',  titel: 'Werkwoord invullen + vertalen', sub: 'verbes en -RE — vorm + zin in NL', gen: genV4 },
+  { id: 'v5',  vraag: 'Vraag 5',  titel: 'Fouten zoeken & verbeteren', sub: 'foute zin verbeteren', gen: genV5 },
+  { id: 'v6',  vraag: 'Vraag 6',  titel: 'Pronominaux: vertaal FR→NL', sub: 'infinitief naar Nederlands', gen: genV6 },
+  { id: 'v7',  vraag: 'Vraag 7',  titel: 'Pronominaux: zin vervoegen', sub: 'NL-zin omzetten naar Frans', gen: genV7 },
+  { id: 'v8',  vraag: 'Vraag 8',  titel: 'Werkwoord bij ander onderwerp', sub: 'verbe -RE — verander de persoon', gen: genV8 },
+  { id: 'v9',  vraag: 'Vraag 9',  titel: 'Lidwoord → ce/cet/cette/ces', sub: 'aanwijzend voornaamwoord', gen: genV9 },
+  { id: 'v10', vraag: 'Vraag 10', titel: 'Encercle: geslacht + kleur', sub: 'juiste vorm aanvinken', gen: genV10 },
+  { id: 'v11', vraag: 'Vraag 11', titel: 'Vertaal woorden FR↔NL', sub: 'alimentation + winkels', gen: genV11 },
+  { id: 'v12', vraag: 'Vraag 12', titel: 'Présent → passé composé', sub: '20 items op de toets! avoir + -é', gen: genV12 },
+  { id: 'vpl', vraag: 'Extra',    titel: 'Pluriel/singulier substantief', sub: 'nieuw — les van 6 mei', gen: genVPL }
+];
+
+// ==========================================================================
+// TAB SWITCHING
+// ==========================================================================
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => goToTab(btn.dataset.tab));
+});
+function goToTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-content="${name}"]`).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'errors') renderErrors();
+  if (name === 'cheat') renderCheat();
+  if (name === 'pertype') renderPertypePicker();
+  // Print-knop verbergen op runtime tabs
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) {
+    printBtn.style.display = (name === 'cheat') ? '' : 'none';
+  }
+}
+
+// ==========================================================================
+// MIJN FOUTEN
+// ==========================================================================
+const errorBag = [];
+function logError(q, userAnswer) {
+  const makeKey = (qq) => (qq.type || '') + '|' + (qq.tag || '') + '|' + qq.prompt;
+  const key = makeKey(q);
+  const idx = errorBag.findIndex(e => makeKey(e.q) === key);
+  if (idx >= 0) errorBag.splice(idx, 1);
+  errorBag.push({ q, userAnswer, ts: Date.now() });
+  updateErrorBadge();
+}
+function updateErrorBadge() {
+  const badge = document.getElementById('errors-count');
+  if (errorBag.length > 0) {
+    badge.textContent = errorBag.length;
+    badge.style.display = 'inline-block';
+  } else {
+    badge.style.display = 'none';
+  }
+}
+function clearErrors() {
+  errorBag.length = 0;
+  updateErrorBadge();
+  renderErrors();
+}
+function renderErrors() {
+  const c = document.getElementById('errors-content');
+  if (errorBag.length === 0) {
+    c.innerHTML = `
+      <div class="errors-empty">
+        <span class="emoji">✨</span>
+        <h3>Nog geen fouten verzameld</h3>
+        <p>Tijdens de oefenronde of de gerichte oefening worden je fouten hier verzameld.<br>Begin met de <strong>Oefenronde</strong> of een <strong>Per toetsvraag</strong>-blok om te starten.</p>
+      </div>`;
+    return;
+  }
+  c.innerHTML = `
+    <div class="diag-intro">
+      <h2>🔥 Mijn fouten</h2>
+      <p>De vragen waar je struikelde, opnieuw te oefenen. Goed antwoord = de vraag verdwijnt uit de lijst.</p>
+    </div>
+    <div class="score-bar visible" style="display:flex;">
+      <span class="score-text">Te oefenen: <span id="errors-remaining">${errorBag.length}</span></span>
+      <div class="progress-bar-container"><div class="progress-bar" style="width:0%"></div></div>
+      <button class="reset-btn" onclick="clearErrors()">🗑️ Lijst wissen</button>
+    </div>
+    <div id="errors-list"></div>`;
+  const list = document.getElementById('errors-list');
+  errorBag.forEach((e, idx) => {
+    renderQuestionCard(e.q, idx, 'errors', list);
+  });
+}
+
+// ==========================================================================
+// QUESTION CARD RENDERER
+// ==========================================================================
+function renderQuestionCard(q, idx, ctx, container) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.dataset.idx = idx;
+
+  let inner = `
+    <div class="q-tag ${q.tag}">${q.tagLabel}</div>
+    <div class="q-text"><span class="q-num">${idx+1}.</span>${q.prompt}</div>`;
+
+  if (q.options) {
+    inner += `<div class="q-options">`;
+    q.options.forEach(o => {
+      inner += `<button class="q-option" data-val="${o.value}">${o.label}</button>`;
+    });
+    inner += `</div>`;
+  } else if (q.inputs && q.inputs.length === 1) {
+    inner += `
+      <div class="q-row">
+        <input type="text" class="q-input" placeholder="${q.inputs[0].placeholder}" autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>`;
+  } else if (q.inputs && q.inputs.length === 2) {
+    // Twee invulvelden, gestapeld
+    inner += `
+      <div class="q-row q-row-stacked">
+        <input type="text" class="q-input" data-i="0" placeholder="${q.inputs[0].placeholder}" autocomplete="off" spellcheck="false">
+        <input type="text" class="q-input" data-i="1" placeholder="${q.inputs[1].placeholder}" autocomplete="off" spellcheck="false">
+        <button class="check-btn">Controleer</button>
+      </div>`;
+  }
+  inner += `<div class="q-feedback"></div>`;
+  card.innerHTML = inner;
+  container.appendChild(card);
+
+  let answered = false;
+
+  const handleAnswer = () => {
+    if (answered) return;
+    let correct = false;
+    let userInputDisplay = '';
+
+    if (q.options) {
+      // wordt afgehandeld door optionClick
+      return;
+    }
+
+    if (q.inputs.length === 1) {
+      const input = card.querySelector('.q-input');
+      const val = input.value;
+      if (!val.trim()) return;
+      correct = checkAnswerText(val, q.inputs[0].accepted);
+      userInputDisplay = val;
+    } else if (q.inputs.length === 2) {
+      const inputs = card.querySelectorAll('.q-input');
+      const v0 = inputs[0].value;
+      const v1 = inputs[1].value;
+      if (!v0.trim() || !v1.trim()) return;
+      const ok0 = checkAnswerText(v0, q.inputs[0].accepted);
+      const ok1 = checkAnswerText(v1, q.inputs[1].accepted);
+      correct = ok0 && ok1;
+      userInputDisplay = v0 + ' / ' + v1;
+    }
+    answered = true;
+    finalizeAnswer(card, q, correct, userInputDisplay, ctx);
+  };
+
+  // Bind input events
+  if (q.options) {
+    card.querySelectorAll('.q-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (answered) return;
+        const v = btn.dataset.val;
+        const correct = (v === q.correct);
+        answered = true;
+        // Mark this option
+        if (correct) btn.classList.add('correct');
+        else {
+          btn.classList.add('incorrect');
+          // toon ook het juiste
+          card.querySelectorAll('.q-option').forEach(b => {
+            if (b.dataset.val === q.correct) b.classList.add('correct');
+          });
+        }
+        card.querySelectorAll('.q-option').forEach(b => b.disabled = true);
+        finalizeAnswer(card, q, correct, btn.textContent, ctx);
+      });
+    });
+  } else {
+    const checkBtn = card.querySelector('.check-btn');
+    checkBtn.addEventListener('click', handleAnswer);
+    card.querySelectorAll('.q-input').forEach(inp => {
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleAnswer();
+      });
+    });
+  }
+
+  return card;
+}
+
+function finalizeAnswer(card, q, correct, userInputDisplay, ctx) {
+  const fb = card.querySelector('.q-feedback');
+  if (correct) {
+    card.classList.add('correct');
+    if (!q.options) {
+      card.querySelectorAll('.q-input').forEach(i => i.classList.add('correct-input'));
+    }
+    card.querySelectorAll('button, input').forEach(el => el.disabled = true);
+    fb.innerHTML = `✓ ${randomPraise()}`;
+    fb.className = 'q-feedback good visible';
+
+    if (ctx === 'errors') {
+      const realIdx = errorBag.findIndex(e => e.q === q);
+      if (realIdx >= 0) errorBag.splice(realIdx, 1);
+      updateErrorBadge();
+      const remEl = document.getElementById('errors-remaining');
+      if (remEl) remEl.textContent = errorBag.length;
+      setTimeout(() => {
+        card.classList.add('fading');
+        setTimeout(() => {
+          card.style.display = 'none';
+          if (errorBag.length === 0) renderErrors();
+        }, 500);
+      }, 1000);
+    } else if (ctx === 'diag') {
+      diagState.score++;
+      document.getElementById('diag-score').textContent = diagState.score;
+      setTimeout(() => diagNext(), 900);
+    } else if (ctx === 'pertype') {
+      pertypeState.score++;
+      document.getElementById('pertype-score').textContent = pertypeState.score;
+      setTimeout(() => pertypeNext(), 900);
+    }
+  } else {
+    card.classList.add('incorrect');
+    if (!q.options) {
+      card.querySelectorAll('.q-input').forEach(i => i.classList.add('wrong-input'));
+    }
+    card.querySelectorAll('button:not(.next-btn), input').forEach(el => el.disabled = true);
+    fb.innerHTML = `✗ Het juiste antwoord: <strong>${q.correctLabel}</strong>`;
+    fb.className = 'q-feedback bad visible';
+
+    if (ctx === 'diag' || ctx === 'pertype') {
+      logError(q, userInputDisplay);
+      // toon next-knop
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'next-btn';
+      nextBtn.textContent = 'Volgende →';
+      nextBtn.onclick = () => {
+        if (ctx === 'diag') diagNext();
+        else pertypeNext();
+      };
+      fb.appendChild(document.createElement('br'));
+      fb.appendChild(nextBtn);
+      // focus op next zodat Enter werkt
+      setTimeout(() => nextBtn.focus(), 50);
+    }
+  }
+}
+
+// ==========================================================================
+// TAB 1 — OEFENRONDE (gemixte ronde van 30 vragen)
+// ==========================================================================
+const diagState = {
+  questions: [],
+  currentIdx: 0,
+  score: 0,
+  total: 30
+};
+
+function buildDiagQuestions(n) {
+  const out = [];
+  // Alle generators in een gewogen mix
+  // Distributie ongeveer in lijn met de toets:
+  // veel verbes (V4/V5/V8), passé composé (V12), pronominaux (V6/V7),
+  // démonstratifs (V9), encercle (V10), vocab (V11), pluriel (Vpl)
+  const weights = [
+    { gen: genV4, w: 3 },
+    { gen: genV5, w: 2 },
+    { gen: genV6, w: 2 },
+    { gen: genV7, w: 3 },
+    { gen: genV8, w: 3 },
+    { gen: genV9, w: 3 },
+    { gen: genV10, w: 3 },
+    { gen: genV11, w: 4 },
+    { gen: genV12, w: 4 },
+    { gen: genVPL, w: 2 }
+  ];
+  const bag = [];
+  weights.forEach(({ gen, w }) => { for (let i = 0; i < w; i++) bag.push(gen); });
+  for (let i = 0; i < n; i++) {
+    const g = pick(bag);
+    out.push(g());
+  }
+  return out;
+}
+
+function startDiag() {
+  diagState.questions = buildDiagQuestions(diagState.total);
+  diagState.currentIdx = 0;
+  diagState.score = 0;
+  document.getElementById('diag-intro').style.display = 'none';
+  document.getElementById('diag-celebration').classList.remove('visible');
+  document.getElementById('diag-quiz').classList.add('active');
+  document.getElementById('diag-score').textContent = '0';
+  document.getElementById('diag-current').textContent = '1';
+  document.getElementById('diag-total').textContent = diagState.total;
+  document.getElementById('diag-progress').style.width = '0%';
+  showDiagQuestion();
+}
+
+function showDiagQuestion() {
+  const c = document.getElementById('diag-q-container');
+  c.innerHTML = '';
+  const q = diagState.questions[diagState.currentIdx];
+  renderQuestionCard(q, diagState.currentIdx, 'diag', c);
+  document.getElementById('diag-current').textContent = (diagState.currentIdx + 1);
+  document.getElementById('diag-progress').style.width = ((diagState.currentIdx) / diagState.total * 100) + '%';
+  // focus eerste input
+  setTimeout(() => {
+    const firstInput = c.querySelector('input.q-input');
+    if (firstInput) firstInput.focus();
+  }, 200);
+}
+
+function diagNext() {
+  diagState.currentIdx++;
+  if (diagState.currentIdx >= diagState.total) {
+    finishDiag();
+    return;
+  }
+  document.getElementById('diag-progress').style.width = (diagState.currentIdx / diagState.total * 100) + '%';
+  showDiagQuestion();
+}
+
+function finishDiag() {
+  document.getElementById('diag-quiz').classList.remove('active');
+  document.getElementById('diag-progress').style.width = '100%';
+  const cel = document.getElementById('diag-celebration');
+  const pct = Math.round(diagState.score / diagState.total * 100);
+  let title, msg;
+  if (pct === 100) { title = '🌟 Parfait !'; msg = 'Alles juist — fantastisch! Je bent klaar voor de toets.'; }
+  else if (pct >= 80) { title = '🎉 Très bien !'; msg = 'Heel goed! Bekijk Mijn Fouten en je bent helemaal in orde.'; }
+  else if (pct >= 60) { title = '💪 Bien !'; msg = 'Goed bezig! Bekijk de fouten en oefen ze gericht onder Per toetsvraag.'; }
+  else { title = '📚 Encore !'; msg = 'Bekijk de spiekkaart en oefen de zwakke onderdelen gericht.'; }
+  document.getElementById('diag-celeb-title').innerHTML = title;
+  document.getElementById('diag-celeb-msg').textContent = msg;
+  document.getElementById('diag-celeb-score').textContent = `${diagState.score}/${diagState.total}`;
+  cel.classList.add('visible');
+}
+
+function resetDiag() {
+  document.getElementById('diag-quiz').classList.remove('active');
+  document.getElementById('diag-celebration').classList.remove('visible');
+  document.getElementById('diag-intro').style.display = '';
+}
+
+// ==========================================================================
+// TAB 2 — PER TOETSVRAAG
+// ==========================================================================
+const pertypeState = {
+  type: null,
+  questions: [],
+  currentIdx: 0,
+  score: 0,
+  total: 10
+};
+
+function renderPertypePicker() {
+  const picker = document.getElementById('pertype-picker');
+  picker.innerHTML = '';
+  VRAAGTYPES.forEach(vt => {
+    const btn = document.createElement('button');
+    btn.className = 'type-card';
+    btn.innerHTML = `
+      <div class="type-vraag">${vt.vraag}</div>
+      <div class="type-titel">${vt.titel}</div>
+      <div class="type-sub">${vt.sub}</div>`;
+    btn.onclick = () => startPertype(vt);
+    picker.appendChild(btn);
+  });
+  document.getElementById('pertype-quiz').classList.remove('active');
+  document.getElementById('pertype-celebration').classList.remove('visible');
+  document.getElementById('pertype-intro').style.display = '';
+  picker.style.display = '';
+}
+
+function startPertype(vt) {
+  pertypeState.type = vt;
+  pertypeState.questions = [];
+  for (let i = 0; i < pertypeState.total; i++) pertypeState.questions.push(vt.gen());
+  pertypeState.currentIdx = 0;
+  pertypeState.score = 0;
+  document.getElementById('pertype-active-title').textContent = vt.vraag + ' — ' + vt.titel;
+  document.getElementById('pertype-active-desc').textContent = vt.sub;
+  document.getElementById('pertype-intro').style.display = 'none';
+  document.getElementById('pertype-picker').style.display = 'none';
+  document.getElementById('pertype-celebration').classList.remove('visible');
+  document.getElementById('pertype-quiz').classList.add('active');
+  document.getElementById('pertype-current').textContent = '1';
+  document.getElementById('pertype-total').textContent = pertypeState.total;
+  document.getElementById('pertype-score').textContent = '0';
+  document.getElementById('pertype-progress').style.width = '0%';
+  showPertypeQuestion();
+}
+
+function restartPertype() {
+  if (pertypeState.type) startPertype(pertypeState.type);
+}
+
+function showPertypeQuestion() {
+  const c = document.getElementById('pertype-q-container');
+  c.innerHTML = '';
+  const q = pertypeState.questions[pertypeState.currentIdx];
+  renderQuestionCard(q, pertypeState.currentIdx, 'pertype', c);
+  document.getElementById('pertype-current').textContent = (pertypeState.currentIdx + 1);
+  document.getElementById('pertype-progress').style.width = (pertypeState.currentIdx / pertypeState.total * 100) + '%';
+  setTimeout(() => {
+    const firstInput = c.querySelector('input.q-input');
+    if (firstInput) firstInput.focus();
+  }, 200);
+}
+
+function pertypeNext() {
+  pertypeState.currentIdx++;
+  if (pertypeState.currentIdx >= pertypeState.total) {
+    finishPertype();
+    return;
+  }
+  document.getElementById('pertype-progress').style.width = (pertypeState.currentIdx / pertypeState.total * 100) + '%';
+  showPertypeQuestion();
+}
+
+function finishPertype() {
+  document.getElementById('pertype-quiz').classList.remove('active');
+  document.getElementById('pertype-progress').style.width = '100%';
+  const cel = document.getElementById('pertype-celebration');
+  const pct = Math.round(pertypeState.score / pertypeState.total * 100);
+  let title, msg;
+  if (pct === 100) { title = '🌟 Parfait !'; msg = 'Alles juist op deze vraag — sterk!'; }
+  else if (pct >= 80) { title = '🎉 Très bien !'; msg = 'Bijna alles juist. Even Mijn Fouten herhalen en je hebt het binnen.'; }
+  else if (pct >= 60) { title = '💪 Bien !'; msg = 'Goed bezig. Doe het nog een keer of bekijk de spiekkaart.'; }
+  else { title = '📚 Encore !'; msg = 'Bekijk de spiekkaart voor dit onderwerp en probeer opnieuw.'; }
+  document.getElementById('pertype-celeb-title').innerHTML = title;
+  document.getElementById('pertype-celeb-msg').textContent = msg;
+  document.getElementById('pertype-celeb-score').textContent = `${pertypeState.score}/${pertypeState.total}`;
+  cel.classList.add('visible');
+}
+
+function endPertype() {
+  document.getElementById('pertype-quiz').classList.remove('active');
+  document.getElementById('pertype-celebration').classList.remove('visible');
+  renderPertypePicker();
+}
+
+// ==========================================================================
+// TAB 4 — SPIEKKAART
+// ==========================================================================
+// Cheat is pre-gerenderd in de HTML — JS-renderer hoeft niet meer te draaien
+let cheatRendered = true;
+function renderCheat() {
+  if (cheatRendered) return;
+  cheatRendered = true;
+  const c = document.getElementById('cheat-content');
+
+  // Helper voor vocab-grid
+  const vocabGrid = (items) => `
+    <div class="cheat-vocab-grid">
+      ${items.map(i => `<div class="item"><span class="fr">${i.fr}</span><span class="nl">${i.nl}</span></div>`).join('')}
+    </div>`;
+
+  c.innerHTML = `
+
+    <!-- 1. Verbes en -RE -->
+    <div class="cheat-block">
+      <h2>📐 Verbes en -RE — vervoegingen</h2>
+      <p class="sub">De drie families: regelmatig (perdre, rendre, attendre, vendre), met dubbele n (prendre, comprendre), met t-verlies (mettre), en de -IRE familie (écrire, lire, dire, traduire, conduire).</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>perdre</th><th>prendre</th><th>mettre</th><th>écrire</th><th>lire</th><th>dire</th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je</td><td>perds</td><td>prends</td><td>mets</td><td>écris</td><td>lis</td><td>dis</td></tr>
+          <tr><td class="pronom">tu</td><td>perds</td><td>prends</td><td>mets</td><td>écris</td><td>lis</td><td>dis</td></tr>
+          <tr><td class="pronom">il/elle</td><td>perd</td><td>prend</td><td>met</td><td>écrit</td><td>lit</td><td>dit</td></tr>
+          <tr><td class="pronom">nous</td><td>perdons</td><td>prenons</td><td>mettons</td><td>écrivons</td><td>lisons</td><td>disons</td></tr>
+          <tr><td class="pronom">vous</td><td>perdez</td><td>prenez</td><td>mettez</td><td>écrivez</td><td>lisez</td><td><strong>dites</strong></td></tr>
+          <tr><td class="pronom">ils/elles</td><td>perdent</td><td><strong>prennent</strong></td><td>mettent</td><td>écrivent</td><td>lisent</td><td>disent</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Valstrik:</strong> bij <em>prendre</em> en <em>comprendre</em> hebben ils/elles <strong>dubbele n</strong> (ils prennent). Bij <em>dire</em> is het <strong>vous dites</strong>, niet "disez". Bij <em>mettre</em>: één t bij je/tu/il, dubbele t vanaf nous.</div>
+    </div>
+
+    <!-- 2. Verbes pronominaux -->
+    <div class="cheat-block">
+      <h2>🔁 Verbes pronominaux</h2>
+      <p class="sub">Wederkerige werkwoorden — werkwoord + reflexief voornaamwoord.</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>se laver</th><th>s'habiller</th><th>se lever</th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je</td><td>me lave</td><td><strong>m'habille</strong></td><td>me lève</td></tr>
+          <tr><td class="pronom">tu</td><td>te laves</td><td>t'habilles</td><td>te lèves</td></tr>
+          <tr><td class="pronom">il/elle</td><td>se lave</td><td>s'habille</td><td>se lève</td></tr>
+          <tr><td class="pronom">nous</td><td>nous lavons</td><td>nous habillons</td><td>nous levons</td></tr>
+          <tr><td class="pronom">vous</td><td>vous lavez</td><td>vous habillez</td><td>vous levez</td></tr>
+          <tr><td class="pronom">ils/elles</td><td>se lavent</td><td>s'habillent</td><td>se lèvent</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Voor klinker of stille h:</strong> me/te/se worden m'/t'/s' (je <strong>m'</strong>amuse, tu <strong>t'</strong>habilles). Onthoud de werkwoorden: se réveiller, se lever, se laver, s'habiller, se brosser, se raser, se peigner, se sentir, se tromper, se promener, se détendre, s'amuser, se coucher, se présenter.</div>
+    </div>
+
+    <!-- 3. Passé composé -->
+    <div class="cheat-block">
+      <h2>⏪ Passé composé (-ER werkwoorden)</h2>
+      <p class="sub">Voor de toets: enkel werkwoorden op -ER met hulpwerkwoord <em>avoir</em>.</p>
+      <p><strong>Recept:</strong> persoonsvorm van <em>avoir</em> + <strong>participe passé</strong> (-er → <strong>-é</strong>)</p>
+      <table class="conj-table">
+        <thead><tr><th>Persoon</th><th>avoir (hulp)</th><th>+ participe</th><th>= passé composé van <em>parler</em></th></tr></thead>
+        <tbody>
+          <tr><td class="pronom">je / j'</td><td>ai</td><td>parlé</td><td><strong>j'ai parlé</strong></td></tr>
+          <tr><td class="pronom">tu</td><td>as</td><td>parlé</td><td>tu as parlé</td></tr>
+          <tr><td class="pronom">il/elle/on</td><td>a</td><td>parlé</td><td>il a parlé</td></tr>
+          <tr><td class="pronom">nous</td><td>avons</td><td>parlé</td><td>nous avons parlé</td></tr>
+          <tr><td class="pronom">vous</td><td>avez</td><td>parlé</td><td>vous avez parlé</td></tr>
+          <tr><td class="pronom">ils/elles</td><td>ont</td><td>parlé</td><td>ils ont parlé</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Stappenplan voor elk -ER werkwoord:</strong> 1) neem de stam (parler → parl), 2) voeg <strong>-é</strong> toe (parlé), 3) zet er de juiste vorm van <em>avoir</em> voor. <em>Regarder</em> → j'ai regardé, tu as regardé, il a regardé... Werkt voor: parler, regarder, écouter, jouer, danser, chanter, manger, donner, demander, penser, gagner, cacher, porter, chercher, compter, trouver, fermer, raconter, dessiner, sauter, passer, aider, pleurer.</div>
+    </div>
+
+    <!-- 4. Adjectifs démonstratifs -->
+    <div class="cheat-block">
+      <h2>👉 Adjectifs démonstratifs (ce/cet/cette/ces)</h2>
+      <p class="sub">Aanwijzende voornaamwoorden — vervangen het lidwoord en betekenen "deze/dit/die/dat".</p>
+      <table class="demo-table">
+        <thead><tr><th></th><th>Enkelvoud</th><th>Meervoud</th></tr></thead>
+        <tbody>
+          <tr><th>Mannelijk</th><td><span class="word">ce</span> garage, <span class="word">ce</span> lit</td><td rowspan="2"><span class="word">ces</span> toilettes, <span class="word">ces</span> chambres</td></tr>
+          <tr><th>Vrouwelijk</th><td><span class="word">cette</span> cuisine, <span class="word">cette</span> table</td></tr>
+          <tr><th>Mannelijk + klinker/h</th><td colspan="2"><span class="word">cet</span> appartement, <span class="word">cet</span> escalier, <span class="word">cet</span> ordinateur</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Onthoud:</strong> alleen mannelijke woorden die met een <strong>klinker (a, e, i, o, u) of stille h</strong> beginnen krijgen <em>cet</em>. Zo voorkom je een lelijke botsing: niet "ce ordinateur" maar <em>cet ordinateur</em>. Vrouwelijke woorden zijn altijd <em>cette</em>, ook als ze met een klinker beginnen (cette armoire, cette horloge).</div>
+    </div>
+
+    <!-- 5. Pluriel substantif -->
+    <div class="cheat-block">
+      <h2>➕ Meervoud van zelfstandige naamwoorden</h2>
+      <p class="sub">Les van 6 mei — de regels voor het meervoud.</p>
+      <table class="demo-table">
+        <thead><tr><th>Regel</th><th>Voorbeeld enkelvoud</th><th>Meervoud</th></tr></thead>
+        <tbody>
+          <tr><td><strong>+s</strong> (standaard)</td><td>une pomme, un salami</td><td>deux pommes, quatre salamis</td></tr>
+          <tr><td><strong>eau → eaux</strong></td><td>un poireau, un bureau</td><td>des poireaux, des bureaux</td></tr>
+          <tr><td><strong>eu → eux</strong></td><td>un jeu</td><td>des jeux</td></tr>
+          <tr><td><strong>al → aux</strong></td><td>un journal, un cheval</td><td>des journaux, des chevaux</td></tr>
+          <tr><td><strong>x = x</strong> (eindigt al op -x)</td><td>un prix</td><td>des prix</td></tr>
+          <tr><td><strong>s = s</strong> (eindigt al op -s)</td><td>un jus, un mois</td><td>des jus, des mois</td></tr>
+        </tbody>
+      </table>
+      <div class="attention"><strong>Onthoud:</strong> de <em>s</em> wordt niet uitgesproken (uitspraak is dezelfde voor enkelvoud en meervoud), <strong>behalve</strong> als het volgende woord met een klinker of stille h begint — dan hoor je een [z]: des écoles [dez_ekol], des hôtels [dez_otel].</div>
+    </div>
+
+    <!-- 6. La maison -->
+    <div class="cheat-block">
+      <h2>🏠 La maison — woorden + geslacht</h2>
+      <p class="sub">Onthoud altijd <strong>het lidwoord</strong> erbij — un, une of les.</p>
+      <div class="cheat-grid-3">
+        <div class="cheat-col masc">
+          <h4>m. (un / le)</h4>
+          <ul>${VOCAB_MAISON.filter(w => w.gender === 'masc').map(w => `<li>${w.fr}<span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+        <div class="cheat-col fem">
+          <h4>f. (une / la)</h4>
+          <ul>${VOCAB_MAISON.filter(w => w.gender === 'fem').map(w => `<li>${w.fr}<span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+        <div class="cheat-col plur">
+          <h4>pl. (les)</h4>
+          <ul>${VOCAB_MAISON.filter(w => w.gender === 'plur').map(w => `<li>${w.fr}<span class="nl">${w.nl}</span></li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Objets + adjectief geslacht -->
+    <div class="cheat-block">
+      <h2>🎨 Adjectief: m. → f.</h2>
+      <p class="sub">Een adjectief past zich aan het geslacht aan. Voor kleuren met <em>twee vormen</em>:</p>
+      <table class="conj-table">
+        <thead><tr><th>NL</th><th>m.</th><th>f.</th></tr></thead>
+        <tbody>
+          ${COULEURS_VAR.map(c => `<tr><td>${c.nl}</td><td>${c.m}</td><td><strong>${c.f}</strong></td></tr>`).join('')}
+        </tbody>
+      </table>
+      <p style="margin-top:8px;"><strong>Onveranderlijk</strong> (zelfde vorm m/f): ${COULEURS_INV.map(c => `<em>${c.fr}</em>`).join(', ')}.</p>
+      <div class="attention"><strong>Recept:</strong> kijk naar het lidwoord van het zelfstandig naamwoord. <em>Une lampe</em> → vrouwelijk → <em>une lampe rouge</em> (rouge is invariant — geen verandering nodig). <em>Une porte bleu<strong>e</strong></em> (bleu krijgt een -e). Maar <em>un mur blanc</em> → <em>blanc</em> blijft. Pas op: <em>blanche</em> (f), <em>brune</em> (f), <em>verte</em> (f).</div>
+    </div>
+
+    <!-- 8. Alimentation -->
+    <div class="cheat-block">
+      <h2>🛒 L'alimentation — woordenschat</h2>
+      <p class="sub">Voor V11: vertaal FR↔NL. Hier alles op een rij.</p>
+      ${vocabGrid(VOCAB_ALIM)}
+      <div class="attention"><strong>Valstrikken:</strong> <em>une orange</em> = appelsien (fruit), niet de kleur. <em>Une laitue</em> = sla (niets met "lait"/melk). <em>Un poireau</em> = prei, <em>un poivron</em> = paprika. <em>Avoir besoin de ...</em> en <em>avoir envie de ...</em> staan altijd met <strong>de</strong>: j'ai besoin <strong>de</strong> pain, j'ai envie <strong>d'</strong>une glace.</div>
+    </div>
+
+  `;
+}
+
+// ==========================================================================
+// PRINT-ONLY: WERKBLAD + OPLOSSINGEN
+// ==========================================================================
+// Vaste set oefeningen die op papier afdrukbaar zijn (niet runtime).
+// Elk vraagtype: 4 voorbeelden. Oplossingen op aparte pagina.
+
+const WORKSHEET = [
+  {
+    title: 'Vraag 4 — Vervoeg het werkwoord en vertaal de zin',
+    items: [
+      { q: 'Mon papa <span class="print-line short"></span> le journal. (lire)',           a: '<strong>lit</strong> — Mijn papa leest de krant.' },
+      { q: 'Ma soeur et moi <span class="print-line short"></span> le train. (attendre)',  a: '<strong>attendons</strong> — Mijn zus en ik wachten op de trein.' },
+      { q: 'Le professeur <span class="print-line short"></span> une histoire. (écrire)', a: '<strong>écrit</strong> — De leerkracht schrijft een verhaal.' },
+      { q: 'Tu <span class="print-line short"></span> la leçon. (comprendre)',             a: '<strong>comprends</strong> — Jij begrijpt de les.' }
+    ]
+  },
+  {
+    title: 'Vraag 5 — Verbeter de fout in de zin',
+    items: [
+      { q: 'Je écrit une lettre à mon amie.', a: "J'écris une lettre à mon amie." },
+      { q: 'Nous traduisez ce texte.',         a: 'Nous traduisons ce texte.' },
+      { q: 'Tu rend ton devoir en classe.',    a: 'Tu rends ton devoir en classe.' },
+      { q: 'Vous disez bonjour.',              a: 'Vous dites bonjour.' }
+    ]
+  },
+  {
+    title: 'Vraag 6 — Vertaal in het Nederlands',
+    items: [
+      { q: '1. se réveiller', a: 'wakker worden' },
+      { q: '2. se tromper',   a: 'zich vergissen' },
+      { q: '3. se détendre',  a: 'zich ontspannen' },
+      { q: '4. se raser',     a: 'zich scheren' }
+    ]
+  },
+  {
+    title: 'Vraag 7 — Vertaal in het Frans (let op de pronom!)',
+    items: [
+      { q: '1. Jij gaat slapen.',   a: 'tu te couches' },
+      { q: '2. Jullie wandelen.',   a: 'vous vous promenez' },
+      { q: '3. Wij kleden ons aan.', a: "nous nous habillons" },
+      { q: '4. Zij voelt zich goed.', a: 'elle se sent bien' }
+    ]
+  },
+  {
+    title: 'Vraag 8 — Verander naar het andere onderwerp',
+    items: [
+      { q: 'Nous lisons → je ___',     a: 'je lis' },
+      { q: 'Tu attends → nous ___',    a: 'nous attendons' },
+      { q: 'Il prend → ils ___',       a: 'ils prennent' },
+      { q: "J'écris → nous ___",       a: 'nous écrivons' }
+    ]
+  },
+  {
+    title: 'Vraag 9 — Vervang het lidwoord door ce / cet / cette / ces',
+    items: [
+      { q: '1. une cuisine → ___ cuisine',    a: 'cette cuisine' },
+      { q: '2. un garage → ___ garage',       a: 'ce garage' },
+      { q: '3. une étagère → ___ étagère',    a: 'cette étagère' },
+      { q: "4. l'appartement → ___ appartement", a: 'cet appartement' },
+      { q: '5. les toilettes → ___ toilettes', a: 'ces toilettes' }
+    ]
+  },
+  {
+    title: 'Vraag 10 — Encercle: welke vorm is juist?',
+    items: [
+      { q: '1. une armoire grise / un armoire gris',     a: 'une armoire grise' },
+      { q: '2. un mur blanc / une mur blanche',          a: 'un mur blanc' },
+      { q: '3. une chaise noire / un chaise noir',       a: 'une chaise noire' },
+      { q: '4. une porte bleue / un porte bleu',         a: 'une porte bleue' },
+      { q: '5. un fauteuil mauve / une fauteuil mauve',  a: 'un fauteuil mauve' }
+    ]
+  },
+  {
+    title: 'Vraag 11 — Vertaal de woorden',
+    items: [
+      { q: '1. la boucherie',   a: 'de slagerij' },
+      { q: '2. de bakker',      a: 'la boulangerie' },
+      { q: '3. een perzik',     a: 'une pêche' },
+      { q: "4. l'épicerie",     a: 'de kruidenierswinkel' },
+      { q: '5. boodschappen doen', a: 'faire des courses' },
+      { q: '6. het vlees',      a: 'la viande' }
+    ]
+  },
+  {
+    title: 'Vraag 12 — Zet om naar passé composé',
+    items: [
+      { q: '1. je regarde →',     a: "j'ai regardé" },
+      { q: '2. nous parlons →',   a: 'nous avons parlé' },
+      { q: '3. tu passes →',      a: 'tu as passé' },
+      { q: '4. on danse →',       a: 'on a dansé' },
+      { q: '5. elle aide →',      a: 'elle a aidé' },
+      { q: '6. ils gagnent →',    a: 'ils ont gagné' },
+      { q: '7. vous écoutez →',   a: 'vous avez écouté' },
+      { q: '8. papa raconte →',   a: 'papa a raconté' }
+    ]
+  },
+  {
+    title: 'Extra — Pluriel/singulier',
+    items: [
+      { q: '1. un chat → ___',       a: 'des chats' },
+      { q: '2. un journal → ___',    a: 'des journaux' },
+      { q: '3. un bureau → ___',     a: 'des bureaux' },
+      { q: '4. un prix → ___',       a: 'des prix (x = x)' },
+      { q: '5. un jeu → ___',        a: 'des jeux (eu → eux)' },
+      { q: '6. un cheveu → ___', a: 'des cheveux (eu → eux)' }
+    ]
+  }
+];
+
+function renderWorksheet() {
+  // No-op: worksheet en answers staan al statisch in de HTML
+  return;
+}
+
+// ==========================================================================
+// INIT
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderWorksheet();
+  // Print-knop verbergen op niet-cheat tabs (initieel: actief is diagnose)
+  const printBtn = document.getElementById('print-btn');
+  if (printBtn) printBtn.style.display = 'none';
+});
+
+// Direct uitvoeren ook (in geval DOMContentLoaded al gepasseerd is)
+renderWorksheet();
+const _initPrintBtn = document.getElementById('print-btn');
+if (_initPrintBtn) _initPrintBtn.style.display = 'none';
+
+</script>
+</body>
+</html>
