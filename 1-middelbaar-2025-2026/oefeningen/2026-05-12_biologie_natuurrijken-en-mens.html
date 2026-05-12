@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inleiding biologie: de natuurrijken en de mens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #95A886;
+  --vak-color-dark: #7A8B6F;
+  --vak-color-light: #B5C2A8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%237A8B6F' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%237A8B6F' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.2s;
+}
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+  animation: fadeSlideUp 0.6s ease;
+}
+.subject-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3);
+  flex-shrink: 0;
+}
+.title-block h1 {
+  margin: 0;
+  font-family: 'Vollkorn', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-top: 2px;
+}
+
+.intro-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  color: var(--warm-brown);
+  margin: 0 0 24px;
+  line-height: 1.5;
+  opacity: 0.85;
+  animation: fadeSlideUp 0.7s ease;
+}
+
+/* Tabs */
+.mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: rgba(255, 253, 247, 0.6);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06);
+}
+.tab-btn {
+  flex: 1;
+  min-width: 110px;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.tab-btn:hover { background: rgba(122, 139, 111, 0.1); }
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  box-shadow: 0 2px 8px rgba(122, 139, 111, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+
+/* Theory cards */
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.theory-card h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.theory-card h3 {
+  font-family: 'Vollkorn', serif;
+  font-size: 18px;
+  color: var(--rust);
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+.theory-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+  color: var(--dark-brown);
+}
+
+/* Het verhaal — special styling */
+.story-quote {
+  font-family: 'Vollkorn', serif;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--warm-brown);
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--sand-light) 100%);
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin: 14px 0;
+  border-left: 4px solid var(--ochre);
+  position: relative;
+}
+.story-quote::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  font-family: 'Caveat', cursive;
+  font-size: 60px;
+  color: var(--ochre);
+  opacity: 0.6;
+  line-height: 1;
+}
+.story-quote .highlight {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--rust);
+  letter-spacing: 0.5px;
+}
+
+.morning-prayer {
+  background: linear-gradient(135deg, #FFFDF7 0%, var(--cream) 100%);
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin: 18px 0;
+  border: 2px dashed var(--vak-color-light);
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--olive-dark);
+  text-align: center;
+  line-height: 1.6;
+}
+.morning-prayer .prayer-line {
+  display: block;
+  margin: 6px 0;
+}
+.morning-prayer .prayer-keyword {
+  color: var(--rust);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.morning-prayer .prayer-title {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--vak-color-dark);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.definition-box {
+  background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--sage) 100%);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  color: var(--dark-brown);
+  text-align: center;
+  font-family: 'Vollkorn', serif;
+  font-size: 19px;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.2);
+}
+.definition-box .word {
+  color: var(--rust);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* De vier rijken — interactieve trap */
+.kingdoms-intro {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.staircase {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  margin: 24px 0;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--warm-white);
+  border-radius: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.08);
+  transition: all 0.3s;
+  border-left: 5px solid var(--vak-color-light);
+  position: relative;
+}
+.step:hover { transform: translateX(4px); box-shadow: 0 4px 14px rgba(92, 64, 51, 0.12); }
+.step.active {
+  border-left-color: var(--rust);
+  background: linear-gradient(135deg, var(--warm-white) 0%, var(--sand-light) 100%);
+  box-shadow: 0 4px 16px rgba(122, 139, 111, 0.2);
+}
+
+/* Treden inspringen */
+.step-1 { margin-left: 0; }
+.step-2 { margin-left: 20px; }
+.step-3 { margin-left: 40px; }
+.step-4 { margin-left: 60px; }
+
+.step-emoji {
+  font-size: 38px;
+  flex-shrink: 0;
+  width: 60px;
+  text-align: center;
+}
+.step-info { flex: 1; min-width: 0; }
+.step-name {
+  font-family: 'Vollkorn', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  margin: 0;
+}
+.step-tagline {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--vak-color-dark);
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+.step-arrow {
+  font-size: 20px;
+  color: var(--vak-color-dark);
+  transition: transform 0.3s;
+}
+.step.active .step-arrow { transform: rotate(90deg); }
+
+.step-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.step.active .step-details { max-height: 800px; }
+
+.step-details-inner {
+  padding: 14px 20px 18px 80px;
+  font-family: 'Vollkorn', serif;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--dark-brown);
+}
+.step-details-inner .new-quality {
+  background: linear-gradient(120deg, transparent 0%, rgba(212, 168, 67, 0.25) 50%, transparent 100%);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--rust);
+}
+.step-details-inner ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.step-details-inner li {
+  margin: 4px 0;
+}
+.step-details-inner .keyword {
+  font-weight: 700;
+  color: var(--rust);
+}
+
+.cumulative-hint {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  color: var(--olive-dark);
+  font-style: italic;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(168, 184, 154, 0.15);
+  border-radius: 8px;
+}
+
+/* Mens & Plant */
+.mens-plant-intro {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.mens-plant-wrapper {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 2px 12px rgba(92, 64, 51, 0.08);
+  margin-bottom: 20px;
+}
+
+.mens-plant-svg-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+}
+.mens-plant-svg-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.svg-region {
+  cursor: pointer;
+  transition: opacity 0.25s;
+}
+.svg-region:hover { opacity: 0.75; }
+.svg-region.active .region-shape { stroke-width: 3; }
+
+.region-shape {
+  transition: all 0.3s;
+}
+
+.svg-label {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--warm-brown);
+  pointer-events: none;
+}
+
+.region-info {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--sand-light) 100%);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-top: 18px;
+  border-left: 4px solid var(--rust);
+  min-height: 90px;
+}
+.region-info-empty {
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--vak-color-dark);
+  padding: 18px;
+}
+.region-info h4 {
+  font-family: 'Vollkorn', serif;
+  font-size: 18px;
+  color: var(--rust);
+  margin: 0 0 10px;
+}
+.region-info .compare-row {
+  display: flex;
+  gap: 16px;
+  margin: 8px 0;
+  font-size: 15px;
+}
+.region-info .compare-side {
+  flex: 1;
+  background: var(--warm-white);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.region-info .compare-side strong {
+  color: var(--vak-color-dark);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Quiz */
+.quiz-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.quiz-number {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-bottom: 6px;
+}
+.quiz-question {
+  font-family: 'Vollkorn', serif;
+  font-size: 17px;
+  color: var(--dark-brown);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.quiz-question .quote {
+  font-style: italic;
+  background: rgba(212, 168, 67, 0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quiz-option {
+  padding: 10px 16px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 22px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--dark-brown);
+}
+.quiz-option:hover {
+  border-color: var(--vak-color);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(122, 139, 111, 0.15);
+}
+.quiz-option.correct {
+  background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%);
+  border-color: var(--olive-dark);
+  color: white;
+  animation: pop 0.4s ease;
+}
+.quiz-option.incorrect {
+  background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%);
+  border-color: var(--rust);
+  color: white;
+  animation: shake 0.4s ease;
+}
+.quiz-option.show-correct {
+  background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%);
+  border-color: var(--olive-dark);
+  color: white;
+}
+.quiz-option:disabled { cursor: default; }
+
+.quiz-feedback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  display: none;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good {
+  background: rgba(168, 201, 154, 0.25);
+  color: var(--olive-dark);
+}
+.quiz-feedback.bad {
+  background: rgba(194, 112, 78, 0.15);
+  color: var(--rust);
+}
+
+/* Score bar */
+.score-bar {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.25);
+}
+.score-bar.show { display: flex; }
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  margin: 0 14px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+.reset-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 18px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+
+.celebration {
+  background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%);
+  color: white;
+  padding: 22px;
+  border-radius: 16px;
+  text-align: center;
+  font-family: 'Vollkorn', serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 16px 0;
+  display: none;
+  box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3);
+}
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.action-btn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.print-btn {
+  background: var(--warm-white);
+  color: var(--warm-brown);
+  border: 2px solid var(--sand);
+}
+.print-btn:hover { background: var(--cream); border-color: var(--vak-color); }
+.back-btn {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: white;
+}
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); }
+
+/* Print-only content */
+.print-only { display: none; }
+.print-staircase, .print-mens-plant {
+  display: none;
+}
+.print-h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 20px;
+  color: var(--vak-color-dark);
+  margin: 30px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--vak-color-light);
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 19px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 13px; padding: 9px 10px; min-width: 90px; }
+  .step { padding: 12px 14px; gap: 10px; }
+  .step-emoji { font-size: 30px; width: 44px; }
+  .step-name { font-size: 16px; }
+  .step-tagline { font-size: 12px; }
+  .step-2 { margin-left: 10px; }
+  .step-3 { margin-left: 20px; }
+  .step-4 { margin-left: 30px; }
+  .step-details-inner { padding: 12px 14px 14px 56px; font-size: 14.5px; }
+  .theory-card { padding: 18px 18px; }
+  .theory-card h2 { font-size: 19px; }
+  .story-quote { padding: 18px 20px; font-size: 15.5px; }
+  .morning-prayer { padding: 18px 20px; font-size: 19px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .region-info .compare-row { flex-direction: column; gap: 8px; }
+  .definition-box { font-size: 16px; padding: 14px 16px; }
+}
+
+/* PRINT */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-only { display: block !important; }
+
+  .theory-card, .quiz-card, .mens-plant-wrapper, .step {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .story-quote, .morning-prayer, .definition-box, .region-info {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+    page-break-inside: avoid;
+  }
+  .story-quote .highlight, .prayer-keyword, .definition-box .word,
+  .step-details-inner .keyword, .step-details-inner .new-quality {
+    color: #000 !important;
+    background: none !important;
+    font-weight: 700 !important;
+  }
+  .subject-icon { display: none; }
+  .score-bar, .celebration, .reset-btn { display: none !important; }
+
+  /* Trap: alle treden open in print, geen inspringen */
+  .step-1, .step-2, .step-3, .step-4 { margin-left: 0 !important; }
+  .step-details { max-height: none !important; overflow: visible !important; }
+  .step-arrow { display: none; }
+
+  /* Mens & Plant: tab in print verbergen (interactief), print-versie tonen */
+  .mens-plant-wrapper { display: none !important; }
+  .print-mens-plant { display: block !important; }
+
+  /* Quiz in print: hele interactieve container verbergen, alleen print-only versie tonen */
+  #quizContainer { display: none !important; }
+  .quiz-feedback { display: none !important; }
+
+  .print-answers { page-break-before: always; }
+
+  h2.print-h2 { color: #000 !important; border-bottom-color: #888 !important; }
+
+  /* Sectie-headers per tab tonen */
+  .tab-section-header { display: block !important; }
+
+  a { color: black; text-decoration: none; }
+}
+
+.tab-section-header { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Natuurrijken en de mens
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>Inleiding biologie: de natuurrijken en de mens</h1>
+      <div class="date">12 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    Biologie betekent <em>wijsheid van het leven</em>. In deze inleiding ontdek je de vier natuurrijken — mineralen, planten, dieren en de mens — en hoe de mens zelf vergeleken kan worden met de plant.
+  </p>
+
+  <!-- TABS -->
+  <div class="mode-tabs no-print">
+    <button class="tab-btn active" data-tab="verhaal">📖 Het verhaal</button>
+    <button class="tab-btn" data-tab="rijken">🌍 De vier rijken</button>
+    <button class="tab-btn" data-tab="mens-plant">🌱 Mens &amp; Plant</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Wat hoort waar?</button>
+  </div>
+
+  <!-- TAB 1: HET VERHAAL -->
+  <section class="tab-content active" id="tab-verhaal">
+    <h2 class="print-h2 tab-section-header">📖 Het verhaal</h2>
+
+    <div class="theory-card">
+      <h2>Een machtig vorst</h2>
+      <p>
+        Eens ontbood een machtig vorst een van zijn wijze mannen en sprak tot hem:
+      </p>
+      <div class="story-quote">
+        Ik zou graag willen dat men zei dat ik de duurste geschenken ter wereld geef. Wat is het schoonste dat een mens kan bezitten?
+      </div>
+      <p>De wijze man antwoordde:</p>
+      <div class="story-quote">
+        Gij kunt het duurste geschenk ter wereld niet geven. Ieder levend schepsel bezit reeds het meest waardevolle ter wereld: <span class="highlight">het leven</span>! Niets ter wereld, niets in het heelal kan in schoonheid, in wonderbaarlijkheid hiermee wedijveren; het is het kostbaarste van alle geschenken.
+      </div>
+
+      <div class="definition-box">
+        <span class="word">BIOLOGIE</span> betekent <span class="word">WIJSHEID</span> van het <span class="word">LEVEN</span>
+      </div>
+    </div>
+
+    <div class="theory-card">
+      <h2>De ochtendspreuk</h2>
+      <p>In de ochtendspreuk komen de <strong>vier natuurrijken</strong> aan bod:</p>
+
+      <div class="morning-prayer">
+        <span class="prayer-title">Ochtendspreuk</span>
+        <span class="prayer-line">Ik zie rond in de wereld...</span>
+        <span class="prayer-line">waarin de <span class="prayer-keyword">stenen</span> rusten,</span>
+        <span class="prayer-line">de <span class="prayer-keyword">planten</span> levend groeien,</span>
+        <span class="prayer-line">de <span class="prayer-keyword">dieren</span> voelend leven,</span>
+        <span class="prayer-line">de <span class="prayer-keyword">mens</span> bezield de geest zijn woning geeft.</span>
+      </div>
+
+      <p style="font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; color: var(--warm-brown); text-align: center; opacity: 0.85; margin-top: 14px;">
+        Elk rijk heeft zijn eigen kwaliteit. In de volgende tab ontdek je hoe ze zich tot elkaar verhouden.
+      </p>
+    </div>
+  </section>
+
+  <!-- TAB 2: DE VIER RIJKEN -->
+  <section class="tab-content" id="tab-rijken">
+    <h2 class="print-h2 tab-section-header">🌍 De vier rijken</h2>
+
+    <p class="kingdoms-intro no-print">
+      Klik op elke trede. Bij elk rijk komt er een nieuwe kwaliteit bij — de mens draagt alles van de rijken eronder in zich.
+    </p>
+
+    <div class="staircase">
+      <!-- Trede 1: Mineraal -->
+      <div class="step step-1" data-step="1">
+        <div class="step-emoji">🪨</div>
+        <div class="step-info">
+          <p class="step-name">Het mineralenrijk</p>
+          <p class="step-tagline">het laagste rijk · levensloos</p>
+        </div>
+        <div class="step-arrow no-print">›</div>
+        <div class="step-details">
+          <div class="step-details-inner">
+            <p>Het mineralenrijk is <span class="new-quality">levensloos</span> — het heeft nooit geleefd. Toch is het belangrijk: het biedt ons <strong>houvast en stevigheid</strong>.</p>
+            <ul>
+              <li>Heeft een <span class="keyword">fysisch karakter</span></li>
+              <li>Neemt <span class="keyword">ruimte</span> in</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trede 2: Plant -->
+      <div class="step step-2" data-step="2">
+        <div class="step-emoji">🌿</div>
+        <div class="step-info">
+          <p class="step-name">Het plantenrijk</p>
+          <p class="step-tagline">het leeft · bezit levenskracht</p>
+        </div>
+        <div class="step-arrow no-print">›</div>
+        <div class="step-details">
+          <div class="step-details-inner">
+            <p>Het plantenrijk vertoont eigenschappen van iets dat <span class="new-quality">leeft</span>. De plant bezit <span class="keyword">levenskracht</span>.</p>
+            <ul>
+              <li><span class="keyword">groeien</span></li>
+              <li><span class="keyword">ontwikkelen</span></li>
+              <li><span class="keyword">ademen</span></li>
+              <li><span class="keyword">voortplanten</span></li>
+              <li><span class="keyword">verteren</span></li>
+              <li><span class="keyword">uitscheiden</span></li>
+            </ul>
+            <div class="cumulative-hint">+ neemt nog steeds ruimte in (zoals de mineralen)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trede 3: Dier -->
+      <div class="step step-3" data-step="3">
+        <div class="step-emoji">🦊</div>
+        <div class="step-info">
+          <p class="step-name">Het dierenrijk</p>
+          <p class="step-tagline">heeft een gevoelsleven · leeft op instincten</p>
+        </div>
+        <div class="step-arrow no-print">›</div>
+        <div class="step-details">
+          <div class="step-details-inner">
+            <p>Het dierenrijk heeft nog een <span class="new-quality">hogere kwaliteit</span>. Dieren kunnen <strong>voortbewegen</strong> en hebben een <span class="keyword">gevoelsleven</span>: verdriet, pijn, vreugde.</p>
+            <ul>
+              <li>Ze reageren volgens hun <span class="keyword">instincten</span></li>
+              <li>Geen persoonlijkheid, wel een <span class="keyword">groepspersoonlijkheid</span></li>
+            </ul>
+            <div class="cumulative-hint">+ leeft (zoals de planten) + neemt ruimte in (zoals de mineralen)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trede 4: Mens -->
+      <div class="step step-4" data-step="4">
+        <div class="step-emoji">👤</div>
+        <div class="step-info">
+          <p class="step-name">Het mensenrijk</p>
+          <p class="step-tagline">het hoogste rijk · de kroon op het werk</p>
+        </div>
+        <div class="step-arrow no-print">›</div>
+        <div class="step-details">
+          <div class="step-details-inner">
+            <p>Het mensenrijk is het <span class="new-quality">hoogste rijk</span>, de kroon op het werk. De mens is een individu met een <span class="keyword">persoonlijkheid</span>. Iedere mens is uniek!</p>
+            <ul>
+              <li>Denk maar aan het <span class="keyword">IK</span> — je kan enkel jezelf "ik" noemen</li>
+              <li>De mens draagt een grote <span class="keyword">verantwoordelijkheid</span> t.o.v. de andere natuurrijken</li>
+              <li>Net zoals de mineralen, planten en dieren de mens dienen, moet de mens de andere rijken dienen</li>
+            </ul>
+            <div class="cumulative-hint">+ gevoel + leven + ruimte: de mens draagt alle rijken in zich</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--warm-brown); text-align: center; opacity: 0.8; margin-top: 14px;" class="no-print">
+      ✨ De treden klimmen op: elk rijk voegt iets toe aan wat eronder ligt.
+    </p>
+  </section>
+
+  <!-- TAB 3: MENS & PLANT -->
+  <section class="tab-content" id="tab-mens-plant">
+    <h2 class="print-h2 tab-section-header">🌱 Mens &amp; Plant</h2>
+
+    <p class="mens-plant-intro no-print">
+      De mens bestaat uit <strong>3 gebieden</strong>. We kunnen ze vergelijken met de plant — maar omgekeerd. Klik op een gebied om de overeenkomst te ontdekken.
+    </p>
+
+    <div class="mens-plant-wrapper">
+      <div class="mens-plant-svg-container">
+        <svg viewBox="0 0 640 460" xmlns="http://www.w3.org/2000/svg" aria-label="Mens en omgekeerde plant">
+          <defs>
+            <linearGradient id="manGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#F5EDE0"/>
+              <stop offset="100%" stop-color="#E8DCC8"/>
+            </linearGradient>
+            <linearGradient id="plantGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#A8B89A"/>
+              <stop offset="100%" stop-color="#7A8B6F"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Titels boven figuren -->
+          <text x="160" y="30" text-anchor="middle" class="svg-label" style="font-size:15px; font-weight:700; fill:#5C4033;">DE MENS</text>
+          <text x="480" y="30" text-anchor="middle" class="svg-label" style="font-size:15px; font-weight:700; fill:#5C4033;">DE PLANT (omgekeerd)</text>
+
+          <!-- MENS (rechtopstaand) -->
+          <!-- Regio 1: Hoofd (zenuw-zintuig) -->
+          <g class="svg-region" data-region="hoofd">
+            <circle class="region-shape" cx="160" cy="80" r="38" fill="#D4916F" stroke="#B7553D" stroke-width="2" opacity="0.85"/>
+            <text x="160" y="86" text-anchor="middle" class="svg-label" style="fill:white; font-weight:700;">HOOFD</text>
+          </g>
+          <!-- Regio 2: Romp (ritmisch) -->
+          <g class="svg-region" data-region="romp">
+            <path class="region-shape" d="M 120 130 Q 160 125 200 130 L 210 260 Q 160 270 110 260 Z" fill="#D4A843" stroke="#B7553D" stroke-width="2" opacity="0.85"/>
+            <text x="160" y="200" text-anchor="middle" class="svg-label" style="fill:white; font-weight:700;">ROMP</text>
+            <!-- Ribbenlijnen subtiel -->
+            <path d="M 125 165 Q 160 170 195 165" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M 122 185 Q 160 190 198 185" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+            <path d="M 120 205 Q 160 210 200 205" stroke="white" stroke-width="1" fill="none" opacity="0.5"/>
+          </g>
+          <!-- Regio 3: Buik + ledematen -->
+          <g class="svg-region" data-region="buik">
+            <path class="region-shape" d="M 110 265 Q 160 275 210 265 L 215 320 Q 160 335 105 320 Z" fill="#A8B89A" stroke="#5E6D53" stroke-width="2" opacity="0.85"/>
+            <!-- Benen -->
+            <rect class="region-shape" x="125" y="320" width="28" height="100" rx="8" fill="#A8B89A" stroke="#5E6D53" stroke-width="2" opacity="0.85"/>
+            <rect class="region-shape" x="167" y="320" width="28" height="100" rx="8" fill="#A8B89A" stroke="#5E6D53" stroke-width="2" opacity="0.85"/>
+            <!-- Armen -->
+            <rect class="region-shape" x="80" y="145" width="26" height="100" rx="8" fill="#A8B89A" stroke="#5E6D53" stroke-width="2" opacity="0.85"/>
+            <rect class="region-shape" x="214" y="145" width="26" height="100" rx="8" fill="#A8B89A" stroke="#5E6D53" stroke-width="2" opacity="0.85"/>
+            <text x="160" y="298" text-anchor="middle" class="svg-label" style="fill:white; font-weight:700;">BUIK/LEDEMATEN</text>
+          </g>
+
+          <!-- PLANT (omgekeerd: bloem onder, wortels boven) -->
+          <!-- Wortels boven (komt overeen met hoofd) -->
+          <g class="svg-region" data-region="hoofd">
+            <!-- Wortelvertakkingen -->
+            <path class="region-shape" d="M 480 110 L 480 80 M 480 110 L 450 70 M 480 110 L 510 70 M 480 110 L 430 90 M 480 110 L 530 90 M 480 110 L 460 60 M 480 110 L 500 60" stroke="#5C4033" stroke-width="3" fill="none" opacity="0.85" stroke-linecap="round"/>
+            <ellipse class="region-shape" cx="480" cy="115" rx="35" ry="14" fill="#8B6F4F" stroke="#5C4033" stroke-width="2" opacity="0.85"/>
+            <text x="480" y="120" text-anchor="middle" class="svg-label" style="fill:white; font-weight:700; font-size:11px;">WORTELS</text>
+          </g>
+          <!-- Bladeren/stengel midden (komt overeen met romp) -->
+          <g class="svg-region" data-region="romp">
+            <line class="region-shape" x1="480" y1="129" x2="480" y2="290" stroke="#7A8B6F" stroke-width="6" opacity="0.85"/>
+            <!-- Bladeren ritmisch -->
+            <ellipse class="region-shape" cx="455" cy="155" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(-20 455 155)"/>
+            <ellipse class="region-shape" cx="505" cy="180" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(20 505 180)"/>
+            <ellipse class="region-shape" cx="455" cy="205" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(-20 455 205)"/>
+            <ellipse class="region-shape" cx="505" cy="230" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(20 505 230)"/>
+            <ellipse class="region-shape" cx="455" cy="255" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(-20 455 255)"/>
+            <ellipse class="region-shape" cx="505" cy="280" rx="22" ry="9" fill="#A8B89A" stroke="#5E6D53" stroke-width="1.5" opacity="0.85" transform="rotate(20 505 280)"/>
+            <text x="560" y="220" text-anchor="middle" class="svg-label" style="fill:#5C4033; font-weight:700; font-size:11px;">BLADEREN</text>
+          </g>
+          <!-- Bloem onder (komt overeen met buik/ledematen) -->
+          <g class="svg-region" data-region="buik">
+            <!-- Bloembladen -->
+            <circle class="region-shape" cx="480" cy="365" r="32" fill="#D4916F" stroke="#B7553D" stroke-width="2" opacity="0.85"/>
+            <ellipse class="region-shape" cx="450" cy="340" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <ellipse class="region-shape" cx="510" cy="340" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <ellipse class="region-shape" cx="450" cy="390" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <ellipse class="region-shape" cx="510" cy="390" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <ellipse class="region-shape" cx="480" cy="325" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <ellipse class="region-shape" cx="480" cy="405" rx="18" ry="22" fill="#C2704E" stroke="#B7553D" stroke-width="1.5" opacity="0.85"/>
+            <circle cx="480" cy="365" r="14" fill="#D4A843" stroke="#B7553D" stroke-width="1.5"/>
+            <text x="480" y="370" text-anchor="middle" class="svg-label" style="fill:white; font-weight:700; font-size:11px;">BLOEM</text>
+          </g>
+
+          <!-- Verbindingslijnen (subtiel) -->
+          <line x1="200" y1="80" x2="445" y2="105" stroke="#C9A0A0" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>
+          <line x1="210" y1="195" x2="430" y2="220" stroke="#C9A0A0" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>
+          <line x1="215" y1="370" x2="440" y2="370" stroke="#C9A0A0" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/>
+
+          <!-- Bodemlijn voor plant -->
+          <line x1="400" y1="130" x2="560" y2="130" stroke="#8B6F4F" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+          <text x="565" y="134" class="svg-label" style="fill:#8B6F4F; font-size:10px;">bodem</text>
+        </svg>
+      </div>
+
+      <div class="region-info" id="region-info">
+        <div class="region-info-empty">↑ Klik op een gebied om de vergelijking te zien</div>
+      </div>
+    </div>
+
+    <!-- Print-versie: tabel met alle vergelijkingen -->
+    <div class="print-mens-plant print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-bottom:12px;">De drie gebieden van de mens, vergeleken met de plant</h3>
+      <table style="width:100%; border-collapse:collapse; font-family:'Vollkorn',serif; font-size:11pt;">
+        <thead>
+          <tr style="background:#F0E8D8;">
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Gebied bij de mens</th>
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Bij de plant (omgekeerd)</th>
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Kenmerken</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Hoofd</strong><br>zenuw-zintuiggebied</td>
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Wortels</strong></td>
+            <td style="border:1px solid #ccc; padding:8px;">→ hoofd tast de wereld af via zintuigen<br>→ wortels tasten de bodem af naar mineralen<br>→ hardste gedeelte<br>→ koel houden</td>
+          </tr>
+          <tr style="background:#FAF6EE;">
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Romp</strong><br>ritmisch gebied (longen-hart)</td>
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Bladeren</strong></td>
+            <td style="border:1px solid #ccc; padding:8px;">→ ritmisch: bladeren zijn ritmisch gerangschikt, net zoals onze ribben en ruggengraat<br>→ ademhaling in de longen — bladeren</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Buik + ledematen</strong><br>stofwisselings-ledematengebied</td>
+            <td style="border:1px solid #ccc; padding:8px;"><strong>Bloem</strong></td>
+            <td style="border:1px solid #ccc; padding:8px;">→ stofwisseling<br>→ voortplanting<br>→ zachte gedeelte</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB 4: QUIZ -->
+  <section class="tab-content" id="tab-quiz">
+    <h2 class="print-h2 tab-section-header">🎯 Wat hoort waar?</h2>
+
+    <div class="score-bar no-print" id="scoreBar">
+      <span>Score: <span id="scoreText">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <!-- Print-versie: oefeningen zonder antwoorden -->
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Vragen</h3>
+      <div id="printQuestions"></div>
+    </div>
+  </section>
+
+  <!-- PRINT: oplossingen -->
+  <div class="print-only print-answers">
+    <h2 class="print-h2" style="page-break-before:always;">Oplossingen</h2>
+    <div id="printAnswers"></div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions no-print">
+    <button class="action-btn print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ============ TAB SWITCHING ============
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// ============ TAB 2: VIER RIJKEN — TRAP ============
+const steps = document.querySelectorAll('.step');
+steps.forEach(step => {
+  step.addEventListener('click', () => {
+    const isActive = step.classList.contains('active');
+    steps.forEach(s => s.classList.remove('active'));
+    if (!isActive) step.classList.add('active');
+  });
+});
+
+// ============ TAB 3: MENS & PLANT — KLIKBARE GEBIEDEN ============
+const regionData = {
+  hoofd: {
+    title: '👤 Hoofd ↔ 🌿 Wortels',
+    mens: {
+      title: 'Bij de mens',
+      content: '<strong>Zenuw-zintuiggebied</strong><br>Het hoofd tast de wereld af via de zintuigen. Het is het hardste gedeelte van het lichaam (de schedel) en moet koel gehouden worden.'
+    },
+    plant: {
+      title: 'Bij de plant',
+      content: '<strong>Wortels</strong><br>De wortels tasten de bodem af naar onderen, op zoek naar mineralen. Ze vormen het hardste deel van de plant — verborgen in de koele aarde.'
+    }
+  },
+  romp: {
+    title: '👤 Romp ↔ 🌿 Bladeren',
+    mens: {
+      title: 'Bij de mens',
+      content: '<strong>Ritmisch gebied</strong> (longen-hart)<br>De ribben en de ruggengraat zijn ritmisch geordend. De ademhaling gebeurt in een vast ritme in de longen.'
+    },
+    plant: {
+      title: 'Bij de plant',
+      content: '<strong>Bladeren</strong><br>De bladeren zijn ritmisch gerangschikt rond de stengel, net zoals onze ribben rond de ruggengraat. Ademhaling van de plant gebeurt in de bladeren.'
+    }
+  },
+  buik: {
+    title: '👤 Buik + Ledematen ↔ 🌿 Bloem',
+    mens: {
+      title: 'Bij de mens',
+      content: '<strong>Stofwisselings-ledematengebied</strong><br>Hier vindt de stofwisseling en de voortplanting plaats. Het is het zachte gedeelte van het lichaam.'
+    },
+    plant: {
+      title: 'Bij de plant',
+      content: '<strong>Bloem</strong><br>De bloem is het zachtste deel van de plant. Hier gebeurt de voortplanting (stuifmeel, zaden, vruchten).'
+    }
+  }
+};
+
+const regions = document.querySelectorAll('.svg-region');
+const regionInfo = document.getElementById('region-info');
+
+regions.forEach(region => {
+  region.addEventListener('click', () => {
+    const key = region.dataset.region;
+    const data = regionData[key];
+
+    // Markeer alle regio's met deze sleutel actief
+    regions.forEach(r => r.classList.remove('active'));
+    document.querySelectorAll('.svg-region[data-region="' + key + '"]').forEach(r => r.classList.add('active'));
+
+    regionInfo.innerHTML = `
+      <h4>${data.title}</h4>
+      <div class="compare-row">
+        <div class="compare-side"><strong>${data.mens.title}</strong>${data.mens.content}</div>
+        <div class="compare-side"><strong>${data.plant.title}</strong>${data.plant.content}</div>
+      </div>
+    `;
+  });
+});
+
+// ============ TAB 4: QUIZ ============
+const quizData = [
+  {
+    q: 'Welk rijk wordt hier beschreven?',
+    quote: 'Het bezit levenskracht. Het kan groeien, ademen, voortplanten en uitscheiden.',
+    options: ['Mineralenrijk', 'Plantenrijk', 'Dierenrijk', 'Mensenrijk'],
+    correct: 1,
+    explain: 'Levenskracht en groeien zijn de kernkwaliteiten van het plantenrijk.'
+  },
+  {
+    q: 'Welk rijk wordt hier beschreven?',
+    quote: 'Het neemt ruimte in en heeft een fysisch karakter, maar het heeft nooit geleefd.',
+    options: ['Mineralenrijk', 'Plantenrijk', 'Dierenrijk', 'Mensenrijk'],
+    correct: 0,
+    explain: 'Levensloos en fysisch — dat is het mineralenrijk. Het laagste rijk.'
+  },
+  {
+    q: 'Welk rijk wordt hier beschreven?',
+    quote: 'Het heeft een gevoelsleven (verdriet, pijn, vreugde) en reageert volgens instincten.',
+    options: ['Mineralenrijk', 'Plantenrijk', 'Dierenrijk', 'Mensenrijk'],
+    correct: 2,
+    explain: 'Gevoelsleven en instincten zijn typisch voor het dierenrijk.'
+  },
+  {
+    q: 'Welk rijk wordt hier beschreven?',
+    quote: 'Een individu met een persoonlijkheid, dat zichzelf "ik" kan noemen.',
+    options: ['Mineralenrijk', 'Plantenrijk', 'Dierenrijk', 'Mensenrijk'],
+    correct: 3,
+    explain: 'Het IK en de unieke persoonlijkheid maken het mensenrijk tot de kroon op het werk.'
+  },
+  {
+    q: 'Wat betekent het woord "biologie"?',
+    options: ['Studie van de aarde', 'Wijsheid van het leven', 'Kennis van de natuur', 'Wetenschap van de mens'],
+    correct: 1,
+    explain: 'Biologie = wijsheid van het leven. Bios (leven) + logos (wijsheid, leer).'
+  },
+  {
+    q: 'Hebben dieren een persoonlijkheid?',
+    options: ['Ja, elk dier is uniek zoals een mens', 'Nee, ze hebben een groepspersoonlijkheid', 'Alleen huisdieren hebben er een', 'Alleen zoogdieren hebben er een'],
+    correct: 1,
+    explain: 'Dieren hebben geen individuele persoonlijkheid maar wel een groepspersoonlijkheid. Alleen de mens heeft een echte persoonlijkheid.'
+  },
+  {
+    q: 'Welk deel van de mens kun je vergelijken met de wortels van een plant?',
+    options: ['Het hoofd', 'De romp', 'De buik', 'De ledematen'],
+    correct: 0,
+    explain: 'Het hoofd tast de wereld af via zintuigen, zoals wortels de bodem aftasten. Hardste, koelste gedeelte.'
+  },
+  {
+    q: 'Welk deel van de plant is ritmisch gerangschikt, zoals onze ribben?',
+    options: ['De wortels', 'De stengel', 'De bladeren', 'De bloem'],
+    correct: 2,
+    explain: 'De bladeren staan ritmisch rond de stengel, vergelijkbaar met onze ribben rond de ruggengraat. De ademhaling van de plant gebeurt ook in de bladeren.'
+  },
+  {
+    q: 'Welk deel van de mens komt overeen met de bloem van de plant?',
+    options: ['Het hoofd', 'De romp', 'Buik en ledematen', 'De handen'],
+    correct: 2,
+    explain: 'Buik en ledematen — het zachte gedeelte, waar stofwisseling en voortplanting plaatsvinden. Net zoals de bloem het zachte deel is waar voortplanting gebeurt.'
+  },
+  {
+    q: 'Waarom draagt de mens een grote verantwoordelijkheid?',
+    options: [
+      'Omdat hij het slimste is',
+      'Omdat hij het sterkste is',
+      'Omdat de mineralen, planten en dieren hem dienen — hij moet de andere rijken dienen',
+      'Omdat hij het grootst is geworden'
+    ],
+    correct: 2,
+    explain: 'Net zoals de andere rijken de mens dienen, moet de mens de andere rijken dienen. Dat is zijn verantwoordelijkheid als kroon op het werk.'
+  }
+];
+
+let answered = new Array(quizData.length).fill(false);
+let correctCount = 0;
+const quizContainer = document.getElementById('quizContainer');
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const progressFill = document.getElementById('progressFill');
+const celebration = document.getElementById('celebration');
+
+function renderQuiz() {
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    let quoteHtml = item.quote ? `<div class="quote" style="display:inline-block; margin-top:6px;">"${item.quote}"</div>` : '';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question">${item.q}${quoteHtml ? '<br>' + quoteHtml : ''}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${idx}"></div>
+    `;
+    quizContainer.appendChild(card);
+  });
+
+  quizContainer.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', handleAnswer);
+  });
+}
+
+function handleAnswer(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answered[qIdx]) return;
+  answered[qIdx] = true;
+
+  const item = quizData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + qIdx);
+
+  allOpts.forEach(o => o.disabled = true);
+
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+
+  updateScore();
+}
+
+function updateScore() {
+  const answeredCount = answered.filter(a => a).length;
+  scoreBar.classList.add('show');
+  scoreText.textContent = correctCount + '/' + answeredCount;
+  progressFill.style.width = (answeredCount / quizData.length * 100) + '%';
+
+  if (answeredCount === quizData.length) {
+    const pct = correctCount / quizData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebration.textContent = msg;
+    celebration.classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(quizData.length).fill(false);
+  correctCount = 0;
+  scoreBar.classList.remove('show');
+  celebration.classList.remove('show');
+  progressFill.style.width = '0%';
+  renderQuiz();
+}
+
+renderQuiz();
+
+// ============ PRINT-VERSIE QUIZ ============
+function buildPrintQuiz() {
+  const pq = document.getElementById('printQuestions');
+  const pa = document.getElementById('printAnswers');
+  pq.innerHTML = quizData.map((item, i) => {
+    const quote = item.quote ? `<em>"${item.quote}"</em><br>` : '';
+    return `<div style="margin-bottom:14px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}. ${item.q}</strong><br>${quote}
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`;
+  }).join('');
+  pa.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:10px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+}
+buildPrintQuiz();
+</script>
+</body>
+</html>
