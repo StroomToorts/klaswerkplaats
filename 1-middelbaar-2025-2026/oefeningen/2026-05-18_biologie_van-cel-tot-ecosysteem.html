@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Van cel tot ecosysteem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #95A886;
+  --vak-color-dark: #7A8B6F;
+  --vak-color-light: #B5C2A8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%237A8B6F' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%237A8B6F' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.breadcrumb a {
+  color: var(--warm-brown);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.2s;
+}
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+/* Header */
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+  animation: fadeSlideUp 0.6s ease;
+}
+.subject-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3);
+  flex-shrink: 0;
+}
+.title-block h1 {
+  margin: 0;
+  font-family: 'Vollkorn', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-top: 2px;
+}
+
+.intro-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  color: var(--warm-brown);
+  margin: 0 0 24px;
+  line-height: 1.5;
+  opacity: 0.85;
+  animation: fadeSlideUp 0.7s ease;
+}
+
+/* Tabs */
+.mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: rgba(255, 253, 247, 0.6);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06);
+}
+.tab-btn {
+  flex: 1;
+  min-width: 110px;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.tab-btn:hover { background: rgba(122, 139, 111, 0.1); }
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  box-shadow: 0 2px 8px rgba(122, 139, 111, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+
+/* Theory cards */
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.theory-card h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.theory-card h3 {
+  font-family: 'Vollkorn', serif;
+  font-size: 18px;
+  color: var(--rust);
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+.theory-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0 0 12px;
+  color: var(--dark-brown);
+}
+
+.level-list {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0;
+  counter-reset: level;
+}
+.level-list li {
+  counter-increment: level;
+  position: relative;
+  padding: 10px 14px 10px 50px;
+  margin: 6px 0;
+  background: var(--parchment);
+  border-radius: 10px;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+.level-list li::before {
+  content: counter(level);
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+}
+.level-list strong { color: var(--rust); }
+
+/* Zoom interactie */
+.zoom-intro {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.zoom-stage {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: 0 2px 12px rgba(92, 64, 51, 0.08);
+  margin-bottom: 20px;
+}
+
+.zoom-svg-container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto 16px;
+  aspect-ratio: 1;
+  position: relative;
+  background: linear-gradient(135deg, #FFFDF7 0%, var(--cream) 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid var(--sand);
+}
+.zoom-svg-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.zoom-scene {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+.zoom-scene.active { opacity: 1; }
+
+.zoom-level-label {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  background: rgba(255, 253, 247, 0.92);
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vak-color-dark);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.zoom-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+}
+.zoom-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(122, 139, 111, 0.4); }
+.zoom-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.zoom-progress {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.zoom-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sand);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.zoom-dot.active {
+  background: var(--rust);
+  transform: scale(1.4);
+}
+.zoom-dot.passed { background: var(--vak-color); }
+
+.zoom-info {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--sand-light) 100%);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-top: 16px;
+  border-left: 4px solid var(--rust);
+  min-height: 120px;
+}
+.zoom-info-number {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  color: var(--vak-color-dark);
+  line-height: 1;
+}
+.zoom-info-name {
+  font-family: 'Vollkorn', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--rust);
+  margin: 4px 0 8px;
+}
+.zoom-info-desc {
+  font-family: 'Vollkorn', serif;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--dark-brown);
+  margin-bottom: 8px;
+}
+.zoom-info-example {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--olive-dark);
+  background: var(--warm-white);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.zoom-info-example strong { color: var(--rust); letter-spacing: 0.3px; }
+
+.zoom-hint {
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12.5px;
+  color: var(--vak-color-dark);
+  opacity: 0.75;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+/* Quiz */
+.quiz-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.quiz-number {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-bottom: 6px;
+}
+.quiz-question {
+  font-family: 'Vollkorn', serif;
+  font-size: 17px;
+  color: var(--dark-brown);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.quiz-question .quote {
+  font-style: italic;
+  background: rgba(212, 168, 67, 0.15);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quiz-option {
+  padding: 10px 16px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 22px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--dark-brown);
+}
+.quiz-option:hover { border-color: var(--vak-color); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(122, 139, 111, 0.15); }
+.quiz-option.correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; animation: pop 0.4s ease; }
+.quiz-option.incorrect { background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%); border-color: var(--rust); color: white; animation: shake 0.4s ease; }
+.quiz-option.show-correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; }
+.quiz-option:disabled { cursor: default; }
+
+.quiz-feedback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  display: none;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good { background: rgba(168, 201, 154, 0.25); color: var(--olive-dark); }
+.quiz-feedback.bad { background: rgba(194, 112, 78, 0.15); color: var(--rust); }
+
+/* Score */
+.score-bar {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.25);
+}
+.score-bar.show { display: flex; }
+.progress-track { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.25); border-radius: 4px; margin: 0 14px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 6px 12px; border-radius: 18px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+
+.celebration {
+  background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%);
+  color: white;
+  padding: 22px;
+  border-radius: 16px;
+  text-align: center;
+  font-family: 'Vollkorn', serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 16px 0;
+  display: none;
+  box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3);
+}
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+
+/* Action buttons */
+.actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.print-btn { background: var(--warm-white); color: var(--warm-brown); border: 2px solid var(--sand); }
+.print-btn:hover { background: var(--cream); border-color: var(--vak-color); }
+.back-btn { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: white; }
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); }
+
+.print-only { display: none; }
+.print-h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 20px;
+  color: var(--vak-color-dark);
+  margin: 30px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--vak-color-light);
+}
+.tab-section-header { display: none; }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 19px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 13px; padding: 9px 10px; min-width: 90px; }
+  .theory-card { padding: 18px 18px; }
+  .theory-card h2 { font-size: 19px; }
+  .zoom-svg-container { max-width: 100%; }
+  .zoom-info-name { font-size: 19px; }
+  .zoom-info-desc { font-size: 14.5px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .level-list li { font-size: 14.5px; padding: 8px 10px 8px 44px; }
+  .zoom-btn { width: 40px; height: 40px; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-only { display: block !important; }
+
+  .theory-card, .quiz-card, .zoom-stage {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .zoom-info, .level-list li {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+  .zoom-info-name, .level-list strong { color: #000 !important; }
+  .subject-icon { display: none; }
+  .score-bar, .celebration, .reset-btn { display: none !important; }
+  .zoom-controls { display: none !important; }
+  .zoom-svg-container { display: none !important; }
+  .zoom-info { display: none !important; }
+  .print-zoom-table { display: block !important; }
+
+  #quizContainer { display: none !important; }
+  .quiz-feedback { display: none !important; }
+
+  .print-answers { page-break-before: always; }
+  h2.print-h2 { color: #000 !important; border-bottom-color: #888 !important; }
+  .tab-section-header { display: block !important; }
+  a { color: black; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Van cel tot ecosysteem
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>Van cel tot ecosysteem</h1>
+      <div class="date">18 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    Alles wat leeft is opgebouwd uit kleinere delen — en maakt zelf deel uit van iets groters. Van de kleinste bouwsteen, de cel, tot het hele ecosysteem: ontdek de acht niveaus van het leven.
+  </p>
+
+  <div class="mode-tabs no-print">
+    <button class="tab-btn active" data-tab="theorie">📚 Theorie</button>
+    <button class="tab-btn" data-tab="zoom">🔍 In- en uitzoomen</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Welk niveau?</button>
+  </div>
+
+  <!-- TAB 1: THEORIE -->
+  <section class="tab-content active" id="tab-theorie">
+    <h2 class="print-h2 tab-section-header">📚 Theorie</h2>
+
+    <div class="theory-card">
+      <h2>De acht niveaus van het leven</h2>
+      <p>
+        Alles wat leeft kan je bekijken op verschillende niveaus. Begin bij het kleinste — de cel — en zoom telkens verder uit. Elk volgend niveau is opgebouwd uit het vorige.
+      </p>
+      <ol class="level-list">
+        <li><strong>Cel</strong> — de allerkleinste bouwsteen van het leven. Onzichtbaar voor het blote oog, alleen zichtbaar onder een microscoop.<br><em>bv. een spiercel, een huidcel, een hartcel</em></li>
+        <li><strong>Weefsel</strong> — cellen van dezelfde soort die samen één functie hebben.<br><em>bv. spierweefsel, zenuwweefsel, bindweefsel</em></li>
+        <li><strong>Orgaan</strong> — verschillende weefsels die samen één functie vervullen.<br><em>bv. het hart, de longen, de lever, de maag</em></li>
+        <li><strong>Orgaanstelsel</strong> — meerdere organen die samenwerken aan dezelfde grote opdracht.<br><em>bv. ademhalingsstelsel, spijsverteringsstelsel, zenuwstelsel</em></li>
+        <li><strong>Organisme</strong> — alle orgaanstelsels samen vormen één levend wezen.<br><em>bv. één mens, één boom, één vogel</em></li>
+        <li><strong>Populatie</strong> — alle organismen van dezelfde soort in een bepaald gebied.<br><em>bv. alle herten in een bos, alle leerlingen op school</em></li>
+        <li><strong>Levensgemeenschap</strong> — verschillende populaties die samenleven in hetzelfde gebied.<br><em>bv. herten + bomen + paddenstoelen + vogels in een bos</em></li>
+        <li><strong>Ecosysteem</strong> — de levensgemeenschap samen met de niet-levende factoren (bodem, water, lucht, temperatuur).<br><em>bv. een bos, een vijver, een woestijn, een rif</em></li>
+      </ol>
+
+      <h3>Belangrijk om te onthouden</h3>
+      <p>
+        De eerste vijf niveaus (cel → organisme) gaan over <strong>één individu</strong>. Vanaf populatie kijken we naar <strong>groepen</strong>. En een ecosysteem is pas een ecosysteem als je er ook de <strong>niet-levende factoren</strong> bij rekent: water, lucht, bodem, licht.
+      </p>
+    </div>
+  </section>
+
+  <!-- TAB 2: ZOOM -->
+  <section class="tab-content" id="tab-zoom">
+    <h2 class="print-h2 tab-section-header">🔍 In- en uitzoomen</h2>
+
+    <p class="zoom-intro no-print">
+      Klik op <strong>+</strong> om uit te zoomen en steeds groter te kijken. Klik op <strong>−</strong> om weer in te zoomen.
+    </p>
+
+    <div class="zoom-stage">
+      <div class="zoom-svg-container" id="zoomContainer">
+        <!-- Niveau 1: Cel -->
+        <svg class="zoom-scene active" viewBox="0 0 400 400" data-level="0">
+          <defs>
+            <radialGradient id="cellGrad">
+              <stop offset="0%" stop-color="#D4916F" stop-opacity="0.3"/>
+              <stop offset="70%" stop-color="#C2704E" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#B7553D" stop-opacity="0.9"/>
+            </radialGradient>
+          </defs>
+          <!-- Een cel groot in beeld -->
+          <ellipse cx="200" cy="200" rx="150" ry="130" fill="url(#cellGrad)" stroke="#B7553D" stroke-width="3"/>
+          <!-- Celkern -->
+          <circle cx="210" cy="190" r="40" fill="#7A8B6F" opacity="0.8"/>
+          <circle cx="210" cy="190" r="15" fill="#5E6D53"/>
+          <!-- Organellen -->
+          <ellipse cx="140" cy="240" rx="18" ry="10" fill="#D4A843" opacity="0.7"/>
+          <ellipse cx="270" cy="260" rx="14" ry="8" fill="#D4A843" opacity="0.7"/>
+          <ellipse cx="160" cy="150" rx="12" ry="7" fill="#D4A843" opacity="0.7"/>
+          <ellipse cx="290" cy="170" rx="16" ry="9" fill="#D4A843" opacity="0.7"/>
+          <text x="200" y="380" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">één cel — zo klein, alleen onder microscoop zichtbaar</text>
+          <span class="zoom-level-label" />
+        </svg>
+
+        <!-- Niveau 2: Weefsel -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="1">
+          <!-- Veel cellen samen die een weefsel vormen -->
+          <g opacity="0.9">
+            <ellipse cx="80" cy="80" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="150" cy="70" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="220" cy="85" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="290" cy="75" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="350" cy="100" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+
+            <ellipse cx="60" cy="150" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="130" cy="145" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="200" cy="155" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="270" cy="150" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="340" cy="160" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+
+            <ellipse cx="85" cy="220" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="155" cy="220" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="225" cy="225" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="295" cy="220" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+
+            <ellipse cx="65" cy="290" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="135" cy="295" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="205" cy="285" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="275" cy="290" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+            <ellipse cx="345" cy="285" rx="30" ry="25" fill="#D4916F" stroke="#B7553D" stroke-width="1.5"/>
+
+            <!-- Celkernen -->
+            <circle cx="82" cy="78" r="8" fill="#7A8B6F"/>
+            <circle cx="152" cy="68" r="8" fill="#7A8B6F"/>
+            <circle cx="222" cy="83" r="8" fill="#7A8B6F"/>
+            <circle cx="62" cy="148" r="8" fill="#7A8B6F"/>
+            <circle cx="132" cy="143" r="8" fill="#7A8B6F"/>
+            <circle cx="202" cy="153" r="8" fill="#7A8B6F"/>
+            <circle cx="87" cy="218" r="8" fill="#7A8B6F"/>
+            <circle cx="157" cy="218" r="8" fill="#7A8B6F"/>
+            <circle cx="207" cy="283" r="8" fill="#7A8B6F"/>
+          </g>
+          <text x="200" y="370" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">veel gelijksoortige cellen samen</text>
+        </svg>
+
+        <!-- Niveau 3: Orgaan (hart) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="2">
+          <path d="M 200 320 Q 80 220 80 150 Q 80 90 130 90 Q 175 90 200 130 Q 225 90 270 90 Q 320 90 320 150 Q 320 220 200 320 Z"
+                fill="#C2704E" stroke="#7A2818" stroke-width="3" opacity="0.92"/>
+          <!-- Slagaders -->
+          <path d="M 165 100 Q 160 60 175 40" stroke="#B7553D" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M 235 100 Q 240 60 225 40" stroke="#B7553D" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M 195 95 Q 200 55 200 25" stroke="#7A2818" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <!-- Aderlijnen -->
+          <path d="M 140 180 Q 160 200 145 240" stroke="#7A2818" stroke-width="2" fill="none" opacity="0.6"/>
+          <path d="M 250 175 Q 270 200 255 250" stroke="#7A2818" stroke-width="2" fill="none" opacity="0.6"/>
+          <text x="200" y="370" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">een hart — opgebouwd uit verschillende weefsels</text>
+        </svg>
+
+        <!-- Niveau 4: Orgaanstelsel (bloedsomloop) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="3">
+          <!-- Lichaamssilhouet -->
+          <path d="M 200 60 Q 175 60 175 85 Q 175 100 200 100 Q 225 100 225 85 Q 225 60 200 60 Z" fill="#F5EDE0" stroke="#8B6F4F" stroke-width="1.5"/>
+          <path d="M 165 105 L 235 105 L 245 180 L 245 280 L 235 360 L 215 360 L 210 240 L 190 240 L 185 360 L 165 360 L 155 280 L 155 180 Z" fill="#F5EDE0" stroke="#8B6F4F" stroke-width="1.5"/>
+          <!-- Hart (klein, op de borst) -->
+          <path d="M 200 175 Q 180 160 180 150 Q 180 140 190 140 Q 198 140 200 148 Q 202 140 210 140 Q 220 140 220 150 Q 220 160 200 175 Z" fill="#B7553D"/>
+          <!-- Slagaders (rood) -->
+          <path d="M 200 175 L 200 220 L 195 280" stroke="#B7553D" stroke-width="3" fill="none"/>
+          <path d="M 195 280 L 180 340" stroke="#B7553D" stroke-width="2.5" fill="none"/>
+          <path d="M 195 280 L 215 340" stroke="#B7553D" stroke-width="2.5" fill="none"/>
+          <path d="M 200 175 L 170 200 L 165 240" stroke="#B7553D" stroke-width="2.5" fill="none"/>
+          <path d="M 200 175 L 230 200 L 235 240" stroke="#B7553D" stroke-width="2.5" fill="none"/>
+          <path d="M 200 150 L 200 110" stroke="#B7553D" stroke-width="2.5" fill="none"/>
+          <!-- Aderen (blauw) -->
+          <path d="M 210 175 L 210 220 L 215 280 L 200 340" stroke="#6A9BB5" stroke-width="2.5" fill="none"/>
+          <path d="M 205 175 L 220 200 L 230 250" stroke="#6A9BB5" stroke-width="2" fill="none"/>
+          <path d="M 195 175 L 180 200 L 170 250" stroke="#6A9BB5" stroke-width="2" fill="none"/>
+          <text x="200" y="385" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">hart + bloedvaten = bloedsomloop</text>
+        </svg>
+
+        <!-- Niveau 5: Organisme (volledige mens) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="4">
+          <!-- Hoofd -->
+          <circle cx="200" cy="90" r="32" fill="#D4916F" stroke="#8B6F4F" stroke-width="2"/>
+          <!-- Lichaam -->
+          <path d="M 168 125 L 232 125 L 240 200 L 235 280 L 220 285 L 210 200 L 190 200 L 180 285 L 165 280 L 160 200 Z" fill="#D4916F" stroke="#8B6F4F" stroke-width="2"/>
+          <!-- Armen -->
+          <path d="M 168 130 L 130 175 L 115 240" stroke="#D4916F" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <path d="M 232 130 L 270 175 L 285 240" stroke="#D4916F" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <!-- Benen -->
+          <path d="M 180 285 L 175 380" stroke="#D4916F" stroke-width="22" fill="none" stroke-linecap="round"/>
+          <path d="M 220 285 L 225 380" stroke="#D4916F" stroke-width="22" fill="none" stroke-linecap="round"/>
+          <text x="200" y="395" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">één volledig levend wezen</text>
+        </svg>
+
+        <!-- Niveau 6: Populatie (meerdere mensen) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="5">
+          <!-- 5 mensen samen -->
+          <g>
+            <!-- Mens 1 -->
+            <circle cx="80" cy="180" r="14" fill="#D4916F"/>
+            <path d="M 66 195 L 94 195 L 96 240 L 88 275 L 72 275 L 64 240 Z" fill="#D4916F"/>
+            <path d="M 66 200 L 50 225 L 48 255" stroke="#D4916F" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 94 200 L 110 225 L 112 255" stroke="#D4916F" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 75 275 L 72 330" stroke="#D4916F" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M 85 275 L 88 330" stroke="#D4916F" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+            <!-- Mens 2 -->
+            <circle cx="150" cy="160" r="14" fill="#D4916F"/>
+            <path d="M 136 175 L 164 175 L 166 220 L 158 255 L 142 255 L 134 220 Z" fill="#7A8B6F"/>
+            <path d="M 136 180 L 120 205 L 118 235" stroke="#7A8B6F" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 164 180 L 180 205 L 182 235" stroke="#7A8B6F" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 145 255 L 142 320" stroke="#7A8B6F" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M 155 255 L 158 320" stroke="#7A8B6F" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+            <!-- Mens 3 (vooraan, groter) -->
+            <circle cx="220" cy="195" r="16" fill="#D4916F"/>
+            <path d="M 204 212 L 236 212 L 240 260 L 232 300 L 214 300 L 204 260 Z" fill="#D4A843"/>
+            <path d="M 204 218 L 186 245 L 184 280" stroke="#D4A843" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M 236 218 L 254 245 L 256 280" stroke="#D4A843" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M 215 300 L 212 360" stroke="#D4A843" stroke-width="11" fill="none" stroke-linecap="round"/>
+            <path d="M 227 300 L 230 360" stroke="#D4A843" stroke-width="11" fill="none" stroke-linecap="round"/>
+
+            <!-- Mens 4 -->
+            <circle cx="290" cy="170" r="14" fill="#D4916F"/>
+            <path d="M 276 185 L 304 185 L 306 230 L 298 265 L 282 265 L 274 230 Z" fill="#C2704E"/>
+            <path d="M 276 190 L 260 215 L 258 245" stroke="#C2704E" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 304 190 L 320 215 L 322 245" stroke="#C2704E" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M 285 265 L 282 325" stroke="#C2704E" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M 295 265 L 298 325" stroke="#C2704E" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+            <!-- Mens 5 (achteraan) -->
+            <circle cx="350" cy="195" r="13" fill="#D4916F"/>
+            <path d="M 337 209 L 363 209 L 365 250 L 358 280 L 343 280 L 336 250 Z" fill="#A8B89A"/>
+            <path d="M 337 213 L 322 235 L 320 260" stroke="#A8B89A" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M 363 213 L 378 235 L 380 260" stroke="#A8B89A" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M 345 280 L 343 335" stroke="#A8B89A" stroke-width="9" fill="none" stroke-linecap="round"/>
+            <path d="M 355 280 L 358 335" stroke="#A8B89A" stroke-width="9" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="200" y="385" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">meerdere wezens van dezelfde soort</text>
+        </svg>
+
+        <!-- Niveau 7: Levensgemeenschap (mensen + dieren + planten) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="6">
+          <!-- Bodem -->
+          <rect x="0" y="320" width="400" height="80" fill="#8B6F4F" opacity="0.4"/>
+          <!-- Bomen -->
+          <g>
+            <rect x="55" y="200" width="14" height="120" fill="#8B6F4F"/>
+            <circle cx="62" cy="180" r="50" fill="#7A8B6F"/>
+            <circle cx="45" cy="195" r="35" fill="#7A8B6F" opacity="0.85"/>
+            <circle cx="80" cy="195" r="38" fill="#A8B89A"/>
+          </g>
+          <g>
+            <rect x="325" y="190" width="14" height="130" fill="#8B6F4F"/>
+            <circle cx="332" cy="170" r="55" fill="#7A8B6F"/>
+            <circle cx="315" cy="185" r="38" fill="#A8B89A" opacity="0.85"/>
+            <circle cx="350" cy="185" r="38" fill="#7A8B6F"/>
+          </g>
+          <!-- Klein boompje midden -->
+          <g>
+            <rect x="195" y="240" width="10" height="80" fill="#8B6F4F"/>
+            <circle cx="200" cy="230" r="28" fill="#A8B89A"/>
+          </g>
+          <!-- Mens -->
+          <g>
+            <circle cx="130" cy="245" r="10" fill="#D4916F"/>
+            <path d="M 120 256 L 140 256 L 142 290 L 136 315 L 124 315 L 118 290 Z" fill="#D4916F"/>
+            <path d="M 124 315 L 122 350" stroke="#D4916F" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M 136 315 L 138 350" stroke="#D4916F" stroke-width="7" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Hert -->
+          <g>
+            <ellipse cx="260" cy="290" rx="28" ry="14" fill="#8B6F4F"/>
+            <rect x="280" y="270" width="6" height="22" fill="#8B6F4F"/>
+            <circle cx="288" cy="266" r="8" fill="#8B6F4F"/>
+            <!-- pootjes -->
+            <rect x="242" y="300" width="3" height="20" fill="#5C4033"/>
+            <rect x="252" y="300" width="3" height="20" fill="#5C4033"/>
+            <rect x="270" y="300" width="3" height="20" fill="#5C4033"/>
+            <rect x="278" y="300" width="3" height="20" fill="#5C4033"/>
+            <!-- gewei -->
+            <path d="M 288 260 L 285 248 M 288 260 L 292 248" stroke="#5C4033" stroke-width="2"/>
+          </g>
+          <!-- Vogeltjes -->
+          <path d="M 150 90 Q 155 85 160 90 Q 165 85 170 90" stroke="#3D2B1F" stroke-width="2" fill="none"/>
+          <path d="M 250 70 Q 255 65 260 70 Q 265 65 270 70" stroke="#3D2B1F" stroke-width="2" fill="none"/>
+          <!-- Paddenstoel -->
+          <ellipse cx="100" cy="338" rx="10" ry="5" fill="#C2704E"/>
+          <rect x="97" y="338" width="6" height="10" fill="#F5EDE0"/>
+          <text x="200" y="395" text-anchor="middle" font-family="Source Sans 3" font-size="14" fill="#5C4033" font-weight="600">verschillende soorten samen</text>
+        </svg>
+
+        <!-- Niveau 8: Ecosysteem (bos + zon + wolken + water) -->
+        <svg class="zoom-scene" viewBox="0 0 400 400" data-level="7">
+          <!-- Hemel -->
+          <rect x="0" y="0" width="400" height="240" fill="#B8D4E3" opacity="0.4"/>
+          <!-- Zon -->
+          <circle cx="340" cy="55" r="22" fill="#D4A843"/>
+          <g stroke="#D4A843" stroke-width="2.5" stroke-linecap="round">
+            <line x1="340" y1="22" x2="340" y2="14"/>
+            <line x1="340" y1="88" x2="340" y2="96"/>
+            <line x1="307" y1="55" x2="299" y2="55"/>
+            <line x1="373" y1="55" x2="381" y2="55"/>
+            <line x1="317" y1="32" x2="311" y2="26"/>
+            <line x1="363" y1="78" x2="369" y2="84"/>
+            <line x1="317" y1="78" x2="311" y2="84"/>
+            <line x1="363" y1="32" x2="369" y2="26"/>
+          </g>
+          <!-- Wolken -->
+          <g fill="#FFFDF7" opacity="0.85">
+            <ellipse cx="80" cy="60" rx="35" ry="12"/>
+            <ellipse cx="100" cy="55" rx="22" ry="13"/>
+            <ellipse cx="60" cy="65" rx="20" ry="10"/>
+
+            <ellipse cx="200" cy="40" rx="30" ry="11"/>
+            <ellipse cx="218" cy="36" rx="20" ry="11"/>
+          </g>
+          <!-- Regen of zonnestraal -->
+          <g stroke="#6A9BB5" stroke-width="1.5" opacity="0.5" stroke-linecap="round">
+            <line x1="75" y1="80" x2="73" y2="92"/>
+            <line x1="90" y1="80" x2="88" y2="92"/>
+            <line x1="105" y1="80" x2="103" y2="92"/>
+          </g>
+          <!-- Bodem -->
+          <rect x="0" y="320" width="400" height="80" fill="#8B6F4F" opacity="0.5"/>
+          <!-- Vijver / water -->
+          <ellipse cx="80" cy="345" rx="55" ry="14" fill="#6A9BB5" opacity="0.7"/>
+          <ellipse cx="80" cy="343" rx="40" ry="8" fill="#88B0C5" opacity="0.6"/>
+          <!-- Bomen -->
+          <g>
+            <rect x="175" y="200" width="14" height="120" fill="#8B6F4F"/>
+            <circle cx="182" cy="180" r="48" fill="#7A8B6F"/>
+            <circle cx="200" cy="195" r="35" fill="#A8B89A"/>
+          </g>
+          <g>
+            <rect x="305" y="210" width="12" height="110" fill="#8B6F4F"/>
+            <circle cx="311" cy="195" r="42" fill="#7A8B6F"/>
+            <circle cx="295" cy="208" r="30" fill="#A8B89A" opacity="0.85"/>
+          </g>
+          <!-- Dieren klein -->
+          <g>
+            <ellipse cx="245" cy="295" rx="18" ry="9" fill="#8B6F4F"/>
+            <circle cx="260" cy="288" r="6" fill="#8B6F4F"/>
+            <rect x="235" y="302" width="2" height="12" fill="#5C4033"/>
+            <rect x="252" y="302" width="2" height="12" fill="#5C4033"/>
+          </g>
+          <!-- Vogel -->
+          <path d="M 250 100 Q 255 95 260 100 Q 265 95 270 100" stroke="#3D2B1F" stroke-width="2" fill="none"/>
+          <!-- Vissen in vijver -->
+          <path d="M 70 348 L 78 345 L 78 351 Z" fill="#5C4033"/>
+          <!-- Grassprietjes -->
+          <g stroke="#7A8B6F" stroke-width="1.5">
+            <line x1="160" y1="335" x2="158" y2="322"/>
+            <line x1="165" y1="335" x2="167" y2="322"/>
+            <line x1="155" y1="335" x2="156" y2="324"/>
+            <line x1="345" y1="335" x2="343" y2="322"/>
+            <line x1="350" y1="335" x2="352" y2="322"/>
+          </g>
+          <text x="200" y="395" text-anchor="middle" font-family="Source Sans 3" font-size="13" fill="#5C4033" font-weight="600">levende wezens + lucht + water + bodem + licht</text>
+        </svg>
+      </div>
+
+      <div class="zoom-controls no-print">
+        <button class="zoom-btn" id="zoomIn" aria-label="Inzoomen">−</button>
+        <div class="zoom-progress" id="zoomDots"></div>
+        <button class="zoom-btn" id="zoomOut" aria-label="Uitzoomen">+</button>
+      </div>
+
+      <div class="zoom-info" id="zoomInfo"></div>
+
+      <div class="zoom-hint no-print">💡 tip: je kan ook op de bolletjes klikken om naar een niveau te springen</div>
+    </div>
+
+    <!-- Print-versie -->
+    <div class="print-zoom-table print-only" style="display:none;">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">De acht niveaus — overzicht</h3>
+      <table style="width:100%; border-collapse:collapse; font-family:'Vollkorn',serif; font-size:11pt;">
+        <thead>
+          <tr style="background:#F0E8D8;">
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Nr.</th>
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Niveau</th>
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Wat is het?</th>
+            <th style="border:1px solid #ccc; padding:8px; text-align:left;">Voorbeeld</th>
+          </tr>
+        </thead>
+        <tbody id="printZoomRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TAB 3: QUIZ -->
+  <section class="tab-content" id="tab-quiz">
+    <h2 class="print-h2 tab-section-header">🎯 Welk niveau?</h2>
+
+    <div class="score-bar no-print" id="scoreBar">
+      <span>Score: <span id="scoreText">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Vragen</h3>
+      <div id="printQuestions"></div>
+    </div>
+  </section>
+
+  <!-- PRINT: oplossingen -->
+  <div class="print-only print-answers">
+    <h2 class="print-h2" style="page-break-before:always;">Oplossingen</h2>
+    <div id="printAnswers"></div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="action-btn print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// ============ TABS ============
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// ============ ZOOM ============
+const zoomLevels = [
+  {
+    name: 'Cel',
+    nr: 1,
+    desc: 'De allerkleinste bouwsteen van het leven. Eén cel is zo klein dat je hem alleen onder een microscoop kunt zien.',
+    example: 'een hartcel, een spiercel, een huidcel'
+  },
+  {
+    name: 'Weefsel',
+    nr: 2,
+    desc: 'Veel cellen van dezelfde soort die samen één functie hebben.',
+    example: 'hartspierweefsel — allemaal hartspiercellen samen'
+  },
+  {
+    name: 'Orgaan',
+    nr: 3,
+    desc: 'Verschillende weefsels die samen één functie vervullen in het lichaam.',
+    example: 'het hart — pompt het bloed rond'
+  },
+  {
+    name: 'Orgaanstelsel',
+    nr: 4,
+    desc: 'Meerdere organen die samen aan dezelfde grote opdracht werken.',
+    example: 'de bloedsomloop — hart + alle bloedvaten samen'
+  },
+  {
+    name: 'Organisme',
+    nr: 5,
+    desc: 'Alle orgaanstelsels samen vormen één levend wezen.',
+    example: 'één mens, één boom, één vogel'
+  },
+  {
+    name: 'Populatie',
+    nr: 6,
+    desc: 'Alle wezens van dezelfde soort die samen in hetzelfde gebied leven.',
+    example: 'alle herten in een bos, alle leerlingen op school'
+  },
+  {
+    name: 'Levensgemeenschap',
+    nr: 7,
+    desc: 'Verschillende populaties die samenleven in hetzelfde gebied — alle levende wezens van het gebied samen.',
+    example: 'herten + bomen + paddenstoelen + vogels in een bos'
+  },
+  {
+    name: 'Ecosysteem',
+    nr: 8,
+    desc: 'De levensgemeenschap én de niet-levende dingen erbij: bodem, water, lucht, licht, temperatuur.',
+    example: 'een bos, een vijver, een woestijn'
+  }
+];
+
+let currentLevel = 0;
+const scenes = document.querySelectorAll('.zoom-scene');
+const zoomIn = document.getElementById('zoomIn');
+const zoomOut = document.getElementById('zoomOut');
+const zoomInfo = document.getElementById('zoomInfo');
+const zoomDots = document.getElementById('zoomDots');
+
+// Maak puntjes
+zoomLevels.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'zoom-dot';
+  if (i === 0) dot.classList.add('active');
+  dot.addEventListener('click', () => goToLevel(i));
+  zoomDots.appendChild(dot);
+});
+
+function updateZoom() {
+  scenes.forEach((s, i) => s.classList.toggle('active', i === currentLevel));
+  document.querySelectorAll('.zoom-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentLevel);
+    d.classList.toggle('passed', i < currentLevel);
+  });
+  const lvl = zoomLevels[currentLevel];
+  zoomInfo.innerHTML = `
+    <div class="zoom-info-number">niveau ${lvl.nr}</div>
+    <div class="zoom-info-name">${lvl.name}</div>
+    <div class="zoom-info-desc">${lvl.desc}</div>
+    <div class="zoom-info-example"><strong>VOORBEELD —</strong> ${lvl.example}</div>
+  `;
+  zoomIn.disabled = currentLevel === 0;
+  zoomOut.disabled = currentLevel === zoomLevels.length - 1;
+}
+
+function goToLevel(i) {
+  currentLevel = Math.max(0, Math.min(zoomLevels.length - 1, i));
+  updateZoom();
+}
+
+zoomIn.addEventListener('click', () => goToLevel(currentLevel - 1));
+zoomOut.addEventListener('click', () => goToLevel(currentLevel + 1));
+
+updateZoom();
+
+// Print-tabel zoom
+function buildPrintZoomTable() {
+  const tbody = document.getElementById('printZoomRows');
+  tbody.innerHTML = zoomLevels.map(l => `
+    <tr>
+      <td style="border:1px solid #ccc; padding:8px;">${l.nr}</td>
+      <td style="border:1px solid #ccc; padding:8px;"><strong>${l.name}</strong></td>
+      <td style="border:1px solid #ccc; padding:8px;">${l.desc}</td>
+      <td style="border:1px solid #ccc; padding:8px;"><em>${l.example}</em></td>
+    </tr>
+  `).join('');
+}
+buildPrintZoomTable();
+
+// ============ QUIZ ============
+const quizData = [
+  { q: 'Wat voor niveau is "een hart"?', options: ['Cel', 'Weefsel', 'Orgaan', 'Orgaanstelsel'], correct: 2, explain: 'Het hart is een orgaan — opgebouwd uit verschillende weefsels (spierweefsel, zenuwweefsel, bindweefsel) die samen één functie hebben.' },
+  { q: 'Wat voor niveau is "alle wolven in een bos"?', options: ['Organisme', 'Populatie', 'Levensgemeenschap', 'Ecosysteem'], correct: 1, explain: 'Een populatie: alle wezens van dezelfde soort in hetzelfde gebied.' },
+  { q: 'Wat voor niveau is "een spiercel"?', options: ['Cel', 'Weefsel', 'Orgaan', 'Organisme'], correct: 0, explain: 'Eén cel — de allerkleinste bouwsteen. Veel spiercellen samen vormen pas spierweefsel.' },
+  { q: 'Wat voor niveau is "een vijver met de vissen, het water, de waterplanten en de modder erin"?', options: ['Populatie', 'Levensgemeenschap', 'Ecosysteem', 'Organisme'], correct: 2, explain: 'Een ecosysteem: levende wezens samen met niet-levende factoren (water, modder, lucht).' },
+  { q: 'Wat voor niveau is "de longen, de luchtpijp en de neus samen"?', options: ['Orgaan', 'Orgaanstelsel', 'Organisme', 'Weefsel'], correct: 1, explain: 'Een orgaanstelsel: meerdere organen die samenwerken — hier het ademhalingsstelsel.' },
+  { q: 'Wat voor niveau is "één eik in het bos"?', options: ['Orgaan', 'Organisme', 'Populatie', 'Levensgemeenschap'], correct: 1, explain: 'Eén levend wezen op zichzelf = een organisme.' },
+  { q: 'Wat voor niveau is "alle dieren én alle planten in een bos samen, maar zonder het water of de lucht"?', options: ['Populatie', 'Levensgemeenschap', 'Ecosysteem', 'Organisme'], correct: 1, explain: 'Een levensgemeenschap: verschillende populaties samen, maar zonder de niet-levende factoren. Pas mét lucht/water/bodem wordt het een ecosysteem.' },
+  { q: 'Wat voor niveau is "hartspierweefsel"?', options: ['Cel', 'Weefsel', 'Orgaan', 'Orgaanstelsel'], correct: 1, explain: 'Weefsel: veel cellen van dezelfde soort samen (hier allemaal hartspiercellen).' },
+  { q: 'Wat is het kleinste niveau van leven?', options: ['Cel', 'Weefsel', 'Orgaan', 'Organisme'], correct: 0, explain: 'De cel — de allerkleinste bouwsteen. Alleen zichtbaar onder een microscoop.' },
+  { q: 'Wat hoort er NIET bij in een ecosysteem dat een levensgemeenschap er nog niet bij heeft?', options: ['De dieren', 'De planten', 'De bodem en het water', 'De paddenstoelen'], correct: 2, explain: 'De niet-levende factoren (bodem, water, lucht, licht) zijn wat een ecosysteem toevoegt bovenop de levensgemeenschap.' }
+];
+
+let answered = new Array(quizData.length).fill(false);
+let correctCount = 0;
+const quizContainer = document.getElementById('quizContainer');
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const progressFill = document.getElementById('progressFill');
+const celebration = document.getElementById('celebration');
+
+function renderQuiz() {
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question">${item.q}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${idx}"></div>
+    `;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', handleAnswer);
+  });
+}
+
+function handleAnswer(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answered[qIdx]) return;
+  answered[qIdx] = true;
+
+  const item = quizData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + qIdx);
+
+  allOpts.forEach(o => o.disabled = true);
+
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+
+  updateScore();
+}
+
+function updateScore() {
+  const answeredCount = answered.filter(a => a).length;
+  scoreBar.classList.add('show');
+  scoreText.textContent = correctCount + '/' + answeredCount;
+  progressFill.style.width = (answeredCount / quizData.length * 100) + '%';
+
+  if (answeredCount === quizData.length) {
+    const pct = correctCount / quizData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebration.textContent = msg;
+    celebration.classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(quizData.length).fill(false);
+  correctCount = 0;
+  scoreBar.classList.remove('show');
+  celebration.classList.remove('show');
+  progressFill.style.width = '0%';
+  renderQuiz();
+}
+
+renderQuiz();
+
+// Print quiz
+function buildPrintQuiz() {
+  const pq = document.getElementById('printQuestions');
+  const pa = document.getElementById('printAnswers');
+  pq.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:14px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}. ${item.q}</strong><br>
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`
+  ).join('');
+  pa.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:10px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+}
+buildPrintQuiz();
+</script>
+</body>
+</html>
