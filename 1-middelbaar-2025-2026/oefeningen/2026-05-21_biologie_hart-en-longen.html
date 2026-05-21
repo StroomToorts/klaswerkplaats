@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hart en longen: bloed, bloedsomloop en ademhaling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --blood-bright: #C8362F;
+  --blood-dark: #7A2818;
+  --vak-color: #95A886;
+  --vak-color-dark: #7A8B6F;
+  --vak-color-light: #B5C2A8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%237A8B6F' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%237A8B6F' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.breadcrumb {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--warm-brown);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px dashed transparent; transition: border-color 0.2s; }
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+  animation: fadeSlideUp 0.6s ease;
+}
+.subject-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3);
+  flex-shrink: 0;
+}
+.title-block h1 {
+  margin: 0;
+  font-family: 'Vollkorn', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dark-brown);
+  line-height: 1.2;
+}
+.title-block .date {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-top: 2px;
+}
+
+.intro-text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 16px;
+  color: var(--warm-brown);
+  margin: 0 0 24px;
+  line-height: 1.5;
+  opacity: 0.85;
+  animation: fadeSlideUp 0.7s ease;
+}
+
+.mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 6px;
+  background: rgba(255, 253, 247, 0.6);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06);
+}
+.tab-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.tab-btn:hover { background: rgba(122, 139, 111, 0.1); }
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  box-shadow: 0 2px 8px rgba(122, 139, 111, 0.3);
+}
+
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+
+.theory-card {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.theory-card h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.theory-card h3 {
+  font-family: 'Vollkorn', serif;
+  font-size: 18px;
+  color: var(--rust);
+  margin: 18px 0 8px;
+  font-weight: 600;
+}
+.theory-card p { font-size: 16px; line-height: 1.7; margin: 0 0 12px; color: var(--dark-brown); }
+
+.tekening-cue {
+  background: rgba(212, 168, 67, 0.15);
+  border-left: 3px solid var(--ochre);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13.5px;
+  color: var(--warm-brown);
+  margin: 10px 0;
+  font-style: italic;
+}
+.tekening-cue::before { content: '✏️ '; }
+
+/* Bloedbestanddelen lijstje */
+.blood-parts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+.blood-part {
+  background: var(--parchment);
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 15px;
+}
+.blood-part .pct {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warm-brown);
+  background: var(--warm-white);
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.blood-part .name { font-weight: 700; color: var(--rust); flex-shrink: 0; }
+.blood-part .func { font-size: 14.5px; color: var(--dark-brown); }
+
+/* Onthou-kaders */
+.remember-box {
+  background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--sage) 100%);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  color: var(--dark-brown);
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.18);
+}
+.remember-box .label {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--warm-brown);
+  display: block;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.remember-box .rule {
+  font-family: 'Vollkorn', serif;
+  font-size: 15.5px;
+  font-weight: 600;
+  margin: 6px 0;
+  display: block;
+}
+.remember-box .rule .em { color: var(--blood-dark); }
+
+/* Route stations (theorie) */
+.route-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  counter-reset: station;
+}
+.route-list li {
+  counter-increment: station;
+  position: relative;
+  padding: 10px 14px 10px 50px;
+  margin: 4px 0;
+  background: var(--parchment);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.route-list li::before {
+  content: counter(station);
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  background: var(--blood-bright);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+}
+.route-list.adem li::before { background: var(--sky-blue); }
+.route-list li strong { color: var(--rust); }
+.route-list li.dark::before { background: var(--blood-dark); }
+
+/* Manuele nummering via data-nr (voor adem-route die schrift-nummers volgt) */
+.route-list.manual-nr {
+  counter-reset: none;
+}
+.route-list.manual-nr li {
+  counter-increment: none;
+}
+.route-list.manual-nr li::before {
+  content: attr(data-nr);
+  font-size: 11px;
+}
+
+.color-tag {
+  display: inline-block;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.3px;
+  margin-left: 6px;
+}
+.color-tag.bright { background: var(--blood-bright); color: white; }
+.color-tag.dark { background: var(--blood-dark); color: white; }
+
+/* === QUIZ 1: BLOEDSOMLOOP — opbouwende invuloefening === */
+.fill-route {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--blood-bright);
+}
+.fill-route-intro {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14.5px;
+  color: var(--warm-brown);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.difficulty-selector {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0 18px;
+  flex-wrap: wrap;
+}
+.diff-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 12px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--warm-brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.diff-btn:hover { border-color: var(--vak-color); }
+.diff-btn.active {
+  background: linear-gradient(135deg, var(--blood-bright) 0%, var(--blood-dark) 100%);
+  color: white;
+  border-color: var(--blood-dark);
+  box-shadow: 0 2px 8px rgba(183, 85, 61, 0.3);
+}
+.diff-btn .diff-sub {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.route-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 16px 0;
+}
+.route-station {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--parchment);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.route-station.bridge {
+  background: rgba(212, 168, 67, 0.18);
+  font-style: italic;
+  font-size: 13.5px;
+  padding: 6px 12px;
+  color: var(--warm-brown);
+  justify-content: center;
+}
+.station-num {
+  width: 28px;
+  height: 28px;
+  background: var(--blood-bright);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.station-num.dark { background: var(--blood-dark); }
+.station-num.a { background: var(--ochre); font-size: 11px; }
+.station-content {
+  flex: 1;
+  font-family: 'Vollkorn', serif;
+  font-size: 15px;
+  color: var(--dark-brown);
+}
+.station-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid var(--sand);
+  border-radius: 8px;
+  font-family: 'Vollkorn', serif;
+  font-size: 15px;
+  background: var(--warm-white);
+  color: var(--dark-brown);
+  min-width: 0;
+}
+.station-input:focus {
+  outline: none;
+  border-color: var(--blood-bright);
+  box-shadow: 0 0 0 3px rgba(200, 54, 47, 0.12);
+}
+.station-input.correct-input {
+  border-color: var(--olive-dark);
+  background: rgba(168, 201, 154, 0.18);
+}
+.station-input.wrong-input {
+  border-color: var(--rust);
+  background: rgba(212, 154, 138, 0.18);
+}
+.station-given {
+  flex: 1;
+  font-family: 'Vollkorn', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vak-color-dark);
+  font-style: italic;
+}
+.station-given::before { content: '✓ '; color: var(--olive-dark); font-weight: 700; }
+
+.route-check-btn {
+  display: block;
+  margin: 16px auto 0;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--blood-bright) 0%, var(--blood-dark) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(183, 85, 61, 0.25);
+}
+.route-check-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(183, 85, 61, 0.35); }
+
+.route-result {
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  text-align: center;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 15px;
+  display: none;
+}
+.route-result.show { display: block; animation: fadeSlideUp 0.4s ease; }
+.route-result.perfect {
+  background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%);
+  color: white;
+}
+.route-result.good { background: rgba(168, 201, 154, 0.3); color: var(--olive-dark); }
+.route-result.partial { background: rgba(212, 168, 67, 0.25); color: var(--warm-brown); }
+
+/* === QUIZ 2: ADEM — invul-volgorde === */
+.adem-route {
+  background: var(--warm-white);
+  border-radius: 18px;
+  padding: 22px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--sky-blue);
+}
+.adem-route .station-num { background: var(--sky-blue); }
+.adem-route .station-input:focus { border-color: var(--sky-blue); box-shadow: 0 0 0 3px rgba(106, 155, 181, 0.15); }
+.adem-route .route-check-btn { background: linear-gradient(135deg, var(--sky-blue) 0%, #4F7E96 100%); box-shadow: 0 3px 10px rgba(106, 155, 181, 0.25); }
+
+/* === QUIZ 3: MULTIPLE CHOICE === */
+.quiz-card {
+  background: var(--warm-white);
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08);
+  border-left: 4px solid var(--vak-color);
+}
+.quiz-number {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--vak-color-dark);
+  margin-bottom: 6px;
+}
+.quiz-question {
+  font-family: 'Vollkorn', serif;
+  font-size: 17px;
+  color: var(--dark-brown);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.quiz-question .scene { font-style: italic; background: rgba(212, 168, 67, 0.15); padding: 2px 8px; border-radius: 6px; }
+.quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz-option {
+  padding: 10px 16px;
+  border: 2px solid var(--sand);
+  background: var(--warm-white);
+  border-radius: 22px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--dark-brown);
+}
+.quiz-option:hover { border-color: var(--vak-color); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(122, 139, 111, 0.15); }
+.quiz-option.correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; animation: pop 0.4s ease; }
+.quiz-option.incorrect { background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%); border-color: var(--rust); color: white; animation: shake 0.4s ease; }
+.quiz-option.show-correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; }
+.quiz-option:disabled { cursor: default; }
+
+.quiz-feedback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  display: none;
+  line-height: 1.5;
+}
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good { background: rgba(168, 201, 154, 0.25); color: var(--olive-dark); }
+.quiz-feedback.bad { background: rgba(194, 112, 78, 0.15); color: var(--rust); }
+
+.score-bar {
+  background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%);
+  color: var(--warm-white);
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  margin-bottom: 16px;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 10px rgba(122, 139, 111, 0.25);
+}
+.score-bar.show { display: flex; }
+.progress-track { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.25); border-radius: 4px; margin: 0 14px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 6px 12px; border-radius: 18px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+
+.celebration {
+  background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%);
+  color: white;
+  padding: 22px;
+  border-radius: 16px;
+  text-align: center;
+  font-family: 'Vollkorn', serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 16px 0;
+  display: none;
+  box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3);
+}
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+
+.actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn { padding: 12px 22px; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.print-btn { background: var(--warm-white); color: var(--warm-brown); border: 2px solid var(--sand); }
+.print-btn:hover { background: var(--cream); border-color: var(--vak-color); }
+.back-btn { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: white; }
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); }
+
+.print-only { display: none; }
+.print-h2 {
+  font-family: 'Vollkorn', serif;
+  font-size: 20px;
+  color: var(--vak-color-dark);
+  margin: 30px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--vak-color-light);
+}
+.tab-section-header { display: none; }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 19px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 12.5px; padding: 9px 8px; min-width: 80px; }
+  .theory-card { padding: 18px 18px; }
+  .theory-card h2 { font-size: 19px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .blood-part { flex-wrap: wrap; }
+  .station-content, .station-input, .station-given { font-size: 14px; }
+  .diff-btn { font-size: 12.5px; min-width: 0; padding: 8px 6px; }
+  .diff-btn .diff-sub { font-size: 10px; }
+  .station-num { width: 24px; height: 24px; font-size: 11px; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-only { display: block !important; }
+
+  .theory-card, .quiz-card, .fill-route, .adem-route {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    page-break-inside: avoid;
+  }
+  .blood-part, .route-list li, .route-station, .remember-box, .tekening-cue {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    color: black !important;
+  }
+  .remember-box .label, .blood-part .name, .route-list li strong { color: #000 !important; }
+  .subject-icon { display: none; }
+  .score-bar, .celebration, .reset-btn { display: none !important; }
+
+  /* Quizzen verbergen in print */
+  #quizContainer { display: none !important; }
+  .quiz-feedback { display: none !important; }
+  .difficulty-selector { display: none !important; }
+  .route-check-btn, .route-result { display: none !important; }
+  .station-input { border: 1px solid #888 !important; background: white !important; color: transparent !important; }
+  .station-input::placeholder { color: transparent !important; }
+
+  .print-answers { page-break-before: always; }
+  h2.print-h2 { color: #000 !important; border-bottom-color: #888 !important; }
+  .tab-section-header { display: block !important; }
+  a { color: black; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Hart en longen
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>Hart en longen: bloed, bloedsomloop en ademhaling</h1>
+      <div class="date">21 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    Hoe vervoert ons lichaam zuurstof? Ontdek het bloed en zijn weg door de bloedsomloop, en de weg van de lucht door het ademhalingsstelsel. Twee systemen die nauw samenwerken.
+  </p>
+
+  <div class="mode-tabs no-print">
+    <button class="tab-btn active" data-tab="theorie">📚 Theorie</button>
+    <button class="tab-btn" data-tab="bloed">🩸 Weg van het bloed</button>
+    <button class="tab-btn" data-tab="adem">🫁 Weg van de adem</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Wat weet je?</button>
+  </div>
+
+  <!-- TAB 1: THEORIE -->
+  <section class="tab-content active" id="tab-theorie">
+    <h2 class="print-h2 tab-section-header">📚 Theorie</h2>
+
+    <!-- B: BLOED EN BLOEDSOMLOOP -->
+    <div class="theory-card">
+      <h2>B. Bloed en bloedsomloop</h2>
+      <p>
+        Het bloed is een <em>bijzonder sap</em>. We hebben ongeveer <strong>5 liter</strong> bloed dat door ons lichaam stroomt. Het is het meest levendige in de mens.
+      </p>
+      <p>
+        In de borstholte bevindt zich het <strong>hart</strong> dat onvermoeibaar doorwerkt. Het zorgt ervoor dat elk deeltje van ons lichaam wordt doorbloed. Het hart bestaat uit <strong>vier delen</strong>: 2 boezems en 2 kamers.
+      </p>
+
+      <h3>De vier bestanddelen van het bloed</h3>
+      <div class="blood-parts">
+        <div class="blood-part">
+          <span class="pct">± ½</span>
+          <span class="name">Plasma</span>
+          <span class="func">— bevat de suikers en voedingsmiddelen</span>
+        </div>
+        <div class="blood-part">
+          <span class="pct">± ½</span>
+          <span class="name">Rode bloedcellen</span>
+          <span class="func">— vervoer van zuurstof</span>
+        </div>
+        <div class="blood-part">
+          <span class="pct">± 1%</span>
+          <span class="name">Witte bloedcellen</span>
+          <span class="func">— bestrijden van vreemde kiemen</span>
+        </div>
+        <div class="blood-part">
+          <span class="pct">± 1%</span>
+          <span class="name">Bloedplaatjes</span>
+          <span class="func">— stollen van bloed</span>
+        </div>
+      </div>
+
+      <h3>De weg van het bloed</h3>
+      <p>
+        Het bloed dat in de longen <span class="color-tag bright">zuurstofrijk</span> en helderrood is geworden, begint zijn weg door het hart en het hele lichaam.
+      </p>
+
+      <div class="tekening-cue">Volg deze stappen op je eigen tekening in het schrift — de cijfers verwijzen naar de nummers daar.</div>
+
+      <ol class="route-list">
+        <li><strong>longader</strong> — brengt zuurstofrijk bloed uit de longen <span class="color-tag bright">helderrood</span></li>
+        <li><strong>linkerboezem</strong> van het hart</li>
+        <li><em>klepje</em> (2a) tussen boezem en kamer</li>
+        <li><strong>linkerkamer</strong> — trekt samen en pompt het bloed weg</li>
+        <li><strong>aorta</strong> (lichaamsslagader) — door het hele lichaam <span class="color-tag bright">helderrood</span></li>
+        <li class="dark"><strong>haarvatennetwerk</strong> — hier wordt bloed zuurstofarm <span class="color-tag dark">donkerrood</span></li>
+        <li class="dark"><strong>holle ader</strong> — terug naar het hart</li>
+        <li class="dark"><strong>rechterboezem</strong></li>
+        <li class="dark"><em>klepje</em> (7a) tussen boezem en kamer</li>
+        <li class="dark"><strong>rechterkamer</strong> — trekt samen en pompt</li>
+        <li class="dark"><strong>longslagader</strong> — naar de longen om opnieuw zuurstof op te nemen</li>
+        <li><strong>longen</strong> — bloed wordt weer <span class="color-tag bright">helderrood</span></li>
+      </ol>
+      <p style="font-size:14.5px; font-style:italic; color:var(--warm-brown);">Zo herhaalt alles zich, onophoudelijk.</p>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — twee bloedsomlopen</span>
+        <span class="rule">Hart → longen → hart = <span class="em">kleine bloedsomloop</span></span>
+        <span class="rule">Hart → haarvatennetwerk → hart = <span class="em">grote bloedsomloop</span></span>
+      </div>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — aders en slagaders</span>
+        <span class="rule"><span class="em">Aders</span> vervoeren bloed <em>naar</em> het hart.</span>
+        <span class="rule"><span class="em">Slagaders</span> pompen bloed <em>weg van</em> het hart.</span>
+        <p style="font-size:13.5px; font-style:italic; margin: 8px 0 0; color:var(--warm-brown);">
+          Let op: dit heeft niets te maken met zuurstof! De longader is een ader (gaat naar het hart) maar bevat zuurstofrijk bloed. De longslagader is een slagader (gaat weg van het hart) maar bevat zuurstofarm bloed.
+        </p>
+      </div>
+    </div>
+
+    <!-- C: ADEMHALINGSSTELSEL -->
+    <div class="theory-card">
+      <h2>C. Het ademhalingsstelsel</h2>
+      <p>
+        Een belangrijke taak van het bloed is om <strong>zuurstof (O₂)</strong> te vervoeren voor onze cellen. Maar hoe komt die zuurstof in je bloed? Via je ademhaling — de longen vormen de brug tussen de lucht buiten en het bloed binnen.
+      </p>
+
+      <h3>De weg van de adem</h3>
+
+      <div class="tekening-cue">Volg deze stappen op je eigen tekening in het schrift — de cijfers verwijzen naar de nummers daar.</div>
+
+      <ol class="route-list adem manual-nr">
+        <li data-nr="1+2"><strong>neus</strong> (1) of <strong>mond</strong> (2) — de lucht komt het lichaam binnen</li>
+        <li data-nr="3"><strong>keelholte</strong></li>
+        <li data-nr="–"><strong>epiglottis</strong> (klepje) — opent bij ademen, sluit bij slikken</li>
+        <li data-nr="5"><strong>luchtpijp</strong> (trachea) — herkenbaar aan de C-vormige ringen (6), ligt voor de slokdarm</li>
+        <li data-nr="7"><strong>bronchiën</strong> (luchtpijptakken) — twee takken</li>
+        <li data-nr="8"><strong>bronchiolen</strong> — steeds fijnere vertakkingen, uiteindelijk fijner dan een haartje</li>
+      </ol>
+
+      <p style="font-size:15px; margin-top: 10px;">
+        Je vergelijkt het met een <strong>boom</strong>: de luchtpijp is de stam, de bronchiën de grote takken, en de bronchiolen de allerkleinste twijgjes.
+      </p>
+
+      <h3>Neusademhaling is gezonder</h3>
+      <p>
+        De neusademhaling is gezonder dan de mondademhaling omdat:
+      </p>
+      <ul style="font-size:15.5px; line-height:1.7;">
+        <li>de lucht wordt <strong>gezuiverd</strong> door haartjes en slijm in de neus</li>
+        <li>de weg naar de longen is <strong>langer</strong>, zodat de lucht <strong>opgewarmd</strong> kan worden</li>
+      </ul>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — de epiglottis</span>
+        <span class="rule">De epiglottis <span class="em">opent</span> wanneer je ademt.</span>
+        <span class="rule">De epiglottis <span class="em">sluit</span> wanneer je slikt — zo komt er niets in het "verkeerde keelgat".</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: WEG VAN HET BLOED -->
+  <section class="tab-content" id="tab-bloed">
+    <h2 class="print-h2 tab-section-header">🩸 Weg van het bloed</h2>
+
+    <div class="fill-route">
+      <p class="fill-route-intro">
+        Vul de ontbrekende stations in. Start bij <strong>makkelijk</strong> (enkele lege vakken) en bouw op tot <strong>alles invullen</strong>. Spellingsfouten en accenten worden soepel beoordeeld.
+      </p>
+
+      <div class="difficulty-selector">
+        <button class="diff-btn active" data-diff="easy">Makkelijk<span class="diff-sub">3 lege vakken</span></button>
+        <button class="diff-btn" data-diff="medium">Gemiddeld<span class="diff-sub">6 lege vakken</span></button>
+        <button class="diff-btn" data-diff="hard">Moeilijk<span class="diff-sub">alles invullen</span></button>
+      </div>
+
+      <div class="tekening-cue">Tip: kijk in het schrift naar je eigen tekening van de bloedsomloop, dat helpt om de volgorde te zien.</div>
+
+      <div id="bloedRoute" class="route-grid"></div>
+
+      <button class="route-check-btn" onclick="checkBloedRoute()">Controleer</button>
+      <div class="route-result" id="bloedResult"></div>
+    </div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">De weg van het bloed</h3>
+      <p style="font-style:italic; font-size:11pt;">Schrijf de stations in de juiste volgorde op:</p>
+      <div style="font-family:'Vollkorn',serif; font-size:11pt;" id="printBloedRoute"></div>
+    </div>
+  </section>
+
+  <!-- TAB 3: WEG VAN DE ADEM -->
+  <section class="tab-content" id="tab-adem">
+    <h2 class="print-h2 tab-section-header">🫁 Weg van de adem</h2>
+
+    <div class="adem-route">
+      <p class="fill-route-intro">
+        Vul de stations van de adem in, van neus/mond tot de bronchiolen. Spellingsfouten worden soepel beoordeeld.
+      </p>
+
+      <div class="tekening-cue">Tip: kijk in het schrift naar je eigen tekening van het ademhalingsstelsel.</div>
+
+      <div id="ademRoute" class="route-grid"></div>
+
+      <button class="route-check-btn" onclick="checkAdemRoute()">Controleer</button>
+      <div class="route-result" id="ademResult"></div>
+    </div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">De weg van de adem</h3>
+      <p style="font-style:italic; font-size:11pt;">Schrijf de stations in de juiste volgorde op:</p>
+      <div style="font-family:'Vollkorn',serif; font-size:11pt;" id="printAdemRoute"></div>
+    </div>
+  </section>
+
+  <!-- TAB 4: QUIZ -->
+  <section class="tab-content" id="tab-quiz">
+    <h2 class="print-h2 tab-section-header">🎯 Wat weet je?</h2>
+
+    <div class="score-bar no-print" id="scoreBar">
+      <span>Score: <span id="scoreText">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Vragen</h3>
+      <div id="printQuestions"></div>
+    </div>
+  </section>
+
+  <!-- PRINT: oplossingen -->
+  <div class="print-only print-answers">
+    <h2 class="print-h2" style="page-break-before:always;">Oplossingen</h2>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Weg van het bloed</h3>
+    <div style="font-family:'Vollkorn',serif; font-size:11pt; line-height:1.7;" id="printBloedAnswers"></div>
+
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-top:20px;">Weg van de adem</h3>
+    <div style="font-family:'Vollkorn',serif; font-size:11pt; line-height:1.7;" id="printAdemAnswers"></div>
+
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-top:20px;">Quiz</h3>
+    <div id="printAnswers"></div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="action-btn print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// TABS
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// ============ NORMALIZE & FUZZY MATCH ============
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c')
+    .replace(/[.,;:!?]$/, '')
+    .replace(/^(de |het |een )/, '');
+}
+
+// Levenshtein-afstand: aantal kleine wijzigingen tussen twee strings
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const prev = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    let curr = [i];
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+  }
+  return prev[b.length];
+}
+
+// Bepaalt tolerantie op basis van woordlengte
+function maxTolerance(target) {
+  const len = target.length;
+  if (len <= 4) return 0;       // korte woorden: exact (anders verwarring mond/bond)
+  if (len <= 7) return 1;       // medium: 1 tikfout toegelaten
+  if (len <= 12) return 2;      // langer: 2 tikfouten
+  return 3;                     // heel lang: 3 tikfouten
+}
+
+function answersMatch(input, accepted) {
+  const n = normalize(input);
+  if (!n) return false;
+  return accepted.some(a => {
+    const na = normalize(a);
+    if (na === n) return true;
+    // Fuzzy: kleine tikfout toegelaten
+    const tol = maxTolerance(na);
+    if (tol > 0 && levenshtein(na, n) <= tol) return true;
+    return false;
+  });
+}
+
+// ============ WEG VAN HET BLOED ============
+// Volgens schrift: longader (1) → linkerboezem (2) → klepje (2a) → linkerkamer (3) →
+// aorta/lichaamsslagader (4) → haarvatennetwerk (5) → holle ader (6) →
+// rechterboezem (7) → klepje (7a) → rechterkamer (8) → longslagader (9) → longen (10)
+const bloedStations = [
+  { nr: '1', name: 'longader', accepted: ['longader', 'longaders'], dark: false, isKlepje: false },
+  { nr: '2', name: 'linkerboezem', accepted: ['linkerboezem', 'linker boezem'], dark: false, isKlepje: false },
+  { nr: '2a', name: 'klepje', accepted: ['klepje', 'klep'], dark: false, isKlepje: true },
+  { nr: '3', name: 'linkerkamer', accepted: ['linkerkamer', 'linker kamer'], dark: false, isKlepje: false },
+  { nr: '4', name: 'aorta', accepted: ['aorta', 'lichaamsslagader', 'lichaams slagader'], dark: false, isKlepje: false },
+  { nr: '5', name: 'haarvatennetwerk', accepted: ['haarvatennetwerk', 'haarvaten netwerk', 'haarvaten'], dark: true, isKlepje: false },
+  { nr: '6', name: 'holle ader', accepted: ['holle ader', 'holleader', 'holle aders'], dark: true, isKlepje: false },
+  { nr: '7', name: 'rechterboezem', accepted: ['rechterboezem', 'rechter boezem'], dark: true, isKlepje: false },
+  { nr: '7a', name: 'klepje', accepted: ['klepje', 'klep'], dark: true, isKlepje: true },
+  { nr: '8', name: 'rechterkamer', accepted: ['rechterkamer', 'rechter kamer'], dark: true, isKlepje: false },
+  { nr: '9', name: 'longslagader', accepted: ['longslagader', 'long slagader', 'longslagaders'], dark: true, isKlepje: false },
+  { nr: '10', name: 'longen', accepted: ['longen', 'long'], dark: false, isKlepje: false }
+];
+
+// Welke indices laat je leeg per moeilijkheid?
+const bloedBlanks = {
+  easy: [1, 4, 9],         // linkerboezem, aorta, klepje 7a
+  medium: [0, 2, 4, 5, 7, 10], // longader, klepje 2a, aorta, haarvaten, rechterboezem, longslagader
+  hard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] // alles
+};
+
+let currentDiff = 'easy';
+
+function renderBloedRoute() {
+  const blanks = new Set(bloedBlanks[currentDiff]);
+  const container = document.getElementById('bloedRoute');
+  container.innerHTML = '';
+
+  bloedStations.forEach((st, idx) => {
+    const row = document.createElement('div');
+    row.className = 'route-station';
+    if (st.isKlepje) row.classList.add('bridge');
+
+    const num = document.createElement('div');
+    num.className = 'station-num';
+    if (st.dark) num.classList.add('dark');
+    if (st.nr.includes('a')) num.classList.add('a');
+    num.textContent = st.nr;
+    row.appendChild(num);
+
+    if (blanks.has(idx)) {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'station-input';
+      input.placeholder = st.isKlepje ? 'wat zit hier tussen?' : 'vul in...';
+      input.dataset.idx = idx;
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      row.appendChild(input);
+    } else {
+      const given = document.createElement('div');
+      given.className = 'station-given';
+      given.textContent = st.name;
+      row.appendChild(given);
+    }
+    container.appendChild(row);
+  });
+
+  document.getElementById('bloedResult').classList.remove('show');
+}
+
+function checkBloedRoute() {
+  const inputs = document.querySelectorAll('#bloedRoute .station-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(input => {
+    const idx = parseInt(input.dataset.idx);
+    const ok = answersMatch(input.value, bloedStations[idx].accepted);
+    input.classList.remove('correct-input', 'wrong-input');
+    input.classList.add(ok ? 'correct-input' : 'wrong-input');
+    if (ok) correct++;
+    else input.value = input.value + (input.value.endsWith(' ') ? '' : ' '); // trigger no autocorrect
+    if (!ok) input.placeholder = bloedStations[idx].name;
+  });
+
+  const result = document.getElementById('bloedResult');
+  result.classList.remove('perfect', 'good', 'partial');
+  result.classList.add('show');
+  if (correct === total) {
+    result.classList.add('perfect');
+    result.innerHTML = `🌟 Alles juist — ${correct}/${total}! De route zit erin.`;
+  } else if (correct >= total * 0.7) {
+    result.classList.add('good');
+    result.innerHTML = `💪 Goed bezig — ${correct}/${total}. De foute vakken tonen het juiste antwoord als hint.`;
+  } else {
+    result.classList.add('partial');
+    result.innerHTML = `📚 ${correct}/${total} juist. Bekijk de theorie en de tekening in je schrift nog eens.`;
+  }
+}
+
+// Difficulty knoppen
+document.querySelectorAll('.fill-route .diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fill-route .diff-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentDiff = btn.dataset.diff;
+    renderBloedRoute();
+  });
+});
+
+renderBloedRoute();
+
+// ============ WEG VAN DE ADEM ============
+// Volgens schrift: neus (1), mond (2), keelholte (3), epiglottis (geen nr in schrift),
+// luchtpijp/trachea (5), C-vormige ringen (6 — kenmerk, geen station),
+// bronchiën (7), bronchiolen (8)
+const ademStations = [
+  { nr: '1', name: 'neus', accepted: ['neus', 'de neus'], detail: 'of via de mond' },
+  { nr: '2', name: 'mond', accepted: ['mond', 'de mond'], detail: 'of via de neus' },
+  { nr: '3', name: 'keelholte', accepted: ['keelholte', 'keel'], detail: '' },
+  { nr: '–', name: 'epiglottis', accepted: ['epiglottis', 'strotklepje', 'klepje'], detail: 'het klepje dat sluit bij slikken' },
+  { nr: '5', name: 'luchtpijp', accepted: ['luchtpijp', 'trachea'], detail: 'ook trachea genoemd' },
+  { nr: '7', name: 'bronchiën', accepted: ['bronchien', 'bronchiën', 'luchtpijptakken', 'bronchi'], detail: 'de twee grote luchtpijptakken' },
+  { nr: '8', name: 'bronchiolen', accepted: ['bronchiolen', 'bronchiool'], detail: 'fijne vertakkingen, fijner dan een haartje' }
+];
+
+function renderAdemRoute() {
+  const container = document.getElementById('ademRoute');
+  container.innerHTML = '';
+  ademStations.forEach((st, idx) => {
+    const row = document.createElement('div');
+    row.className = 'route-station';
+
+    const num = document.createElement('div');
+    num.className = 'station-num';
+    if (st.nr === '–') num.classList.add('a'); // klein bolletje voor ongenummerd item
+    num.textContent = st.nr;
+    row.appendChild(num);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'station-input';
+    input.placeholder = 'vul in...';
+    input.dataset.idx = idx;
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    row.appendChild(input);
+
+    container.appendChild(row);
+  });
+  document.getElementById('ademResult').classList.remove('show');
+}
+
+function checkAdemRoute() {
+  const inputs = document.querySelectorAll('#ademRoute .station-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(input => {
+    const idx = parseInt(input.dataset.idx);
+    const ok = answersMatch(input.value, ademStations[idx].accepted);
+    input.classList.remove('correct-input', 'wrong-input');
+    input.classList.add(ok ? 'correct-input' : 'wrong-input');
+    if (ok) correct++;
+    if (!ok) input.placeholder = ademStations[idx].name;
+  });
+
+  const result = document.getElementById('ademResult');
+  result.classList.remove('perfect', 'good', 'partial');
+  result.classList.add('show');
+  if (correct === total) {
+    result.classList.add('perfect');
+    result.innerHTML = `🌟 Alles juist — ${correct}/${total}! Je kent de weg van de adem.`;
+  } else if (correct >= total * 0.7) {
+    result.classList.add('good');
+    result.innerHTML = `💪 Goed bezig — ${correct}/${total}. De foute vakken tonen het juiste antwoord als hint.`;
+  } else {
+    result.classList.add('partial');
+    result.innerHTML = `📚 ${correct}/${total} juist. Bekijk de theorie en de tekening in je schrift nog eens.`;
+  }
+}
+
+renderAdemRoute();
+
+// ============ QUIZ — TOP 12 FEITENVRAGEN ============
+const quizData = [
+  {
+    q: 'Hoeveel liter bloed heeft een mens ongeveer?',
+    options: ['1 liter', '3 liter', '5 liter', '10 liter'],
+    correct: 2,
+    explain: 'Ongeveer 5 liter bloed stroomt door ons lichaam.'
+  },
+  {
+    q: 'Uit hoeveel delen bestaat het hart?',
+    options: ['2 (1 boezem, 1 kamer)', '3', '4 (2 boezems, 2 kamers)', '6'],
+    correct: 2,
+    explain: 'Het hart bestaat uit 4 delen: 2 boezems (boven) en 2 kamers (onder).'
+  },
+  {
+    q: 'Welk bestanddeel van het bloed vervoert de zuurstof?',
+    options: ['Plasma', 'Rode bloedcellen', 'Witte bloedcellen', 'Bloedplaatjes'],
+    correct: 1,
+    explain: 'Rode bloedcellen vervoeren zuurstof. Ze maken ongeveer de helft van je bloed uit.'
+  },
+  {
+    q: 'Wat doen witte bloedcellen?',
+    options: ['Vervoer van zuurstof', 'Bestrijden van vreemde kiemen', 'Stollen van bloed', 'Vervoer van suikers'],
+    correct: 1,
+    explain: 'Witte bloedcellen bestrijden vreemde kiemen — ze beschermen je tegen ziekteverwekkers.'
+  },
+  {
+    q: 'Wat doen bloedplaatjes?',
+    options: ['Vervoer van zuurstof', 'Bestrijden van kiemen', 'Stollen van bloed', 'Vervoer van voedingsstoffen'],
+    correct: 2,
+    explain: 'Bloedplaatjes zorgen voor het stollen van bloed — daarom stopt een wondje vanzelf met bloeden.'
+  },
+  {
+    q: 'Wat is het verschil tussen aders en slagaders?',
+    options: [
+      'Aders zijn rood, slagaders zijn blauw',
+      'Aders vervoeren bloed naar het hart, slagaders pompen bloed weg van het hart',
+      'Aders zijn dikker dan slagaders',
+      'Aders vervoeren zuurstof, slagaders niet'
+    ],
+    correct: 1,
+    explain: 'Onthouden: aders gaan naar het hart toe, slagaders gaan van het hart weg. Niets met zuurstof te maken!'
+  },
+  {
+    q: 'Welk vat brengt zuurstofrijk bloed van de longen naar het hart?',
+    options: ['Longslagader', 'Longader', 'Aorta', 'Holle ader'],
+    correct: 1,
+    explain: 'De longader (een ader, want hij gaat naar het hart) brengt zuurstofrijk bloed van de longen naar de linkerboezem.'
+  },
+  {
+    q: 'Wat is de kleine bloedsomloop?',
+    options: [
+      'Van hart → haarvatennetwerk → hart',
+      'Van hart → longen → hart',
+      'Van longen → hart → longen',
+      'Van linkerkamer naar rechterkamer'
+    ],
+    correct: 1,
+    explain: 'Kleine bloedsomloop: hart → longen → hart. De grote gaat van hart → haarvatennetwerk → hart.'
+  },
+  {
+    q: 'Welke kleur heeft zuurstofrijk bloed?',
+    options: ['Donkerrood', 'Helderrood', 'Blauw', 'Bruinrood'],
+    correct: 1,
+    explain: 'Zuurstofrijk bloed is helderrood. Zuurstofarm bloed is donkerrood.'
+  },
+  {
+    q: 'Waarom is neusademhaling gezonder dan mondademhaling?',
+    options: [
+      'De neus is mooier',
+      'De lucht wordt door haartjes en slijm gezuiverd én opgewarmd onderweg',
+      'Je ruikt dan beter',
+      'De luchtpijp is langer'
+    ],
+    correct: 1,
+    explain: 'Twee redenen: de lucht wordt gezuiverd (haartjes en slijm) en opgewarmd (langere weg naar de longen).'
+  },
+  {
+    q: 'Wat doet de epiglottis (het klepje)?',
+    options: [
+      'Hij sluit altijd af',
+      'Hij sluit bij ademen en opent bij slikken',
+      'Hij opent bij ademen en sluit bij slikken',
+      'Hij zit in de longen'
+    ],
+    correct: 2,
+    explain: 'De epiglottis opent wanneer je ademt, en sluit wanneer je slikt — zo schiet er niets in het "verkeerde keelgat".'
+  },
+  {
+    q: 'Hoe herken je de luchtpijp (trachea)?',
+    options: [
+      'Hij heeft een blauwe kleur',
+      'Aan de C-vormige ringen',
+      'Hij ligt achter de slokdarm',
+      'Hij is helemaal recht'
+    ],
+    correct: 1,
+    explain: 'De luchtpijp heeft C-vormige ringen — die houden hem open. De luchtpijp ligt vóór de slokdarm.'
+  },
+  {
+    q: 'In wat splitst de luchtpijp zich?',
+    options: ['1 bronchie', '2 bronchiën', '3 bronchiolen', '4 longblaasjes'],
+    correct: 1,
+    explain: 'De luchtpijp splitst zich in 2 bronchiën (luchtpijptakken). Die vertakken zich verder in steeds fijnere bronchiolen.'
+  },
+  {
+    q: 'STRIKVRAAG: De longslagader heeft "slagader" in zijn naam. Bevat hij zuurstofrijk of zuurstofarm bloed?',
+    options: [
+      'Zuurstofrijk — alle slagaders bevatten zuurstofrijk bloed',
+      'Zuurstofarm — hij brengt arm bloed naar de longen om weer rijk te worden',
+      'Half zuurstofrijk',
+      'Geen van beide'
+    ],
+    correct: 1,
+    explain: 'Strikvraag! De longslagader is een slagader (gaat weg van het hart), maar bevat zuurstofarm bloed dat naar de longen gaat om opnieuw zuurstof op te nemen. "Slagader/ader" zegt niets over de zuurstof, alleen over de richting!'
+  },
+  {
+    q: 'Welk netwerk loopt door je hele lichaam en geeft elk deeltje bloed?',
+    options: ['Bronchiolennetwerk', 'Zenuwnetwerk', 'Haarvatennetwerk', 'Boezemnetwerk'],
+    correct: 2,
+    explain: 'Het haarvatennetwerk bereikt elk deeltje van je lichaam. Hier wordt het bloed zuurstofarm en stroomt het via de holle ader terug naar het hart.'
+  }
+];
+
+let answered = new Array(quizData.length).fill(false);
+let correctCount = 0;
+const quizContainer = document.getElementById('quizContainer');
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const progressFill = document.getElementById('progressFill');
+const celebration = document.getElementById('celebration');
+
+function renderQuiz() {
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question">${item.q}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${idx}"></div>
+    `;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', handleAnswer);
+  });
+}
+
+function handleAnswer(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answered[qIdx]) return;
+  answered[qIdx] = true;
+
+  const item = quizData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + qIdx);
+  allOpts.forEach(o => o.disabled = true);
+
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const answeredCount = answered.filter(a => a).length;
+  scoreBar.classList.add('show');
+  scoreText.textContent = correctCount + '/' + answeredCount;
+  progressFill.style.width = (answeredCount / quizData.length * 100) + '%';
+  if (answeredCount === quizData.length) {
+    const pct = correctCount / quizData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebration.textContent = msg;
+    celebration.classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(quizData.length).fill(false);
+  correctCount = 0;
+  scoreBar.classList.remove('show');
+  celebration.classList.remove('show');
+  progressFill.style.width = '0%';
+  renderQuiz();
+}
+
+renderQuiz();
+
+// PRINT
+function buildPrintContent() {
+  // Bloed route — leeg invulwerk (nummers expliciet getoond)
+  const pbr = document.getElementById('printBloedRoute');
+  pbr.innerHTML = '<table style="border-collapse:collapse; width:100%;">' +
+    bloedStations.map(st =>
+      `<tr><td style="padding:4px 10px 4px 0; font-weight:600; vertical-align:top; width:40px;">(${st.nr})</td>` +
+      `<td style="padding:4px 0; border-bottom:1px dotted #888;">${st.isKlepje ? '<em>klepje</em>' : ''}</td></tr>`
+    ).join('') + '</table>';
+
+  // Adem route — leeg
+  const par = document.getElementById('printAdemRoute');
+  par.innerHTML = '<table style="border-collapse:collapse; width:100%;">' +
+    ademStations.map(st =>
+      `<tr><td style="padding:4px 10px 4px 0; font-weight:600; vertical-align:top; width:40px;">${st.nr === '–' ? '' : '(' + st.nr + ')'}</td>` +
+      `<td style="padding:4px 0; border-bottom:1px dotted #888;"></td></tr>`
+    ).join('') + '</table>';
+
+  // Print vragen
+  const pq = document.getElementById('printQuestions');
+  pq.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:14px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}. ${item.q}</strong><br>
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`
+  ).join('');
+
+  // Antwoorden bloed
+  const pba = document.getElementById('printBloedAnswers');
+  pba.innerHTML = bloedStations.map(st =>
+    `<div style="margin-bottom:4px;"><strong>(${st.nr})</strong> ${st.name}${st.isKlepje ? ' <em>(tussen boezem en kamer)</em>' : ''}</div>`
+  ).join('');
+
+  // Antwoorden adem
+  const paa = document.getElementById('printAdemAnswers');
+  paa.innerHTML = ademStations.map(st =>
+    `<div style="margin-bottom:4px;"><strong>${st.nr === '–' ? '—' : '(' + st.nr + ')'}</strong> ${st.name}${st.detail ? ' — <em>' + st.detail + '</em>' : ''}</div>`
+  ).join('');
+
+  // Antwoorden quiz
+  const pa = document.getElementById('printAnswers');
+  pa.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:10px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+}
+buildPrintContent();
+</script>
+</body>
+</html>
