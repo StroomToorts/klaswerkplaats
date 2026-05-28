@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Periodetoets-prep biologie — H.1 t/m H.3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --sky-blue: #6A9BB5;
+  --vak-color: #95A886;
+  --vak-color-dark: #7A8B6F;
+  --vak-color-light: #B5C2A8;
+  --green-ok: #6FA85E;
+  --amber: #D4A843;
+  --red-bad: #C2704E;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown); min-height: 100vh; position: relative; overflow-x: hidden;
+}
+body::before {
+  content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%237A8B6F' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%237A8B6F' opacity='0.4'/></svg>");
+  opacity: 0.04; pointer-events: none; z-index: 0;
+}
+.container { max-width: 920px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px dashed transparent; transition: border-color 0.2s; }
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+.exercise-header { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; animation: fadeSlideUp 0.6s ease; }
+.subject-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); flex-shrink: 0; }
+.title-block h1 { margin: 0; font-family: 'Vollkorn', serif; font-size: 24px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; }
+.title-block .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-top: 2px; }
+.intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: var(--warm-brown); margin: 0 0 24px; line-height: 1.5; opacity: 0.85; animation: fadeSlideUp 0.7s ease; }
+.mode-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; padding: 6px; background: rgba(255, 253, 247, 0.6); border-radius: 14px; box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06); }
+.tab-btn { flex: 1; min-width: 90px; padding: 10px 12px; border: none; background: transparent; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; font-weight: 500; color: var(--warm-brown); border-radius: 10px; cursor: pointer; transition: all 0.25s; }
+.tab-btn:hover { background: rgba(122, 139, 111, 0.1); }
+.tab-btn.active { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); box-shadow: 0 2px 8px rgba(122, 139, 111, 0.3); }
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+.tab-intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); background: rgba(181, 194, 168, 0.18); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; line-height: 1.55; }
+.quiz-card { background: var(--warm-white); border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.quiz-number { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-bottom: 4px; }
+.quiz-thema { font-family: 'Source Sans 3', sans-serif; font-size: 11.5px; font-weight: 600; color: var(--warm-brown); text-transform: uppercase; letter-spacing: 0.4px; background: rgba(181, 194, 168, 0.3); padding: 2px 10px; border-radius: 10px; display: inline-block; margin-bottom: 8px; }
+.quiz-question { font-family: 'Vollkorn', serif; font-size: 17px; color: var(--dark-brown); margin-bottom: 14px; line-height: 1.5; }
+.quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz-option { padding: 10px 16px; border: 2px solid var(--sand); background: var(--warm-white); border-radius: 22px; font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; cursor: pointer; transition: all 0.2s; color: var(--dark-brown); text-align: left; }
+.quiz-option:hover { border-color: var(--vak-color); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(122, 139, 111, 0.15); }
+.quiz-option.correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; animation: pop 0.4s ease; }
+.quiz-option.incorrect { background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%); border-color: var(--rust); color: white; animation: shake 0.4s ease; }
+.quiz-option.show-correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; }
+.quiz-option:disabled { cursor: default; }
+.quiz-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 10px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; display: none; line-height: 1.5; }
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good { background: rgba(168, 201, 154, 0.25); color: var(--olive-dark); }
+.quiz-feedback.bad { background: rgba(194, 112, 78, 0.15); color: var(--rust); }
+.score-bar { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); padding: 14px 20px; border-radius: 14px; font-family: 'Source Sans 3', sans-serif; font-weight: 600; margin-bottom: 16px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 3px 10px rgba(122, 139, 111, 0.25); }
+.score-bar.show { display: flex; }
+.progress-track { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.25); border-radius: 4px; margin: 0 14px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 6px 12px; border-radius: 18px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+.celebration { background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%); color: white; padding: 22px; border-radius: 16px; text-align: center; font-family: 'Vollkorn', serif; font-size: 19px; font-weight: 600; margin: 16px 0; display: none; box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3); }
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+/* Themascore-overzicht (diagnose) */
+.thema-overview { background: var(--warm-white); border-radius: 16px; padding: 20px 22px; margin: 16px 0; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); display: none; border-left: 4px solid var(--ochre); }
+.thema-overview.show { display: block; animation: fadeSlideUp 0.5s ease; }
+.thema-overview h3 { font-family: 'Vollkorn', serif; font-size: 19px; color: var(--vak-color-dark); margin: 0 0 14px; }
+.thema-row { display: flex; align-items: center; gap: 12px; padding: 9px 14px; margin: 6px 0; border-radius: 10px; font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; }
+.thema-row.ok { background: rgba(111, 168, 94, 0.15); }
+.thema-row.partial { background: rgba(212, 168, 67, 0.18); }
+.thema-row.bad { background: rgba(194, 112, 78, 0.15); }
+.thema-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.thema-dot.ok { background: var(--green-ok); }
+.thema-dot.partial { background: var(--amber); }
+.thema-dot.bad { background: var(--red-bad); }
+.thema-name { flex: 1; font-weight: 600; color: var(--dark-brown); }
+.thema-score { font-weight: 700; color: var(--warm-brown); }
+.thema-hint { font-size: 12.5px; font-style: italic; color: var(--warm-brown); }
+.tab-link-box { background: rgba(106, 155, 181, 0.1); border: 1px dashed var(--sky-blue); border-radius: 12px; padding: 14px 18px; margin: 16px 0; font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); }
+.tab-link-box a { color: var(--sky-blue); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--sky-blue); }
+/* Spiekblad */
+.spiek-intro { font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown); background: rgba(181, 194, 168, 0.18); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; line-height: 1.55; }
+.spiek-card { background: var(--warm-white); border-radius: 16px; padding: 18px 22px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.spiek-card h3 { font-family: 'Vollkorn', serif; font-size: 19px; color: var(--vak-color-dark); margin: 0 0 12px; display: flex; align-items: center; gap: 10px; }
+.spiek-card ul { margin: 0; padding-left: 20px; }
+.spiek-card li { font-size: 15px; line-height: 1.65; margin-bottom: 7px; color: var(--dark-brown); }
+.spiek-tekening { background: rgba(212, 168, 67, 0.15); border-left: 3px solid var(--ochre); padding: 7px 12px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); margin-top: 10px; font-style: italic; }
+.spiek-tekening::before { content: '✏️ '; }
+.spiek-onthou { background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--sage) 100%); border-radius: 10px; padding: 8px 14px; margin-top: 10px; font-family: 'Caveat', cursive; font-size: 18px; color: var(--warm-brown); }
+.actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn { padding: 12px 22px; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.back-btn { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: white; }
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); }
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 18px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 12px; padding: 9px 7px; min-width: 64px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .spiek-card li { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Periodetoets-prep biologie
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>Periodetoets-prep biologie</h1>
+      <div class="date">H.1 t/m H.3 — 27 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    Alle leerstof voor de grote toets op één plek. Start met de <strong>Diagnose</strong> om te zien waar je nog moet oefenen, ga dan naar het onderwerp dat je lastig vindt, en gebruik het <strong>Spiekblad</strong> om alles snel te herhalen.
+  </p>
+
+  <div class="mode-tabs">
+    <button class="tab-btn active" data-tab="diagnose">🎯 Diagnose</button>
+    <button class="tab-btn" data-tab="mens">🫀 De mens</button>
+    <button class="tab-btn" data-tab="plant">🌱 De plant</button>
+    <button class="tab-btn" data-tab="natuurrijken">🌍 Natuurrijken</button>
+    <button class="tab-btn" data-tab="spiekblad">📋 Spiekblad</button>
+  </div>
+
+  <!-- DIAGNOSE -->
+  <section class="tab-content active" id="tab-diagnose">
+    <div class="tab-intro">
+      🎯 Een snelle test dwars door <strong>alle</strong> leerstof (20 vragen). Beantwoord ze allemaal — daarna zie je per onderwerp waar je sterk staat en waar je nog moet oefenen.
+    </div>
+    <div class="score-bar" id="scoreBar-diagnose">
+      <span>Score: <span id="scoreText-diagnose">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill-diagnose"></div></div>
+      <button class="reset-btn" onclick="resetQuiz('diagnose')">🔄 Opnieuw</button>
+    </div>
+    <div class="thema-overview" id="themaOverview">
+      <h3>📊 Jouw resultaat per onderwerp</h3>
+      <div id="themaRows"></div>
+    </div>
+    <div id="quiz-diagnose"></div>
+  </section>
+
+  <!-- MENS -->
+  <section class="tab-content" id="tab-mens">
+    <div class="tab-intro">
+      🫀 Alles over de mens (H.2): bloed, bloedsomloop, ademhaling en spijsvertering — 18 vragen.
+    </div>
+    <div class="score-bar" id="scoreBar-mens">
+      <span>Score: <span id="scoreText-mens">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill-mens"></div></div>
+      <button class="reset-btn" onclick="resetQuiz('mens')">🔄 Opnieuw</button>
+    </div>
+    <div id="quiz-mens"></div>
+    <div class="celebration" id="celebration-mens"></div>
+    <div class="tab-link-box">
+      📝 Wil je de <strong>weg van het bloed</strong>, de <strong>adem</strong> of het <strong>voedsel</strong> invullen?
+      Ga naar <a href="../index.html">Hart en longen</a> en <a href="../index.html">Spijsvertering</a> voor de invuloefeningen.
+    </div>
+  </section>
+
+  <!-- PLANT -->
+  <section class="tab-content" id="tab-plant">
+    <div class="tab-intro">
+      🌱 Alles over de plant (H.3): fotosynthese, voedselketen, voortplanting, bestuiving en bevruchting — 16 vragen.
+    </div>
+    <div class="score-bar" id="scoreBar-plant">
+      <span>Score: <span id="scoreText-plant">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill-plant"></div></div>
+      <button class="reset-btn" onclick="resetQuiz('plant')">🔄 Opnieuw</button>
+    </div>
+    <div id="quiz-plant"></div>
+    <div class="celebration" id="celebration-plant"></div>
+    <div class="tab-link-box">
+      📝 Wil je de <strong>bloemdelen</strong> invullen? Ga naar <a href="../index.html">H.3 De plant</a> voor de invuloefening.
+    </div>
+  </section>
+
+  <!-- NATUURRIJKEN -->
+  <section class="tab-content" id="tab-natuurrijken">
+    <div class="tab-intro">
+      🌍 De natuurrijken en het leven (H.1): de vier rijken, van cel tot ecosysteem, de mens en zijn omgeving — 14 vragen.
+    </div>
+    <div class="score-bar" id="scoreBar-natuurrijken">
+      <span>Score: <span id="scoreText-natuurrijken">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill-natuurrijken"></div></div>
+      <button class="reset-btn" onclick="resetQuiz('natuurrijken')">🔄 Opnieuw</button>
+    </div>
+    <div id="quiz-natuurrijken"></div>
+    <div class="celebration" id="celebration-natuurrijken"></div>
+  </section>
+
+  <!-- SPIEKBLAD -->
+  <section class="tab-content" id="tab-spiekblad">
+    <div class="spiek-intro" id="spiekIntro"></div>
+    <div id="spiekContent"></div>
+  </section>
+
+  <div class="actions">
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+const QUIZDATA = {"diagnose": [{"thema": "Natuurrijken", "q": "Welk natuurrijk bezit levenskracht (kan groeien en ademen) maar heeft géén gevoelsleven?", "options": ["Mineralenrijk", "Plantenrijk", "Dierenrijk", "Mensenrijk"], "correct": 1, "explain": "Het plantenrijk bezit levenskracht maar nog geen gevoelsleven. Dat laatste komt pas bij de dieren."}, {"thema": "Natuurrijken", "q": "Wat heeft de mens dat het dier niet heeft?", "options": ["Een gevoelsleven", "Instincten", "Een persoonlijkheid (het IK)", "Levenskracht"], "correct": 2, "explain": "De mens heeft een persoonlijkheid en kan zichzelf 'ik' noemen. Dieren hebben enkel een groepspersoonlijkheid."}, {"thema": "Natuurrijken", "q": "Met welk plantdeel kun je het hoofd van de mens vergelijken?", "options": ["De bloem", "De bladeren", "De wortels", "De stengel"], "correct": 2, "explain": "Het hoofd tast de wereld af via de zintuigen, zoals de wortels de bodem aftasten. Het is het hardste, koelste deel."}, {"thema": "Cel tot ecosysteem", "q": "Wat is het kleinste niveau van leven?", "options": ["Cel", "Weefsel", "Orgaan", "Organisme"], "correct": 0, "explain": "De cel is de allerkleinste bouwsteen van het leven."}, {"thema": "Cel tot ecosysteem", "q": "Wat voor niveau is 'alle herten in een bos'?", "options": ["Organisme", "Populatie", "Levensgemeenschap", "Ecosysteem"], "correct": 1, "explain": "Alle wezens van dezelfde soort in een gebied = een populatie."}, {"thema": "Cel tot ecosysteem", "q": "Wat maakt een levensgemeenschap tot een ecosysteem?", "options": ["Meer dieren", "De niet-levende factoren erbij (water, bodem, lucht)", "Meer planten", "Een groter gebied"], "correct": 1, "explain": "Een ecosysteem = de levensgemeenschap PLUS de niet-levende factoren zoals water, bodem, lucht en licht."}, {"thema": "Mens & omgeving", "q": "Via welke 'poort' komt voedsel bij de mens binnen?", "options": ["De zintuigen", "De ademhaling", "De spijsvertering", "De huid"], "correct": 2, "explain": "Voedsel komt binnen via de spijsvertering — de poort van de buik (stofwisselingsgebied)."}, {"thema": "Bloed", "q": "Hoeveel liter bloed heeft een mens ongeveer?", "options": ["1 liter", "3 liter", "5 liter", "10 liter"], "correct": 2, "explain": "Ongeveer 5 liter bloed stroomt door ons lichaam."}, {"thema": "Bloed", "q": "Wat vervoeren de rode bloedcellen?", "options": ["Suikers", "Zuurstof", "Vreemde kiemen", "Water"], "correct": 1, "explain": "Rode bloedcellen vervoeren zuurstof."}, {"thema": "Bloedsomloop", "q": "Wat doen aders?", "options": ["Ze pompen bloed weg van het hart", "Ze vervoeren bloed naar het hart", "Ze maken bloed aan", "Ze zuiveren het bloed"], "correct": 1, "explain": "Aders vervoeren bloed NAAR het hart. Slagaders pompen het WEG van het hart."}, {"thema": "Bloedsomloop", "q": "Wat is de kleine bloedsomloop?", "options": ["Hart → longen → hart", "Hart → haarvatennetwerk → hart", "Longen → hart → longen", "Hart → lever → hart"], "correct": 0, "explain": "Kleine bloedsomloop: hart → longen → hart. De grote gaat via het haarvatennetwerk."}, {"thema": "Ademhaling", "q": "Wat doet de epiglottis (klepje) wanneer je slikt?", "options": ["Het opent", "Het sluit", "Het blijft altijd open", "Het trilt"], "correct": 1, "explain": "Bij het slikken sluit de epiglottis, zodat er niets in het 'verkeerde keelgat' schiet. Bij ademen opent het."}, {"thema": "Ademhaling", "q": "Waar gaat de zuurstof van de lucht in het bloed over?", "options": ["In de luchtpijp", "In de bronchiën", "In de longblaasjes (alveoli)", "In de keelholte"], "correct": 2, "explain": "In de longblaasjes (alveoli) gaat de zuurstof in het bloed en wordt koolstofdioxide afgegeven."}, {"thema": "Spijsvertering", "q": "Waar gaan de bouwstoffen uit het voedsel het bloed in?", "options": ["In de maag", "In de mond", "In de dunne darm", "In de dikke darm"], "correct": 2, "explain": "In de dunne darm gaan de bouwstoffen door de darmwand het bloed in."}, {"thema": "Spijsvertering", "q": "Welk orgaan maakt de gal aan?", "options": ["De maag", "De lever", "De galblaas", "De alvleesklier"], "correct": 1, "explain": "De gal wordt gemaakt door de lever en opgeslagen in de galblaas."}, {"thema": "Plant - fotosynthese", "q": "Wat maakt de plant bij de fotosynthese?", "options": ["Water en mineralen", "Glucose (suiker) en zuurstof", "Alleen zuurstof", "Stuifmeel"], "correct": 1, "explain": "Bij de fotosynthese maakt de plant glucose en zuurstof. De zuurstof is een geschenk voor dier en mens."}, {"thema": "Plant - fotosynthese", "q": "Waar in de plant gebeurt de fotosynthese?", "options": ["In de wortels", "In de bladgroenkorrels", "In de bloem", "In het stuifmeel"], "correct": 1, "explain": "De fotosynthese gebeurt in de bladgroenkorrels van de plantencellen."}, {"thema": "Plant - voedselketen", "q": "Wat is altijd de eerste schakel in een voedselketen?", "options": ["De consument", "De plant (producent)", "De ontbinder", "De opruimer"], "correct": 1, "explain": "De plant is altijd de eerste schakel: de producent, want die maakt zelf voedsel."}, {"thema": "Plant - voortplanting", "q": "Wat is het mannelijke deel van de bloem?", "options": ["De stamper", "De meeldraad", "Het kroonblad", "Het zaadbeginsel"], "correct": 1, "explain": "De meeldraad (♂) is mannelijk. De stamper (♀) is vrouwelijk."}, {"thema": "Plant - bevruchting", "q": "Waar groeit het vruchtbeginsel tot uit na de bevruchting?", "options": ["Tot een zaad", "Tot een vrucht", "Tot een blad", "Tot een wortel"], "correct": 1, "explain": "Het vruchtbeginsel groeit uit tot de vrucht, het zaadbeginsel tot het zaad."}], "mens": [{"q": "Uit welke 4 bestanddelen bestaat het bloed?", "options": ["Plasma, rode cellen, witte cellen, bloedplaatjes", "Water, zout, suiker, zuurstof", "Hart, aders, slagaders, haarvaten", "Plasma, gal, speeksel, maagsap"], "correct": 0, "explain": "Bloed bestaat uit plasma, rode bloedcellen, witte bloedcellen en bloedplaatjes."}, {"q": "Wat doen de witte bloedcellen?", "options": ["Zuurstof vervoeren", "Vreemde kiemen bestrijden", "Bloed stollen", "Suikers vervoeren"], "correct": 1, "explain": "Witte bloedcellen bestrijden vreemde kiemen — ze beschermen tegen ziekteverwekkers."}, {"q": "Wat doen de bloedplaatjes?", "options": ["Zuurstof vervoeren", "Kiemen bestrijden", "Het bloed stollen", "Voedingsstoffen vervoeren"], "correct": 2, "explain": "Bloedplaatjes zorgen voor het stollen van het bloed, zodat een wondje stopt met bloeden."}, {"q": "Wat zit er in het plasma?", "options": ["Zuurstof", "Suikers en voedingsmiddelen", "Vreemde kiemen", "Lucht"], "correct": 1, "explain": "Het plasma bevat de suikers en voedingsmiddelen. Het is ongeveer de helft van het bloed."}, {"q": "Uit hoeveel delen bestaat het hart?", "options": ["2", "3", "4 (2 boezems, 2 kamers)", "6"], "correct": 2, "explain": "Het hart heeft 4 delen: 2 boezems (boven) en 2 kamers (onder)."}, {"q": "Waar in het lichaam ligt het hart?", "options": ["In de buik", "In de borstholte", "In het hoofd", "In de keel"], "correct": 1, "explain": "Het hart ligt in de borstholte en werkt onvermoeibaar door."}, {"q": "Welk vat brengt zuurstofrijk bloed van de longen naar het hart?", "options": ["Longslagader", "Longader", "Aorta", "Holle ader"], "correct": 1, "explain": "De longader (een ader, want naar het hart toe) brengt zuurstofrijk bloed naar de linkerboezem."}, {"q": "STRIKVRAAG: de longslagader heeft 'slagader' in zijn naam. Welk bloed bevat hij?", "options": ["Zuurstofrijk bloed", "Zuurstofarm bloed", "Half-half", "Geen bloed"], "correct": 1, "explain": "Strik! De longslagader gaat weg van het hart (= slagader) maar bevat zuurstofARM bloed dat naar de longen gaat. De naam zegt niets over de zuurstof."}, {"q": "Welke kleur heeft zuurstofrijk bloed?", "options": ["Donkerrood", "Helderrood", "Blauw", "Bruin"], "correct": 1, "explain": "Zuurstofrijk bloed is helderrood, zuurstofarm bloed is donkerrood."}, {"q": "Waar wordt het bloed zuurstofarm?", "options": ["In de longen", "In het haarvatennetwerk", "In het hart", "In de aorta"], "correct": 1, "explain": "In het haarvatennetwerk geeft het bloed zuurstof af aan de cellen en wordt het zuurstofarm."}, {"q": "Langs welke twee wegen komt lucht het lichaam binnen?", "options": ["Neus en mond", "Mond en maag", "Neus en oren", "Mond en longen"], "correct": 0, "explain": "Lucht komt binnen via de neus of de mond. Neusademhaling is gezonder."}, {"q": "Waarom is neusademhaling gezonder dan mondademhaling?", "options": ["De neus is groter", "De lucht wordt gezuiverd door haartjes en slijm én opgewarmd", "Je ademt sneller", "De mond is vuiler"], "correct": 1, "explain": "Door de neus wordt de lucht gezuiverd (haartjes, slijm) en opgewarmd op de langere weg naar de longen."}, {"q": "Hoe herken je de luchtpijp (trachea)?", "options": ["Aan de blauwe kleur", "Aan de C-vormige ringen", "Aan de haartjes", "Hij is helemaal recht"], "correct": 1, "explain": "De luchtpijp heeft C-vormige ringen die hem openhouden. Hij ligt vóór de slokdarm."}, {"q": "Waar gaat de zuurstof van de lucht in het bloed over?", "options": ["In de bronchiën", "In de longblaasjes (alveoli)", "In de keelholte", "In de luchtpijp"], "correct": 1, "explain": "In de longblaasjes (alveoli), zo fijn als een speldenpunt, gaat de zuurstof in het bloed en wordt CO₂ afgegeven."}, {"q": "Wat gebeurt er bij het inademen met de ribben en het middenrif?", "options": ["Ribben naar binnen, middenrif omhoog", "Ribben naar buiten, middenrif naar onder", "Beide blijven stil", "Alleen de longen bewegen"], "correct": 1, "explain": "Bij inademen gaan de ribben naar buiten en het middenrif naar onder, zodat de longen uitzetten en lucht opnemen."}, {"q": "Wat gebeurt er met het voedsel in de maag?", "options": ["Het wordt in het bloed opgenomen", "Het wordt gemalen, geplet en vermengd met zure maagsappen", "Het water wordt eruit gehaald", "Het wordt omgezet in gal"], "correct": 1, "explain": "In de maag wordt het voedsel gemalen, geplet en vermengd met zure maagsappen die bacteriën doden en voedsel oplossen."}, {"q": "Naast de gal: welk orgaan maakt óók sappen die helpen verteren in de dunne darm?", "options": ["De alvleesklier", "De maag", "De dikke darm", "De slokdarm"], "correct": 0, "explain": "Naast de gal (van de lever) helpen ook de sappen van de alvleesklier bij de vertering in de dunne darm."}, {"q": "Wat gebeurt er in de dikke darm?", "options": ["De bouwstoffen gaan in het bloed", "Het water wordt uit de rest gehaald", "Het voedsel wordt gekauwd", "De gal wordt gemaakt"], "correct": 1, "explain": "In de dikke darm wordt het water onttrokken, zodat er een dikke korst overblijft, ontdaan van bruikbare stoffen."}], "plant": [{"q": "Welke drie dingen heeft de plant nodig voor de fotosynthese?", "options": ["Water, koolstofdioxide en zonlicht", "Water, zuurstof en glucose", "Zonlicht, zuurstof en mineralen", "Water, gal en suiker"], "correct": 0, "explain": "De plant gebruikt water, koolstofdioxide en zonlicht (energie) om glucose en zuurstof te maken."}, {"q": "Wat is een ander woord voor het proces waarbij de plant zijn voedsel maakt?", "options": ["Spijsvertering", "Fotosynthese", "Bevruchting", "Bestuiving"], "correct": 1, "explain": "Dat is de fotosynthese, in de bladgroenkorrels van de plantencellen."}, {"q": "Welke energie gebruikt de plant voor de fotosynthese?", "options": ["Warmte uit de bodem", "Zonlicht (stralingsenergie)", "Wind", "Energie uit mineralen"], "correct": 1, "explain": "De energie komt van het zonlicht, ook stralingsenergie genoemd."}, {"q": "Wat is het 'afval' dat de plant maakt en dat een geschenk is voor dier en mens?", "options": ["Glucose", "Zuurstof", "Water", "Stuifmeel"], "correct": 1, "explain": "De zuurstof (O₂) die de plant afgeeft is levensnoodzakelijk voor dier en mens."}, {"q": "Wat is een voedselweb?", "options": ["Eén enkele voedselketen", "Verschillende voedselketens die door elkaar lopen", "Een spinnenweb", "De plek waar planten groeien"], "correct": 1, "explain": "Wanneer verschillende voedselketens door elkaar lopen, spreken we van een voedselweb."}, {"q": "Wat zijn schimmels en bacteriën in de voedselketen?", "options": ["Producenten", "Consumenten", "Opruimers (detrivoren)", "Ontbinders (reducenten)"], "correct": 3, "explain": "Schimmels en bacteriën zijn ontbinders (reducenten): ze maken alles nog kleiner tot mineralen."}, {"q": "Wat zijn regenwormen en pissebedden in de voedselketen?", "options": ["Producenten", "Opruimers (detrivoren)", "Ontbinders (reducenten)", "Carnivoren"], "correct": 1, "explain": "Regenwormen, pissebedden en insecten zijn opruimers (detrivoren): ze voeden zich met dode resten."}, {"q": "Wat blijft op het einde van de kringloop over, dat de planten weer opnemen?", "options": ["Zuurstof", "Mineralen", "Glucose", "Stuifmeel"], "correct": 1, "explain": "De mineralen blijven over en worden weer door de planten (producenten) opgenomen. Zo is de kringloop rond."}, {"q": "Wat gebeurt er bij ONgeslachtelijke voortplanting?", "options": ["Twee celkernen versmelten", "Uit één cel of deel van de plant ontstaat een nieuwe plant", "Er is altijd een bloem nodig", "Er ontstaat altijd een vrucht"], "correct": 1, "explain": "Bij ongeslachtelijke voortplanting ontstaat uit één cel of deel van de plant een nieuwe plant (uitlopers, knollen, bollen...)."}, {"q": "Welk van deze is ongeslachtelijke voortplanting?", "options": ["Een bloem die bestoven wordt", "Een aardappel die uit een knol groeit", "Twee celkernen die versmelten", "Stuifmeel op een stempel"], "correct": 1, "explain": "Knollen (aardappel), bollen (ui, tulp), uitlopers (aardbei) en stekken zijn ongeslachtelijke voortplanting."}, {"q": "Uit welke delen bestaat de meeldraad (mannelijk)?", "options": ["Stempel, stijl, vruchtbeginsel", "Helmdraad, helmknop en stuifmeel", "Kroonblad en kelkblad", "Zaadbeginsel en eicellen"], "correct": 1, "explain": "De meeldraad bestaat uit de helmdraad, de helmknop en het stuifmeel."}, {"q": "Welk deel hoort bij de stamper (vrouwelijk)?", "options": ["Helmknop", "Helmdraad", "Zaadbeginsel", "Stuifmeel"], "correct": 2, "explain": "De stamper bestaat uit stempel, stijl, vruchtbeginsel en zaadbeginsel (met de eicellen)."}, {"q": "Wat is bestuiving?", "options": ["Het versmelten van twee celkernen", "Stuifmeel dat op de stempel van een bloem van dezelfde soort komt", "Het groeien van een vrucht", "Het maken van glucose"], "correct": 1, "explain": "Bestuiving = stuifmeel op de stempel van een bloem van dezelfde soort. Een paardenbloem alleen door een andere paardenbloem."}, {"q": "Welke twee manieren van bestuiving bestaan er?", "options": ["Door water en zon", "Door insecten en door de wind", "Door wortels en bladeren", "Door regen en sneeuw"], "correct": 1, "explain": "Bestuiving gebeurt door insecten (bijen, hommels) of door de wind (grassen, berken, iepen, elzen)."}, {"q": "Waarom hebben mensen met hooikoorts in de lente last?", "options": ["Het is koud", "Er zit veel stuifmeel in de lucht (windbestuiving)", "Er zijn veel insecten", "Planten maken dan zuurstof"], "correct": 1, "explain": "In de lente zit er veel stuifmeel van windbestoven planten (grassen, bomen) in de lucht. Dat geeft hooikoorts."}, {"q": "Wat gebeurt er bij de bevruchting?", "options": ["Stuifmeel valt op de stempel", "De kern van de stuifmeelkorrel en de kern van de eicel versmelten", "De bloem gaat open", "De plant maakt glucose"], "correct": 1, "explain": "Bij bevruchting groeit de stuifmeelkorrel uit tot een stuifmeelbuis naar het zaadbeginsel, waar de twee kernen versmelten."}], "natuurrijken": [{"q": "Welk natuurrijk is levensloos (heeft nooit geleefd)?", "options": ["Mineralenrijk", "Plantenrijk", "Dierenrijk", "Mensenrijk"], "correct": 0, "explain": "Het mineralenrijk is levensloos. Toch is het belangrijk: het geeft ons houvast en stevigheid."}, {"q": "Welk natuurrijk heeft een gevoelsleven en leeft op instincten?", "options": ["Mineralenrijk", "Plantenrijk", "Dierenrijk", "Mensenrijk"], "correct": 2, "explain": "Het dierenrijk heeft een gevoelsleven (verdriet, pijn, vreugde) en reageert volgens instincten."}, {"q": "Wat betekent het woord 'biologie'?", "options": ["Studie van de aarde", "Wijsheid van het leven", "Kennis van dieren", "Wetenschap van planten"], "correct": 1, "explain": "Biologie betekent 'wijsheid van het leven'."}, {"q": "Hebben dieren een persoonlijkheid?", "options": ["Ja, elk dier is uniek zoals een mens", "Nee, ze hebben een groepspersoonlijkheid", "Alleen huisdieren", "Alleen zoogdieren"], "correct": 1, "explain": "Dieren hebben geen individuele persoonlijkheid maar een groepspersoonlijkheid. Alleen de mens heeft een echte persoonlijkheid."}, {"q": "Welk plantdeel komt overeen met de romp van de mens?", "options": ["De wortels", "De bladeren", "De bloem", "De stengel"], "correct": 1, "explain": "De romp (ritmisch gebied, longen-hart) komt overeen met de bladeren: ritmisch gerangschikt, ademhaling."}, {"q": "Welk plantdeel komt overeen met buik en ledematen?", "options": ["De wortels", "De bladeren", "De bloem", "De stam"], "correct": 2, "explain": "Buik en ledematen (het zachte, stofwisseling en voortplanting) komen overeen met de bloem."}, {"q": "Wat is het kleinste niveau van leven?", "options": ["Cel", "Weefsel", "Orgaan", "Organisme"], "correct": 0, "explain": "De cel is de allerkleinste bouwsteen van het leven, alleen zichtbaar onder een microscoop."}, {"q": "Wat voor niveau is 'een hart'?", "options": ["Cel", "Weefsel", "Orgaan", "Orgaanstelsel"], "correct": 2, "explain": "Het hart is een orgaan: verschillende weefsels die samen één functie hebben."}, {"q": "Wat voor niveau is 'de bloedsomloop' (hart + alle bloedvaten)?", "options": ["Orgaan", "Orgaanstelsel", "Organisme", "Weefsel"], "correct": 1, "explain": "Meerdere organen die samenwerken = een orgaanstelsel, zoals de bloedsomloop."}, {"q": "Zet op volgorde van klein naar groot: cel, orgaan, weefsel.", "options": ["Cel → weefsel → orgaan", "Cel → orgaan → weefsel", "Weefsel → cel → orgaan", "Orgaan → weefsel → cel"], "correct": 0, "explain": "Van klein naar groot: cel → weefsel → orgaan → orgaanstelsel → organisme."}, {"q": "Wat voor niveau is 'alle dieren én planten in een bos samen, zonder de bodem en lucht'?", "options": ["Populatie", "Levensgemeenschap", "Ecosysteem", "Organisme"], "correct": 1, "explain": "Een levensgemeenschap: verschillende populaties samen, maar zonder de niet-levende factoren."}, {"q": "Via welke poort neemt de mens indrukken van de wereld op?", "options": ["De zintuigen (hoofd)", "De ademhaling (romp)", "De spijsvertering (buik)", "De huid"], "correct": 0, "explain": "Via de zintuigen, die vooral in het hoofd zitten: ruiken, zien, horen, proeven, voelen."}, {"q": "Waarmee voeden we volgens de les ons gevoelsleven?", "options": ["Met de zintuigen", "Met de longen en het hart", "Met de spijsvertering", "Met de ledematen"], "correct": 1, "explain": "Met de longen en het hart voeden we ons gevoelsleven. Adem en hartslag reageren op wat we voelen."}, {"q": "Wat is de volgorde van de natuurrijken, van laag naar hoog?", "options": ["Mineraal → plant → dier → mens", "Plant → mineraal → dier → mens", "Mens → dier → plant → mineraal", "Dier → mens → plant → mineraal"], "correct": 0, "explain": "Van laag naar hoog: mineraal (levensloos) → plant (levenskracht) → dier (gevoel) → mens (persoonlijkheid)."}]};
+const SPIEK = {"intro": "Het spiekblad — alle kernpunten op één plek. Scroll erdoor de avond voor de toets. Bij elk onderwerp staat waar je in je schrift de tekening kunt bekijken.", "secties": [{"titel": "De vier natuurrijken", "icoon": "🪨", "punten": ["Mineralenrijk — levensloos (heeft nooit geleefd), fysisch karakter, neemt ruimte in. Geeft houvast en stevigheid.", "Plantenrijk — heeft levenskracht: groeien, ontwikkelen, ademen, voortplanten, verteren, uitscheiden.", "Dierenrijk — heeft een gevoelsleven (verdriet, pijn, vreugde) en leeft op instincten. Groepspersoonlijkheid, geen eigen persoonlijkheid.", "Mensenrijk — de kroon op het werk. Heeft een persoonlijkheid (het IK) en draagt verantwoordelijkheid voor de andere rijken.", "Volgorde laag → hoog: mineraal → plant → dier → mens. Elk rijk draagt de kwaliteiten van het vorige in zich."], "onthou": "Biologie = wijsheid van het leven."}, {"titel": "De mens vergeleken met de plant", "icoon": "🌱", "punten": ["Hoofd (zenuw-zintuig) ↔ wortels: tasten af, hardste en koelste deel.", "Romp (ritmisch, longen-hart) ↔ bladeren: ritmisch gerangschikt, ademhaling.", "Buik + ledematen (stofwisseling) ↔ bloem: zacht deel, voortplanting."], "tekening": "zie de mens-plant tekening in je schrift"}, {"titel": "Van cel tot ecosysteem", "icoon": "🔍", "punten": ["8 niveaus van klein naar groot: cel → weefsel → orgaan → orgaanstelsel → organisme → populatie → levensgemeenschap → ecosysteem.", "Eerste 5 niveaus = één individu. Vanaf populatie = groepen.", "Populatie = alle wezens van dezelfde soort in een gebied.", "Levensgemeenschap = verschillende populaties samen (alle levende wezens).", "Ecosysteem = levensgemeenschap + niet-levende factoren (water, bodem, lucht, licht)."]}, {"titel": "De mens en zijn omgeving — 3 poorten", "icoon": "👤", "punten": ["Zintuigen (hoofd): de wereld komt binnen als indrukken — ruiken, zien, horen, proeven, voelen.", "Ademhaling (romp): we voeden ons met lucht. Longen en hart voeden ons gevoelsleven.", "Spijsvertering (buik): voedsel wordt omgezet tot bouwstoffen en energie voor daden."]}, {"titel": "Bloed & bloedsomloop", "icoon": "🩸", "punten": ["Ongeveer 5 liter bloed. Hart in de borstholte, 4 delen: 2 boezems + 2 kamers.", "Plasma (±½): suikers en voedingsmiddelen. Rode bloedcellen (±½): vervoer zuurstof.", "Witte bloedcellen (±1%): bestrijden kiemen. Bloedplaatjes (±1%): stollen van bloed.", "Aders → naar het hart. Slagaders → weg van het hart. (Heeft niets met zuurstof te maken!)", "Kleine bloedsomloop: hart → longen → hart. Grote bloedsomloop: hart → haarvatennetwerk → hart.", "Zuurstofrijk = helderrood. Zuurstofarm = donkerrood (wordt zo in het haarvatennetwerk)."], "tekening": "zie de bloedsomloop-tekening in je schrift"}, {"titel": "Ademhaling", "icoon": "🫁", "punten": ["Weg van de adem: neus/mond → keelholte → epiglottis → luchtpijp (trachea) → bronchiën → bronchiolen → longblaasjes (alveoli).", "Neusademhaling gezonder: lucht wordt gezuiverd (haartjes, slijm) én opgewarmd.", "Epiglottis: opent bij ademen, sluit bij slikken (niets in het verkeerde keelgat).", "Luchtpijp herkenbaar aan de C-vormige ringen, ligt vóór de slokdarm.", "In de longblaasjes gaat zuurstof in het bloed, koolstofdioxide eruit.", "Inademen: ribben naar buiten, middenrif naar onder."], "tekening": "zie de ademhaling-tekening in je schrift"}, {"titel": "Spijsvertering", "icoon": "🍎", "punten": ["Weg van het voedsel: mond → slokdarm → maag → dunne darm → dikke darm → anus.", "Mond: fijngemalen + speeksel (van de speekselklieren).", "Maag: gemalen, geplet, zure maagsappen doden bacteriën en lossen voedsel op.", "Dunne darm: bouwstoffen gaan in het bloed. Helpers: gal (van de lever, opgeslagen in galblaas) + sappen van de alvleesklier.", "Dikke darm: het water wordt eruit gehaald.", "Anus: afvalstoffen worden uitgescheiden."], "tekening": "zie de spijsvertering-tekening in je schrift"}, {"titel": "De plant — fotosynthese", "icoon": "☀️", "punten": ["Erin: water + koolstofdioxide + zonlicht (energie).", "Eruit: glucose (suiker) + zuurstof.", "Waar: in de bladgroenkorrels van de plantencellen.", "De zuurstof is een geschenk voor dier en mens.", "De plant is bijzonder omdat hij zichzelf voedt — dat kunnen dier en mens niet."], "tekening": "zie de fotosynthese-tekening in je schrift"}, {"titel": "De plant — voedselketen", "icoon": "🔗", "punten": ["Producent = plant (maakt zelf voedsel). Altijd de eerste schakel.", "Consument = verbruiker: planteneter (herbivoor), alleseter (omnivoor), vleeseter (carnivoor).", "Opruimer = detrivoor: regenworm, pissebed, insecten (dode resten).", "Ontbinder = reducent: schimmels en bacteriën (maken alles kleiner).", "Mineralen blijven over → opnieuw door planten opgenomen → kringloop rond.", "Voedselweb = verschillende voedselketens die door elkaar lopen."]}, {"titel": "De plant — voortplanting", "icoon": "🌸", "punten": ["Ongeslachtelijk: uit 1 cel of deel van de plant. Manieren: broedknoppen, uitlopers, stekken, knollen, bollen.", "Geslachtelijk: mannelijke (♂) en vrouwelijke (♀) celkern versmelten → nieuwe plant met kenmerken van beide.", "Meeldraad (♂): helmdraad, helmknop, stuifmeel.", "Stamper (♀): stempel, stijl, vruchtbeginsel, zaadbeginsel (met eicellen)."], "tekening": "zie de bloem-tekening in je schrift"}, {"titel": "De plant — bestuiving & bevruchting", "icoon": "🐝", "punten": ["Bestuiving = stuifmeel op de stempel van een bloem van dezelfde soort.", "Door insecten: opvallend gekleurde bloemen + nectar (bijen, hommels).", "Door wind: grassen en bomen (berk, iep, els). Geeft hooikoorts in de lente.", "Bevruchting: stuifmeelkorrel groeit tot stuifmeelbuis → naar zaadbeginsel → kern stuifmeel + kern eicel versmelten.", "Na bevruchting: zaadbeginsel → zaad, vruchtbeginsel → vrucht. Bij meloen: pitten zijn de zaden."]}]};
+
+// TABS
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// Generieke quiz-fabriek. state per tab.
+const QUIZ_STATE = {};
+
+function createQuiz(key, data, opts) {
+  opts = opts || {};
+  QUIZ_STATE[key] = { answered: new Array(data.length).fill(false), correct: 0, data: data, opts: opts };
+  renderQuiz(key);
+}
+
+function renderQuiz(key) {
+  const st = QUIZ_STATE[key];
+  const container = document.getElementById('quiz-' + key);
+  container.innerHTML = '';
+  st.data.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    const themaHTML = item.thema ? '<div class="quiz-thema">' + item.thema + '</div>' : '';
+    card.innerHTML =
+      '<div class="quiz-number">Vraag ' + (idx + 1) + '</div>' +
+      themaHTML +
+      '<div class="quiz-question">' + item.q + '</div>' +
+      '<div class="quiz-options">' +
+      item.options.map((opt, i) => '<button class="quiz-option" data-q="' + idx + '" data-i="' + i + '">' + opt + '</button>').join('') +
+      '</div>' +
+      '<div class="quiz-feedback" id="fb-' + key + '-' + idx + '"></div>';
+    container.appendChild(card);
+  });
+  container.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', (e) => handleAnswer(key, e));
+  });
+  // reset score-onderdelen
+  const sb = document.getElementById('scoreBar-' + key);
+  if (sb) sb.classList.remove('show');
+  const cel = document.getElementById('celebration-' + key);
+  if (cel) cel.classList.remove('show');
+  const pf = document.getElementById('progressFill-' + key);
+  if (pf) pf.style.width = '0%';
+  if (key === 'diagnose') {
+    const to = document.getElementById('themaOverview');
+    if (to) to.classList.remove('show');
+  }
+}
+
+function handleAnswer(key, e) {
+  const st = QUIZ_STATE[key];
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (st.answered[qIdx]) return;
+  st.answered[qIdx] = true;
+  const item = st.data[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + key + '-' + qIdx);
+  allOpts.forEach(o => o.disabled = true);
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    st.correct++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+  updateScore(key);
+}
+
+function updateScore(key) {
+  const st = QUIZ_STATE[key];
+  const answeredCount = st.answered.filter(a => a).length;
+  const sb = document.getElementById('scoreBar-' + key);
+  if (sb) sb.classList.add('show');
+  const stext = document.getElementById('scoreText-' + key);
+  if (stext) stext.textContent = st.correct + '/' + answeredCount;
+  const pf = document.getElementById('progressFill-' + key);
+  if (pf) pf.style.width = (answeredCount / st.data.length * 100) + '%';
+
+  if (answeredCount === st.data.length) {
+    if (key === 'diagnose') {
+      showThemaOverview();
+    } else {
+      const cel = document.getElementById('celebration-' + key);
+      if (cel) {
+        const pct = st.correct / st.data.length;
+        let msg;
+        if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+        else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+        else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+        else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+        cel.textContent = msg;
+        cel.classList.add('show');
+      }
+    }
+  }
+}
+
+function showThemaOverview() {
+  const st = QUIZ_STATE['diagnose'];
+  // groepeer per thema
+  const groepen = {};
+  st.data.forEach((item, idx) => {
+    const t = item.thema || 'Overig';
+    if (!groepen[t]) groepen[t] = { goed: 0, totaal: 0 };
+    groepen[t].totaal++;
+    // check of het juist beantwoord is: we hebben niet bewaard welk antwoord,
+    // dus we tellen opnieuw via de DOM-status van de kaart
+  });
+  // tel goed per thema door de kaarten te bekijken
+  const cards = document.querySelectorAll('#quiz-diagnose .quiz-card');
+  st.data.forEach((item, idx) => {
+    const card = cards[idx];
+    const gotCorrect = card.querySelector('.quiz-option.correct') !== null;
+    const t = item.thema || 'Overig';
+    if (gotCorrect) groepen[t].goed++;
+  });
+
+  const rowsEl = document.getElementById('themaRows');
+  rowsEl.innerHTML = '';
+  Object.keys(groepen).forEach(t => {
+    const g = groepen[t];
+    let cls, hint;
+    if (g.goed === g.totaal) { cls = 'ok'; hint = 'sterk!'; }
+    else if (g.goed >= g.totaal / 2) { cls = 'partial'; hint = 'bijna — bekijk de fouten'; }
+    else { cls = 'bad'; hint = 'oefen dit zeker nog!'; }
+    const row = document.createElement('div');
+    row.className = 'thema-row ' + cls;
+    row.innerHTML =
+      '<span class="thema-dot ' + cls + '"></span>' +
+      '<span class="thema-name">' + t + '</span>' +
+      '<span class="thema-score">' + g.goed + '/' + g.totaal + '</span>' +
+      '<span class="thema-hint">' + hint + '</span>';
+    rowsEl.appendChild(row);
+  });
+  const to = document.getElementById('themaOverview');
+  to.classList.add('show');
+  to.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetQuiz(key) {
+  createQuiz(key, QUIZ_STATE[key].data, QUIZ_STATE[key].opts);
+}
+
+// SPIEKBLAD
+function renderSpiekblad() {
+  document.getElementById('spiekIntro').textContent = SPIEK.intro;
+  const c = document.getElementById('spiekContent');
+  c.innerHTML = '';
+  SPIEK.secties.forEach(sec => {
+    const card = document.createElement('div');
+    card.className = 'spiek-card';
+    let html = '<h3><span>' + sec.icoon + '</span> ' + sec.titel + '</h3>';
+    html += '<ul>' + sec.punten.map(p => '<li>' + p + '</li>').join('') + '</ul>';
+    if (sec.onthou) html += '<div class="spiek-onthou">📍 ' + sec.onthou + '</div>';
+    if (sec.tekening) html += '<div class="spiek-tekening">' + sec.tekening + '</div>';
+    card.innerHTML = html;
+    c.appendChild(card);
+  });
+}
+
+// INIT
+createQuiz('diagnose', QUIZDATA.diagnose);
+createQuiz('mens', QUIZDATA.mens);
+createQuiz('plant', QUIZDATA.plant);
+createQuiz('natuurrijken', QUIZDATA.natuurrijken);
+renderSpiekblad();
+</script>
+</body>
+</html>
