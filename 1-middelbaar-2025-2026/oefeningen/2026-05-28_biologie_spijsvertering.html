@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Het spijsverteringsstelsel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --digest: #C99044;
+  --digest-dark: #9C6B2E;
+  --vak-color: #95A886;
+  --vak-color-dark: #7A8B6F;
+  --vak-color-light: #B5C2A8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%237A8B6F' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%237A8B6F' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px dashed transparent; transition: border-color 0.2s; }
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+.exercise-header { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; animation: fadeSlideUp 0.6s ease; }
+.subject-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); flex-shrink: 0; }
+.title-block h1 { margin: 0; font-family: 'Vollkorn', serif; font-size: 24px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; }
+.title-block .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-top: 2px; }
+
+.intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: var(--warm-brown); margin: 0 0 24px; line-height: 1.5; opacity: 0.85; animation: fadeSlideUp 0.7s ease; }
+
+.mode-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; padding: 6px; background: rgba(255, 253, 247, 0.6); border-radius: 14px; box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06); }
+.tab-btn { flex: 1; min-width: 100px; padding: 10px 12px; border: none; background: transparent; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; font-weight: 500; color: var(--warm-brown); border-radius: 10px; cursor: pointer; transition: all 0.25s; }
+.tab-btn:hover { background: rgba(122, 139, 111, 0.1); }
+.tab-btn.active { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); box-shadow: 0 2px 8px rgba(122, 139, 111, 0.3); }
+
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+
+.theory-card { background: var(--warm-white); border-radius: 18px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.theory-card h2 { font-family: 'Vollkorn', serif; font-size: 22px; color: var(--vak-color-dark); margin: 0 0 14px; font-weight: 700; }
+.theory-card h3 { font-family: 'Vollkorn', serif; font-size: 18px; color: var(--rust); margin: 18px 0 8px; font-weight: 600; }
+.theory-card p { font-size: 16px; line-height: 1.7; margin: 0 0 12px; color: var(--dark-brown); }
+
+.tekening-cue { background: rgba(212, 168, 67, 0.15); border-left: 3px solid var(--ochre); padding: 8px 14px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--warm-brown); margin: 10px 0; font-style: italic; }
+.tekening-cue::before { content: '✏️ '; }
+
+.route-list { list-style: none; padding: 0; margin: 12px 0; counter-reset: station; }
+.route-list li { counter-increment: station; position: relative; padding: 10px 14px 10px 50px; margin: 4px 0; background: var(--parchment); border-radius: 10px; font-size: 15px; line-height: 1.5; }
+.route-list li::before { content: counter(station); position: absolute; left: 10px; top: 12px; width: 28px; height: 28px; background: var(--digest); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 13px; }
+.route-list li strong { color: var(--rust); }
+
+.remember-box { background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--sage) 100%); border-radius: 14px; padding: 16px 20px; margin: 16px 0; color: var(--dark-brown); box-shadow: 0 3px 10px rgba(122, 139, 111, 0.18); }
+.remember-box .label { font-family: 'Caveat', cursive; font-size: 22px; color: var(--warm-brown); display: block; line-height: 1; margin-bottom: 8px; }
+.remember-box .rule { font-family: 'Vollkorn', serif; font-size: 15.5px; font-weight: 600; margin: 6px 0; display: block; }
+.remember-box .rule .em { color: var(--digest-dark); }
+
+/* Invul-route */
+.fill-route { background: var(--warm-white); border-radius: 18px; padding: 22px 22px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--digest); }
+.fill-route-intro { font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; color: var(--warm-brown); margin-bottom: 14px; line-height: 1.5; }
+.route-grid { display: flex; flex-direction: column; gap: 6px; margin: 16px 0; }
+.route-station { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--parchment); border-radius: 10px; }
+.station-num { width: 28px; height: 28px; background: var(--digest); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 13px; flex-shrink: 0; }
+.station-content { flex: 1; font-family: 'Vollkorn', serif; font-size: 15px; color: var(--dark-brown); }
+.station-input { flex: 1; padding: 8px 12px; border: 2px solid var(--sand); border-radius: 8px; font-family: 'Vollkorn', serif; font-size: 15px; background: var(--warm-white); color: var(--dark-brown); min-width: 0; }
+.station-input:focus { outline: none; border-color: var(--digest); box-shadow: 0 0 0 3px rgba(201, 144, 68, 0.15); }
+.station-input.correct-input { border-color: var(--olive-dark); background: rgba(168, 201, 154, 0.18); }
+.station-input.wrong-input { border-color: var(--rust); background: rgba(212, 154, 138, 0.18); }
+
+.route-check-btn { display: block; margin: 16px auto 0; padding: 12px 28px; background: linear-gradient(135deg, var(--digest) 0%, var(--digest-dark) 100%); color: white; border: none; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 3px 10px rgba(201, 144, 68, 0.25); }
+.route-check-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(201, 144, 68, 0.35); }
+.route-result { margin-top: 14px; padding: 14px 18px; border-radius: 12px; text-align: center; font-family: 'Source Sans 3', sans-serif; font-size: 15px; display: none; }
+.route-result.show { display: block; animation: fadeSlideUp 0.4s ease; }
+.route-result.perfect { background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%); color: white; }
+.route-result.good { background: rgba(168, 201, 154, 0.3); color: var(--olive-dark); }
+.route-result.partial { background: rgba(212, 168, 67, 0.25); color: var(--warm-brown); }
+
+/* Quiz */
+.quiz-card { background: var(--warm-white); border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.quiz-number { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-bottom: 6px; }
+.quiz-question { font-family: 'Vollkorn', serif; font-size: 17px; color: var(--dark-brown); margin-bottom: 14px; line-height: 1.5; }
+.quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz-option { padding: 10px 16px; border: 2px solid var(--sand); background: var(--warm-white); border-radius: 22px; font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; cursor: pointer; transition: all 0.2s; color: var(--dark-brown); }
+.quiz-option:hover { border-color: var(--vak-color); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(122, 139, 111, 0.15); }
+.quiz-option.correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; animation: pop 0.4s ease; }
+.quiz-option.incorrect { background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%); border-color: var(--rust); color: white; animation: shake 0.4s ease; }
+.quiz-option.show-correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; }
+.quiz-option:disabled { cursor: default; }
+.quiz-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 10px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; display: none; line-height: 1.5; }
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good { background: rgba(168, 201, 154, 0.25); color: var(--olive-dark); }
+.quiz-feedback.bad { background: rgba(194, 112, 78, 0.15); color: var(--rust); }
+
+.score-bar { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); padding: 14px 20px; border-radius: 14px; font-family: 'Source Sans 3', sans-serif; font-weight: 600; margin-bottom: 16px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 3px 10px rgba(122, 139, 111, 0.25); }
+.score-bar.show { display: flex; }
+.progress-track { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.25); border-radius: 4px; margin: 0 14px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 6px 12px; border-radius: 18px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+.celebration { background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%); color: white; padding: 22px; border-radius: 16px; text-align: center; font-family: 'Vollkorn', serif; font-size: 19px; font-weight: 600; margin: 16px 0; display: none; box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3); }
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+
+.actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn { padding: 12px 22px; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.print-btn { background: var(--warm-white); color: var(--warm-brown); border: 2px solid var(--sand); }
+.print-btn:hover { background: var(--cream); border-color: var(--vak-color); }
+.back-btn { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: white; }
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(122, 139, 111, 0.3); }
+
+.print-only { display: none; }
+.print-h2 { font-family: 'Vollkorn', serif; font-size: 20px; color: var(--vak-color-dark); margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--vak-color-light); }
+.tab-section-header { display: none; }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 19px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 12.5px; padding: 9px 8px; min-width: 80px; }
+  .theory-card { padding: 18px 18px; }
+  .theory-card h2 { font-size: 19px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .station-content, .station-input { font-size: 14px; }
+  .station-num { width: 24px; height: 24px; font-size: 11px; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-only { display: block !important; }
+  .theory-card, .quiz-card, .fill-route { box-shadow: none !important; border: 1px solid #ddd !important; background: white !important; page-break-inside: avoid; }
+  .route-list li, .route-station, .remember-box, .tekening-cue { background: white !important; border: 1px solid #ccc !important; color: black !important; }
+  .remember-box .label, .route-list li strong { color: #000 !important; }
+  .subject-icon { display: none; }
+  .score-bar, .celebration, .reset-btn { display: none !important; }
+  #quizContainer { display: none !important; }
+  .quiz-feedback { display: none !important; }
+  .route-check-btn, .route-result { display: none !important; }
+  .station-input { border: 1px solid #888 !important; background: white !important; color: transparent !important; }
+  .station-input::placeholder { color: transparent !important; }
+  .print-answers { page-break-before: always; }
+  h2.print-h2 { color: #000 !important; border-bottom-color: #888 !important; }
+  .tab-section-header { display: block !important; }
+  a { color: black; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Het spijsverteringsstelsel
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>Het spijsverteringsstelsel</h1>
+      <div class="date">27 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    H.2 D — Hoe wordt ons eten omgezet in bouwstoffen en energie? Volg de weg van het voedsel, van de mond tot het einde.
+  </p>
+
+  <div class="mode-tabs no-print">
+    <button class="tab-btn active" data-tab="theorie">📚 Theorie</button>
+    <button class="tab-btn" data-tab="voedsel">🍎 Weg van het voedsel</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Wat weet je?</button>
+  </div>
+
+  <!-- TAB 1: THEORIE -->
+  <section class="tab-content active" id="tab-theorie">
+    <h2 class="print-h2 tab-section-header">📚 Theorie</h2>
+
+    <div class="theory-card">
+      <h2>D. Het spijsverteringsstelsel</h2>
+      <p>
+        Het voedsel dat we eten moet worden afgebroken tot kleine bouwstoffen die ons lichaam kan gebruiken. Dat afbreken heet de <strong>spijsvertering</strong>. Het voedsel legt een hele weg af door ons lichaam.
+      </p>
+
+      <div class="tekening-cue">Volg de weg op je eigen tekening van het spijsverteringsstelsel in je schrift.</div>
+
+      <h3>De weg van het voedsel</h3>
+      <ol class="route-list">
+        <li><strong>Mond</strong> — het voedsel wordt fijngemalen (gekauwd) en vermengd met <strong>speeksel</strong>, dat door de speekselklieren wordt afgescheiden.</li>
+        <li><strong>Slokdarm</strong> — het ingeslikte voedsel gaat door de slokdarm naar de maag.</li>
+        <li><strong>Maag</strong> — het voedsel wordt gemalen, geplet en vermengd met <strong>zure maagsappen</strong>. Die doden bacteriën en lossen het voedsel op.</li>
+        <li><strong>Dunne darm</strong> — hier worden de bruikbare voedingsstoffen uit de brij gehaald. Dit gebeurt met <strong>gal</strong> (een sap dat gemaakt wordt door de lever en opgeslagen wordt in de galblaas) en met sappen van de <strong>alvleesklier</strong>. De bouwstoffen gaan door de wand van de darm in het <strong>bloed</strong>.</li>
+        <li><strong>Dikke darm</strong> — hier wordt al het water nog uit de rest onttrokken, zodat er een dikke korst overblijft, ontdaan van alle bruikbare stoffen.</li>
+        <li><strong>Anus</strong> — via de anus worden de afvalstoffen uitgescheiden.</li>
+      </ol>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — de helpers bij de vertering</span>
+        <span class="rule"><span class="em">Speeksel</span> in de mond: maakt het voedsel zacht en glad.</span>
+        <span class="rule"><span class="em">Maagsappen</span> in de maag: doden bacteriën, lossen voedsel op.</span>
+        <span class="rule"><span class="em">Gal</span> (van de lever, opgeslagen in de galblaas): helpt verteren in de dunne darm.</span>
+        <span class="rule"><span class="em">Sappen van de alvleesklier</span>: helpen ook bij de vertering in de dunne darm.</span>
+      </div>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — waar gebeurt wat?</span>
+        <span class="rule">In de <span class="em">dunne darm</span> gaan de bouwstoffen naar het bloed.</span>
+        <span class="rule">In de <span class="em">dikke darm</span> wordt het water eruit gehaald.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: WEG VAN HET VOEDSEL -->
+  <section class="tab-content" id="tab-voedsel">
+    <h2 class="print-h2 tab-section-header">🍎 Weg van het voedsel</h2>
+
+    <div class="fill-route">
+      <p class="fill-route-intro">
+        Vul de stations in, van de mond tot de anus. Spellingsfouten worden soepel beoordeeld.
+      </p>
+
+      <div class="tekening-cue">Tip: kijk in het schrift naar je eigen tekening van het spijsverteringsstelsel.</div>
+
+      <div id="voedselRoute" class="route-grid"></div>
+
+      <button class="route-check-btn" onclick="checkVoedselRoute()">Controleer</button>
+      <div class="route-result" id="voedselResult"></div>
+    </div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">De weg van het voedsel</h3>
+      <p style="font-style:italic; font-size:11pt;">Schrijf de stations in de juiste volgorde op:</p>
+      <div style="font-family:'Vollkorn',serif; font-size:11pt;" id="printVoedselRoute"></div>
+    </div>
+  </section>
+
+  <!-- TAB 3: QUIZ -->
+  <section class="tab-content" id="tab-quiz">
+    <h2 class="print-h2 tab-section-header">🎯 Wat weet je?</h2>
+
+    <div class="score-bar no-print" id="scoreBar">
+      <span>Score: <span id="scoreText">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="quizContainer"></div>
+    <div class="celebration" id="celebration"></div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Vragen</h3>
+      <div id="printQuestions"></div>
+    </div>
+  </section>
+
+  <!-- PRINT: oplossingen -->
+  <div class="print-only print-answers">
+    <h2 class="print-h2" style="page-break-before:always;">Oplossingen</h2>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Weg van het voedsel</h3>
+    <div style="font-family:'Vollkorn',serif; font-size:11pt; line-height:1.7;" id="printVoedselAnswers"></div>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-top:20px;">Quiz</h3>
+    <div id="printAnswers"></div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="action-btn print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// TABS
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// NORMALIZE + FUZZY
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c')
+    .replace(/[.,;:!?]$/, '')
+    .replace(/^(de |het |een )/, '');
+}
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const prev = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    let curr = [i];
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+  }
+  return prev[b.length];
+}
+function maxTolerance(target) {
+  const len = target.length;
+  if (len <= 4) return 0;
+  if (len <= 7) return 1;
+  if (len <= 12) return 2;
+  return 3;
+}
+function answersMatch(input, accepted) {
+  const n = normalize(input);
+  if (!n) return false;
+  return accepted.some(a => {
+    const na = normalize(a);
+    if (na === n) return true;
+    const tol = maxTolerance(na);
+    if (tol > 0 && levenshtein(na, n) <= tol) return true;
+    return false;
+  });
+}
+
+// WEG VAN HET VOEDSEL
+const voedselStations = [
+  { name: 'mond', accepted: ['mond'], detail: 'voedsel fijngemalen + vermengd met speeksel' },
+  { name: 'slokdarm', accepted: ['slokdarm'], detail: 'voedsel gaat naar de maag' },
+  { name: 'maag', accepted: ['maag'], detail: 'gemalen, geplet, vermengd met zure maagsappen' },
+  { name: 'dunne darm', accepted: ['dunne darm', 'dunnedarm'], detail: 'bouwstoffen gaan in het bloed (met gal van de lever + sappen van de alvleesklier)' },
+  { name: 'dikke darm', accepted: ['dikke darm', 'dikkedarm'], detail: 'water wordt eruit gehaald' },
+  { name: 'anus', accepted: ['anus', 'aars'], detail: 'afvalstoffen worden uitgescheiden' }
+];
+
+function renderVoedselRoute() {
+  const container = document.getElementById('voedselRoute');
+  container.innerHTML = '';
+  voedselStations.forEach((st, idx) => {
+    const row = document.createElement('div');
+    row.className = 'route-station';
+    const num = document.createElement('div');
+    num.className = 'station-num';
+    num.textContent = (idx + 1);
+    row.appendChild(num);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'station-input';
+    input.placeholder = 'vul in...';
+    input.dataset.idx = idx;
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    row.appendChild(input);
+    container.appendChild(row);
+  });
+  document.getElementById('voedselResult').classList.remove('show');
+}
+
+function checkVoedselRoute() {
+  const inputs = document.querySelectorAll('#voedselRoute .station-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(input => {
+    const idx = parseInt(input.dataset.idx);
+    const ok = answersMatch(input.value, voedselStations[idx].accepted);
+    input.classList.remove('correct-input', 'wrong-input');
+    input.classList.add(ok ? 'correct-input' : 'wrong-input');
+    if (ok) correct++;
+    else input.placeholder = voedselStations[idx].name;
+  });
+  const result = document.getElementById('voedselResult');
+  result.classList.remove('perfect', 'good', 'partial');
+  result.classList.add('show');
+  if (correct === total) {
+    result.classList.add('perfect');
+    result.innerHTML = `🌟 Alles juist — ${correct}/${total}! Je kent de weg van het voedsel.`;
+  } else if (correct >= total * 0.7) {
+    result.classList.add('good');
+    result.innerHTML = `💪 Goed bezig — ${correct}/${total}. De foute vakken tonen het juiste antwoord als hint.`;
+  } else {
+    result.classList.add('partial');
+    result.innerHTML = `📚 ${correct}/${total} juist. Bekijk de theorie en de tekening in je schrift nog eens.`;
+  }
+}
+
+renderVoedselRoute();
+
+// QUIZ
+const quizData = [
+  { q: 'Wat gebeurt er met het voedsel in de mond?', options: ['Het wordt in het bloed opgenomen', 'Het wordt fijngemalen en vermengd met speeksel', 'Het water wordt eruit gehaald', 'Het wordt met gal vermengd'], correct: 1, explain: 'In de mond wordt het voedsel fijngekauwd en vermengd met speeksel.' },
+  { q: 'Welke weg legt het voedsel af na de mond?', options: ['Mond → maag → slokdarm', 'Mond → slokdarm → maag', 'Mond → dunne darm → maag', 'Mond → keel → longen'], correct: 1, explain: 'Na de mond gaat het voedsel via de slokdarm naar de maag.' },
+  { q: 'Wat doen de zure maagsappen?', options: ['Ze maken het voedsel zoeter', 'Ze doden bacteriën en lossen voedsel op', 'Ze halen water uit het voedsel', 'Ze maken gal aan'], correct: 1, explain: 'De zure maagsappen doden bacteriën en lossen het voedsel op.' },
+  { q: 'Waar gaan de bruikbare bouwstoffen het bloed in?', options: ['In de mond', 'In de maag', 'In de dunne darm', 'In de dikke darm'], correct: 2, explain: 'In de dunne darm gaan de bouwstoffen door de darmwand het bloed in.' },
+  { q: 'Wat gebeurt er in de dikke darm?', options: ['Het voedsel wordt gekauwd', 'De bouwstoffen gaan in het bloed', 'Het water wordt uit de rest gehaald', 'De gal wordt aangemaakt'], correct: 2, explain: 'In de dikke darm wordt het water onttrokken, zodat er een dikke korst overblijft.' },
+  { q: 'Welk orgaan maakt de gal aan?', options: ['De maag', 'De lever', 'De dunne darm', 'De galblaas'], correct: 1, explain: 'De gal wordt gemaakt door de lever en opgeslagen in de galblaas.' },
+  { q: 'Waar wordt de gal opgeslagen?', options: ['In de lever', 'In de maag', 'In de galblaas', 'In de dunne darm'], correct: 2, explain: 'De gal wordt gemaakt door de lever maar opgeslagen in de galblaas.' },
+  { q: 'Waarvoor dient de gal?', options: ['Om bacteriën te doden', 'Om te helpen verteren in de dunne darm', 'Om water op te slaan', 'Om voedsel te kauwen'], correct: 1, explain: 'Gal helpt bij het verteren van het voedsel in de dunne darm.' },
+  { q: 'Wat is het laatste station, waar de afvalstoffen het lichaam verlaten?', options: ['De dikke darm', 'De anus', 'De dunne darm', 'De maag'], correct: 1, explain: 'Via de anus worden de afvalstoffen uitgescheiden.' },
+  { q: 'Waar wordt het speeksel aangemaakt?', options: ['In de maag', 'In de speekselklieren', 'In de lever', 'In de slokdarm'], correct: 1, explain: 'Het speeksel wordt afgescheiden door de speekselklieren in de mond.' },
+  { q: 'Welk orgaan maakt sappen die — naast de gal — ook helpen bij de vertering in de dunne darm?', options: ['De alvleesklier', 'De maag', 'De dikke darm', 'De slokdarm'], correct: 0, explain: 'Naast de gal helpen ook de sappen van de alvleesklier bij de vertering in de dunne darm.' }
+];
+
+let answered = new Array(quizData.length).fill(false);
+let correctCount = 0;
+const quizContainer = document.getElementById('quizContainer');
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const progressFill = document.getElementById('progressFill');
+const celebration = document.getElementById('celebration');
+
+function renderQuiz() {
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question">${item.q}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${idx}"></div>
+    `;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.querySelectorAll('.quiz-option').forEach(btn => btn.addEventListener('click', handleAnswer));
+}
+
+function handleAnswer(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answered[qIdx]) return;
+  answered[qIdx] = true;
+  const item = quizData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + qIdx);
+  allOpts.forEach(o => o.disabled = true);
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const answeredCount = answered.filter(a => a).length;
+  scoreBar.classList.add('show');
+  scoreText.textContent = correctCount + '/' + answeredCount;
+  progressFill.style.width = (answeredCount / quizData.length * 100) + '%';
+  if (answeredCount === quizData.length) {
+    const pct = correctCount / quizData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebration.textContent = msg;
+    celebration.classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(quizData.length).fill(false);
+  correctCount = 0;
+  scoreBar.classList.remove('show');
+  celebration.classList.remove('show');
+  progressFill.style.width = '0%';
+  renderQuiz();
+}
+
+renderQuiz();
+
+// PRINT
+function buildPrintContent() {
+  const pvr = document.getElementById('printVoedselRoute');
+  pvr.innerHTML = '<table style="border-collapse:collapse; width:100%;">' +
+    voedselStations.map((st, i) =>
+      `<tr><td style="padding:4px 10px 4px 0; font-weight:600; vertical-align:top; width:30px;">${i + 1}.</td>` +
+      `<td style="padding:4px 0; border-bottom:1px dotted #888;"></td></tr>`
+    ).join('') + '</table>';
+
+  const pq = document.getElementById('printQuestions');
+  pq.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:14px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}. ${item.q}</strong><br>
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`
+  ).join('');
+
+  const pva = document.getElementById('printVoedselAnswers');
+  pva.innerHTML = voedselStations.map((st, i) =>
+    `<div style="margin-bottom:4px;"><strong>${i + 1}. ${st.name}</strong> — <em>${st.detail}</em></div>`
+  ).join('');
+
+  const pa = document.getElementById('printAnswers');
+  pa.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:10px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+}
+buildPrintContent();
+</script>
+</body>
+</html>
