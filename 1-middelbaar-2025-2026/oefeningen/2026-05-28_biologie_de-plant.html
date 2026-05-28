@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H.3 De plant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --leaf: #6B9B5E;
+  --leaf-dark: #4A7A3F;
+  --male: #6A9BB5;
+  --female: #C97B9B;
+  --vak-color: #6B9B5E;
+  --vak-color-dark: #4A7A3F;
+  --vak-color-light: #9DBF92;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  color: var(--dark-brown);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><circle cx='20' cy='20' r='1.2' fill='%236B9B5E' opacity='0.5'/><circle cx='80' cy='40' r='1' fill='%23C2704E' opacity='0.4'/><circle cx='50' cy='90' r='1.4' fill='%23D4A843' opacity='0.5'/><circle cx='100' cy='100' r='0.8' fill='%236B9B5E' opacity='0.4'/></svg>");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 920px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 20px; opacity: 0.8; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; border-bottom: 1px dashed transparent; transition: border-color 0.2s; }
+.breadcrumb a:hover { border-bottom-color: var(--warm-brown); }
+.breadcrumb span { margin: 0 6px; opacity: 0.5; }
+
+.exercise-header { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; animation: fadeSlideUp 0.6s ease; }
+.subject-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 4px 12px rgba(107, 155, 94, 0.3); flex-shrink: 0; }
+.title-block h1 { margin: 0; font-family: 'Vollkorn', serif; font-size: 24px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; }
+.title-block .date { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-top: 2px; }
+
+.intro-text { font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: var(--warm-brown); margin: 0 0 24px; line-height: 1.5; opacity: 0.85; animation: fadeSlideUp 0.7s ease; }
+
+.mode-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; padding: 6px; background: rgba(255, 253, 247, 0.6); border-radius: 14px; box-shadow: inset 0 1px 3px rgba(92, 64, 51, 0.06); }
+.tab-btn { flex: 1; min-width: 95px; padding: 10px 12px; border: none; background: transparent; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; font-weight: 500; color: var(--warm-brown); border-radius: 10px; cursor: pointer; transition: all 0.25s; }
+.tab-btn:hover { background: rgba(107, 155, 94, 0.1); }
+.tab-btn.active { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); box-shadow: 0 2px 8px rgba(107, 155, 94, 0.3); }
+
+.tab-content { display: none; animation: fadeSlideUp 0.5s ease; }
+.tab-content.active { display: block; }
+
+.theory-card { background: var(--warm-white); border-radius: 18px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.theory-card h2 { font-family: 'Vollkorn', serif; font-size: 22px; color: var(--vak-color-dark); margin: 0 0 14px; font-weight: 700; }
+.theory-card h3 { font-family: 'Vollkorn', serif; font-size: 18px; color: var(--rust); margin: 18px 0 8px; font-weight: 600; }
+.theory-card p { font-size: 16px; line-height: 1.7; margin: 0 0 12px; color: var(--dark-brown); }
+.theory-card strong { color: var(--vak-color-dark); }
+
+.tekening-cue { background: rgba(212, 168, 67, 0.15); border-left: 3px solid var(--ochre); padding: 8px 14px; border-radius: 8px; font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--warm-brown); margin: 10px 0; font-style: italic; }
+.tekening-cue::before { content: '✏️ '; }
+
+/* Fotosynthese-formule */
+.photo-formula { background: linear-gradient(135deg, #FFFDF7 0%, var(--cream) 100%); border-radius: 14px; padding: 18px 20px; margin: 16px 0; border: 2px dashed var(--vak-color-light); text-align: center; }
+.photo-formula .formula-row { font-family: 'Vollkorn', serif; font-size: 16px; line-height: 1.8; }
+.photo-formula .ingredient { display: inline-block; background: var(--warm-white); padding: 4px 12px; border-radius: 12px; margin: 3px; font-weight: 600; box-shadow: 0 1px 3px rgba(92, 64, 51, 0.1); }
+.photo-formula .ing-water { color: var(--sky-blue); }
+.photo-formula .ing-co2 { color: var(--warm-brown); }
+.photo-formula .ing-light { color: var(--ochre); }
+.photo-formula .ing-glucose { color: var(--leaf-dark); }
+.photo-formula .ing-o2 { color: var(--rust); }
+.photo-formula .arrow { font-size: 22px; color: var(--vak-color-dark); margin: 0 6px; font-weight: 700; }
+.photo-formula .plus { color: var(--warm-brown); font-weight: 700; margin: 0 4px; }
+
+.remember-box { background: linear-gradient(135deg, var(--vak-color-light) 0%, var(--sage) 100%); border-radius: 14px; padding: 16px 20px; margin: 16px 0; color: var(--dark-brown); box-shadow: 0 3px 10px rgba(107, 155, 94, 0.18); }
+.remember-box .label { font-family: 'Caveat', cursive; font-size: 22px; color: var(--warm-brown); display: block; line-height: 1; margin-bottom: 8px; }
+.remember-box .rule { font-family: 'Vollkorn', serif; font-size: 15.5px; font-weight: 600; margin: 6px 0; display: block; }
+.remember-box .rule .em { color: var(--leaf-dark); }
+
+/* Voedselketen-ketting */
+.chain { display: flex; flex-direction: column; gap: 4px; margin: 14px 0; }
+.chain-link { background: var(--parchment); border-radius: 10px; padding: 10px 16px; font-size: 15px; position: relative; border-left: 4px solid var(--vak-color); }
+.chain-link strong { color: var(--rust); }
+.chain-arrow { text-align: center; color: var(--vak-color-dark); font-size: 18px; line-height: 0.6; }
+
+/* Geslacht-kolommen */
+.gender-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+.gender-col { border-radius: 14px; padding: 16px 18px; }
+.gender-col.male { background: rgba(106, 155, 181, 0.12); border: 2px solid var(--male); }
+.gender-col.female { background: rgba(201, 123, 155, 0.12); border: 2px solid var(--female); }
+.gender-col h4 { font-family: 'Vollkorn', serif; font-size: 17px; margin: 0 0 10px; }
+.gender-col.male h4 { color: var(--male); }
+.gender-col.female h4 { color: #B05A82; }
+.gender-col ul { margin: 0; padding-left: 18px; font-size: 14.5px; line-height: 1.7; }
+.gender-col .symbol { font-size: 20px; }
+
+/* Invul-route bloemdelen */
+.fill-route { background: var(--warm-white); border-radius: 18px; padding: 22px 22px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.fill-route.male-route { border-left-color: var(--male); }
+.fill-route.female-route { border-left-color: var(--female); }
+.fill-route h3 { font-family: 'Vollkorn', serif; font-size: 18px; margin: 0 0 6px; }
+.fill-route.male-route h3 { color: var(--male); }
+.fill-route.female-route h3 { color: #B05A82; }
+.fill-route-intro { font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; color: var(--warm-brown); margin-bottom: 14px; line-height: 1.5; }
+.route-grid { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+.route-station { display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: var(--parchment); border-radius: 10px; }
+.station-num { width: 26px; height: 26px; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 12px; flex-shrink: 0; background: var(--vak-color); }
+.male-route .station-num { background: var(--male); }
+.female-route .station-num { background: var(--female); }
+.station-hint { flex: 0 0 auto; font-family: 'Source Sans 3', sans-serif; font-size: 12.5px; color: var(--warm-brown); font-style: italic; min-width: 0; }
+.station-input { flex: 1; padding: 8px 12px; border: 2px solid var(--sand); border-radius: 8px; font-family: 'Vollkorn', serif; font-size: 15px; background: var(--warm-white); color: var(--dark-brown); min-width: 80px; }
+.station-input:focus { outline: none; border-color: var(--vak-color); box-shadow: 0 0 0 3px rgba(107, 155, 94, 0.15); }
+.male-route .station-input:focus { border-color: var(--male); box-shadow: 0 0 0 3px rgba(106, 155, 181, 0.15); }
+.female-route .station-input:focus { border-color: var(--female); box-shadow: 0 0 0 3px rgba(201, 123, 155, 0.15); }
+.station-input.correct-input { border-color: var(--olive-dark); background: rgba(168, 201, 154, 0.18); }
+.station-input.wrong-input { border-color: var(--rust); background: rgba(212, 154, 138, 0.18); }
+
+.route-check-btn { display: block; margin: 14px auto 0; padding: 11px 26px; color: white; border: none; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); box-shadow: 0 3px 10px rgba(107, 155, 94, 0.25); }
+.male-route .route-check-btn { background: linear-gradient(135deg, var(--male) 0%, #4F7E96 100%); }
+.female-route .route-check-btn { background: linear-gradient(135deg, var(--female) 0%, #B05A82 100%); }
+.route-check-btn:hover { transform: translateY(-2px); }
+.route-result { margin-top: 14px; padding: 12px 16px; border-radius: 12px; text-align: center; font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; display: none; }
+.route-result.show { display: block; animation: fadeSlideUp 0.4s ease; }
+.route-result.perfect { background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%); color: white; }
+.route-result.good { background: rgba(168, 201, 154, 0.3); color: var(--olive-dark); }
+.route-result.partial { background: rgba(212, 168, 67, 0.25); color: var(--warm-brown); }
+
+/* Quiz */
+.quiz-card { background: var(--warm-white); border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(92, 64, 51, 0.08); border-left: 4px solid var(--vak-color); }
+.quiz-number { font-family: 'Caveat', cursive; font-size: 22px; color: var(--vak-color-dark); margin-bottom: 6px; }
+.quiz-question { font-family: 'Vollkorn', serif; font-size: 17px; color: var(--dark-brown); margin-bottom: 14px; line-height: 1.5; }
+.quiz-question .scene { font-style: italic; background: rgba(212, 168, 67, 0.15); padding: 2px 8px; border-radius: 6px; }
+.quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz-option { padding: 10px 16px; border: 2px solid var(--sand); background: var(--warm-white); border-radius: 22px; font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; cursor: pointer; transition: all 0.2s; color: var(--dark-brown); }
+.quiz-option:hover { border-color: var(--vak-color); transform: translateY(-1px); box-shadow: 0 3px 8px rgba(107, 155, 94, 0.15); }
+.quiz-option.correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; animation: pop 0.4s ease; }
+.quiz-option.incorrect { background: linear-gradient(135deg, #D49A8A 0%, #C2704E 100%); border-color: var(--rust); color: white; animation: shake 0.4s ease; }
+.quiz-option.show-correct { background: linear-gradient(135deg, #A8C99A 0%, #95B889 100%); border-color: var(--olive-dark); color: white; }
+.quiz-option:disabled { cursor: default; }
+.quiz-feedback { margin-top: 12px; padding: 10px 14px; border-radius: 10px; font-family: 'Source Sans 3', sans-serif; font-size: 14px; display: none; line-height: 1.5; }
+.quiz-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.quiz-feedback.good { background: rgba(168, 201, 154, 0.25); color: var(--olive-dark); }
+.quiz-feedback.bad { background: rgba(194, 112, 78, 0.15); color: var(--rust); }
+
+.score-bar { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: var(--warm-white); padding: 14px 20px; border-radius: 14px; font-family: 'Source Sans 3', sans-serif; font-weight: 600; margin-bottom: 16px; display: none; align-items: center; justify-content: space-between; box-shadow: 0 3px 10px rgba(107, 155, 94, 0.25); }
+.score-bar.show { display: flex; }
+.progress-track { flex: 1; height: 8px; background: rgba(255, 255, 255, 0.25); border-radius: 4px; margin: 0 14px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--terracotta) 0%, var(--ochre) 100%); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+.reset-btn { background: rgba(255, 255, 255, 0.2); border: none; color: white; padding: 6px 12px; border-radius: 18px; font-family: 'Source Sans 3', sans-serif; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+.reset-btn:hover { background: rgba(255, 255, 255, 0.35); }
+.celebration { background: linear-gradient(135deg, var(--ochre) 0%, var(--terracotta) 100%); color: white; padding: 22px; border-radius: 16px; text-align: center; font-family: 'Vollkorn', serif; font-size: 19px; font-weight: 600; margin: 16px 0; display: none; box-shadow: 0 4px 16px rgba(194, 112, 78, 0.3); }
+.celebration.show { display: block; animation: fadeSlideUp 0.5s ease; }
+
+.actions { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+.action-btn { padding: 12px 22px; border-radius: 12px; font-family: 'Source Sans 3', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; border: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.print-btn { background: var(--warm-white); color: var(--warm-brown); border: 2px solid var(--sand); }
+.print-btn:hover { background: var(--cream); border-color: var(--vak-color); }
+.back-btn { background: linear-gradient(135deg, var(--vak-color) 0%, var(--vak-color-dark) 100%); color: white; }
+.back-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(107, 155, 94, 0.3); }
+
+.print-only { display: none; }
+.print-h2 { font-family: 'Vollkorn', serif; font-size: 20px; color: var(--vak-color-dark); margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--vak-color-light); }
+.tab-section-header { display: none; }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 14px 40px; }
+  .title-block h1 { font-size: 19px; }
+  .subject-icon { width: 52px; height: 52px; font-size: 26px; }
+  .tab-btn { font-size: 12.5px; padding: 9px 7px; min-width: 72px; }
+  .theory-card { padding: 18px 18px; }
+  .theory-card h2 { font-size: 19px; }
+  .quiz-question { font-size: 15.5px; }
+  .quiz-option { font-size: 13.5px; padding: 9px 13px; }
+  .gender-cols { grid-template-columns: 1fr; }
+  .photo-formula .formula-row { font-size: 14px; }
+  .station-input { font-size: 14px; }
+  .station-hint { font-size: 11.5px; }
+  .station-num { width: 22px; height: 22px; font-size: 10px; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: black; }
+  body::before { display: none; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-only { display: block !important; }
+  .theory-card, .quiz-card, .fill-route { box-shadow: none !important; border: 1px solid #ddd !important; background: white !important; page-break-inside: avoid; }
+  .route-station, .remember-box, .tekening-cue, .chain-link, .gender-col, .photo-formula { background: white !important; border: 1px solid #ccc !important; color: black !important; }
+  .remember-box .label, .chain-link strong, .photo-formula .ingredient { color: #000 !important; }
+  .subject-icon { display: none; }
+  .score-bar, .celebration, .reset-btn { display: none !important; }
+  #quizContainer { display: none !important; }
+  .quiz-feedback { display: none !important; }
+  .route-check-btn, .route-result { display: none !important; }
+  .station-input { border: 1px solid #888 !important; background: white !important; color: transparent !important; }
+  .station-input::placeholder { color: transparent !important; }
+  .print-answers { page-break-before: always; }
+  h2.print-h2 { color: #000 !important; border-bottom-color: #888 !important; }
+  .tab-section-header { display: block !important; }
+  a { color: black; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    H.3 De plant
+  </nav>
+
+  <header class="exercise-header">
+    <div class="subject-icon">🌿</div>
+    <div class="title-block">
+      <h1>H.3 De plant</h1>
+      <div class="date">27 mei 2026</div>
+    </div>
+  </header>
+
+  <p class="intro-text">
+    De plant maakt zélf zijn voedsel — iets wat dier en mens niet kunnen. Ontdek de fotosynthese, de plaats van de plant in de voedselketen, en hoe planten zich voortplanten.
+  </p>
+
+  <div class="mode-tabs no-print">
+    <button class="tab-btn active" data-tab="theorie">📚 Theorie</button>
+    <button class="tab-btn" data-tab="bloem">🌸 Bloemdelen</button>
+    <button class="tab-btn" data-tab="schakel">🔗 Welke schakel?</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Wat weet je?</button>
+  </div>
+
+  <!-- TAB 1: THEORIE -->
+  <section class="tab-content active" id="tab-theorie">
+    <h2 class="print-h2 tab-section-header">📚 Theorie</h2>
+
+    <!-- FOTOSYNTHESE -->
+    <div class="theory-card">
+      <h2>De plant maakt zijn eigen voedsel</h2>
+      <p>
+        De mens heeft de plantenwereld om hem heen nodig om te overleven. Een bijzondere kwaliteit waarmee de plant zich boven de dieren- en mensenwereld verheft, is dat de plant <strong>zichzelf voedt</strong>.
+      </p>
+      <p>
+        De plant maakt met behulp van <strong>water (H₂O)</strong> en <strong>koolstofdioxide (CO₂)</strong> zijn eigen voedsel aan, voornamelijk <strong>suiker of glucose</strong>. De energie die de plant hiervoor gebruikt, komt van het <strong>zonlicht</strong> (stralingsenergie). Bij het aanmaken van zijn eigen voedsel maakt de plant ook afval: <strong>zuurstof (O₂)</strong>. Dit afval is een geschenk voor dier en mens.
+      </p>
+
+      <h3>Fotosynthese</h3>
+      <p>
+        Het proces waarbij planten zonlicht, water en koolstofdioxide omzetten in zuurstof en glucose noemen we <strong>fotosynthese</strong>. Het vindt plaats in de <strong>bladgroenkorrels</strong> van de plantencellen.
+      </p>
+
+      <div class="photo-formula">
+        <div class="formula-row">
+          <span class="ingredient ing-water">water</span>
+          <span class="plus">+</span>
+          <span class="ingredient ing-co2">koolstofdioxide</span>
+          <span class="plus">+</span>
+          <span class="ingredient ing-light">zonlicht</span>
+        </div>
+        <div style="font-size:22px; color:var(--vak-color-dark); margin:6px 0;">↓</div>
+        <div class="formula-row">
+          <span class="ingredient ing-glucose">glucose</span>
+          <span class="plus">+</span>
+          <span class="ingredient ing-o2">zuurstof</span>
+        </div>
+      </div>
+
+      <div class="tekening-cue">Kijk naar je eigen fotosynthese-tekening in het schrift: de zon, het water bij de wortels, de koolstofdioxide, en de glucose en zuurstof die de plant maakt.</div>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — fotosynthese</span>
+        <span class="rule">Erin: <span class="em">water + koolstofdioxide + zonlicht</span></span>
+        <span class="rule">Eruit: <span class="em">glucose + zuurstof</span></span>
+        <span class="rule">Waar: in de <span class="em">bladgroenkorrels</span></span>
+      </div>
+    </div>
+
+    <!-- VOEDSELKETEN -->
+    <div class="theory-card">
+      <h2>Voedselketen en voedselkringloop</h2>
+      <p>
+        Levende organismen hebben elkaar nodig om te overleven. Het ene organisme voedt zich met het andere. Een <strong>opeenschakeling van organismen</strong> waarbij het ene de voedselbron is voor het andere, noemen we een <strong>voedselketen</strong>. Wanneer verschillende voedselketens door elkaar lopen, hebben we een <strong>voedselweb</strong>.
+      </p>
+
+      <h3>De schakels van de keten</h3>
+      <div class="chain">
+        <div class="chain-link"><strong>1. Producent</strong> — de plant. Die maakt zelf zijn voedsel (fotosynthese). Altijd de eerste schakel.</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-link"><strong>2. Verbruikers / consumenten</strong> — planteneters (herbivoren), alleseters (omnivoren) en vleeseters (carnivoren).</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-link"><strong>3. Opruimers / detrivoren</strong> — regenwormen, pissebedden, insecten... Zij gebruiken dode resten (dode dieren en plantenresten) om zich te voeden.</div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-link"><strong>4. Ontbinders / reducenten</strong> — schimmels en bacteriën. Zij maken alles nog kleiner.</div>
+      </div>
+      <p>
+        Uiteindelijk blijven de <strong>mineralen</strong> over, die opnieuw door de producenten (planten) worden opgenomen. Zo is de <strong>voedselkringloop</strong> rond.
+      </p>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — de schakels</span>
+        <span class="rule"><span class="em">Producent</span> = plant (maakt zelf voedsel)</span>
+        <span class="rule"><span class="em">Consument</span> = verbruiker (herbivoor / omnivoor / carnivoor)</span>
+        <span class="rule"><span class="em">Detrivoor</span> = opruimer (regenworm, pissebed)</span>
+        <span class="rule"><span class="em">Reducent</span> = ontbinder (schimmel, bacterie)</span>
+      </div>
+    </div>
+
+    <!-- VOORTPLANTING -->
+    <div class="theory-card">
+      <h2>Voortplanting van de plant</h2>
+      <p>
+        Er zijn twee soorten voortplanting bij planten: ongeslachtelijk en geslachtelijk.
+      </p>
+
+      <h3>1. Ongeslachtelijke voortplanting</h3>
+      <p>
+        Uit <strong>één cel of een deel van de plant</strong> ontstaat een nieuwe plant. Er zijn verschillende manieren:
+      </p>
+      <ul style="font-size:15.5px; line-height:1.7;">
+        <li><strong>broedknoppen</strong> (vb. varens, mossen)</li>
+        <li><strong>uitlopers</strong> (vb. aardbeien)</li>
+        <li><strong>stekken</strong> (vb. kamerplanten)</li>
+        <li><strong>knollen</strong> (vb. aardappelen)</li>
+        <li><strong>bollen</strong> (vb. uien, tulpen)</li>
+      </ul>
+
+      <h3>2. Geslachtelijke (generatieve) voortplanting</h3>
+      <p>
+        Een <strong>mannelijke (♂) en een vrouwelijke (♀) celkern versmelten</strong>, en zo ontstaat een nieuwe plant. De nieuwe plant heeft <strong>kenmerken van beide</strong> ouders! Dit gebeurt via de <strong>bloemen</strong>.
+      </p>
+
+      <div class="gender-cols">
+        <div class="gender-col male">
+          <h4><span class="symbol">♂</span> Mannelijk</h4>
+          <p style="margin:0 0 6px; font-size:14px;">De <strong>meeldraad</strong> bestaat uit:</p>
+          <ul>
+            <li>helmdraad</li>
+            <li>helmknop (met helmhokjes)</li>
+            <li>het <strong>stuifmeel</strong></li>
+          </ul>
+        </div>
+        <div class="gender-col female">
+          <h4><span class="symbol">♀</span> Vrouwelijk</h4>
+          <p style="margin:0 0 6px; font-size:14px;">De <strong>stamper</strong> bestaat uit:</p>
+          <ul>
+            <li>stempel</li>
+            <li>stijl</li>
+            <li>vruchtbeginsel</li>
+            <li>zaadbeginsel (met de eicellen)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tekening-cue">Kijk naar je eigen bloem-tekening in het schrift voor de namen van alle delen: kroonblad, kelkblad, bloemsteel, meeldraad en stamper.</div>
+    </div>
+
+    <!-- BESTUIVING EN BEVRUCHTING -->
+    <div class="theory-card">
+      <h2>Bestuiving en bevruchting</h2>
+
+      <h3>Bestuiving</h3>
+      <p>
+        <strong>Bestuiving</strong> is wanneer stuifmeel van een bloem op de <strong>stempel</strong> van een andere bloem terechtkomt. Let op: dit kan alleen bij planten van <strong>dezelfde soort</strong>. Een paardenbloem kan dus alleen bestoven worden met stuifmeel van een andere paardenbloem, niet van een madeliefje.
+      </p>
+      <p>Er zijn twee manieren waarop het stuifmeel reist:</p>
+      <ul style="font-size:15.5px; line-height:1.7;">
+        <li><strong>Bestuiving door insecten</strong> — de plant lokt insecten (bijen, hommels) met opvallend gekleurde bloemen en nectar. Bloemen en insecten zijn de meest succesvolle samenwerkende organismen op aarde.</li>
+        <li><strong>Bestuiving door de wind</strong> — de wind blaast het stuifmeel weg. Vooral bij grassen en boomsoorten (berken, iepen, elzen). Daarom hebben mensen met <strong>hooikoorts</strong> in de lente last: er zit dan veel stuifmeel in de lucht.</li>
+      </ul>
+
+      <h3>Bevruchting</h3>
+      <p>
+        Bestuiving levert nog geen vruchten op — daarvoor is <strong>bevruchting</strong> nodig. Bij bevruchting groeit een stuifmeelkorrel uit tot een <strong>stuifmeelbuis</strong>. Die groeit naar het zaadbeginsel. Daar versmelten de <strong>kern van de stuifmeelkorrel</strong> en de <strong>kern van de eicel</strong> met elkaar. Dat versmelten noemen we de bevruchting.
+      </p>
+
+      <div class="remember-box">
+        <span class="label">📍 Onthou — na de bevruchting</span>
+        <span class="rule">Het <span class="em">zaadbeginsel</span> groeit uit tot <span class="em">zaad</span>.</span>
+        <span class="rule">Het <span class="em">vruchtbeginsel</span> groeit uit tot <span class="em">vrucht</span>.</span>
+        <span class="rule">Het zaad ligt in de vrucht. Bij een meloen zijn de pitten de zaden.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: BLOEMDELEN -->
+  <section class="tab-content" id="tab-bloem">
+    <h2 class="print-h2 tab-section-header">🌸 Bloemdelen</h2>
+
+    <div class="fill-route male-route">
+      <h3>♂ De meeldraad (mannelijk)</h3>
+      <p class="fill-route-intro">Vul de mannelijke bloemdelen in. Kijk naar je eigen bloem-tekening in het schrift.</p>
+      <div id="maleRoute" class="route-grid"></div>
+      <button class="route-check-btn" onclick="checkMaleRoute()">Controleer</button>
+      <div class="route-result" id="maleResult"></div>
+    </div>
+
+    <div class="fill-route female-route">
+      <h3>♀ De stamper (vrouwelijk)</h3>
+      <p class="fill-route-intro">Vul de vrouwelijke bloemdelen in. Kijk naar je eigen bloem-tekening in het schrift.</p>
+      <div id="femaleRoute" class="route-grid"></div>
+      <button class="route-check-btn" onclick="checkFemaleRoute()">Controleer</button>
+      <div class="route-result" id="femaleResult"></div>
+    </div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">De bloemdelen</h3>
+      <p style="font-style:italic; font-size:11pt;">Vul in (mannelijk = meeldraad, vrouwelijk = stamper):</p>
+      <div style="font-family:'Vollkorn',serif; font-size:11pt;" id="printBloemRoute"></div>
+    </div>
+  </section>
+
+  <!-- TAB 3: WELKE SCHAKEL -->
+  <section class="tab-content" id="tab-schakel">
+    <h2 class="print-h2 tab-section-header">🔗 Welke schakel?</h2>
+
+    <div class="score-bar no-print" id="scoreBarS">
+      <span>Score: <span id="scoreTextS">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFillS"></div></div>
+      <button class="reset-btn" onclick="resetSchakel()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="schakelContainer"></div>
+    <div class="celebration" id="celebrationS"></div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Welke schakel?</h3>
+      <div id="printSchakel"></div>
+    </div>
+  </section>
+
+  <!-- TAB 4: QUIZ -->
+  <section class="tab-content" id="tab-quiz">
+    <h2 class="print-h2 tab-section-header">🎯 Wat weet je?</h2>
+
+    <div class="score-bar no-print" id="scoreBar">
+      <span>Score: <span id="scoreText">0/0</span></span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <button class="reset-btn" onclick="resetQuiz()">🔄 Opnieuw</button>
+    </div>
+
+    <div id="quizContainer"></div>
+    <div class="celebration" id="celebration"></div>
+
+    <div class="print-only">
+      <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Vragen</h3>
+      <div id="printQuestions"></div>
+    </div>
+  </section>
+
+  <!-- PRINT: oplossingen -->
+  <div class="print-only print-answers">
+    <h2 class="print-h2" style="page-break-before:always;">Oplossingen</h2>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033;">Bloemdelen</h3>
+    <div style="font-family:'Vollkorn',serif; font-size:11pt; line-height:1.7;" id="printBloemAnswers"></div>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-top:20px;">Welke schakel?</h3>
+    <div id="printSchakelAnswers"></div>
+    <h3 style="font-family:'Vollkorn',serif; color:#5C4033; margin-top:20px;">Quiz</h3>
+    <div id="printAnswers"></div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="action-btn print-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a href="../index.html" class="action-btn back-btn">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+// TABS
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('active'));
+    tabContents.forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+  });
+});
+
+// NORMALIZE + FUZZY
+function normalize(s) {
+  return (s || '').trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c')
+    .replace(/[.,;:!?]$/, '')
+    .replace(/^(de |het |een )/, '');
+}
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+  const prev = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    let curr = [i];
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    for (let j = 0; j <= b.length; j++) prev[j] = curr[j];
+  }
+  return prev[b.length];
+}
+function maxTolerance(target) {
+  const len = target.length;
+  if (len <= 4) return 0;
+  if (len <= 7) return 1;
+  if (len <= 12) return 2;
+  return 3;
+}
+function answersMatch(input, accepted) {
+  const n = normalize(input);
+  if (!n) return false;
+  return accepted.some(a => {
+    const na = normalize(a);
+    if (na === n) return true;
+    const tol = maxTolerance(na);
+    if (tol > 0 && levenshtein(na, n) <= tol) return true;
+    return false;
+  });
+}
+
+// ============ BLOEMDELEN ============
+const maleStations = [
+  { name: 'helmdraad', accepted: ['helmdraad'], hint: 'de steel die de helmknop draagt' },
+  { name: 'helmknop', accepted: ['helmknop', 'helmknopje'], hint: 'bovenaan, met de helmhokjes' },
+  { name: 'stuifmeel', accepted: ['stuifmeel', 'stuifmeelkorrels', 'pollen'], hint: 'het mannelijke "poeder"' }
+];
+const femaleStations = [
+  { name: 'stempel', accepted: ['stempel'], hint: 'bovenaan, vangt het stuifmeel op' },
+  { name: 'stijl', accepted: ['stijl'], hint: 'het steeltje onder de stempel' },
+  { name: 'vruchtbeginsel', accepted: ['vruchtbeginsel'], hint: 'groeit later uit tot vrucht' },
+  { name: 'zaadbeginsel', accepted: ['zaadbeginsel'], hint: 'bevat de eicellen, groeit uit tot zaad' }
+];
+
+function renderRoute(stations, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  stations.forEach((st, idx) => {
+    const row = document.createElement('div');
+    row.className = 'route-station';
+    const num = document.createElement('div');
+    num.className = 'station-num';
+    num.textContent = (idx + 1);
+    row.appendChild(num);
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'station-input';
+    input.placeholder = 'vul in...';
+    input.dataset.idx = idx;
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    row.appendChild(input);
+    const hint = document.createElement('div');
+    hint.className = 'station-hint';
+    hint.textContent = st.hint;
+    row.appendChild(hint);
+    container.appendChild(row);
+  });
+}
+
+function checkRoute(stations, containerId, resultId) {
+  const inputs = document.querySelectorAll('#' + containerId + ' .station-input');
+  let correct = 0, total = inputs.length;
+  inputs.forEach(input => {
+    const idx = parseInt(input.dataset.idx);
+    const ok = answersMatch(input.value, stations[idx].accepted);
+    input.classList.remove('correct-input', 'wrong-input');
+    input.classList.add(ok ? 'correct-input' : 'wrong-input');
+    if (ok) correct++;
+    else input.placeholder = stations[idx].name;
+  });
+  const result = document.getElementById(resultId);
+  result.classList.remove('perfect', 'good', 'partial');
+  result.classList.add('show');
+  if (correct === total) {
+    result.classList.add('perfect');
+    result.innerHTML = `🌟 Alles juist — ${correct}/${total}!`;
+  } else if (correct >= total * 0.6) {
+    result.classList.add('good');
+    result.innerHTML = `💪 Goed bezig — ${correct}/${total}. De foute vakken tonen het juiste antwoord als hint.`;
+  } else {
+    result.classList.add('partial');
+    result.innerHTML = `📚 ${correct}/${total} juist. Bekijk je tekening en de theorie nog eens.`;
+  }
+}
+
+function checkMaleRoute() { checkRoute(maleStations, 'maleRoute', 'maleResult'); }
+function checkFemaleRoute() { checkRoute(femaleStations, 'femaleRoute', 'femaleResult'); }
+
+renderRoute(maleStations, 'maleRoute');
+renderRoute(femaleStations, 'femaleRoute');
+
+// ============ WELKE SCHAKEL ============
+const schakelData = [
+  { q: 'Een grasspriet die groeit in de wei.', options: ['Producent', 'Consument', 'Opruimer', 'Ontbinder'], correct: 0, explain: 'Een plant maakt zelf voedsel via fotosynthese — dat is een producent, altijd de eerste schakel.' },
+  { q: 'Een koe die het gras eet.', options: ['Producent', 'Consument (herbivoor)', 'Opruimer', 'Ontbinder'], correct: 1, explain: 'De koe eet planten — een planteneter (herbivoor), dus een consument.' },
+  { q: 'Een schimmel die een dode boomstam afbreekt.', options: ['Producent', 'Consument', 'Opruimer', 'Ontbinder (reducent)'], correct: 3, explain: 'Schimmels en bacteriën zijn ontbinders (reducenten) — zij maken alles nog kleiner tot mineralen.' },
+  { q: 'Een regenworm die dode bladeren opruimt.', options: ['Producent', 'Consument', 'Opruimer (detrivoor)', 'Ontbinder'], correct: 2, explain: 'Regenwormen, pissebedden en insecten zijn opruimers (detrivoren).' },
+  { q: 'Een vos die een muis eet.', options: ['Producent', 'Consument (carnivoor)', 'Opruimer', 'Ontbinder'], correct: 1, explain: 'De vos eet vlees — een vleeseter (carnivoor), dus een consument.' },
+  { q: 'Wat blijft er op het einde van de kringloop over, dat de planten weer opnemen?', options: ['Zuurstof', 'Mineralen', 'Glucose', 'Stuifmeel'], correct: 1, explain: 'De mineralen blijven over en worden weer door de producenten (planten) opgenomen. Zo is de kringloop rond.' }
+];
+
+let answeredS = new Array(schakelData.length).fill(false);
+let correctCountS = 0;
+const schakelContainer = document.getElementById('schakelContainer');
+const scoreBarS = document.getElementById('scoreBarS');
+const scoreTextS = document.getElementById('scoreTextS');
+const progressFillS = document.getElementById('progressFillS');
+const celebrationS = document.getElementById('celebrationS');
+
+function renderSchakel() {
+  schakelContainer.innerHTML = '';
+  schakelData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question"><span class="scene">${item.q}</span></div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fbS-${idx}"></div>
+    `;
+    schakelContainer.appendChild(card);
+  });
+  schakelContainer.querySelectorAll('.quiz-option').forEach(btn => btn.addEventListener('click', handleSchakel));
+}
+
+function handleSchakel(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answeredS[qIdx]) return;
+  answeredS[qIdx] = true;
+  const item = schakelData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fbS-' + qIdx);
+  allOpts.forEach(o => o.disabled = true);
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCountS++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+  const answeredCount = answeredS.filter(a => a).length;
+  scoreBarS.classList.add('show');
+  scoreTextS.textContent = correctCountS + '/' + answeredCount;
+  progressFillS.style.width = (answeredCount / schakelData.length * 100) + '%';
+  if (answeredCount === schakelData.length) {
+    const pct = correctCountS / schakelData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebrationS.textContent = msg;
+    celebrationS.classList.add('show');
+  }
+}
+
+function resetSchakel() {
+  answeredS = new Array(schakelData.length).fill(false);
+  correctCountS = 0;
+  scoreBarS.classList.remove('show');
+  celebrationS.classList.remove('show');
+  progressFillS.style.width = '0%';
+  renderSchakel();
+}
+
+renderSchakel();
+
+// ============ QUIZ ============
+const quizData = [
+  { q: 'Wat maakt de plant aan met behulp van water, koolstofdioxide en zonlicht?', options: ['Zuurstof en mineralen', 'Glucose (suiker) en zuurstof', 'Alleen water', 'Stuifmeel en nectar'], correct: 1, explain: 'Bij de fotosynthese maakt de plant glucose (suiker) en zuurstof. De zuurstof is een "geschenk" voor dier en mens.' },
+  { q: 'Hoe noemen we het proces waarbij de plant zonlicht, water en CO₂ omzet in glucose en zuurstof?', options: ['Spijsvertering', 'Fotosynthese', 'Bestuiving', 'Voortplanting'], correct: 1, explain: 'Dat is de fotosynthese. Het vindt plaats in de bladgroenkorrels.' },
+  { q: 'Waar in de plant vindt de fotosynthese plaats?', options: ['In de wortels', 'In de bloem', 'In de bladgroenkorrels', 'In het stuifmeel'], correct: 2, explain: 'De fotosynthese gebeurt in de bladgroenkorrels van de plantencellen.' },
+  { q: 'Welke energie gebruikt de plant voor de fotosynthese?', options: ['Warmte uit de bodem', 'Zonlicht (stralingsenergie)', 'Energie uit mineralen', 'Wind'], correct: 1, explain: 'De energie komt van het zonlicht — ook wel stralingsenergie genoemd.' },
+  { q: 'Wat is de eerste schakel in elke voedselketen?', options: ['De consument', 'De plant (producent)', 'De ontbinder', 'De opruimer'], correct: 1, explain: 'De plant is altijd de eerste schakel: de producent, want die maakt zelf voedsel.' },
+  { q: 'Wat is een voedselweb?', options: [
+      'Eén enkele voedselketen',
+      'Verschillende voedselketens die door elkaar lopen',
+      'Een spinnenweb in de natuur',
+      'De plek waar planten groeien'
+    ], correct: 1, explain: 'Wanneer verschillende voedselketens door elkaar lopen, spreken we van een voedselweb.' },
+  { q: 'Wat doen schimmels en bacteriën in de voedselkringloop?', options: ['Ze maken glucose', 'Ze zijn ontbinders (reducenten) en maken alles kleiner', 'Ze eten planten', 'Ze bestuiven bloemen'], correct: 1, explain: 'Schimmels en bacteriën zijn de ontbinders (reducenten). Uiteindelijk blijven de mineralen over.' },
+  { q: 'Wat gebeurt er bij ONgeslachtelijke voortplanting?', options: [
+      'Twee celkernen versmelten',
+      'Uit één cel of deel van de plant ontstaat een nieuwe plant',
+      'Er is altijd een bloem nodig',
+      'Er ontstaat altijd een vrucht'
+    ], correct: 1, explain: 'Bij ongeslachtelijke voortplanting ontstaat uit één cel of deel van de plant een nieuwe plant (bv. via uitlopers, knollen, bollen).' },
+  { q: 'Welke is een voorbeeld van ongeslachtelijke voortplanting?', options: ['Een bloem die bestoven wordt', 'Een aardappel die uit een knol groeit', 'Twee celkernen die versmelten', 'Stuifmeel dat op een stempel valt'], correct: 1, explain: 'Knollen (zoals aardappelen), bollen, uitlopers en stekken zijn allemaal ongeslachtelijke voortplanting.' },
+  { q: 'Wat is het mannelijke deel van de bloem?', options: ['De stamper', 'De meeldraad', 'Het kroonblad', 'Het kelkblad'], correct: 1, explain: 'De meeldraad (♂) is mannelijk: helmdraad, helmknop en het stuifmeel. De stamper (♀) is vrouwelijk.' },
+  { q: 'Welk deel hoort bij de stamper (vrouwelijk)?', options: ['Helmknop', 'Helmdraad', 'Zaadbeginsel', 'Stuifmeel'], correct: 2, explain: 'De stamper bestaat uit stempel, stijl, vruchtbeginsel en zaadbeginsel (met de eicellen).' },
+  { q: 'Wat is bestuiving?', options: [
+      'Het versmelten van twee celkernen',
+      'Stuifmeel dat op de stempel van een bloem van dezelfde soort terechtkomt',
+      'Het groeien van een vrucht',
+      'Het maken van glucose'
+    ], correct: 1, explain: 'Bestuiving = stuifmeel komt op de stempel van een bloem van dezelfde soort. Een paardenbloem alleen door een andere paardenbloem!' },
+  { q: 'Welke twee manieren van bestuiving zijn er?', options: ['Door water en door zon', 'Door insecten en door de wind', 'Door wortels en door bladeren', 'Door bijen en door vogels alleen'], correct: 1, explain: 'Bestuiving gebeurt door insecten (bijen, hommels) of door de wind (grassen, berken, iepen, elzen).' },
+  { q: 'Waarom hebben mensen met hooikoorts vooral in de lente last?', options: [
+      'Omdat het dan koud is',
+      'Omdat er dan veel stuifmeel in de lucht zit (windbestuiving)',
+      'Omdat er dan veel insecten zijn',
+      'Omdat planten dan zuurstof maken'
+    ], correct: 1, explain: 'In de lente zit er veel stuifmeel in de lucht van windbestoven planten (grassen, bomen). Dat geeft hooikoorts.' },
+  { q: 'Wat gebeurt er bij de bevruchting?', options: [
+      'Stuifmeel valt op de stempel',
+      'De kern van de stuifmeelkorrel en de kern van de eicel versmelten',
+      'De bloem gaat open',
+      'De plant maakt glucose'
+    ], correct: 1, explain: 'Bij bevruchting groeit de stuifmeelkorrel uit tot een stuifmeelbuis naar het zaadbeginsel, waar de twee kernen versmelten.' },
+  { q: 'Waar groeit het vruchtbeginsel tot uit, na de bevruchting?', options: ['Tot een nieuw blad', 'Tot een vrucht', 'Tot een wortel', 'Tot stuifmeel'], correct: 1, explain: 'Het vruchtbeginsel groeit uit tot de vrucht, en het zaadbeginsel tot het zaad. Het zaad ligt in de vrucht.' },
+  { q: 'Bij een meloen: wat zijn de pitten?', options: ['De vruchten', 'De zaden', 'De bloemen', 'Het stuifmeel'], correct: 1, explain: 'De pitten van een meloen zijn de zaden. Om de zaden heen zit de vrucht.' }
+];
+
+let answered = new Array(quizData.length).fill(false);
+let correctCount = 0;
+const quizContainer = document.getElementById('quizContainer');
+const scoreBar = document.getElementById('scoreBar');
+const scoreText = document.getElementById('scoreText');
+const progressFill = document.getElementById('progressFill');
+const celebration = document.getElementById('celebration');
+
+function renderQuiz() {
+  quizContainer.innerHTML = '';
+  quizData.forEach((item, idx) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-number">Vraag ${idx + 1}</div>
+      <div class="quiz-question">${item.q}</div>
+      <div class="quiz-options">
+        ${item.options.map((opt, i) => `<button class="quiz-option" data-q="${idx}" data-i="${i}">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="fb-${idx}"></div>
+    `;
+    quizContainer.appendChild(card);
+  });
+  quizContainer.querySelectorAll('.quiz-option').forEach(btn => btn.addEventListener('click', handleAnswer));
+}
+
+function handleAnswer(e) {
+  const btn = e.currentTarget;
+  const qIdx = parseInt(btn.dataset.q);
+  const iIdx = parseInt(btn.dataset.i);
+  if (answered[qIdx]) return;
+  answered[qIdx] = true;
+  const item = quizData[qIdx];
+  const card = btn.closest('.quiz-card');
+  const allOpts = card.querySelectorAll('.quiz-option');
+  const fb = document.getElementById('fb-' + qIdx);
+  allOpts.forEach(o => o.disabled = true);
+  if (iIdx === item.correct) {
+    btn.classList.add('correct');
+    correctCount++;
+    const yays = ['Juist!', 'Goed zo!', 'Mooi!', 'Top!', 'Perfect!'];
+    fb.textContent = yays[Math.floor(Math.random() * yays.length)] + ' ' + item.explain;
+    fb.classList.add('show', 'good');
+  } else {
+    btn.classList.add('incorrect');
+    allOpts[item.correct].classList.add('show-correct');
+    fb.textContent = 'Het juiste antwoord is: ' + item.options[item.correct] + '. ' + item.explain;
+    fb.classList.add('show', 'bad');
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const answeredCount = answered.filter(a => a).length;
+  scoreBar.classList.add('show');
+  scoreText.textContent = correctCount + '/' + answeredCount;
+  progressFill.style.width = (answeredCount / quizData.length * 100) + '%';
+  if (answeredCount === quizData.length) {
+    const pct = correctCount / quizData.length;
+    let msg;
+    if (pct === 1) msg = '🌟 Alles juist — fantastisch!';
+    else if (pct >= 0.8) msg = '🎉 Heel goed! Bijna alles juist.';
+    else if (pct >= 0.6) msg = '💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg = '📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    celebration.textContent = msg;
+    celebration.classList.add('show');
+  }
+}
+
+function resetQuiz() {
+  answered = new Array(quizData.length).fill(false);
+  correctCount = 0;
+  scoreBar.classList.remove('show');
+  celebration.classList.remove('show');
+  progressFill.style.width = '0%';
+  renderQuiz();
+}
+
+renderQuiz();
+
+// PRINT
+function buildPrintContent() {
+  const allBloem = [
+    { groep: '♂ Meeldraad (mannelijk)', items: maleStations },
+    { groep: '♀ Stamper (vrouwelijk)', items: femaleStations }
+  ];
+  const pbr = document.getElementById('printBloemRoute');
+  pbr.innerHTML = allBloem.map(g =>
+    `<div style="margin:8px 0;"><strong>${g.groep}</strong><table style="border-collapse:collapse; width:100%; margin-top:4px;">` +
+    g.items.map((st, i) => `<tr><td style="padding:3px 10px 3px 0; width:24px;">${i + 1}.</td><td style="padding:3px 0; border-bottom:1px dotted #888;"></td></tr>`).join('') +
+    '</table></div>'
+  ).join('');
+
+  const pba = document.getElementById('printBloemAnswers');
+  pba.innerHTML = allBloem.map(g =>
+    `<div style="margin:8px 0;"><strong>${g.groep}</strong>: ` +
+    g.items.map((st, i) => `${i + 1}. ${st.name}`).join(' · ') + '</div>'
+  ).join('');
+
+  const ps = document.getElementById('printSchakel');
+  ps.innerHTML = schakelData.map((item, i) =>
+    `<div style="margin-bottom:12px; padding:8px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}.</strong> <em>${item.q}</em><br>
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`
+  ).join('');
+
+  const psa = document.getElementById('printSchakelAnswers');
+  psa.innerHTML = schakelData.map((item, i) =>
+    `<div style="margin-bottom:8px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+
+  const pq = document.getElementById('printQuestions');
+  pq.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:14px; padding:10px; border:1px solid #ddd; border-radius:8px;">
+      <strong>${i + 1}. ${item.q}</strong><br>
+      <span style="display:inline-block; margin-top:6px;">Antwoord: ___________________________</span>
+    </div>`
+  ).join('');
+
+  const pa = document.getElementById('printAnswers');
+  pa.innerHTML = quizData.map((item, i) =>
+    `<div style="margin-bottom:10px;"><strong>${i + 1}.</strong> ${item.options[item.correct]} — <em style="color:#5E6D53;">${item.explain}</em></div>`
+  ).join('');
+}
+buildPrintContent();
+</script>
+</body>
+</html>
