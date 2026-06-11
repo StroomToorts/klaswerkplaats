@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frans — L'article contracté</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --warm-white: #FFFDF7;
+  --terracotta: #C2704E;
+  --terracotta-light: #D4916F;
+  --ochre: #D4A843;
+  --olive: #7A8B6F;
+  --olive-dark: #5E6D53;
+  --warm-brown: #5C4033;
+  --dark-brown: #3D2B1F;
+  --sand: #E8DCC8;
+  --sand-light: #F0E8D8;
+  --parchment: #F5EDE0;
+  --rust: #B7553D;
+  --sage: #A8B89A;
+  --dusty-rose: #C9A0A0;
+  --sky-blue: #6A9BB5;
+  --vak-color: #C2704E;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Vollkorn', Georgia, serif;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--warm-white) 40%, var(--parchment) 100%);
+  min-height: 100vh;
+  color: var(--dark-brown);
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 60 q15 -25 30 0 q15 25 30 0' fill='none' stroke='%235C4033' stroke-width='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+.container { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; position: relative; z-index: 1; }
+
+/* Breadcrumb */
+.breadcrumb { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--warm-brown); margin-bottom: 22px; opacity: 0.85; }
+.breadcrumb a { color: var(--warm-brown); text-decoration: none; }
+.breadcrumb a:hover { color: var(--terracotta); text-decoration: underline; }
+.breadcrumb span.sep { margin: 0 6px; opacity: 0.5; }
+
+/* Header */
+.exercise-header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; animation: fadeSlideUp 0.5s ease; }
+.exercise-icon {
+  width: 58px; height: 58px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--vak-color), var(--terracotta-light));
+  border-radius: 15px; display: flex; align-items: center; justify-content: center;
+  font-size: 28px; box-shadow: 0 4px 14px rgba(194,112,78,0.3);
+}
+.exercise-title h1 { font-family: 'Vollkorn', serif; font-size: 26px; font-weight: 700; color: var(--dark-brown); line-height: 1.2; }
+.exercise-date { font-family: 'Caveat', cursive; font-size: 20px; color: var(--terracotta); }
+.intro {
+  font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: var(--warm-brown);
+  margin: 14px 0 24px; line-height: 1.55; opacity: 0.9; animation: fadeSlideUp 0.6s ease;
+}
+
+/* Tabs */
+.mode-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; animation: fadeSlideUp 0.7s ease; }
+.mode-tab {
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 9px 18px; border-radius: 30px; border: 2px solid var(--sand);
+  background: var(--warm-white); color: var(--warm-brown); cursor: pointer;
+  transition: all 0.25s ease;
+}
+.mode-tab:hover { border-color: var(--terracotta-light); transform: translateY(-1px); }
+.mode-tab.active { background: var(--vak-color); border-color: var(--vak-color); color: var(--warm-white); box-shadow: 0 4px 12px rgba(194,112,78,0.3); }
+.tab-content { display: none; animation: fadeSlideUp 0.4s ease; }
+.tab-content.active { display: block; }
+
+/* Print-section-headers (alleen in print zichtbaar) */
+.print-section-title { display: none; }
+
+/* Theorie */
+.theory-card {
+  background: var(--warm-white); border: 1px solid var(--sand);
+  border-radius: 18px; padding: 22px; margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(92,64,51,0.07);
+}
+.theory-card h3 { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); margin-bottom: 12px; }
+.theory-card p { font-size: 16px; line-height: 1.6; margin-bottom: 10px; }
+.grammar-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 16px; }
+.grammar-table th {
+  font-family: 'Source Sans 3', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--warm-brown); background: var(--sand-light); padding: 9px 10px; text-align: left;
+}
+.grammar-table td { padding: 10px; border-bottom: 1px solid var(--sand); vertical-align: top; }
+.grammar-table .contracted { font-weight: 700; color: var(--vak-color); }
+.grammar-table .example { font-style: italic; color: var(--warm-brown); }
+.grammar-table .nl { font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: var(--olive-dark); }
+.attention-box {
+  background: linear-gradient(135deg, rgba(212,168,67,0.13), rgba(194,112,78,0.10));
+  border-left: 4px solid var(--ochre); border-radius: 12px;
+  padding: 14px 18px; margin-top: 6px; font-size: 15px; line-height: 1.55;
+}
+.attention-box strong { color: var(--rust); }
+
+/* Flashcards */
+.lang-toggle {
+  display: inline-flex; background: var(--sand-light); border-radius: 30px; padding: 4px;
+  margin-bottom: 18px; font-family: 'Source Sans 3', sans-serif;
+}
+.lang-option {
+  border: none; background: transparent; padding: 8px 18px; border-radius: 26px;
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--warm-brown); cursor: pointer; transition: all 0.25s ease;
+}
+.lang-option.active { background: var(--vak-color); color: var(--warm-white); box-shadow: 0 2px 8px rgba(194,112,78,0.3); }
+.flashcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.flashcard { perspective: 900px; height: 130px; cursor: pointer; }
+.flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.55s; transform-style: preserve-3d; }
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 12px; text-align: center;
+}
+.flashcard-front { background: var(--warm-white); border: 1px solid var(--sand); box-shadow: 0 3px 10px rgba(92,64,51,0.08); }
+.flashcard-front .fc-main { font-size: 22px; font-weight: 700; color: var(--dark-brown); }
+.flashcard-back {
+  background: linear-gradient(135deg, var(--vak-color), var(--terracotta-light));
+  transform: rotateY(180deg); color: var(--cream);
+}
+.flashcard-back .fc-main { font-size: 24px; font-weight: 700; }
+.flashcard-back .fc-sub { font-family: 'Source Sans 3', sans-serif; font-size: 13px; margin-top: 6px; opacity: 0.9; font-style: italic; }
+.flip-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13px; color: var(--warm-brown); opacity: 0.7; margin-top: 14px; text-align: center; }
+
+/* Kies juist */
+.choose-card {
+  background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px;
+  padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(92,64,51,0.06);
+  transition: box-shadow 0.25s ease;
+}
+.choose-card .q-num {
+  font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--vak-color); letter-spacing: 0.5px;
+}
+.choose-sentence { font-size: 18px; margin: 6px 0 4px; line-height: 1.5; }
+.choose-blank {
+  display: inline-block; min-width: 64px; border-bottom: 2px dotted var(--terracotta);
+  text-align: center; font-weight: 700; color: var(--vak-color); padding: 0 6px;
+}
+.choose-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: #8a7a6d; margin-bottom: 10px; }
+.choose-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.option-pill {
+  font-family: 'Vollkorn', serif; font-size: 16px; font-weight: 600;
+  padding: 7px 18px; border-radius: 26px; border: 2px solid var(--sand);
+  background: var(--warm-white); color: var(--dark-brown); cursor: pointer; transition: all 0.2s ease;
+}
+.option-pill:hover:not(:disabled) { border-color: var(--terracotta-light); transform: translateY(-1px); }
+.option-pill.correct { background: var(--olive); border-color: var(--olive); color: var(--warm-white); animation: pop 0.35s ease; }
+.option-pill.wrong { background: var(--rust); border-color: var(--rust); color: var(--warm-white); animation: shake 0.4s ease; }
+.option-pill.reveal { border-color: var(--olive); color: var(--olive-dark); box-shadow: 0 0 0 2px rgba(122,139,111,0.3); }
+.option-pill:disabled { cursor: default; opacity: 0.85; }
+
+/* Invullen */
+.translate-card {
+  background: var(--warm-white); border: 1px solid var(--sand); border-radius: 16px;
+  padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(92,64,51,0.06);
+}
+.translate-card.correct { border-color: var(--olive); }
+.translate-card.incorrect { border-color: var(--rust); }
+.translate-sentence { font-size: 18px; font-weight: 700; margin: 6px 0 4px; line-height: 1.5; }
+.translate-hint { font-family: 'Source Sans 3', sans-serif; font-size: 13.5px; color: #8a7a6d; margin-bottom: 12px; }
+.translate-row { display: flex; gap: 10px; align-items: center; }
+.translate-input {
+  flex: 1; font-family: 'Vollkorn', serif; font-size: 16px; padding: 10px 16px;
+  border: 2px solid var(--sand); border-radius: 12px; background: var(--warm-white);
+  color: var(--dark-brown); outline: none; transition: border-color 0.2s ease; min-width: 0;
+}
+.translate-input:focus { border-color: var(--terracotta-light); }
+.translate-input.correct-input { border-color: var(--olive); background: rgba(122,139,111,0.08); }
+.translate-input.wrong-input { border-color: var(--rust); background: rgba(183,85,61,0.06); }
+.check-btn {
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 10px 20px; border-radius: 12px; border: none;
+  background: var(--vak-color); color: var(--warm-white); cursor: pointer; transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.check-btn:hover { background: var(--rust); transform: translateY(-1px); }
+.translate-feedback { font-family: 'Source Sans 3', sans-serif; font-size: 14.5px; margin-top: 10px; display: none; }
+.translate-feedback.show { display: block; animation: fadeSlideUp 0.3s ease; }
+.translate-feedback.ok { color: var(--olive-dark); font-weight: 600; }
+.translate-feedback.nok { color: var(--rust); font-weight: 600; }
+
+/* Score */
+.score-bar {
+  display: none; position: sticky; top: 10px; z-index: 5;
+  background: var(--warm-white); border: 1px solid var(--sand); border-radius: 14px;
+  padding: 12px 18px; margin-bottom: 18px; box-shadow: 0 4px 14px rgba(92,64,51,0.1);
+  font-family: 'Source Sans 3', sans-serif;
+}
+.score-bar.visible { display: block; animation: fadeSlideUp 0.3s ease; }
+.score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.score-text { font-size: 14px; font-weight: 600; color: var(--warm-brown); }
+.reset-btn {
+  font-family: 'Source Sans 3', sans-serif; font-size: 13px; font-weight: 600;
+  border: 1px solid var(--sand); background: var(--sand-light); color: var(--warm-brown);
+  padding: 5px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s ease;
+}
+.reset-btn:hover { background: var(--sand); }
+.progress-bar-container { height: 7px; background: var(--sand-light); border-radius: 5px; overflow: hidden; }
+.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--terracotta), var(--ochre)); border-radius: 5px; transition: width 0.4s ease; }
+
+/* Viering */
+.celebration {
+  display: none; text-align: center; background: var(--warm-white);
+  border: 1px solid var(--sand); border-radius: 18px; padding: 26px; margin-top: 20px;
+  box-shadow: 0 4px 16px rgba(92,64,51,0.1);
+}
+.celebration.visible { display: block; animation: pop 0.5s ease; }
+.celebration .emoji { font-size: 42px; margin-bottom: 8px; }
+.celebration .msg { font-family: 'Caveat', cursive; font-size: 26px; color: var(--vak-color); }
+
+/* Actieknoppen */
+.action-buttons { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+.action-btn {
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 11px 22px; border-radius: 30px; border: 2px solid var(--sand);
+  background: var(--warm-white); color: var(--warm-brown); cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 7px; transition: all 0.25s ease;
+}
+.action-btn:hover { border-color: var(--terracotta-light); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(92,64,51,0.1); }
+
+/* Print-only blokken */
+.print-only { display: none; }
+.flashcard-print table, .print-answers table { width: 100%; border-collapse: collapse; font-size: 12pt; }
+.flashcard-print td, .flashcard-print th, .print-answers td, .print-answers th { border: 1px solid #ccc; padding: 8px 10px; text-align: left; }
+.write-space { display: block; min-height: 22px; }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(0.85); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+
+/* Responsief */
+@media (max-width: 600px) {
+  .container { padding: 14px; }
+  .flashcard-grid { grid-template-columns: repeat(2, 1fr); }
+  .translate-row { flex-direction: column; align-items: stretch; }
+  .check-btn { width: 100%; }
+  .grammar-table { font-size: 13px; }
+  .grammar-table th { font-size: 10px; }
+  .grammar-table .example { display: none; }
+  .grammar-table td { padding: 8px 6px; }
+  .theory-card { overflow-x: auto; }
+  .exercise-title h1 { font-size: 21px; }
+}
+
+/* ===== PRINT ===== */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white !important; font-size: 11pt; color: #000; }
+  body::before { display: none; }
+  .print-only { display: block !important; }
+  .container { max-width: 100%; padding: 0; }
+  .tab-content { display: block !important; }
+  .print-section-title { display: block; font-family: 'Caveat', cursive; font-size: 22pt; color: #000; margin: 18pt 0 8pt; border-bottom: 1px solid #999; }
+  .score-bar, .progress-bar-container, .celebration { display: none !important; }
+  .theory-card, .choose-card, .translate-card { box-shadow: none !important; border: 1px solid #ddd !important; background: white !important; page-break-inside: avoid; }
+  .exercise-icon { display: none; }
+  .flip-hint { display: none; }
+  .lang-toggle { display: none !important; }
+  .flashcard-grid { display: none !important; }
+  .flashcard-print { display: block !important; }
+  .translate-input { color: transparent !important; -webkit-text-fill-color: transparent !important; border-color: #ccc !important; background: white !important; }
+  .translate-input::placeholder { color: transparent !important; }
+  .translate-input.correct-input, .translate-input.wrong-input { border-color: #ccc !important; background: white !important; }
+  .translate-feedback { display: none !important; }
+  .translate-card.correct, .translate-card.incorrect { border-color: #ddd !important; background: white !important; }
+  .check-btn { display: none; }
+  .choose-blank { color: transparent !important; border-bottom-color: #999; }
+  .choose-options { display: none; }
+  .option-pill { display: none; }
+  .attention-box { background: white !important; border-left-color: #999; }
+  .print-answers { page-break-before: always; }
+  .print-answers h2 { font-family: 'Caveat', cursive; font-size: 24pt; margin-bottom: 10pt; }
+  .print-answers .ans { font-weight: 700; color: #C2704E; }
+  .grammar-table .contracted { color: #C2704E; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span class="sep">›</span><a href="../index.html">1e Middelbaar</a><span class="sep">›</span>L'article contracté
+  </nav>
+
+  <!-- Header -->
+  <header class="exercise-header">
+    <div class="exercise-icon">🇫🇷</div>
+    <div class="exercise-title">
+      <h1>L'article contracté</h1>
+      <div class="exercise-date">donderdag 11 juni 2026</div>
+    </div>
+  </header>
+
+  <p class="intro">Sommige voorzetsels en lidwoorden smelten in het Frans samen tot één woord: <em>à + le</em> wordt <em>au</em>, <em>de + les</em> wordt <em>des</em>. Hier leer je wanneer dat gebeurt — en wanneer juist niet.</p>
+
+  <!-- Tabs -->
+  <div class="mode-tabs no-print">
+    <button class="mode-tab active" data-tab="theorie">📚 Theorie</button>
+    <button class="mode-tab" data-tab="flashcards">🎴 Flashcards</button>
+    <button class="mode-tab" data-tab="kiesjuist">🎯 Kies juist</button>
+    <button class="mode-tab" data-tab="invullen">✏️ Invullen</button>
+  </div>
+
+  <!-- ===== TAB: THEORIE ===== -->
+  <section id="tab-theorie" class="tab-content active">
+    <h2 class="print-section-title">📚 Theorie</h2>
+
+    <div class="theory-card">
+      <h3>à + lidwoord (in / bij / naar / met)</h3>
+      <table class="grammar-table">
+        <tr><th>combinatie</th><th>wordt</th><th>voorbeeld</th></tr>
+        <tr><td>à + le</td><td class="contracted">au</td><td><span class="example">au supermarché</span><br><span class="nl">in de supermarkt</span></td></tr>
+        <tr><td>à + la</td><td class="contracted">à la</td><td><span class="example">à la pharmacie</span><br><span class="nl">bij de apotheek</span></td></tr>
+        <tr><td>à + l'</td><td class="contracted">à l'</td><td><span class="example">à l'hôpital</span><br><span class="nl">in het ziekenhuis</span></td></tr>
+        <tr><td>à + les</td><td class="contracted">aux</td><td><span class="example">aux magasins</span><br><span class="nl">in de winkels</span></td></tr>
+      </table>
+    </div>
+
+    <div class="theory-card">
+      <h3>de + lidwoord (van …)</h3>
+      <table class="grammar-table">
+        <tr><th>combinatie</th><th>wordt</th><th>voorbeeld</th></tr>
+        <tr><td>de + le</td><td class="contracted">du</td><td><span class="example">du magasin</span><br><span class="nl">van de winkel</span></td></tr>
+        <tr><td>de + la</td><td class="contracted">de la</td><td><span class="example">de la maison</span><br><span class="nl">van het huis</span></td></tr>
+        <tr><td>de + l'</td><td class="contracted">de l'</td><td><span class="example">de l'eau</span><br><span class="nl">van het water</span></td></tr>
+        <tr><td>de + les</td><td class="contracted">des</td><td><span class="example">des magasins</span><br><span class="nl">van de winkels</span></td></tr>
+      </table>
+    </div>
+
+    <div class="theory-card">
+      <h3>Hoe onthoud je het?</h3>
+      <p>Alleen <strong>le</strong> en <strong>les</strong> smelten samen tot een nieuw woord:</p>
+      <p style="text-align:center; font-size:19px;">à + le → <strong style="color:var(--vak-color)">au</strong> &nbsp;·&nbsp; à + les → <strong style="color:var(--vak-color)">aux</strong> &nbsp;·&nbsp; de + le → <strong style="color:var(--vak-color)">du</strong> &nbsp;·&nbsp; de + les → <strong style="color:var(--vak-color)">des</strong></p>
+      <p>Bij <strong>la</strong> en <strong>l'</strong> verandert er niets: je schrijft gewoon <em>à la, à l', de la, de l'</em> in twee woorden.</p>
+      <div class="attention-box">
+        <strong>⚡ Let op:</strong> je gebruikt <strong>l'</strong> (en dus <em>à l'</em> / <em>de l'</em>) voor een woord dat begint met een <strong>klinker</strong> of een <strong>stomme h</strong>: <em>à l'hôpital, de l'eau, à l'école</em>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: FLASHCARDS ===== -->
+  <section id="tab-flashcards" class="tab-content">
+    <h2 class="print-section-title">🎴 Flashcards — schrijf de samentrekking</h2>
+
+    <div class="lang-toggle no-print" role="group" aria-label="Oefenrichting">
+      <button class="lang-option active" data-dir="combo">🧩 Combinatie → Vorm</button>
+      <button class="lang-option" data-dir="vorm">✨ Vorm → Combinatie</button>
+    </div>
+
+    <div class="flashcard-grid" id="flashcardGrid"></div>
+    <p class="flip-hint" id="flipHint">klik op een kaart om te draaien</p>
+
+    <!-- Printversie flashcards: tabel met schrijfruimte (volgt de toggle-richting) -->
+    <div class="print-only flashcard-print">
+      <table>
+        <thead><tr><th style="width:45%" id="fpHead">Combinatie</th><th>Schrijf zelf de vorm</th></tr></thead>
+        <tbody id="fpBody">
+          <tr><td>à + le</td><td><span class="write-space"></span></td></tr>
+          <tr><td>à + la</td><td><span class="write-space"></span></td></tr>
+          <tr><td>à + l'</td><td><span class="write-space"></span></td></tr>
+          <tr><td>à + les</td><td><span class="write-space"></span></td></tr>
+          <tr><td>de + le</td><td><span class="write-space"></span></td></tr>
+          <tr><td>de + la</td><td><span class="write-space"></span></td></tr>
+          <tr><td>de + l'</td><td><span class="write-space"></span></td></tr>
+          <tr><td>de + les</td><td><span class="write-space"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== TAB: KIES JUIST ===== -->
+  <section id="tab-kiesjuist" class="tab-content">
+    <h2 class="print-section-title">🎯 Kies juist: au, à l', à la of aux</h2>
+
+    <div class="score-bar no-print" id="scorebar-kies">
+      <div class="score-row">
+        <span class="score-text" id="scoretext-kies">Score: 0/13</span>
+        <button class="reset-btn" onclick="resetKies()">🔄 Opnieuw</button>
+      </div>
+      <div class="progress-bar-container"><div class="progress-bar" id="progress-kies"></div></div>
+    </div>
+
+    <div id="chooseList"></div>
+
+    <div class="celebration no-print" id="celebration-kies">
+      <div class="emoji" id="celebEmoji-kies"></div>
+      <div class="msg" id="celebMsg-kies"></div>
+    </div>
+  </section>
+
+  <!-- ===== TAB: INVULLEN ===== -->
+  <section id="tab-invullen" class="tab-content">
+    <h2 class="print-section-title">✏️ Invullen: schrijf de juiste vorm</h2>
+
+    <div class="score-bar no-print" id="scorebar-invul">
+      <div class="score-row">
+        <span class="score-text" id="scoretext-invul">Score: 0/12</span>
+        <button class="reset-btn" onclick="resetInvul()">🔄 Opnieuw</button>
+      </div>
+      <div class="progress-bar-container"><div class="progress-bar" id="progress-invul"></div></div>
+    </div>
+
+    <div id="translateList"></div>
+
+    <div class="celebration no-print" id="celebration-invul">
+      <div class="emoji" id="celebEmoji-invul"></div>
+      <div class="msg" id="celebMsg-invul"></div>
+    </div>
+  </section>
+
+  <!-- ===== OPLOSSINGEN (alleen print) ===== -->
+  <div class="print-only print-answers">
+    <h2>Oplossingen</h2>
+
+    <h3 style="margin:10pt 0 6pt;">Flashcards — beide richtingen</h3>
+    <table>
+      <tr><th>Combinatie</th><th>Vorm</th><th>Voorbeeld</th></tr>
+      <tr><td>à + le</td><td class="ans">au</td><td>au supermarché</td></tr>
+      <tr><td>à + la</td><td class="ans">à la</td><td>à la pharmacie</td></tr>
+      <tr><td>à + l'</td><td class="ans">à l'</td><td>à l'hôpital</td></tr>
+      <tr><td>à + les</td><td class="ans">aux</td><td>aux magasins</td></tr>
+      <tr><td>de + le</td><td class="ans">du</td><td>du magasin</td></tr>
+      <tr><td>de + la</td><td class="ans">de la</td><td>de la maison</td></tr>
+      <tr><td>de + l'</td><td class="ans">de l'</td><td>de l'eau</td></tr>
+      <tr><td>de + les</td><td class="ans">des</td><td>des magasins</td></tr>
+    </table>
+
+    <h3 style="margin:14pt 0 6pt;">Kies juist</h3>
+    <ol style="padding-left:20pt; line-height:1.7;">
+      <li>Le garçon <span class="ans">aux</span> yeux bleus.</li>
+      <li>La fille <span class="ans">aux</span> cheveux frisés.</li>
+      <li>Le garçon <span class="ans">au</span> jean noir.</li>
+      <li>Le copain <span class="ans">au</span> gros nez.</li>
+      <li>La tante <span class="ans">aux</span> petites oreilles.</li>
+      <li>La fille <span class="ans">à la</span> robe verte.</li>
+      <li>Les frites <span class="ans">au</span> ketchup.</li>
+      <li>Les frites <span class="ans">à la</span> mayonnaise.</li>
+      <li>Le lait <span class="ans">au</span> chocolat.</li>
+      <li>Le thé glacé <span class="ans">au</span> citron.</li>
+      <li>La tarte <span class="ans">aux</span> pommes.</li>
+      <li>Un sandwich <span class="ans">au</span> fromage.</li>
+      <li>Le thé <span class="ans">à la</span> camomille.</li>
+    </ol>
+
+    <h3 style="margin:14pt 0 6pt;">Invullen</h3>
+    <ol style="padding-left:20pt; line-height:1.7;">
+      <li>Je reviens <span class="ans">du</span> supermarché.</li>
+      <li>Elle sort <span class="ans">de l'</span>école.</li>
+      <li>Nous revenons <span class="ans">de la</span> piscine.</li>
+      <li>Il revient <span class="ans">des</span> magasins.</li>
+      <li>Le vélo <span class="ans">du</span> garçon.</li>
+      <li>La porte <span class="ans">de la</span> maison.</li>
+      <li>C'est le goût <span class="ans">de l'</span>eau.</li>
+      <li>Les cahiers <span class="ans">des</span> élèves.</li>
+      <li>Je vais <span class="ans">à l'</span>hôpital.</li>
+      <li>Nous allons <span class="ans">à la</span> pharmacie.</li>
+      <li>Il va <span class="ans">au</span> marché.</li>
+      <li>Elles vont <span class="ans">aux</span> magasins.</li>
+    </ol>
+  </div>
+
+  <!-- Actieknoppen -->
+  <div class="action-buttons no-print">
+    <button class="action-btn" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="action-btn" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+/* ========== DATA ========== */
+const flashData = [
+  { combo: "à + le",   vorm: "au",    ex: "au supermarché" },
+  { combo: "à + la",   vorm: "à la",  ex: "à la pharmacie" },
+  { combo: "à + l'",   vorm: "à l'",  ex: "à l'hôpital" },
+  { combo: "à + les",  vorm: "aux",   ex: "aux magasins" },
+  { combo: "de + le",  vorm: "du",    ex: "du magasin" },
+  { combo: "de + la",  vorm: "de la", ex: "de la maison" },
+  { combo: "de + l'",  vorm: "de l'", ex: "de l'eau" },
+  { combo: "de + les", vorm: "des",   ex: "des magasins" }
+];
+
+const chooseData = [
+  { before: "Le garçon",    after: "yeux bleus.",       hint: "(les yeux)",       answer: "aux" },
+  { before: "La fille",     after: "cheveux frisés.",   hint: "(les cheveux)",    answer: "aux" },
+  { before: "Le garçon",    after: "jean noir.",        hint: "(le jean)",        answer: "au" },
+  { before: "Le copain",    after: "gros nez.",         hint: "(le nez)",         answer: "au" },
+  { before: "La tante",     after: "petites oreilles.", hint: "(les oreilles)",   answer: "aux" },
+  { before: "La fille",     after: "robe verte.",       hint: "(la robe)",        answer: "à la" },
+  { before: "Les frites",   after: "ketchup.",          hint: "(le ketchup)",     answer: "au" },
+  { before: "Les frites",   after: "mayonnaise.",       hint: "(la mayonnaise)",  answer: "à la" },
+  { before: "Le lait",      after: "chocolat.",         hint: "(le chocolat)",    answer: "au" },
+  { before: "Le thé glacé", after: "citron.",           hint: "(le citron)",      answer: "au" },
+  { before: "La tarte",     after: "pommes.",           hint: "(les pommes)",     answer: "aux" },
+  { before: "Un sandwich",  after: "fromage.",          hint: "(le fromage)",     answer: "au" },
+  { before: "Le thé",       after: "camomille.",        hint: "(la camomille)",   answer: "à la" }
+];
+const chooseOptions = ["au", "à l'", "à la", "aux"];
+
+const translateData = [
+  { before: "Je reviens",      after: "supermarché.", hint: "de + le supermarché", answer: "du" },
+  { before: "Elle sort",       after: "école.",       hint: "de + l'école",        answer: "de l'" },
+  { before: "Nous revenons",   after: "piscine.",     hint: "de + la piscine",     answer: "de la" },
+  { before: "Il revient",      after: "magasins.",    hint: "de + les magasins",   answer: "des" },
+  { before: "Le vélo",         after: "garçon.",      hint: "de + le garçon",      answer: "du" },
+  { before: "La porte",        after: "maison.",      hint: "de + la maison",      answer: "de la" },
+  { before: "C'est le goût",   after: "eau.",         hint: "de + l'eau",          answer: "de l'" },
+  { before: "Les cahiers",     after: "élèves.",      hint: "de + les élèves",     answer: "des" },
+  { before: "Je vais",         after: "hôpital.",     hint: "à + l'hôpital",       answer: "à l'" },
+  { before: "Nous allons",     after: "pharmacie.",   hint: "à + la pharmacie",    answer: "à la" },
+  { before: "Il va",           after: "marché.",      hint: "à + le marché",       answer: "au" },
+  { before: "Elles vont",      after: "magasins.",    hint: "à + les magasins",    answer: "aux" }
+];
+
+const praise = ["Correct!", "Juist!", "Goed zo!", "Parfait!"];
+
+/* ========== HELPERS ========== */
+function normalize(s) {
+  return s.trim().toLowerCase()
+    .replace(/[\u2018\u2019\u0060\u00B4]/g, "'")
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'oe')
+    .replace(/[éèêë]/g, 'e').replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u').replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o').replace(/ç/g, 'c');
+}
+function answersMatch(input, answer) {
+  const a = normalize(input).replace(/'\s*$/, '');
+  const b = normalize(answer).replace(/'\s*$/, '');
+  return a === b || a.replace(/'/g, '') === b.replace(/'/g, '');
+}
+
+/* ========== TABS ========== */
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+/* ========== FLASHCARDS ========== */
+let flashDir = 'combo';
+function buildFlashcards() {
+  const grid = document.getElementById('flashcardGrid');
+  grid.innerHTML = '';
+  flashData.forEach(item => {
+    const front = flashDir === 'combo' ? item.combo : item.vorm;
+    const back  = flashDir === 'combo' ? item.vorm  : item.combo;
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.innerHTML =
+      '<div class="flashcard-inner">' +
+        '<div class="flashcard-face flashcard-front"><div class="fc-main">' + front + '</div></div>' +
+        '<div class="flashcard-face flashcard-back"><div class="fc-main">' + back + '</div><div class="fc-sub">' + item.ex + '</div></div>' +
+      '</div>';
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      document.getElementById('flipHint').textContent = card.classList.contains('flipped')
+        ? 'klik om terug te draaien' : 'klik op een kaart om te draaien';
+    });
+    grid.appendChild(card);
+  });
+  // Printtabel volgt de actuele toggle-richting (spec: print toont één richting, de actuele)
+  document.getElementById('fpHead').textContent = flashDir === 'combo' ? 'Combinatie' : 'Vorm';
+  document.getElementById('fpBody').innerHTML = flashData.map(item =>
+    '<tr><td>' + (flashDir === 'combo' ? item.combo : item.vorm) + '</td><td><span class="write-space"></span></td></tr>'
+  ).join('');
+}
+document.querySelectorAll('.lang-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.lang-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    flashDir = btn.dataset.dir;
+    buildFlashcards();
+  });
+});
+buildFlashcards();
+
+/* ========== KIES JUIST ========== */
+let kiesScore = 0, kiesAnswered = 0;
+function buildChoose() {
+  const list = document.getElementById('chooseList');
+  list.innerHTML = '';
+  chooseData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'choose-card';
+    const optsHtml = chooseOptions.map(o =>
+      '<button class="option-pill" data-q="' + i + '" data-val="' + o.replace(/'/g, '&#39;') + '">' + o + '</button>'
+    ).join('');
+    card.innerHTML =
+      '<div class="q-num">VRAAG ' + (i + 1) + '</div>' +
+      '<div class="choose-sentence">' + item.before + ' <span class="choose-blank" id="blank-' + i + '">???</span> ' + item.after + '</div>' +
+      '<div class="choose-hint">' + item.hint + '</div>' +
+      '<div class="choose-options">' + optsHtml + '</div>';
+    list.appendChild(card);
+  });
+  list.querySelectorAll('.option-pill').forEach(btn => {
+    btn.addEventListener('click', () => handleChoose(btn));
+  });
+}
+function handleChoose(btn) {
+  const i = parseInt(btn.dataset.q, 10);
+  const chosen = btn.dataset.val;
+  const correct = chooseData[i].answer;
+  const card = btn.closest('.choose-card');
+  card.querySelectorAll('.option-pill').forEach(b => b.disabled = true);
+  kiesAnswered++;
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    kiesScore++;
+    document.getElementById('blank-' + i).textContent = correct;
+  } else {
+    btn.classList.add('wrong');
+    card.querySelectorAll('.option-pill').forEach(b => {
+      if (b.dataset.val === correct) b.classList.add('reveal');
+    });
+    document.getElementById('blank-' + i).textContent = correct;
+  }
+  updateKiesScore();
+}
+function updateKiesScore() {
+  const bar = document.getElementById('scorebar-kies');
+  bar.classList.add('visible');
+  document.getElementById('scoretext-kies').textContent = 'Score: ' + kiesScore + '/' + chooseData.length;
+  document.getElementById('progress-kies').style.width = (kiesAnswered / chooseData.length * 100) + '%';
+  if (kiesAnswered === chooseData.length) celebrate('kies', kiesScore / chooseData.length);
+}
+function resetKies() {
+  kiesScore = 0; kiesAnswered = 0;
+  document.getElementById('scorebar-kies').classList.remove('visible');
+  document.getElementById('celebration-kies').classList.remove('visible');
+  document.getElementById('progress-kies').style.width = '0%';
+  buildChoose();
+}
+
+/* ========== INVULLEN ========== */
+let invulScore = 0, invulAnswered = 0;
+function buildTranslate() {
+  const list = document.getElementById('translateList');
+  list.innerHTML = '';
+  translateData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'translate-card';
+    card.id = 'tcard-' + i;
+    card.innerHTML =
+      '<div class="q-num" style="font-family:\'Source Sans 3\',sans-serif;font-size:12px;font-weight:600;color:var(--vak-color);letter-spacing:0.5px;">ZIN ' + (i + 1) + '</div>' +
+      '<div class="translate-sentence">' + item.before + ' _______ ' + item.after + '</div>' +
+      '<div class="translate-hint">' + item.hint + '</div>' +
+      '<div class="translate-row">' +
+        '<input type="text" class="translate-input" id="tinput-' + i + '" placeholder="Typ je antwoord..." autocomplete="off" autocapitalize="off">' +
+        '<button class="check-btn" data-q="' + i + '">Controleer</button>' +
+      '</div>' +
+      '<div class="translate-feedback" id="tfb-' + i + '"></div>';
+    list.appendChild(card);
+  });
+  list.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', () => checkTranslate(parseInt(btn.dataset.q, 10)));
+  });
+  list.querySelectorAll('.translate-input').forEach((inp, i) => {
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') checkTranslate(i); });
+  });
+}
+function checkTranslate(i) {
+  const inp = document.getElementById('tinput-' + i);
+  const fb = document.getElementById('tfb-' + i);
+  const card = document.getElementById('tcard-' + i);
+  if (inp.disabled) return;
+  if (!inp.value.trim()) return;
+  const ok = answersMatch(inp.value, translateData[i].answer);
+  inp.disabled = true;
+  invulAnswered++;
+  if (ok) {
+    invulScore++;
+    inp.classList.add('correct-input');
+    card.classList.add('correct');
+    fb.textContent = '✓ ' + praise[Math.floor(Math.random() * praise.length)];
+    fb.className = 'translate-feedback show ok';
+  } else {
+    inp.classList.add('wrong-input');
+    card.classList.add('incorrect');
+    fb.textContent = '✗ Het juiste antwoord is: ' + translateData[i].answer;
+    fb.className = 'translate-feedback show nok';
+  }
+  updateInvulScore();
+}
+function updateInvulScore() {
+  const bar = document.getElementById('scorebar-invul');
+  bar.classList.add('visible');
+  document.getElementById('scoretext-invul').textContent = 'Score: ' + invulScore + '/' + translateData.length;
+  document.getElementById('progress-invul').style.width = (invulAnswered / translateData.length * 100) + '%';
+  if (invulAnswered === translateData.length) celebrate('invul', invulScore / translateData.length);
+}
+function resetInvul() {
+  invulScore = 0; invulAnswered = 0;
+  document.getElementById('scorebar-invul').classList.remove('visible');
+  document.getElementById('celebration-invul').classList.remove('visible');
+  document.getElementById('progress-invul').style.width = '0%';
+  buildTranslate();
+}
+
+/* ========== VIERING ========== */
+function celebrate(which, pct) {
+  const box = document.getElementById('celebration-' + which);
+  const emoji = document.getElementById('celebEmoji-' + which);
+  const msg = document.getElementById('celebMsg-' + which);
+  if (pct === 1)        { emoji.textContent = '🌟'; msg.textContent = 'Alles juist — fantastisch!'; }
+  else if (pct >= 0.8)  { emoji.textContent = '🎉'; msg.textContent = 'Heel goed! Bijna alles juist.'; }
+  else if (pct >= 0.6)  { emoji.textContent = '💪'; msg.textContent = 'Goed bezig! Bekijk de fouten nog eens.'; }
+  else                  { emoji.textContent = '📚'; msg.textContent = 'Bekijk de theorie nog eens en probeer opnieuw!'; }
+  box.classList.add('visible');
+}
+
+buildChoose();
+buildTranslate();
+</script>
+</body>
+</html>
