@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evenredigheden — 1e Middelbaar</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E8; --warm-white:#FFFDF7; --parchment:#F5EDE0;
+    --terracotta:#C2704E; --terracotta-light:#D4916F;
+    --ochre:#D4A843; --olive:#7A8B6F; --olive-dark:#5E6D53;
+    --warm-brown:#5C4033; --dark-brown:#3D2B1F;
+    --sand:#E8DCC8; --sand-light:#F0E8D8; --rust:#B7553D; --sage:#A8B89A;
+    --vak:#7A8B6F; /* wiskunde = olive */
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Source Sans 3',sans-serif;
+    background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);
+    color:var(--dark-brown); min-height:100vh; padding:18px 14px 60px; line-height:1.55;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:-1; opacity:.04; pointer-events:none;
+    background-image:radial-gradient(circle at 20% 30%, var(--warm-brown) 1px, transparent 1px),
+                     radial-gradient(circle at 70% 60%, var(--olive) 1px, transparent 1px);
+    background-size:60px 60px,80px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* breadcrumb */
+  .crumb{font-size:14px;color:var(--olive-dark);margin-bottom:16px;}
+  .crumb a{color:var(--olive-dark);text-decoration:none;}
+  .crumb a:hover{text-decoration:underline;}
+  .crumb span{color:var(--warm-brown);}
+
+  /* header */
+  .head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+  .head .icon{
+    width:58px;height:58px;flex:none;border-radius:15px;display:flex;align-items:center;justify-content:center;
+    font-size:30px;background:var(--vak);box-shadow:0 4px 12px rgba(122,139,111,.3);
+  }
+  .head h1{font-family:'Vollkorn',serif;font-size:26px;font-weight:700;color:var(--warm-brown);line-height:1.15;}
+  .head .date{font-family:'Caveat',cursive;font-size:21px;color:var(--olive-dark);}
+  .intro{font-size:15px;color:var(--warm-brown);margin:6px 0 18px;opacity:.9;}
+
+  /* tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .tab-btn{
+    font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;
+    background:var(--warm-white);color:var(--olive-dark);border:1.5px solid var(--sand);
+    border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .15s;
+  }
+  .tab-btn:hover{transform:translateY(-2px);}
+  .tab-btn.active{background:var(--vak);color:var(--warm-white);border-color:var(--olive-dark);}
+
+  .tab-content{display:none;animation:fadeSlideUp .35s ease;}
+  .tab-content.active{display:block;}
+  @keyframes fadeSlideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+  .print-head{display:none;}
+
+  /* cards */
+  .card{
+    background:var(--warm-white);border:1px solid var(--sand);border-radius:18px;
+    padding:20px 20px;box-shadow:0 5px 18px rgba(92,64,51,.06);margin-bottom:16px;
+  }
+  .card h2{font-family:'Vollkorn',serif;font-size:21px;color:var(--warm-brown);margin-bottom:10px;}
+  .card h3{font-family:'Vollkorn',serif;font-size:18px;color:var(--olive-dark);margin:14px 0 8px;}
+  .card p{margin-bottom:8px;}
+
+  .attention{
+    background:rgba(212,168,67,.12);border:1px solid var(--ochre);border-left:5px solid var(--ochre);
+    border-radius:12px;padding:12px 16px;margin:12px 0;font-size:14.5px;
+  }
+  .attention b{color:var(--rust);}
+
+  /* inline fraction */
+  .ifrac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 3px;font-family:'Vollkorn',serif;line-height:1.05;font-weight:600;}
+  .ifrac .n{padding:0 5px;}
+  .ifrac .d{padding:1px 5px 0;border-top:2px solid currentColor;}
+  .uit{color:var(--warm-brown);}
+  .mid{color:var(--olive-dark);}
+  .res{color:var(--terracotta);font-weight:700;}
+
+  /* big formula block */
+  .formula{
+    text-align:center;font-family:'Vollkorn',serif;font-size:24px;font-weight:700;
+    background:var(--sand-light);border-radius:12px;padding:16px;margin:12px 0;
+  }
+  .formula .uit{color:var(--warm-brown);} .formula .mid{color:var(--olive);}
+
+  .legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:10px;font-size:14px;}
+  .legend .key{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:16px;height:16px;border-radius:5px;border:1.5px solid;}
+  .sw-uit{background:rgba(92,64,51,.14);border-color:var(--warm-brown);}
+  .sw-mid{background:rgba(122,139,111,.18);border-color:var(--olive);}
+
+  /* ===== verkenner (gedeeld met demo) ===== */
+  .seg-control{display:inline-flex;background:var(--sand-light);border:1.5px solid var(--sand);border-radius:999px;padding:4px;gap:4px;margin-bottom:6px;}
+  .seg-opt{font-family:'Source Sans 3',sans-serif;font-size:14.5px;font-weight:600;color:var(--olive-dark);background:transparent;border:none;border-radius:999px;padding:8px 16px;cursor:pointer;transition:all .15s;}
+  .seg-opt.active{background:var(--vak);color:var(--warm-white);}
+  .v-pane{display:none;}
+  .v-pane.active{display:block;}
+
+  .presets{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px;}
+  .preset{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;background:var(--sand-light);color:var(--warm-brown);border:1.5px solid var(--sand);border-radius:14px;padding:8px 14px;cursor:pointer;transition:all .15s;}
+  .preset:hover{transform:translateY(-2px);}
+  .preset.active{background:var(--olive);color:var(--warm-white);border-color:var(--olive-dark);}
+  .preset.surprise{background:transparent;border-style:dashed;border-color:var(--olive);color:var(--olive-dark);}
+
+  .stage{display:flex;align-items:center;justify-content:center;gap:26px;padding:22px 10px 12px;}
+  .frac{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .cell{width:84px;height:84px;display:flex;align-items:center;justify-content:center;font-family:'Vollkorn',serif;font-size:44px;font-weight:700;background:var(--sand-light);border:1.5px solid var(--sand);border-radius:14px;transition:background .3s,border-color .3s,box-shadow .3s,color .3s;}
+  .bar{width:84px;height:4px;background:var(--dark-brown);border-radius:2px;}
+  .eq{font-family:'Vollkorn',serif;font-size:38px;color:var(--dark-brown);align-self:center;}
+  .cell.uiterste{color:var(--warm-brown);}
+  .cell.mid{color:var(--olive);}
+  .cell.glow-uit{background:rgba(92,64,51,.12);border-color:var(--warm-brown);box-shadow:0 0 0 2px rgba(92,64,51,.18);}
+  .cell.glow-mid{background:rgba(122,139,111,.16);border-color:var(--olive);box-shadow:0 0 0 2px rgba(122,139,111,.3);}
+  @keyframes pop{0%{transform:scale(.6);opacity:0;}60%{transform:scale(1.12);}100%{transform:scale(1);opacity:1;}}
+  .cell.result{color:var(--terracotta)!important;background:rgba(194,112,78,.1)!important;border-color:var(--terracotta)!important;animation:pop .45s ease-out;}
+
+  .caption{text-align:center;font-size:15px;color:var(--olive-dark);min-height:22px;margin:4px 0 14px;font-style:italic;padding:0 8px;}
+  .caption b{color:var(--olive);font-style:normal;}
+  .panel{background:var(--sand-light);border-radius:14px;padding:16px 18px;}
+  .intro-panel{font-family:'Vollkorn',serif;font-size:18px;color:var(--dark-brown);line-height:1.55;}
+  .intro-panel b{color:var(--olive);}
+  .vstep{font-family:'Vollkorn',serif;font-size:19px;color:var(--dark-brown);padding:7px 0;opacity:0;transform:translateY(6px);transition:all .35s;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .vstep.show{opacity:1;transform:translateY(0);}
+  .vstep .lbl{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--olive-dark);background:var(--warm-white);border:1px solid var(--sand);border-radius:8px;padding:2px 8px;white-space:nowrap;}
+  .vstep b{color:var(--terracotta);}
+  .vstep .sq{color:var(--olive);font-weight:700;}
+  .vstep .hint{font-family:'Source Sans 3',sans-serif;font-size:13.5px;font-style:italic;color:var(--olive-dark);flex-basis:100%;margin-top:2px;}
+
+  .controls{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  .btn{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;border:none;border-radius:14px;padding:11px 20px;cursor:pointer;transition:all .15s;}
+  .btn-primary{background:var(--olive);color:var(--warm-white);}
+  .btn-primary:hover{background:var(--olive-dark);transform:translateY(-2px);}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+  .btn-ghost{background:transparent;color:var(--warm-brown);border:1.5px solid var(--sand);}
+  .btn-ghost:hover{background:var(--sand-light);}
+  .progress{text-align:center;font-size:13px;color:var(--olive-dark);margin-top:12px;}
+
+  /* ===== quiz ===== */
+  .quiz-q{background:var(--warm-white);border:1px solid var(--sand);border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:0 4px 14px rgba(92,64,51,.05);}
+  .quiz-q .qnum{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--olive-dark);}
+  .quiz-q .qtext{font-family:'Vollkorn',serif;font-size:18px;color:var(--dark-brown);margin:6px 0 12px;}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;}
+  .opt{font-family:'Vollkorn',serif;font-size:17px;background:var(--sand-light);border:1.5px solid var(--sand);color:var(--dark-brown);border-radius:12px;padding:9px 16px;cursor:pointer;transition:all .15s;}
+  .opt:hover:not(.locked){transform:translateY(-2px);border-color:var(--olive);}
+  .opt.correct{background:rgba(122,139,111,.22);border-color:var(--olive-dark);color:var(--olive-dark);font-weight:700;}
+  .opt.wrong{background:rgba(183,85,61,.15);border-color:var(--rust);color:var(--rust);}
+  .opt.locked{cursor:default;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+  .opt.shake{animation:shake .3s;}
+  .qfeedback{margin-top:10px;font-size:14px;color:var(--olive-dark);min-height:0;}
+  .qfeedback b{color:var(--warm-brown);}
+
+  .score-bar{display:none;background:var(--warm-white);border:1px solid var(--sand);border-radius:14px;padding:12px 16px;margin-bottom:14px;}
+  .score-bar.show{display:block;}
+  .score-bar .label{font-weight:600;color:var(--warm-brown);margin-bottom:6px;}
+  .progress-bar-container{height:10px;background:var(--sand-light);border-radius:999px;overflow:hidden;}
+  .progress-bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--terracotta),var(--ochre));border-radius:999px;transition:width .4s;}
+  .celebration{display:none;text-align:center;font-family:'Vollkorn',serif;font-size:19px;color:var(--warm-brown);background:rgba(212,168,67,.12);border:1px solid var(--ochre);border-radius:14px;padding:16px;margin-bottom:14px;}
+  .celebration.show{display:block;animation:pop .45s ease-out;}
+
+  /* ===== oefeningen ===== */
+  .deel-head{font-family:'Vollkorn',serif;font-size:19px;color:var(--warm-brown);margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--sand);}
+  .deel-head:first-child{margin-top:0;}
+  .oef-item{background:var(--warm-white);border:1px solid var(--sand);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(92,64,51,.04);}
+  .oef-op{font-family:'Vollkorn',serif;font-size:17px;color:var(--dark-brown);}
+  .oef-num{font-weight:700;color:var(--olive-dark);margin-right:4px;}
+  .toggle-sol{margin-top:10px;font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:600;background:transparent;color:var(--olive-dark);border:1.5px solid var(--sand);border-radius:10px;padding:7px 14px;cursor:pointer;transition:all .15s;}
+  .toggle-sol:hover{background:var(--sand-light);}
+  .solution{margin-top:10px;background:var(--sand-light);border-radius:10px;padding:12px 14px;font-family:'Vollkorn',serif;font-size:16px;color:var(--dark-brown);line-height:1.7;}
+  .solution b{color:var(--terracotta);}
+
+  .print-only{display:none;}
+
+  /* actions */
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+  .act-btn{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:600;border-radius:14px;padding:11px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .15s;border:1.5px solid var(--sand);}
+  .act-print{background:var(--vak);color:var(--warm-white);border-color:var(--olive-dark);}
+  .act-print:hover{transform:translateY(-2px);}
+  .act-back{background:var(--warm-white);color:var(--warm-brown);}
+  .act-back:hover{background:var(--sand-light);}
+
+  @media(max-width:600px){
+    .cell{width:64px;height:64px;font-size:34px;}
+    .bar{width:64px;}
+    .stage{gap:16px;}
+    .head h1{font-size:22px;}
+    .formula{font-size:20px;}
+  }
+
+  /* ===== PRINT ===== */
+  @media print{
+    .no-print{display:none!important;}
+    body{background:white!important;font-size:11pt;padding:0;}
+    body::before{display:none;}
+    .wrap{max-width:100%;}
+    .tab-content{display:block!important;margin-bottom:18px;}
+    .card,.oef-item,.quiz-q{box-shadow:none!important;}
+    .card,.oef-item{border-color:#ddd!important;}
+    .print-only{display:block!important;}
+    .print-head{display:block!important;font-family:'Vollkorn',serif;font-size:17pt;color:#000;border-bottom:2px solid #999;margin:0 0 10px;padding-bottom:4px;}
+    /* verbergen op papier */
+    #tab-herken{display:none!important;}
+    .tabs,.seg-control,.presets,.controls,.progress,.toggle-sol,.act-back,.act-print{display:none!important;}
+    .caption,.panel{display:none!important;}
+    /* verkenner: beide opzetten tonen als geheugensteun */
+    .v-pane{display:block!important;margin-bottom:10px;}
+    .cell{box-shadow:none!important;background:#f4f4f4!important;border-color:#ccc!important;}
+    /* oplossingen op nieuwe pagina */
+    .print-answers{page-break-before:always;}
+    .oef-item .solution{display:none!important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="crumb no-print">
+    <a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › <span>Evenredigheden</span>
+  </div>
+
+  <div class="head">
+    <div class="icon no-print">📐</div>
+    <div>
+      <h1>Evenredigheden</h1>
+      <div class="date">toetsvoorbereiding · 16 juni 2026</div>
+    </div>
+  </div>
+  <p class="intro no-print">Alles voor de toets: wat een evenredigheid is, de benamingen, de hoofdeigenschap, de 4de evenredige en de middelevenredige. Speel met de verkenner, test jezelf en oefen op de vraagstukjes.</p>
+
+  <div class="tabs no-print">
+    <button class="tab-btn active" data-tab="tab-theorie">📚 Theorie</button>
+    <button class="tab-btn" data-tab="tab-verkenner">🔬 Verkenner</button>
+    <button class="tab-btn" data-tab="tab-herken">🧩 Herken &amp; check</button>
+    <button class="tab-btn" data-tab="tab-oefeningen">✏️ Oefeningen</button>
+  </div>
+
+  <!-- ===================== THEORIE ===================== -->
+  <div class="tab-content active" id="tab-theorie">
+    <h2 class="print-head">Theorie</h2>
+
+    <div class="card">
+      <h2>Wat is een evenredigheid?</h2>
+      <p>Een <b>evenredigheid</b> is een <b>gelijkheid van twee verhoudingen</b>.</p>
+      <div class="formula"><span class="uit">a</span>/<span class="mid">b</span> = <span class="mid">c</span>/<span class="uit">d</span></div>
+      <p>Voorbeeld: <span class="ifrac"><span class="n">2</span><span class="d">3</span></span> = <span class="ifrac"><span class="n">4</span><span class="d">6</span></span> &nbsp;(beide verhoudingen zijn gelijk).</p>
+    </div>
+
+    <div class="card">
+      <h2>Benamingen</h2>
+      <p>Elke term heeft een naam volgens zijn plaats:</p>
+      <div class="stage" style="gap:30px;">
+        <div class="frac">
+          <div class="cell uiterste">a</div>
+          <div class="bar"></div>
+          <div class="cell mid">b</div>
+        </div>
+        <span class="eq">=</span>
+        <div class="frac">
+          <div class="cell mid">c</div>
+          <div class="bar"></div>
+          <div class="cell uiterste">d</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:14px;color:var(--olive-dark);">a = 1ste term · b = 2de term · c = 3de term · d = 4de term</p>
+      <div class="legend">
+        <span class="key"><span class="swatch sw-uit"></span> <b class="uit">uiterste termen</b> = a en d (de buitenste)</span>
+        <span class="key"><span class="swatch sw-mid"></span> <b class="mid">middelste termen</b> = b en c (de binnenste)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Hoofdeigenschap</h2>
+      <p>In een evenredigheid is het <b>product van de uiterste termen</b> steeds gelijk aan het <b>product van de middelste termen</b>.</p>
+      <div class="formula"><span class="uit">a</span>·<span class="uit">d</span> = <span class="mid">b</span>·<span class="mid">c</span></div>
+      <p>Dit noemen we ook de <b>kruisproef</b>: je vermenigvuldigt kruislings. Hiermee kan je controleren én ontbrekende termen berekenen.</p>
+    </div>
+
+    <div class="card">
+      <h2>Een evenredigheid bewijzen</h2>
+      <p>Reken beide producten uit. Zijn ze gelijk, dan is het een evenredigheid.</p>
+      <p><b>Voorbeeld:</b> klopt <span class="ifrac"><span class="n">2</span><span class="d">6</span></span> = <span class="ifrac"><span class="n">9</span><span class="d">27</span></span> ?</p>
+      <div class="solution" style="display:block;">
+        Uiterste termen: <span class="uit">2 · 27 = 54</span><br>
+        Middelste termen: <span class="mid">6 · 9 = 54</span><br>
+        54 = 54 → <b>het is een evenredigheid</b> ✓
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>De 4de evenredige bepalen</h2>
+      <p>Ken je drie termen, dan vind je de vierde via de hoofdeigenschap.</p>
+      <p><b>Voorbeeld:</b> de 4de evenredige van 3, 7 en 15.</p>
+      <div class="solution" style="display:block;">
+        <span class="ifrac"><span class="n">3</span><span class="d">7</span></span> = <span class="ifrac"><span class="n">15</span><span class="d">x</span></span><br>
+        3 · x = 7 · 15 = 105<br>
+        x = 105 ÷ 3 = <b>35</b>
+      </div>
+      <div class="attention">
+        <b>Let op het teken!</b> Bij een neggetal verandert je antwoord van teken.<br>
+        De 4de evenredige van −3, 4 en 12: &nbsp; −3 · x = 4 · 12 = 48 &nbsp;→&nbsp; x = 48 ÷ (−3) = <b class="res">−16</b>.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>De middelevenredige bepalen</h2>
+      <p>Bij een <b>middelevenredige</b> staat <b>hetzelfde getal</b> op de twee middelste plaatsen:</p>
+      <div class="formula"><span class="uit">a</span>/<span class="mid">x</span> = <span class="mid">x</span>/<span class="uit">b</span></div>
+      <p>Daarom wordt het product van de middelste termen <span class="mid">x · x = x²</span>.</p>
+      <p><b>Voorbeeld:</b> de middelevenredige van 4 en 9.</p>
+      <div class="solution" style="display:block;">
+        4 · 9 = x · x → 36 = x²<br>
+        x = √36 = <b>6</b> &nbsp;<span style="font-size:14px;font-style:italic;color:var(--olive-dark);">(welk getal maal zichzelf geeft 36?)</span>
+      </div>
+      <div class="attention">Een middelevenredige bestaat alleen als de twee getallen <b>hetzelfde teken</b> hebben — anders zou x² negatief moeten zijn, en dat kan niet.</div>
+    </div>
+  </div>
+
+  <!-- ===================== VERKENNER ===================== -->
+  <div class="tab-content" id="tab-verkenner">
+    <h2 class="print-head">Verkenner — de opzet</h2>
+    <div class="card">
+      <div style="text-align:center;" class="no-print">
+        <div class="seg-control">
+          <button class="seg-opt active" data-pane="pane-fp">⚖️ 4de evenredige</button>
+          <button class="seg-opt" data-pane="pane-gm">⊡ Middelevenredige</button>
+        </div>
+      </div>
+
+      <!-- 4de evenredige -->
+      <div class="v-pane active" id="pane-fp">
+        <div class="presets" id="fp-presets"></div>
+        <div class="stage">
+          <div class="frac">
+            <div class="cell uiterste" id="fp-a">3</div>
+            <div class="bar"></div>
+            <div class="cell mid" id="fp-b">7</div>
+          </div>
+          <span class="eq">=</span>
+          <div class="frac">
+            <div class="cell mid" id="fp-c">15</div>
+            <div class="bar"></div>
+            <div class="cell uiterste" id="fp-x">x</div>
+          </div>
+        </div>
+        <div class="caption" id="fp-caption"></div>
+        <div class="panel" id="fp-panel"></div>
+        <div class="controls no-print">
+          <button class="btn btn-ghost" id="fp-back">← Terug</button>
+          <button class="btn btn-primary" id="fp-next">Volgende stap →</button>
+          <button class="btn btn-ghost" id="fp-reset">🔄 Opnieuw</button>
+        </div>
+        <div class="progress no-print" id="fp-progress"></div>
+      </div>
+
+      <!-- middelevenredige -->
+      <div class="v-pane" id="pane-gm">
+        <div class="presets" id="gm-presets"></div>
+        <div class="stage">
+          <div class="frac">
+            <div class="cell uiterste" id="gm-a">4</div>
+            <div class="bar"></div>
+            <div class="cell mid" id="gm-x1">x</div>
+          </div>
+          <span class="eq">=</span>
+          <div class="frac">
+            <div class="cell mid" id="gm-x2">x</div>
+            <div class="bar"></div>
+            <div class="cell uiterste" id="gm-b">9</div>
+          </div>
+        </div>
+        <div class="caption" id="gm-caption"></div>
+        <div class="panel" id="gm-panel"></div>
+        <div class="controls no-print">
+          <button class="btn btn-ghost" id="gm-back">← Terug</button>
+          <button class="btn btn-primary" id="gm-next">Volgende stap →</button>
+          <button class="btn btn-ghost" id="gm-reset">🔄 Opnieuw</button>
+        </div>
+        <div class="progress no-print" id="gm-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HERKEN & CHECK ===================== -->
+  <div class="tab-content" id="tab-herken">
+    <div class="celebration" id="quiz-celebration"></div>
+    <div class="score-bar" id="quiz-score">
+      <div class="label" id="quiz-score-label">Score: 0/0</div>
+      <div class="progress-bar-container"><div class="progress-bar-fill" id="quiz-score-fill"></div></div>
+    </div>
+    <div id="quiz-list"></div>
+    <div class="controls no-print"><button class="btn btn-ghost" id="quiz-reset">🔄 Opnieuw</button></div>
+  </div>
+
+  <!-- ===================== OEFENINGEN ===================== -->
+  <div class="tab-content" id="tab-oefeningen">
+    <h2 class="print-head">Oefeningen</h2>
+    <div id="oef-list"></div>
+    <div class="print-only print-answers" id="print-answers"></div>
+  </div>
+
+  <div class="actions no-print">
+    <button class="act-btn act-print" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="act-btn act-back" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+  /* ============ TABS ============ */
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ============ helpers ============ */
+  function fmt(n){return n<0?'('+n+')':n;}
+
+  /* ============ VERKENNER: 4de evenredige ============ */
+  const FP_PRESETS=[{a:-3,b:4,c:12},{a:3,b:7,c:15},{a:-3,b:-8,c:9}];
+  const FP_POOL=[
+    {a:2,b:3,c:8},{a:4,b:5,c:8},{a:3,b:4,c:9},{a:5,b:2,c:10},{a:2,b:7,c:6},
+    {a:6,b:5,c:12},{a:-2,b:3,c:8},{a:-4,b:5,c:8},{a:4,b:7,c:8},{a:5,b:6,c:10}
+  ];
+  let fpCur={...FP_PRESETS[1]}, fpStep=0; const FP_MAX=5;
+  const fpA=document.getElementById('fp-a'),fpB=document.getElementById('fp-b'),fpC=document.getElementById('fp-c'),fpX=document.getElementById('fp-x');
+  const fpPanel=document.getElementById('fp-panel'),fpCap=document.getElementById('fp-caption');
+  const fpNext=document.getElementById('fp-next'),fpBack=document.getElementById('fp-back'),fpProg=document.getElementById('fp-progress');
+
+  function fpBuildPresets(){
+    const c=document.getElementById('fp-presets');c.innerHTML='';
+    FP_PRESETS.forEach((p,i)=>{
+      const b=document.createElement('button');b.className='preset';
+      b.textContent=`${p.a}, ${p.b}, ${p.c}`;
+      b.onclick=()=>{fpSet(p);fpMark(b);};c.appendChild(b);
+    });
+    const s=document.createElement('button');s.className='preset surprise';s.textContent='🎲 verras me';
+    s.onclick=()=>{let p;do{p=FP_POOL[Math.floor(Math.random()*FP_POOL.length)];}while(p.a===fpCur.a&&p.b===fpCur.b&&p.c===fpCur.c);fpSet(p);fpMark(s);};
+    c.appendChild(s);c.children[1].classList.add('active');
+  }
+  function fpMark(btn){document.querySelectorAll('#fp-presets .preset').forEach(p=>p.classList.remove('active'));btn.classList.add('active');}
+  function fpSet(p){fpCur={...p};fpStep=0;fpRender();}
+
+  function fpRender(){
+    const {a,b,c}=fpCur, bc=b*c, x=bc/a;
+    fpA.textContent=a; fpB.textContent=b; fpC.textContent=c;
+    fpA.className='cell uiterste'; fpX.className='cell uiterste';
+    fpB.className='cell mid'; fpC.className='cell mid';
+    if(fpStep>=FP_MAX){fpX.textContent=x;fpX.classList.add('result');}else{fpX.textContent='x';}
+
+    if(fpStep===1){
+      fpA.classList.add('glow-uit'); fpX.classList.add('glow-uit');
+      fpB.classList.add('glow-mid'); fpC.classList.add('glow-mid');
+      fpCap.innerHTML='Product van de <b>uiterste</b> termen = product van de <b>middelste</b> termen.';
+    }else if(fpStep>=FP_MAX){
+      fpCap.innerHTML=`De 4de evenredige is <b style="color:var(--terracotta)">${x}</b>.`;
+    }else{fpCap.innerHTML='&nbsp;';}
+
+    if(fpStep===0){
+      fpPanel.innerHTML='<div class="intro-panel">We kennen drie termen. De <b>vierde term (x)</b> vinden we met de hoofdeigenschap.<br>Klik op “Volgende stap”.</div>';
+    }else{
+      const lines=[
+        {lbl:'Hoofdeigenschap',html:'product uiterste = product middelste'},
+        {lbl:'',html:`${a} · x = ${b} · ${c}`},
+        {lbl:'',html:`${a} · x = ${bc}`},
+        {lbl:'',html:`x = ${bc} ÷ ${fmt(a)}`,hint:'Deel het product door de gekende uiterste term.'},
+        {lbl:'Invullen',html:`x = <b>${x}</b>`},
+      ];
+      fpPanel.innerHTML='';
+      lines.forEach((l,i)=>{
+        const d=document.createElement('div');d.className='vstep'+(i<fpStep?' show':'');
+        d.innerHTML=(l.lbl?`<span class="lbl">${l.lbl}</span>`:'')+`<span>${l.html}</span>`+(l.hint&&i<fpStep?`<span class="hint">${l.hint}</span>`:'');
+        fpPanel.appendChild(d);
+      });
+    }
+    fpNext.disabled=fpStep>=FP_MAX; fpBack.disabled=fpStep<=0;
+    fpNext.textContent=fpStep>=FP_MAX?'Klaar ✓':'Volgende stap →';
+    fpProg.textContent=fpStep===0?'Klik op “Volgende stap” om de berekening te zien.':`Stap ${Math.min(fpStep,FP_MAX)} van ${FP_MAX}`;
+  }
+  fpNext.onclick=()=>{if(fpStep<FP_MAX){fpStep++;fpRender();}};
+  fpBack.onclick=()=>{if(fpStep>0){fpStep--;fpRender();}};
+  document.getElementById('fp-reset').onclick=()=>{fpStep=0;fpRender();};
+
+  /* ============ VERKENNER: middelevenredige ============ */
+  const GM_PRESETS=[{a:4,b:9},{a:3,b:48},{a:5,b:20}];
+  const GM_POOL=[
+    {a:2,b:8},{a:9,b:16},{a:5,b:45},{a:2,b:18},{a:4,b:25},
+    {a:3,b:27},{a:6,b:24},{a:2,b:32},{a:3,b:12},{a:4,b:16},{a:7,b:28},{a:1,b:16}
+  ];
+  let gmCur={...GM_PRESETS[0]}, gmStep=0; const GM_MAX=5;
+  const gmA=document.getElementById('gm-a'),gmB=document.getElementById('gm-b'),gmX1=document.getElementById('gm-x1'),gmX2=document.getElementById('gm-x2');
+  const gmPanel=document.getElementById('gm-panel'),gmCap=document.getElementById('gm-caption');
+  const gmNext=document.getElementById('gm-next'),gmBack=document.getElementById('gm-back'),gmProg=document.getElementById('gm-progress');
+
+  function gmBuildPresets(){
+    const c=document.getElementById('gm-presets');c.innerHTML='';
+    GM_PRESETS.forEach(p=>{
+      const b=document.createElement('button');b.className='preset';
+      b.textContent=`${p.a} en ${p.b}`;
+      b.onclick=()=>{gmSet(p);gmMark(b);};c.appendChild(b);
+    });
+    const s=document.createElement('button');s.className='preset surprise';s.textContent='🎲 verras me';
+    s.onclick=()=>{let p;do{p=GM_POOL[Math.floor(Math.random()*GM_POOL.length)];}while(p.a===gmCur.a&&p.b===gmCur.b);gmSet(p);gmMark(s);};
+    c.appendChild(s);c.firstChild.classList.add('active');
+  }
+  function gmMark(btn){document.querySelectorAll('#gm-presets .preset').forEach(p=>p.classList.remove('active'));btn.classList.add('active');}
+  function gmSet(p){gmCur={...p};gmStep=0;gmRender();}
+
+  function gmRender(){
+    const {a,b}=gmCur, prod=a*b, x=Math.sqrt(prod);
+    gmA.textContent=a; gmB.textContent=b;
+    gmA.className='cell uiterste'; gmB.className='cell uiterste';
+    gmX1.className='cell mid'; gmX2.className='cell mid';
+    if(gmStep>=GM_MAX){gmX1.textContent=x;gmX2.textContent=x;gmX1.classList.add('result');gmX2.classList.add('result');}
+    else{gmX1.textContent='x';gmX2.textContent='x';}
+
+    if(gmStep===1){
+      gmA.classList.add('glow-uit'); gmB.classList.add('glow-uit');
+      gmX1.classList.add('glow-mid'); gmX2.classList.add('glow-mid');
+      gmCap.innerHTML='De twee middelste plaatsen zijn <b>hetzelfde getal</b> — dáárom wordt het product middelste gewoon x · x.';
+    }else if(gmStep>=GM_MAX){
+      gmCap.innerHTML=`De middelevenredige van ${a} en ${b} is <b style="color:var(--terracotta)">${x}</b>.`;
+    }else{gmCap.innerHTML='&nbsp;';}
+
+    if(gmStep===0){
+      gmPanel.innerHTML='<div class="intro-panel">De middelevenredige is het getal dat op <b>béíde</b> middelste plaatsen past. We zoeken die ene <b>x</b>.<br>Klik op “Volgende stap”.</div>';
+    }else{
+      const lines=[
+        {lbl:'Hoofdeigenschap',html:'product uiterste = product middelste'},
+        {lbl:'',html:`${a} · ${b} = <span class="sq">x</span> · <span class="sq">x</span>`},
+        {lbl:'',html:`${a} · ${b} = <span class="sq">x²</span>`},
+        {lbl:'',html:`x = √(${a} · ${b})`,hint:`Welk getal maal zichzelf geeft ${prod}? Dát is de vierkantswortel.`},
+        {lbl:'Invullen',html:`x = √${prod} = <b>${x}</b>`},
+      ];
+      gmPanel.innerHTML='';
+      lines.forEach((l,i)=>{
+        const d=document.createElement('div');d.className='vstep'+(i<gmStep?' show':'');
+        d.innerHTML=(l.lbl?`<span class="lbl">${l.lbl}</span>`:'')+`<span>${l.html}</span>`+(l.hint&&i<gmStep?`<span class="hint">${l.hint}</span>`:'');
+        gmPanel.appendChild(d);
+      });
+    }
+    gmNext.disabled=gmStep>=GM_MAX; gmBack.disabled=gmStep<=0;
+    gmNext.textContent=gmStep>=GM_MAX?'Klaar ✓':'Volgende stap →';
+    gmProg.textContent=gmStep===0?'Klik op “Volgende stap” om de berekening te zien.':`Stap ${Math.min(gmStep,GM_MAX)} van ${GM_MAX}`;
+  }
+  gmNext.onclick=()=>{if(gmStep<GM_MAX){gmStep++;gmRender();}};
+  gmBack.onclick=()=>{if(gmStep>0){gmStep--;gmRender();}};
+  document.getElementById('gm-reset').onclick=()=>{gmStep=0;gmRender();};
+
+  /* segmented control */
+  document.querySelectorAll('.seg-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      document.querySelectorAll('.seg-opt').forEach(o=>o.classList.remove('active'));
+      document.querySelectorAll('.v-pane').forEach(p=>p.classList.remove('active'));
+      opt.classList.add('active');
+      document.getElementById(opt.dataset.pane).classList.add('active');
+    });
+  });
+
+  /* ============ QUIZ: Herken & check ============ */
+  const QUESTIONS=[
+    {q:'In <i>5/8 = 10/16</i> — welke zijn de <b>middelste</b> termen?', opts:['8 en 10','5 en 16','5 en 8','10 en 16'], correct:0, fb:'De middelste termen zijn de 2de en 3de term: 8 en 10.'},
+    {q:'Is <i>2/6 = 9/27</i> een evenredigheid?', opts:['Ja','Nee'], correct:0, fb:'2·27 = 54 en 6·9 = 54. Gelijk → ja.'},
+    {q:'In <i>3/4 = 9/12</i> — welke zijn de <b>uiterste</b> termen?', opts:['3 en 12','4 en 9','3 en 4','9 en 12'], correct:0, fb:'De uiterste termen zijn de 1ste en 4de term: 3 en 12.'},
+    {q:'Is <i>3/4 = 9/16</i> een evenredigheid?', opts:['Ja','Nee'], correct:1, fb:'3·16 = 48 maar 4·9 = 36. Niet gelijk → nee.'},
+    {q:'In <i>7/2 = 14/4</i> — welke zijn de <b>middelste</b> termen?', opts:['2 en 14','7 en 4','7 en 2','14 en 4'], correct:0, fb:'De middelste termen zijn 2 en 14.'},
+    {q:'Is <i>−2/3 = −6/9</i> een evenredigheid?', opts:['Ja','Nee'], correct:0, fb:'−2·9 = −18 en 3·(−6) = −18. Gelijk → ja.'},
+    {q:'Is <i>5/3 = 10/9</i> een evenredigheid?', opts:['Ja','Nee'], correct:1, fb:'5·9 = 45 maar 3·10 = 30. Niet gelijk → nee.'},
+    {q:'In <i>6/5 = 12/10</i> — welke zijn de <b>uiterste</b> termen?', opts:['6 en 10','5 en 12','6 en 5','12 en 10'], correct:0, fb:'De uiterste termen zijn 6 en 10.'},
+  ];
+  let quizAnswered=0, quizScore=0;
+  const quizList=document.getElementById('quiz-list');
+  const scoreBar=document.getElementById('quiz-score'), scoreLabel=document.getElementById('quiz-score-label'), scoreFill=document.getElementById('quiz-score-fill');
+  const celeb=document.getElementById('quiz-celebration');
+
+  function buildQuiz(){
+    quizAnswered=0;quizScore=0;quizList.innerHTML='';
+    scoreBar.classList.remove('show');celeb.classList.remove('show');
+    QUESTIONS.forEach((q,qi)=>{
+      const card=document.createElement('div');card.className='quiz-q';
+      card.innerHTML=`<div class="qnum">Vraag ${qi+1} van ${QUESTIONS.length}</div><div class="qtext">${q.q}</div>`;
+      const opts=document.createElement('div');opts.className='opts';
+      q.opts.forEach((o,oi)=>{
+        const btn=document.createElement('button');btn.className='opt';btn.textContent=o;
+        btn.onclick=()=>answer(card,opts,btn,q,oi);
+        opts.appendChild(btn);
+      });
+      card.appendChild(opts);
+      const fb=document.createElement('div');fb.className='qfeedback';card.appendChild(fb);
+      quizList.appendChild(card);
+    });
+  }
+  function answer(card,opts,btn,q,oi){
+    if(opts.classList.contains('done'))return;
+    opts.classList.add('done');
+    [...opts.children].forEach((b,bi)=>{
+      b.classList.add('locked');
+      if(bi===q.correct)b.classList.add('correct');
+    });
+    if(oi!==q.correct){btn.classList.add('wrong');btn.classList.add('shake');}
+    else{quizScore++;}
+    card.querySelector('.qfeedback').innerHTML=(oi===q.correct?'✓ ':'')+q.fb;
+    quizAnswered++;
+    scoreBar.classList.add('show');
+    scoreLabel.textContent=`Score: ${quizScore}/${quizAnswered}`;
+    scoreFill.style.width=(quizAnswered/QUESTIONS.length*100)+'%';
+    if(quizAnswered===QUESTIONS.length){
+      const pct=quizScore/QUESTIONS.length*100;
+      let msg;
+      if(pct===100)msg='🌟 Alles juist — fantastisch!';
+      else if(pct>=80)msg='🎉 Heel goed! Bijna alles juist.';
+      else if(pct>=60)msg='💪 Goed bezig! Bekijk de fouten nog eens.';
+      else msg='📚 Bekijk de theorie nog eens en probeer opnieuw!';
+      scoreLabel.textContent=`Score: ${quizScore}/${QUESTIONS.length}`;
+      celeb.textContent=msg;celeb.classList.add('show');
+    }
+  }
+  document.getElementById('quiz-reset').onclick=buildQuiz;
+
+  /* ============ OEFENINGEN ============ */
+  const OEF=[
+    {deel:'Deel 1 — Bewijs de evenredigheid', items:[
+      {op:'Is <span class="ifrac"><span class="n">2</span><span class="d">6</span></span> = <span class="ifrac"><span class="n">9</span><span class="d">27</span></span> een evenredigheid?',
+       sol:'Uiterste: 2 · 27 = 54<br>Middelste: 6 · 9 = 54<br>54 = 54 → <b>het is een evenredigheid</b> ✓'},
+      {op:'Is <span class="ifrac"><span class="n">−4</span><span class="d">7</span></span> = <span class="ifrac"><span class="n">12</span><span class="d">−21</span></span> een evenredigheid?',
+       sol:'Uiterste: −4 · (−21) = 84<br>Middelste: 7 · 12 = 84<br>84 = 84 → <b>het is een evenredigheid</b> ✓'},
+      {op:'Is <span class="ifrac"><span class="n">3</span><span class="d">12</span></span> = <span class="ifrac"><span class="n">5</span><span class="d">20</span></span> een evenredigheid?',
+       sol:'Uiterste: 3 · 20 = 60<br>Middelste: 12 · 5 = 60<br>60 = 60 → <b>het is een evenredigheid</b> ✓'},
+      {op:'Is <span class="ifrac"><span class="n">4</span><span class="d">10</span></span> = <span class="ifrac"><span class="n">6</span><span class="d">15</span></span> een evenredigheid?',
+       sol:'Uiterste: 4 · 15 = 60<br>Middelste: 10 · 6 = 60<br>60 = 60 → <b>het is een evenredigheid</b> ✓'},
+    ]},
+    {deel:'Deel 2 — Bepaal de 4de evenredige', items:[
+      {op:'Bepaal de 4de evenredige van −3, 4 en 12.',
+       sol:'<span class="ifrac"><span class="n">−3</span><span class="d">4</span></span> = <span class="ifrac"><span class="n">12</span><span class="d">x</span></span><br>−3 · x = 4 · 12 = 48<br>x = 48 ÷ (−3) = <b>−16</b>'},
+      {op:'Bepaal de 4de evenredige van 3, 7 en 15.',
+       sol:'<span class="ifrac"><span class="n">3</span><span class="d">7</span></span> = <span class="ifrac"><span class="n">15</span><span class="d">x</span></span><br>3 · x = 7 · 15 = 105<br>x = 105 ÷ 3 = <b>35</b>'},
+      {op:'Bepaal de 4de evenredige van −3, −8 en 9.',
+       sol:'<span class="ifrac"><span class="n">−3</span><span class="d">−8</span></span> = <span class="ifrac"><span class="n">9</span><span class="d">x</span></span><br>−3 · x = −8 · 9 = −72<br>x = −72 ÷ (−3) = <b>24</b>'},
+      {op:'Bepaal de 4de evenredige van 2, 5 en 8.',
+       sol:'<span class="ifrac"><span class="n">2</span><span class="d">5</span></span> = <span class="ifrac"><span class="n">8</span><span class="d">x</span></span><br>2 · x = 5 · 8 = 40<br>x = 40 ÷ 2 = <b>20</b>'},
+      {op:'Bepaal de 4de evenredige van 6, −4 en 9.',
+       sol:'<span class="ifrac"><span class="n">6</span><span class="d">−4</span></span> = <span class="ifrac"><span class="n">9</span><span class="d">x</span></span><br>6 · x = −4 · 9 = −36<br>x = −36 ÷ 6 = <b>−6</b>'},
+    ]},
+    {deel:'Deel 3 — Bepaal de middelevenredige', items:[
+      {op:'Bepaal de middelevenredige van 4 en 9.',
+       sol:'4 · 9 = x² → 36 = x²<br>x = √36 = <b>6</b>'},
+      {op:'Bepaal de middelevenredige van 3 en 48.',
+       sol:'3 · 48 = x² → 144 = x²<br>x = √144 = <b>12</b>'},
+      {op:'Bepaal de middelevenredige van 5 en 20.',
+       sol:'5 · 20 = x² → 100 = x²<br>x = √100 = <b>10</b>'},
+      {op:'Bepaal de middelevenredige van 2 en 8.',
+       sol:'2 · 8 = x² → 16 = x²<br>x = √16 = <b>4</b>'},
+      {op:'Bepaal de middelevenredige van 9 en 16.',
+       sol:'9 · 16 = x² → 144 = x²<br>x = √144 = <b>12</b>'},
+    ]},
+    {deel:'Deel 4 — Vraagstukjes', items:[
+      {op:'In een klas verhoudt het aantal leerlingen met een bril zich tot het aantal zonder bril als 2 tot 7. Er zijn 14 leerlingen zonder bril. Hoeveel dragen er een bril?',
+       sol:'verhouding bril/geen bril = <span class="ifrac"><span class="n">2</span><span class="d">7</span></span> = <span class="ifrac"><span class="n">x</span><span class="d">14</span></span><br>2 · 14 = 7 · x → 28 = 7 · x<br>x = 28 ÷ 7 = 4<br><b>4 leerlingen dragen een bril.</b>'},
+      {op:'Het aantal meisjes verhoudt zich tot het aantal jongens als 5 tot 3. Er zijn 435 jongens. Hoeveel meisjes zijn er?',
+       sol:'verhouding meisjes/jongens = <span class="ifrac"><span class="n">5</span><span class="d">3</span></span> = <span class="ifrac"><span class="n">x</span><span class="d">435</span></span><br>5 · 435 = 3 · x → 2175 = 3 · x<br>x = 2175 ÷ 3 = 725<br><b>Er zijn 725 meisjes.</b>'},
+      {op:'De breedte en de hoogte van een tv-toestel verhouden zich als 4 tot 3. Hoe hoog is een scherm met een breedte van 72 cm?',
+       sol:'verhouding breedte/hoogte = <span class="ifrac"><span class="n">4</span><span class="d">3</span></span> = <span class="ifrac"><span class="n">72</span><span class="d">x</span></span><br>4 · x = 3 · 72 → 4 · x = 216<br>x = 216 ÷ 4 = 54<br><b>Het scherm is 54 cm hoog.</b>'},
+    ]},
+  ];
+
+  (function buildOef(){
+    const list=document.getElementById('oef-list');
+    const ans=document.getElementById('print-answers');
+    let ansHtml='<h2 class="print-head" style="page-break-before:avoid;">Oplossingen</h2>';
+    OEF.forEach(group=>{
+      const h=document.createElement('div');h.className='deel-head';h.textContent=group.deel;list.appendChild(h);
+      ansHtml+=`<h3 style="font-family:Vollkorn,serif;color:#444;margin:14px 0 6px;">${group.deel}</h3>`;
+      group.items.forEach((it,i)=>{
+        const item=document.createElement('div');item.className='oef-item';
+        item.innerHTML=`<div class="oef-op"><span class="oef-num">${i+1}.</span> ${it.op}</div>`+
+          `<button class="toggle-sol no-print">Toon oplossing</button>`+
+          `<div class="solution" hidden>${it.sol}</div>`;
+        const btn=item.querySelector('.toggle-sol'), sol=item.querySelector('.solution');
+        btn.onclick=()=>{const open=!sol.hidden;sol.hidden=open;btn.textContent=open?'Toon oplossing':'Verberg oplossing';};
+        list.appendChild(item);
+        ansHtml+=`<div style="margin:4px 0 8px;font-family:Vollkorn,serif;"><b>${i+1}.</b> ${it.sol}</div>`;
+      });
+    });
+    ans.innerHTML=ansHtml;
+  })();
+
+  /* ============ init ============ */
+  fpBuildPresets(); fpRender();
+  gmBuildPresets(); gmRender();
+  buildQuiz();
+
+  /* verkenner schoon in print, schermtoestand herstellen erna */
+  let _fpSaved=0,_gmSaved=0;
+  window.addEventListener('beforeprint',()=>{_fpSaved=fpStep;_gmSaved=gmStep;fpStep=0;gmStep=0;fpRender();gmRender();});
+  window.addEventListener('afterprint',()=>{fpStep=_fpSaved;gmStep=_gmSaved;fpRender();gmRender();});
+</script>
+</body>
+</html>
