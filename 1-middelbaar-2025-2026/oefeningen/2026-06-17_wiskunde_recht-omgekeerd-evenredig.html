@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recht &amp; omgekeerd evenredige grootheden — Klaswerkplaats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F2E8; --warm-white:#FFFDF7; --terracotta:#C2704E; --terracotta-light:#D4916F;
+  --ochre:#D4A843; --olive:#7A8B6F; --olive-dark:#5E6D53; --warm-brown:#5C4033;
+  --dark-brown:#3D2B1F; --sand:#E8DCC8; --sand-light:#F0E8D8; --parchment:#F5EDE0;
+  --rust:#B7553D; --sage:#A8B89A; --sky-blue:#6A9BB5;
+  --vak-color:#7A8B6F; --vak-dark:#5E6D53;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:'Source Sans 3',sans-serif;
+  color:var(--dark-brown);
+  background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);
+  background-attachment:fixed;
+  line-height:1.55; min-height:100vh; padding:18px 14px 60px;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; opacity:.04; pointer-events:none;
+  background-image:radial-gradient(circle at 20% 30%, var(--warm-brown) 1px, transparent 1px),
+                   radial-gradient(circle at 70% 60%, var(--olive) 1px, transparent 1px);
+  background-size:46px 46px, 64px 64px;
+}
+.wrap{max-width:860px;margin:0 auto;}
+
+/* breadcrumb */
+.crumbs{font-size:.9rem;color:var(--olive-dark);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.crumbs a{color:var(--olive-dark);text-decoration:none;border-bottom:1px dotted var(--olive);}
+.crumbs a:hover{color:var(--terracotta);}
+.crumbs span.sep{opacity:.5;}
+
+/* header */
+.head{display:flex;gap:16px;align-items:center;margin-bottom:6px;animation:fadeSlideUp .5s ease both;}
+.icon{flex:none;width:62px;height:62px;border-radius:15px;display:grid;place-items:center;font-size:32px;
+  background:linear-gradient(135deg,var(--vak-color),var(--vak-dark));box-shadow:0 6px 16px rgba(94,109,83,.32);}
+.titles h1{font-family:'Vollkorn',Georgia,serif;font-size:1.5rem;font-weight:700;line-height:1.15;color:var(--warm-brown);}
+.titles .date{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--vak-dark);}
+.intro{font-size:.98rem;color:#6b5b4a;margin:10px 2px 18px;animation:fadeSlideUp .6s ease both;}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.tab{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:500;cursor:pointer;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--olive-dark);
+  padding:9px 15px;border-radius:999px;transition:.18s;}
+.tab:hover{border-color:var(--vak-color);}
+.tab.active{background:linear-gradient(135deg,var(--vak-color),var(--vak-dark));color:var(--warm-white);border-color:var(--vak-dark);box-shadow:0 4px 12px rgba(94,109,83,.28);}
+
+.panel{display:none;animation:fadeSlideUp .4s ease both;}
+.panel.active{display:block;}
+
+/* cards */
+.card{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:18px;
+  padding:20px 20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(92,64,51,.06);}
+.card h2{font-family:'Vollkorn',serif;font-size:1.22rem;color:var(--vak-dark);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.card h3{font-family:'Vollkorn',serif;font-size:1.05rem;color:var(--warm-brown);margin:14px 0 6px;}
+.card p{margin-bottom:8px;font-size:.98rem;}
+.lead{font-size:.93rem;color:#6b5b4a;}
+
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:999px;margin-right:6px;}
+.tag.re{background:#e7eee0;color:var(--olive-dark);}
+.tag.oe{background:#f5e3d3;color:var(--rust);}
+.tag.niet{background:#eee;color:#777;}
+
+/* definition box */
+.defbox{background:linear-gradient(135deg,#fbf4dd,#f7ecc9);border:1.5px solid var(--ochre);
+  border-left:6px solid var(--ochre);border-radius:12px;padding:13px 16px;margin:12px 0;}
+.defbox strong{color:var(--warm-brown);}
+.attn{background:#fbeee6;border-left:6px solid var(--terracotta);border-radius:12px;padding:12px 16px;margin:12px 0;font-size:.95rem;}
+.attn b{color:var(--rust);}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;margin:10px 0;}
+table.data{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--warm-white);}
+table.data th,table.data td{border:1px solid var(--sand);padding:8px 10px;text-align:center;}
+table.data th{background:#f0ead9;font-family:'Source Sans 3',sans-serif;font-weight:600;color:var(--olive-dark);font-size:.86rem;}
+table.data td.var-n{color:var(--vak-dark);font-weight:600;}
+table.data td.var-r{color:var(--terracotta);font-weight:600;}
+.const-col{background:#eaf3e0 !important;}
+.const-col.oe{background:#f6e7d6 !important;}
+.const-badge{display:inline-block;font-size:.74rem;font-weight:600;background:#dcebcb;color:var(--olive-dark);padding:1px 7px;border-radius:999px;margin-left:5px;}
+
+.formule{font-family:'Vollkorn',serif;font-size:1.15rem;text-align:center;background:#f3eee0;
+  border-radius:10px;padding:10px;margin:10px 0;color:var(--warm-brown);}
+.formule b{color:var(--terracotta);}
+
+/* verkenner */
+.vk-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.vk-mode{flex:1 1 0;min-width:150px;text-align:center;cursor:pointer;border:1.5px solid var(--sand);
+  background:var(--warm-white);border-radius:12px;padding:11px 8px;transition:.18s;font-weight:600;font-size:.95rem;color:var(--olive-dark);}
+.vk-mode small{display:block;font-weight:400;font-size:.78rem;color:#8a7a68;margin-top:2px;}
+.vk-mode.active{border-color:var(--vak-dark);background:linear-gradient(135deg,#eef2e9,#e3ebdb);box-shadow:0 3px 10px rgba(94,109,83,.18);color:var(--vak-dark);}
+.vk-mode.active.oe{background:linear-gradient(135deg,#fbeee2,#f6e1cf);border-color:var(--rust);color:var(--rust);}
+
+.slider-row{display:flex;align-items:center;gap:12px;margin:14px 0 6px;flex-wrap:wrap;}
+.slider-row label{font-weight:600;font-size:.95rem;color:var(--warm-brown);}
+.slider-row input[type=range]{flex:1;min-width:150px;accent-color:var(--vak-color);height:26px;}
+.slider-val{font-family:'Vollkorn',serif;font-size:1.3rem;color:var(--terracotta);font-weight:700;min-width:34px;text-align:center;}
+
+.vk-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;margin-top:8px;}
+.vk-graph svg{width:100%;height:auto;display:block;background:var(--warm-white);border:1px solid var(--sand);border-radius:12px;}
+.takeaway{margin-top:10px;font-size:.95rem;text-align:center;padding:9px 12px;border-radius:10px;background:#eaf3e0;color:var(--olive-dark);font-weight:600;}
+.takeaway.oe{background:#f6e7d6;color:var(--rust);}
+
+/* quiz */
+.q{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+.q .qnum{font-family:'Caveat',cursive;font-size:1.2rem;color:var(--vak-dark);}
+.q .qtxt{font-family:'Vollkorn',serif;font-size:1.05rem;color:var(--warm-brown);margin:4px 0 12px;}
+.opts{display:flex;gap:8px;flex-wrap:wrap;}
+.opt{cursor:pointer;border:1.5px solid var(--sand);background:var(--cream);border-radius:999px;
+  padding:8px 16px;font-size:.92rem;font-weight:500;color:var(--olive-dark);transition:.15s;}
+.opt:hover{border-color:var(--vak-color);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#dff0d2;border-color:var(--olive);color:var(--olive-dark);}
+.opt.bad{background:#f7ddd2;border-color:var(--rust);color:var(--rust);}
+.fb{margin-top:11px;font-size:.93rem;border-radius:10px;padding:10px 12px;display:none;}
+.fb.show{display:block;animation:fadeSlideUp .25s ease both;}
+.fb.ok{background:#e7f1dc;color:var(--olive-dark);}
+.fb.no{background:#fbeae0;color:var(--rust);}
+.pop{animation:pop .35s ease;}
+.shake{animation:shake .4s;}
+
+/* score */
+.scorebar{display:none;position:sticky;top:8px;z-index:5;background:var(--warm-white);border:1.5px solid var(--sand);
+  border-radius:14px;padding:12px 16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(92,64,51,.08);}
+.scorebar.show{display:block;}
+.scorebar .stxt{display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--vak-dark);margin-bottom:7px;}
+.pbar{height:9px;background:var(--sand);border-radius:999px;overflow:hidden;}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--terracotta),var(--ochre));transition:width .4s;}
+.btn-reset{font-family:'Source Sans 3',sans-serif;font-size:.85rem;cursor:pointer;border:none;background:none;color:var(--olive-dark);border-bottom:1px dotted var(--olive);}
+.celebrate{display:none;text-align:center;font-family:'Vollkorn',serif;font-size:1.1rem;padding:14px;border-radius:14px;margin-bottom:16px;background:linear-gradient(135deg,#fbf4dd,#f3e6c8);border:1.5px solid var(--ochre);}
+.celebrate.show{display:block;animation:pop .4s ease both;}
+
+/* oefeningen */
+.oef h3{font-family:'Vollkorn',serif;color:var(--vak-dark);font-size:1.08rem;margin-bottom:4px;}
+.oef .ctx{font-size:.95rem;margin-bottom:8px;}
+.show-sol{font-family:'Source Sans 3',sans-serif;font-size:.9rem;cursor:pointer;border:1.5px solid var(--vak-color);
+  background:var(--warm-white);color:var(--vak-dark);padding:7px 15px;border-radius:999px;transition:.15s;margin-top:6px;}
+.show-sol:hover{background:#eef2e9;}
+.solution{display:none;margin-top:12px;background:#f4f0e6;border-left:5px solid var(--olive);border-radius:10px;padding:12px 14px;}
+.solution.show{display:block;animation:fadeSlideUp .25s ease both;}
+.solution .formule{background:var(--warm-white);}
+
+/* action buttons */
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+.act{font-family:'Source Sans 3',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;text-decoration:none;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--olive-dark);padding:10px 18px;border-radius:999px;transition:.18s;display:inline-flex;align-items:center;gap:7px;}
+.act:hover{border-color:var(--vak-color);background:#f3f5f0;}
+
+/* print-only blocks hidden on screen */
+.print-only{display:none;}
+.write-line{border-bottom:1.5px solid #bbb;min-height:1.4em;display:block;}
+.write-box{display:inline-block;border:1.5px solid #999;width:18px;height:18px;border-radius:4px;vertical-align:middle;margin:0 4px;}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.06);}100%{transform:scale(1);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
+
+/* responsive */
+@media(max-width:600px){
+  .wrap{padding:0;}
+  .titles h1{font-size:1.25rem;}
+  .icon{width:52px;height:52px;font-size:26px;}
+  .card{padding:15px 14px;}
+  .vk-grid{grid-template-columns:1fr;}
+  table.data th,table.data td{padding:6px 6px;font-size:.86rem;}
+  .formule{font-size:1.02rem;}
+}
+
+/* PRINT */
+@media print{
+  .no-print{display:none !important;}
+  body{background:white !important;font-size:11pt;color:#000;padding:0;}
+  body::before{display:none;}
+  .wrap{max-width:100%;}
+  .panel{display:block !important;animation:none !important;}
+  .panel.print-hide{display:none !important;}
+  .print-only{display:block !important;}
+  .card,.q,.solution{box-shadow:none !important;border-color:#ccc !important;background:#fff !important;}
+  .icon{display:none !important;}
+  .scorebar,.celebrate,.tabs,.actions,.show-sol,.vk-modes,.slider-row,.takeaway{display:none !important;}
+  .solution{display:none !important;}
+  td.ask{color:transparent !important;}
+  .const-col,.const-col.oe{background:#f0f0f0 !important;}
+  h1,h2,h3{color:#000 !important;}
+  .print-head{display:block !important;font-family:'Vollkorn',serif;font-size:1.15rem;border-bottom:2px solid #000;margin:18px 0 8px;padding-bottom:3px;}
+  .print-answers{page-break-before:always;}
+  .pa-row{break-inside:avoid;}
+  a[href]:after{content:"";}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- breadcrumb -->
+  <nav class="crumbs no-print">
+    <a href="../../index.html">🌱 Klaswerkplaats</a><span class="sep">›</span>
+    <a href="../index.html">1e Middelbaar</a><span class="sep">›</span>
+    <span>Evenredige grootheden</span>
+  </nav>
+
+  <!-- header -->
+  <header class="head">
+    <div class="icon">📐</div>
+    <div class="titles">
+      <h1>Recht &amp; omgekeerd evenredige grootheden</h1>
+      <div class="date">Hoofdstuk 7 · Evenredigheden</div>
+    </div>
+  </header>
+  <p class="intro no-print">Twee grootheden kunnen <b>recht evenredig</b> zijn (hun quotiënt blijft gelijk),
+  <b>omgekeerd evenredig</b> (hun product blijft gelijk) of geen van beide (<b>niet evenredig</b>).
+  Verken de verschillen, oefen het herkennen, en maak de oefeningen.</p>
+
+  <!-- tabs -->
+  <div class="tabs no-print" role="tablist">
+    <button class="tab active" data-panel="theorie">📚 Theorie</button>
+    <button class="tab" data-panel="verkenner">🔬 Verkenner</button>
+    <button class="tab" data-panel="herken">🧩 Recht, omgekeerd of niet?</button>
+    <button class="tab" data-panel="oefenen">✏️ Oefeningen</button>
+  </div>
+
+  <!-- ================= THEORIE ================= -->
+  <section class="panel active" id="theorie">
+    <h2 class="print-head" style="display:none;">📚 Theorie</h2>
+
+    <div class="card">
+      <h2>📈 Recht evenredige grootheden</h2>
+      <p class="lead"><b>Hoe meer</b> stickers je koopt, <b>hoe meer</b> je betaalt. Tijdens de veertiendaagse
+      van het Rode Kruis kost één sticker € 5.</p>
+      <div class="tbl-scroll">
+        <table class="data">
+          <tr><th>aantal stickers (n)</th><th>prijs (p) in euro</th><th>quotiënt <span class="const-badge">= constant</span></th></tr>
+          <tr><td class="var-n">1</td><td class="var-r">5</td><td class="const-col">5 ÷ 1 = 5</td></tr>
+          <tr><td class="var-n">2</td><td class="var-r">10</td><td class="const-col">10 ÷ 2 = 5</td></tr>
+          <tr><td class="var-n">3</td><td class="var-r">15</td><td class="const-col">15 ÷ 3 = 5</td></tr>
+          <tr><td class="var-n">10</td><td class="var-r">50</td><td class="const-col">50 ÷ 10 = 5</td></tr>
+          <tr><td class="var-n">25</td><td class="var-r">125</td><td class="const-col">125 ÷ 25 = 5</td></tr>
+        </table>
+      </div>
+      <p>Het <b>quotiënt</b> van de prijs en het aantal stickers blijft altijd <b>5</b>. Dat vaste getal heet de
+      <b>evenredigheidsfactor</b>.</p>
+      <div class="defbox"><strong>Definitie.</strong> Recht evenredige grootheden zijn grootheden waarvan het
+      <b>quotiënt constant</b> is.</div>
+      <div class="formule">p = <b>5</b> · n</div>
+      <h3>Grafiek</h3>
+      <p class="lead">De roosterpunten liggen op <b>één rechte door de oorsprong</b> (het punt (0, 0)).</p>
+      <svg viewBox="0 0 320 220" role="img" aria-label="Rechte door de oorsprong" style="max-width:340px;width:100%;height:auto;border:1px solid var(--sand);border-radius:10px;background:#fff;">
+        <line x1="40" y1="190" x2="305" y2="190" stroke="#bbb" stroke-width="1.5"/>
+        <line x1="40" y1="190" x2="40" y2="15" stroke="#bbb" stroke-width="1.5"/>
+        <text x="312" y="194" font-size="11" fill="#888">n</text>
+        <text x="30" y="16" font-size="11" fill="#888">p</text>
+        <line x1="40" y1="190" x2="290" y2="40" stroke="#7A8B6F" stroke-width="2.5"/>
+        <circle cx="40" cy="190" r="3.5" fill="#C2704E"/>
+        <circle cx="82" cy="165" r="3.5" fill="#C2704E"/>
+        <circle cx="123" cy="140" r="3.5" fill="#C2704E"/>
+        <circle cx="165" cy="115" r="3.5" fill="#C2704E"/>
+        <circle cx="207" cy="90" r="3.5" fill="#C2704E"/>
+        <circle cx="248" cy="65" r="3.5" fill="#C2704E"/>
+      </svg>
+    </div>
+
+    <div class="card">
+      <h2>📉 Omgekeerd evenredige grootheden</h2>
+      <p class="lead">Vader vult het zwembad van Gilles. Met één tuinslang duurt het 24 minuten.
+      <b>Hoe meer</b> tuinslangen (met evenveel debiet), <b>hoe minder</b> tijd nodig.</p>
+      <div class="tbl-scroll">
+        <table class="data">
+          <tr><th>aantal tuinslangen (n)</th><th>tijd (t) in min</th><th>product <span class="const-badge">= constant</span></th></tr>
+          <tr><td class="var-n">1</td><td class="var-r">24</td><td class="const-col oe">1 · 24 = 24</td></tr>
+          <tr><td class="var-n">2</td><td class="var-r">12</td><td class="const-col oe">2 · 12 = 24</td></tr>
+          <tr><td class="var-n">3</td><td class="var-r">8</td><td class="const-col oe">3 · 8 = 24</td></tr>
+          <tr><td class="var-n">4</td><td class="var-r">6</td><td class="const-col oe">4 · 6 = 24</td></tr>
+          <tr><td class="var-n">5</td><td class="var-r">4,8</td><td class="const-col oe">5 · 4,8 = 24</td></tr>
+        </table>
+      </div>
+      <p>Het <b>product</b> van het aantal tuinslangen en de tijd blijft altijd <b>24</b>.</p>
+      <div class="defbox"><strong>Definitie.</strong> Omgekeerd evenredige grootheden zijn grootheden waarvan het
+      <b>product constant</b> is.</div>
+      <div class="formule">n · t = <b>24</b> &nbsp;of&nbsp; t = <b>24</b> ÷ n</div>
+      <h3>Grafiek</h3>
+      <p class="lead">De roosterpunten liggen <b>niet</b> op één rechte, maar op een <b>kromme</b>.</p>
+      <svg viewBox="0 0 320 220" role="img" aria-label="Kromme lijn" style="max-width:340px;width:100%;height:auto;border:1px solid var(--sand);border-radius:10px;background:#fff;">
+        <line x1="40" y1="190" x2="305" y2="190" stroke="#bbb" stroke-width="1.5"/>
+        <line x1="40" y1="190" x2="40" y2="15" stroke="#bbb" stroke-width="1.5"/>
+        <text x="312" y="194" font-size="11" fill="#888">n</text>
+        <text x="30" y="16" font-size="11" fill="#888">t</text>
+        <path d="M 55 25 Q 90 95 123 120 Q 165 150 248 178" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+        <circle cx="82" cy="55" r="3.5" fill="#5E6D53"/>
+        <circle cx="123" cy="120" r="3.5" fill="#5E6D53"/>
+        <circle cx="165" cy="148" r="3.5" fill="#5E6D53"/>
+        <circle cx="207" cy="162" r="3.5" fill="#5E6D53"/>
+        <circle cx="248" cy="178" r="3.5" fill="#5E6D53"/>
+      </svg>
+    </div>
+
+    <div class="attn">
+      <b>Hoe herken je het?</b> Maak een tabel en reken na:
+      <br>• Blijft het <b>quotiënt</b> (delen) altijd hetzelfde? → <span class="tag re">recht evenredig</span>
+      <br>• Blijft het <b>product</b> (vermenigvuldigen) altijd hetzelfde? → <span class="tag oe">omgekeerd evenredig</span>
+      <br>• Geen van beide? → <span class="tag niet">niet evenredig</span>
+      <br><br>Let op: twee grootheden die <i>samen</i> stijgen zijn niet automatisch recht evenredig — je moet
+      het quotiënt écht narekenen!
+    </div>
+  </section>
+
+  <!-- ================= VERKENNER ================= -->
+  <section class="panel print-hide" id="verkenner">
+    <div class="card">
+      <h2>🔬 Verkenner</h2>
+      <p class="lead">Kies een soort verband en schuif de waarde. Kijk wat constant blijft (groen) en hoe de grafiek verandert.</p>
+
+      <div class="vk-modes">
+        <div class="vk-mode active" id="m-re" onclick="setMode('re')">Recht evenredig<small>quotiënt p ÷ n blijft gelijk</small></div>
+        <div class="vk-mode oe" id="m-oe" onclick="setMode('oe')">Omgekeerd evenredig<small>product n · t blijft gelijk</small></div>
+      </div>
+
+      <div class="slider-row" id="row-re">
+        <label for="sl-re">Evenredigheidsfactor:</label>
+        <input type="range" id="sl-re" min="2" max="6" step="1" value="5" oninput="draw()">
+        <span class="slider-val" id="val-re">5</span>
+      </div>
+      <div class="slider-row" id="row-oe" style="display:none;">
+        <label for="sl-oe">Constant product:</label>
+        <input type="range" id="sl-oe" min="12" max="36" step="6" value="24" oninput="draw()">
+        <span class="slider-val" id="val-oe">24</span>
+      </div>
+
+      <div class="formule" id="vk-formule">p = <b>5</b> · n</div>
+
+      <div class="vk-grid">
+        <div class="tbl-scroll">
+          <table class="data" id="vk-table"></table>
+        </div>
+        <div class="vk-graph"><svg id="vk-svg" viewBox="0 0 380 320" role="img" aria-label="Grafiek"></svg></div>
+      </div>
+      <div class="takeaway" id="vk-take">De punten liggen op één rechte door de oorsprong.</div>
+    </div>
+  </section>
+
+  <!-- ================= HERKEN (quiz) ================= -->
+  <section class="panel print-hide" id="herken">
+    <div class="scorebar no-print" id="scorebar">
+      <div class="stxt"><span id="score-label">Score: 0/0</span><button class="btn-reset" onclick="resetQuiz()">🔄 Opnieuw</button></div>
+      <div class="pbar"><i id="pbar-fill"></i></div>
+    </div>
+    <div class="celebrate" id="celebrate"></div>
+    <div class="card">
+      <h2>🧩 Recht, omgekeerd of niet evenredig?</h2>
+      <p class="lead">Bekijk telkens twee grootheden. Zijn ze recht evenredig, omgekeerd evenredig of niet evenredig?
+      Klik je antwoord aan.</p>
+    </div>
+    <div id="quiz"></div>
+  </section>
+
+  <!-- ================= OEFENEN ================= -->
+  <section class="panel" id="oefenen">
+    <h2 class="print-head" style="display:none;">✏️ Oefeningen</h2>
+    <div class="card oef">
+      <p class="lead no-print">Vul de tabel aan, stel de formule op, en bepaal het soort verband.
+      Klik op <b>Toon oplossing</b> om je antwoord te controleren.</p>
+
+      <!-- 33a -->
+      <div style="margin-top:6px;">
+        <h3>1) Het bad wordt gevuld met water</h3>
+        <p class="ctx">Per minuut stijgt het water 2 cm. Vul de hoogte (h) aan en stel de formule op.</p>
+        <div class="tbl-scroll">
+          <table class="data">
+            <tr><th>tijd (t) in min</th><td>0</td><td>1</td><td>4</td><td>6</td><td>8</td><td>10</td></tr>
+            <tr><th>hoogte (h) in cm</th><td>0</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td></tr>
+          </table>
+        </div>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <div class="tbl-scroll"><table class="data">
+            <tr><th>t</th><td>0</td><td>1</td><td>4</td><td>6</td><td>8</td><td>10</td></tr>
+            <tr><th>h</th><td>0</td><td>2</td><td>8</td><td>12</td><td>16</td><td>20</td></tr>
+          </table></div>
+          <div class="formule">h = <b>2</b> · t</div>
+          <p><span class="tag re">recht evenredig</span> Het quotiënt h ÷ t = 2 blijft gelijk. De punten liggen op één rechte door (0, 0).</p>
+        </div>
+      </div>
+
+      <!-- 33b -->
+      <div style="margin-top:18px;">
+        <h3>2) De oppervlakte van een rechthoek is 60 cm²</h3>
+        <p class="ctx">Vul de breedte (b) aan en stel de formule op.</p>
+        <div class="tbl-scroll">
+          <table class="data">
+            <tr><th>lengte (l) in cm</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+            <tr><th>breedte (b) in cm</th><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td></tr>
+          </table>
+        </div>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <div class="tbl-scroll"><table class="data">
+            <tr><th>l</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+            <tr><th>b</th><td>60</td><td>30</td><td>20</td><td>15</td><td>12</td></tr>
+          </table></div>
+          <div class="formule">l · b = <b>60</b> &nbsp;of&nbsp; b = <b>60</b> ÷ l</div>
+          <p><span class="tag oe">omgekeerd evenredig</span> Het product l · b = 60 blijft gelijk. De punten liggen op een kromme.</p>
+        </div>
+      </div>
+
+      <!-- 33c -->
+      <div style="margin-top:18px;">
+        <h3>3) De sportclub organiseert een filmavond</h3>
+        <p class="ctx">De inkom is € 4 per persoon. Per drankje betaal je € 2. Vul de prijs (p) aan en stel de formule op.</p>
+        <div class="tbl-scroll">
+          <table class="data">
+            <tr><th>aantal drankjes (n)</th><td>0</td><td>1</td><td>2</td><td>6</td><td>8</td><td>10</td></tr>
+            <tr><th>prijs (p) in €</th><td>4</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td><td class="ask">?</td></tr>
+          </table>
+        </div>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <div class="tbl-scroll"><table class="data">
+            <tr><th>n</th><td>0</td><td>1</td><td>2</td><td>6</td><td>8</td><td>10</td></tr>
+            <tr><th>p</th><td>4</td><td>6</td><td>8</td><td>16</td><td>20</td><td>24</td></tr>
+          </table></div>
+          <div class="formule">p = <b>4 + 2</b> · n</div>
+          <p><span class="tag niet">niet (recht) evenredig</span> Reken na: 6 ÷ 1 = 6 maar 8 ÷ 2 = 4. Het quotiënt is
+          niet constant en het start niet bij 0. De grafiek is wél een rechte, maar die gaat <b>niet</b> door de oorsprong,
+          dus de grootheden zijn niet recht evenredig.</p>
+        </div>
+      </div>
+
+      <!-- E1 -->
+      <div style="margin-top:18px;">
+        <h3>4) Appels op de markt</h3>
+        <p class="ctx">1 kg appels kost € 3. De prijs en het gewicht zijn recht evenredig. Vul aan.</p>
+        <div class="tbl-scroll">
+          <table class="data">
+            <tr><th>gewicht (kg)</th><td>1</td><td>2</td><td>4</td><td class="ask">?</td><td>7</td></tr>
+            <tr><th>prijs (€)</th><td>3</td><td>6</td><td class="ask">?</td><td>15</td><td class="ask">?</td></tr>
+          </table>
+        </div>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <div class="tbl-scroll"><table class="data">
+            <tr><th>kg</th><td>1</td><td>2</td><td>4</td><td>5</td><td>7</td></tr>
+            <tr><th>€</th><td>3</td><td>6</td><td>12</td><td>15</td><td>21</td></tr>
+          </table></div>
+          <div class="formule">p = <b>3</b> · n</div>
+          <p><span class="tag re">recht evenredig</span> 4 kg → 4 · 3 = € 12. &nbsp; € 15 → 15 ÷ 3 = 5 kg. &nbsp; 7 kg → 7 · 3 = € 21.</p>
+        </div>
+      </div>
+
+      <!-- E2 -->
+      <div style="margin-top:18px;">
+        <h3>5) Schilders aan het werk</h3>
+        <p class="ctx">8 schilders schilderen een huis in 6 dagen. Het aantal schilders en de tijd zijn omgekeerd evenredig.
+        Hoeveel dagen met 4 schilders? Met 12 schilders?</p>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>Eerst het constante product: 8 · 6 = <b>48</b> (zo veel "dagwerk" zit er in het huis).</p>
+          <div class="tbl-scroll"><table class="data">
+            <tr><th>schilders (n)</th><td>4</td><td>8</td><td>12</td></tr>
+            <tr><th>tijd (t) in dagen</th><td>12</td><td>6</td><td>4</td></tr>
+          </table></div>
+          <div class="formule">n · t = <b>48</b> &nbsp;of&nbsp; t = <b>48</b> ÷ n</div>
+          <p><span class="tag oe">omgekeerd evenredig</span> 4 schilders → 48 ÷ 4 = 12 dagen. &nbsp; 12 schilders → 48 ÷ 12 = 4 dagen.
+          Meer schilders, minder dagen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRINT-ONLY: herken-werkblad ===== -->
+  <div class="print-only" id="print-herken">
+    <h2 class="print-head">🧩 Recht, omgekeerd of niet evenredig?</h2>
+    <p style="font-size:.95rem;margin-bottom:6px;">Kruis voor elk paar grootheden aan: recht evenredig (RE), omgekeerd evenredig (OE) of niet evenredig (NE).</p>
+    <table class="data" id="print-herken-table"></table>
+  </div>
+
+  <!-- action buttons -->
+  <div class="actions no-print">
+    <button class="act" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="act" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+  <!-- ===== PRINT ANSWERS: herken ===== -->
+  <div class="print-only print-answers" id="print-herken-answers">
+    <h2 class="print-head">Oplossingen — Recht, omgekeerd of niet?</h2>
+    <table class="data" id="print-herken-answers-table"></table>
+  </div>
+
+  <!-- ===== PRINT ANSWERS: oefeningen ===== -->
+  <div class="print-only print-answers" id="print-oef-answers">
+    <h2 class="print-head">Oplossingen — Oefeningen</h2>
+
+    <div style="margin-bottom:14px;">
+      <p style="margin:0 0 4px;"><b>1) Het bad wordt gevuld met water</b></p>
+      <table class="data"><tr><th>t</th><td>0</td><td>1</td><td>4</td><td>6</td><td>8</td><td>10</td></tr>
+      <tr><th>h</th><td>0</td><td>2</td><td>8</td><td>12</td><td>16</td><td>20</td></tr></table>
+      <p style="margin:4px 0 0;">Formule: h = 2 · t &nbsp;—&nbsp; <b>recht evenredig</b> (quotiënt h ÷ t = 2 is constant; rechte door de oorsprong).</p>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="margin:0 0 4px;"><b>2) Oppervlakte rechthoek = 60 cm²</b></p>
+      <table class="data"><tr><th>l</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+      <tr><th>b</th><td>60</td><td>30</td><td>20</td><td>15</td><td>12</td></tr></table>
+      <p style="margin:4px 0 0;">Formule: l · b = 60 &nbsp;(of b = 60 ÷ l) &nbsp;—&nbsp; <b>omgekeerd evenredig</b> (product l · b = 60 is constant; kromme).</p>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="margin:0 0 4px;"><b>3) Filmavond van de sportclub</b></p>
+      <table class="data"><tr><th>n</th><td>0</td><td>1</td><td>2</td><td>6</td><td>8</td><td>10</td></tr>
+      <tr><th>p</th><td>4</td><td>6</td><td>8</td><td>16</td><td>20</td><td>24</td></tr></table>
+      <p style="margin:4px 0 0;">Formule: p = 4 + 2 · n &nbsp;—&nbsp; <b>niet (recht) evenredig</b>: het quotiënt is niet constant (6 ÷ 1 = 6, maar 8 ÷ 2 = 4) en de rechte gaat niet door de oorsprong.</p>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="margin:0 0 4px;"><b>4) Appels op de markt</b></p>
+      <table class="data"><tr><th>kg</th><td>1</td><td>2</td><td>4</td><td>5</td><td>7</td></tr>
+      <tr><th>€</th><td>3</td><td>6</td><td>12</td><td>15</td><td>21</td></tr></table>
+      <p style="margin:4px 0 0;">Formule: p = 3 · n &nbsp;—&nbsp; <b>recht evenredig</b> (€ 3 per kg; quotiënt constant).</p>
+    </div>
+
+    <div>
+      <p style="margin:0 0 4px;"><b>5) Schilders aan het werk</b></p>
+      <p style="margin:0 0 4px;">Constant product: 8 · 6 = 48 dagwerk.</p>
+      <table class="data"><tr><th>schilders (n)</th><td>4</td><td>8</td><td>12</td></tr>
+      <tr><th>tijd (t) in dagen</th><td>12</td><td>6</td><td>4</td></tr></table>
+      <p style="margin:4px 0 0;">Formule: n · t = 48 &nbsp;(of t = 48 ÷ n) &nbsp;—&nbsp; <b>omgekeerd evenredig</b> (4 schilders → 12 dagen; 12 schilders → 4 dagen).</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- tabs ---------- */
+var tabs=document.querySelectorAll('.tab');
+var panels=document.querySelectorAll('.panel');
+tabs.forEach(function(t){
+  t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+    var id=t.getAttribute('data-panel');
+    panels.forEach(function(p){p.classList.toggle('active',p.id===id);});
+  });
+});
+
+/* ---------- verkenner ---------- */
+var mode='re';
+var NS='http://www.w3.org/2000/svg';
+function setMode(m){
+  mode=m;
+  document.getElementById('m-re').classList.toggle('active',m==='re');
+  document.getElementById('m-oe').classList.toggle('active',m==='oe');
+  document.getElementById('row-re').style.display=(m==='re')?'flex':'none';
+  document.getElementById('row-oe').style.display=(m==='oe')?'flex':'none';
+  draw();
+}
+function px(x){return 44+(x/7)*312;}
+function py(y){return 276-(y/36)*252;}
+function el(tag,attrs){var e=document.createElementNS(NS,tag);for(var k in attrs){e.setAttribute(k,attrs[k]);}return e;}
+function fmt(v){ // 1 decimal max, comma decimal sep
+  var r=Math.round(v*10)/10;
+  if(Math.abs(r-Math.round(r))<1e-9) return String(Math.round(r));
+  return String(r).replace('.',',');
+}
+function draw(){
+  var svg=document.getElementById('vk-svg');
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  // axes
+  svg.appendChild(el('line',{x1:44,y1:276,x2:362,y2:276,stroke:'#bbb','stroke-width':1.5}));
+  svg.appendChild(el('line',{x1:44,y1:276,x2:44,y2:20,stroke:'#bbb','stroke-width':1.5}));
+  // axis ticks (n: 1..6) and (y: 6,12,..36)
+  for(var n=1;n<=6;n++){
+    svg.appendChild(el('line',{x1:px(n),y1:276,x2:px(n),y2:280,stroke:'#bbb','stroke-width':1}));
+    var tx=el('text',{x:px(n),y:292,'font-size':10,fill:'#999','text-anchor':'middle'});tx.textContent=n;svg.appendChild(tx);
+  }
+  [6,12,18,24,30,36].forEach(function(yv){
+    svg.appendChild(el('line',{x1:40,y1:py(yv),x2:44,y2:py(yv),stroke:'#bbb','stroke-width':1}));
+    var ty=el('text',{x:36,y:py(yv)+3,'font-size':10,fill:'#999','text-anchor':'end'});ty.textContent=yv;svg.appendChild(ty);
+  });
+  var axN=el('text',{x:362,y:268,'font-size':11,fill:'#888'});axN.textContent='n';svg.appendChild(axN);
+
+  var f,c,rows=[];
+  if(mode==='re'){
+    f=parseInt(document.getElementById('sl-re').value,10);
+    document.getElementById('val-re').textContent=f;
+    document.getElementById('vk-formule').innerHTML='p = <b>'+f+'</b> · n';
+    // line origin -> clipped end
+    var xEnd=Math.min(7,36/f), yEnd=f*xEnd;
+    svg.appendChild(el('line',{x1:px(0),y1:py(0),x2:px(xEnd),y2:py(yEnd),stroke:'#7A8B6F','stroke-width':2.5}));
+    svg.appendChild(el('circle',{cx:px(0),cy:py(0),r:3.8,fill:'#C2704E'}));
+    for(var i=1;i<=6;i++){var p=f*i; if(p<=36){svg.appendChild(el('circle',{cx:px(i),cy:py(p),r:3.8,fill:'#C2704E'}));} rows.push([i,p,f]);}
+    document.getElementById('vk-take').textContent='De punten liggen op één rechte door de oorsprong (0, 0). → recht evenredig';
+    document.getElementById('vk-take').className='takeaway';
+  } else {
+    c=parseInt(document.getElementById('sl-oe').value,10);
+    document.getElementById('val-oe').textContent=c;
+    document.getElementById('vk-formule').innerHTML='n · t = <b>'+c+'</b> &nbsp;of&nbsp; t = <b>'+c+'</b> ÷ n';
+    // curve
+    var d='',started=false;
+    for(var x=0.6;x<=7.01;x+=0.1){var y=c/x; if(y<=36){d+=(started?' L ':'M ')+px(x).toFixed(1)+' '+py(y).toFixed(1);started=true;}}
+    svg.appendChild(el('path',{d:d,fill:'none',stroke:'#C2704E','stroke-width':2.5}));
+    for(var j=1;j<=6;j++){var t=c/j; if(t<=36){svg.appendChild(el('circle',{cx:px(j),cy:py(t),r:3.8,fill:'#5E6D53'}));} rows.push([j,t,c]);}
+    document.getElementById('vk-take').textContent='De punten liggen op een kromme, niet op één rechte. → omgekeerd evenredig';
+    document.getElementById('vk-take').className='takeaway oe';
+  }
+
+  // table
+  var tbl=document.getElementById('vk-table');
+  var head=(mode==='re')
+    ? '<tr><th>n</th><th>p</th><th>p ÷ n <span class="const-badge">constant</span></th></tr>'
+    : '<tr><th>n</th><th>t</th><th>n · t <span class="const-badge">constant</span></th></tr>';
+  var body='';
+  rows.forEach(function(r){
+    if(mode==='re'){
+      body+='<tr><td class="var-n">'+r[0]+'</td><td class="var-r">'+fmt(r[1])+'</td><td class="const-col">'+fmt(r[1])+' ÷ '+r[0]+' = '+fmt(r[2])+'</td></tr>';
+    } else {
+      body+='<tr><td class="var-n">'+r[0]+'</td><td class="var-r">'+fmt(r[1])+'</td><td class="const-col oe">'+r[0]+' · '+fmt(r[1])+' = '+fmt(r[2])+'</td></tr>';
+    }
+  });
+  tbl.innerHTML=head+body;
+}
+
+/* ---------- quiz ---------- */
+var quizItems=[
+ {t:"het aantal cd's dat je koopt en de prijs die je betaalt",a:"recht",u:"De prijs per cd ligt vast. Prijs ÷ aantal = altijd hetzelfde (bv. 15 ÷ 3 = 5). Vast quotiënt → recht evenredig."},
+ {t:"het aantal mensen dat meehelpt en de tijd om een klus te klaren",a:"omgekeerd",u:"De klus blijft even groot. Meer mensen → minder tijd. mensen · tijd blijft gelijk. Vast product → omgekeerd evenredig."},
+ {t:"het aantal mensen dat van één brood eet en het stuk dat elk krijgt",a:"omgekeerd",u:"Eén brood verdeeld. Meer eters → kleiner stuk. eters · stuk = heel brood (constant). Omgekeerd evenredig."},
+ {t:"het aantal kilometers dat je rijdt en de hoeveelheid brandstof die je nodig hebt",a:"recht",u:"Het verbruik per km ligt vast. Meer km → evenredig meer brandstof. Vast quotiënt → recht evenredig."},
+ {t:"het aantal verkochte toegangskaarten en de totale opbrengst",a:"recht",u:"Elke kaart kost evenveel. opbrengst ÷ aantal kaarten = prijs per kaart (constant). Recht evenredig."},
+ {t:"het aantal bezoekers van een concert en de inkomsten van de organisatoren",a:"recht",u:"Elke bezoeker betaalt evenveel. inkomsten ÷ bezoekers = ticketprijs (constant). Recht evenredig."},
+ {t:"de snelheid waarmee je rijdt en de tijd om je bestemming te bereiken",a:"omgekeerd",u:"De afstand ligt vast. Sneller → minder tijd. snelheid · tijd = afstand (constant). Omgekeerd evenredig."},
+ {t:"het aantal toeschouwers en de toegangsprijs (inkomgeld) van de wedstrijd",a:"niet",u:"Let op: de toegangsprijs ligt vast, of er nu 10 of 1000 toeschouwers komen. Geen vast quotiënt én geen vast product → niet evenredig. (De tótale inkomsten zijn wél recht evenredig!)"},
+ {t:"het aantal erfgenamen en het deel van de erfenis dat elk krijgt",a:"omgekeerd",u:"De erfenis blijft even groot. Meer erfgenamen → kleiner deel. erfgenamen · deel = erfenis (constant). Omgekeerd evenredig."},
+ {t:"het gewicht van een persoon en zijn schoenmaat",a:"niet",u:"Een zwaardere persoon heeft niet altijd een grotere schoenmaat. Geen vast verband → niet evenredig."},
+ {t:"de oppervlakte van één tegel en het aantal tegels dat nodig is voor het terras",a:"omgekeerd",u:"Het terras blijft even groot. Grotere tegels → minder tegels nodig. oppervlakte · aantal = terras (constant). Omgekeerd evenredig."},
+ {t:"de afmetingen op een plan en de afmetingen in werkelijkheid",a:"recht",u:"De schaal ligt vast. werkelijkheid ÷ plan = schaal (constant). Recht evenredig."},
+ {t:"de tijd die je aan je wiskundetoets besteedt en het aantal punten op 20",a:"niet",u:"Langer bezig zijn geeft niet automatisch evenredig meer of minder punten. Geen vast quotiënt én geen vast product → niet evenredig."},
+ {t:"de loopsnelheid en de hoeveelheid zweet",a:"niet",u:"Sneller lopen geeft meer zweet, maar niet in een vaste verhouding. Geen vast quotiënt én geen vast product → niet evenredig."},
+ {t:"de grootte van het stuk taart per feestvierder en het aantal feestvierders",a:"omgekeerd",u:"Eén taart verdeeld. Meer feestvierders → kleiner stuk. stuk · aantal = hele taart (constant). Omgekeerd evenredig."}
+];
+var labels={recht:'Recht evenredig',omgekeerd:'Omgekeerd evenredig',niet:'Niet evenredig'};
+var order=[],answered=0,correct=0;
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp;}return a;}
+
+function buildQuiz(){
+  order=shuffle(quizItems.map(function(_,i){return i;}));
+  answered=0;correct=0;
+  var box=document.getElementById('quiz');box.innerHTML='';
+  order.forEach(function(idx,pos){
+    var it=quizItems[idx];
+    var q=document.createElement('div');q.className='q';
+    var opts='';['recht','omgekeerd','niet'].forEach(function(key){
+      opts+='<button class="opt" data-key="'+key+'" onclick="answer(this,'+idx+')">'+labels[key]+'</button>';
+    });
+    q.innerHTML='<div class="qnum">Vraag '+(pos+1)+'</div>'+
+                '<div class="qtxt">'+it.t+'</div>'+
+                '<div class="opts">'+opts+'</div>'+
+                '<div class="fb"></div>';
+    box.appendChild(q);
+  });
+  document.getElementById('scorebar').classList.remove('show');
+  document.getElementById('celebrate').classList.remove('show');
+  updateScore();
+}
+function answer(btn,idx){
+  var q=btn.closest('.q');
+  if(q.dataset.done) return;
+  q.dataset.done='1';
+  var it=quizItems[idx];
+  var chosen=btn.getAttribute('data-key');
+  var ok=(chosen===it.a);
+  answered++; if(ok) correct++;
+  q.querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    var k=b.getAttribute('data-key');
+    if(k===it.a) b.classList.add('good');
+    else if(k===chosen) b.classList.add('bad');
+  });
+  var fb=q.querySelector('.fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'✓ Juist! ':'✗ Het juiste antwoord is <b>'+labels[it.a].toLowerCase()+'</b>. ')+it.u;
+  q.classList.add(ok?'pop':'shake');
+  setTimeout(function(){q.classList.remove('pop','shake');},420);
+  document.getElementById('scorebar').classList.add('show');
+  updateScore();
+  if(answered===quizItems.length) celebrate();
+}
+function updateScore(){
+  document.getElementById('score-label').textContent='Score: '+correct+'/'+answered;
+  document.getElementById('pbar-fill').style.width=(answered/quizItems.length*100)+'%';
+}
+function celebrate(){
+  var pct=correct/quizItems.length*100, msg;
+  if(pct===100) msg='🌟 Alles juist — fantastisch!';
+  else if(pct>=80) msg='🎉 Heel goed! Bijna alles juist.';
+  else if(pct>=60) msg='💪 Goed bezig! Bekijk de fouten nog eens.';
+  else msg='📚 Bekijk de theorie nog eens en probeer opnieuw!';
+  var c=document.getElementById('celebrate');c.textContent=msg+'  ('+correct+'/'+quizItems.length+')';c.classList.add('show');
+}
+function resetQuiz(){buildQuiz();window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ---------- oefeningen ---------- */
+function toggleSol(btn){
+  var sol=btn.nextElementSibling;
+  var open=sol.classList.toggle('show');
+  btn.textContent=open?'Verberg oplossing':'Toon oplossing';
+}
+
+/* ---------- print worksheet for herken ---------- */
+function buildPrintHerken(){
+  var head='<tr><th style="text-align:left;">grootheden</th><th>RE</th><th>OE</th><th>NE</th></tr>';
+  var body='';
+  quizItems.forEach(function(it,i){
+    body+='<tr class="pa-row"><td style="text-align:left;">'+(i+1)+') '+it.t+'</td>'+
+          '<td><span class="write-box"></span></td><td><span class="write-box"></span></td><td><span class="write-box"></span></td></tr>';
+  });
+  document.getElementById('print-herken-table').innerHTML=head+body;
+  var ahead='<tr><th style="text-align:left;">grootheden</th><th>antwoord</th></tr>';
+  var abody='';
+  quizItems.forEach(function(it,i){
+    abody+='<tr class="pa-row"><td style="text-align:left;">'+(i+1)+') '+it.t+'</td><td><b>'+labels[it.a]+'</b></td></tr>';
+  });
+  document.getElementById('print-herken-answers-table').innerHTML=ahead+abody;
+}
+
+/* init */
+draw();
+buildQuiz();
+buildPrintHerken();
+</script>
+</body>
+</html>
