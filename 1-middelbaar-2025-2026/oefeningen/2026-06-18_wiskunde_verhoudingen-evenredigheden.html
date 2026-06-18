@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verhoudingen &amp; evenredigheden herkennen — Klaswerkplaats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F2E8; --warm-white:#FFFDF7; --terracotta:#C2704E; --terracotta-light:#D4916F;
+  --ochre:#D4A843; --olive:#7A8B6F; --olive-dark:#5E6D53; --warm-brown:#5C4033;
+  --dark-brown:#3D2B1F; --sand:#E8DCC8; --sand-light:#F0E8D8; --parchment:#F5EDE0;
+  --rust:#B7553D; --sage:#A8B89A; --dusty-rose:#C9A0A0; --sky-blue:#6A9BB5;
+  --vak-color:#7A8B6F; --vak-dark:#5E6D53;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:'Source Sans 3',sans-serif;
+  color:var(--dark-brown);
+  background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);
+  background-attachment:fixed;
+  line-height:1.55; min-height:100vh; padding:18px 14px 60px;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-1; opacity:.04; pointer-events:none;
+  background-image:radial-gradient(circle at 20% 30%, var(--warm-brown) 1px, transparent 1px),
+                   radial-gradient(circle at 70% 60%, var(--olive) 1px, transparent 1px);
+  background-size:46px 46px, 64px 64px;
+}
+.wrap{max-width:860px;margin:0 auto;}
+
+/* breadcrumb */
+.crumbs{font-size:.9rem;color:var(--olive-dark);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.crumbs a{color:var(--olive-dark);text-decoration:none;border-bottom:1px dotted var(--olive);}
+.crumbs a:hover{color:var(--terracotta);}
+.crumbs span.sep{opacity:.5;}
+
+/* header */
+.head{display:flex;gap:16px;align-items:center;margin-bottom:6px;animation:fadeSlideUp .5s ease both;}
+.icon{flex:none;width:62px;height:62px;border-radius:15px;display:grid;place-items:center;font-size:32px;
+  background:linear-gradient(135deg,var(--vak-color),var(--vak-dark));box-shadow:0 6px 16px rgba(94,109,83,.32);}
+.titles h1{font-family:'Vollkorn',Georgia,serif;font-size:1.5rem;font-weight:700;line-height:1.15;color:var(--warm-brown);}
+.titles .date{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--vak-dark);}
+.intro{font-size:.98rem;color:#6b5b4a;margin:10px 2px 18px;animation:fadeSlideUp .6s ease both;}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.tab{font-family:'Source Sans 3',sans-serif;font-size:.92rem;font-weight:500;cursor:pointer;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--olive-dark);
+  padding:9px 15px;border-radius:999px;transition:.18s;}
+.tab:hover{border-color:var(--vak-color);}
+.tab.active{background:linear-gradient(135deg,var(--vak-color),var(--vak-dark));color:var(--warm-white);border-color:var(--vak-dark);box-shadow:0 4px 12px rgba(94,109,83,.28);}
+
+.panel{display:none;animation:fadeSlideUp .4s ease both;}
+.panel.active{display:block;}
+
+/* cards */
+.card{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:18px;
+  padding:20px 20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(92,64,51,.06);}
+.card h2{font-family:'Vollkorn',serif;font-size:1.22rem;color:var(--vak-dark);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.card h3{font-family:'Vollkorn',serif;font-size:1.05rem;color:var(--warm-brown);margin:14px 0 6px;}
+.card p{margin-bottom:8px;font-size:.98rem;}
+.lead{font-size:.93rem;color:#6b5b4a;}
+
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:2px 10px;border-radius:999px;margin-right:6px;}
+.tag.ja{background:#e7eee0;color:var(--olive-dark);}
+.tag.nee{background:#f5e3d3;color:var(--rust);}
+
+/* definition / attention */
+.defbox{background:linear-gradient(135deg,#fbf4dd,#f7ecc9);border:1.5px solid var(--ochre);
+  border-left:6px solid var(--ochre);border-radius:12px;padding:13px 16px;margin:12px 0;}
+.defbox strong{color:var(--warm-brown);}
+.attn{background:#fbeee6;border-left:6px solid var(--terracotta);border-radius:12px;padding:12px 16px;margin:12px 0;font-size:.95rem;}
+.attn b{color:var(--rust);}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;margin:10px 0;}
+table.data{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--warm-white);}
+table.data th,table.data td{border:1px solid var(--sand);padding:8px 10px;text-align:center;}
+table.data th{background:#f0ead9;font-family:'Source Sans 3',sans-serif;font-weight:600;color:var(--olive-dark);font-size:.86rem;}
+table.data td.ask{color:var(--warm-brown);font-weight:600;}
+
+/* formule + kruisproef kleuren */
+.formule{font-family:'Vollkorn',serif;font-size:1.15rem;text-align:center;background:#f3eee0;
+  border-radius:10px;padding:10px;margin:10px 0;color:var(--warm-brown);}
+.formule b{color:var(--terracotta);}
+.t-uit{color:var(--warm-brown);font-weight:700;}
+.t-mid{color:var(--olive-dark);font-weight:700;}
+.t-res{color:var(--terracotta);font-weight:700;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;margin:8px 0 2px;color:#6b5b4a;}
+.legend span{display:inline-flex;align-items:center;gap:5px;}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+/* mocktail mixer */
+.mixer-slider{display:flex;align-items:center;gap:12px;margin:6px 0 16px;flex-wrap:wrap;}
+.mixer-slider label{font-weight:600;font-size:.95rem;color:var(--warm-brown);}
+.mixer-slider input[type=range]{flex:1;min-width:160px;accent-color:var(--vak-color);height:26px;}
+.mixer-slider .pers{font-family:'Vollkorn',serif;font-size:1.3rem;color:var(--terracotta);font-weight:700;min-width:30px;text-align:center;}
+.glasses{display:flex;gap:14px;align-items:flex-end;justify-content:center;height:200px;margin:6px 0 4px;}
+.glass{flex:1 1 0;max-width:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+.glass .bar{width:100%;border-radius:10px 10px 6px 6px;transition:height .35s ease;display:flex;align-items:flex-start;justify-content:center;
+  color:#fff;font-family:'Vollkorn',serif;font-weight:700;font-size:1.05rem;padding-top:6px;min-height:26px;box-shadow:inset 0 -6px 10px rgba(0,0,0,.08);}
+.glass .gl-name{font-size:.8rem;color:#6b5b4a;margin-top:7px;text-align:center;line-height:1.2;}
+.glass .gl-ratio{font-size:.74rem;color:#8a7a68;}
+.bar.veen{background:linear-gradient(180deg,#c96a52,#B7553D);}
+.bar.citr{background:linear-gradient(180deg,#e0bb55,#D4A843);}
+.bar.gren{background:linear-gradient(180deg,#d4adad,#C9A0A0);}
+.mix-total{text-align:center;font-size:.95rem;color:var(--warm-brown);margin:4px 0 2px;}
+.mix-total b{color:var(--terracotta);font-size:1.1rem;}
+.kruis{background:#f4f0e6;border-left:5px solid var(--olive);border-radius:10px;padding:12px 14px;margin-top:12px;}
+.kruis .formule{background:var(--warm-white);}
+.takeaway{margin-top:10px;font-size:.95rem;text-align:center;padding:9px 12px;border-radius:10px;background:#eaf3e0;color:var(--olive-dark);font-weight:600;}
+
+/* quiz */
+.q{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:16px 18px;margin-bottom:14px;}
+.q .qnum{font-family:'Caveat',cursive;font-size:1.2rem;color:var(--vak-dark);}
+.q .qtxt{font-family:'Vollkorn',serif;font-size:1.05rem;color:var(--warm-brown);margin:4px 0 12px;}
+.q .qtxt .frac{display:inline-block;text-align:center;vertical-align:middle;margin:0 3px;}
+.q .qtxt .frac b{display:block;border-bottom:2px solid var(--warm-brown);padding:0 4px;line-height:1.25;}
+.q .qtxt .frac i{display:block;font-style:normal;padding:0 4px;line-height:1.25;}
+.opts{display:flex;gap:8px;flex-wrap:wrap;}
+.opt{cursor:pointer;border:1.5px solid var(--sand);background:var(--cream);border-radius:999px;
+  padding:8px 16px;font-size:.95rem;font-weight:500;color:var(--olive-dark);transition:.15s;}
+.opt:hover{border-color:var(--vak-color);}
+.opt:disabled{cursor:default;}
+.opt.good{background:#dff0d2;border-color:var(--olive);color:var(--olive-dark);}
+.opt.bad{background:#f7ddd2;border-color:var(--rust);color:var(--rust);}
+.fb{margin-top:11px;font-size:.93rem;border-radius:10px;padding:10px 12px;display:none;}
+.fb.show{display:block;animation:fadeSlideUp .25s ease both;}
+.fb.ok{background:#e7f1dc;color:var(--olive-dark);}
+.fb.no{background:#fbeae0;color:var(--rust);}
+.pop{animation:pop .35s ease;}
+.shake{animation:shake .4s;}
+
+/* score */
+.scorebar{display:none;position:sticky;top:8px;z-index:5;background:var(--warm-white);border:1.5px solid var(--sand);
+  border-radius:14px;padding:12px 16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(92,64,51,.08);}
+.scorebar.show{display:block;}
+.scorebar .stxt{display:flex;justify-content:space-between;align-items:center;font-weight:600;color:var(--vak-dark);margin-bottom:7px;}
+.pbar{height:9px;background:var(--sand);border-radius:999px;overflow:hidden;}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--terracotta),var(--ochre));transition:width .4s;}
+.btn-reset{font-family:'Source Sans 3',sans-serif;font-size:.85rem;cursor:pointer;border:none;background:none;color:var(--olive-dark);border-bottom:1px dotted var(--olive);}
+.celebrate{display:none;text-align:center;font-family:'Vollkorn',serif;font-size:1.1rem;padding:14px;border-radius:14px;margin-bottom:16px;background:linear-gradient(135deg,#fbf4dd,#f3e6c8);border:1.5px solid var(--ochre);}
+.celebrate.show{display:block;animation:pop .4s ease both;}
+
+/* oefeningen */
+.oef h3{font-family:'Vollkorn',serif;color:var(--vak-dark);font-size:1.08rem;margin-bottom:4px;}
+.oef .ctx{font-size:.95rem;margin-bottom:8px;}
+.oef .frac{display:inline-block;text-align:center;vertical-align:middle;margin:0 2px;}
+.oef .frac b{display:block;border-bottom:2px solid var(--warm-brown);padding:0 5px;line-height:1.25;font-weight:600;}
+.oef .frac i{display:block;font-style:normal;padding:0 5px;line-height:1.25;}
+.blanks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
+.blanks .item{font-size:1rem;}
+.write-inline{display:inline-block;border-bottom:1.5px solid #bbb;min-width:54px;height:1.25em;vertical-align:bottom;}
+.show-sol{font-family:'Source Sans 3',sans-serif;font-size:.9rem;cursor:pointer;border:1.5px solid var(--vak-color);
+  background:var(--warm-white);color:var(--vak-dark);padding:7px 15px;border-radius:999px;transition:.15s;margin-top:6px;}
+.show-sol:hover{background:#eef2e9;}
+.solution{display:none;margin-top:12px;background:#f4f0e6;border-left:5px solid var(--olive);border-radius:10px;padding:12px 14px;}
+.solution.show{display:block;animation:fadeSlideUp .25s ease both;}
+.solution .formule{background:var(--warm-white);}
+.match-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin:8px 0;}
+.match-cell{border:1.5px solid var(--sand);border-radius:10px;padding:8px 4px;text-align:center;background:var(--warm-white);font-size:.95rem;}
+
+/* action buttons */
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+.act{font-family:'Source Sans 3',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;text-decoration:none;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--olive-dark);padding:10px 18px;border-radius:999px;transition:.18s;display:inline-flex;align-items:center;gap:7px;}
+.act:hover{border-color:var(--vak-color);background:#f3f5f0;}
+
+/* print-only blocks hidden on screen */
+.print-only{display:none;}
+.write-line{border-bottom:1.5px solid #bbb;min-height:1.4em;display:block;}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.06);}100%{transform:scale(1);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
+
+/* responsive */
+@media(max-width:600px){
+  .wrap{padding:0;}
+  .titles h1{font-size:1.2rem;}
+  .icon{width:52px;height:52px;font-size:26px;}
+  .card{padding:15px 14px;}
+  table.data th,table.data td{padding:6px 6px;font-size:.86rem;}
+  .formule{font-size:1.02rem;}
+  .glasses{gap:8px;height:170px;}
+  .glass .bar{font-size:.92rem;}
+}
+
+/* PRINT */
+@media print{
+  .no-print{display:none !important;}
+  body{background:white !important;font-size:11pt;color:#000;padding:0;}
+  body::before{display:none;}
+  .wrap{max-width:100%;}
+  .panel{display:block !important;animation:none !important;}
+  .panel.print-hide{display:none !important;}
+  .print-only{display:block !important;}
+  .card,.q,.solution{box-shadow:none !important;border-color:#ccc !important;background:#fff !important;}
+  .icon{display:none !important;}
+  .scorebar,.celebrate,.tabs,.actions,.show-sol,.takeaway{display:none !important;}
+  .solution{display:none !important;}
+  td.ask{color:transparent !important;}
+  h1,h2,h3{color:#000 !important;}
+  .print-head{display:block !important;font-family:'Vollkorn',serif;font-size:1.15rem;border-bottom:2px solid #000;margin:18px 0 8px;padding-bottom:3px;}
+  .print-answers{page-break-before:always;}
+  .pa-row{break-inside:avoid;}
+  a[href]:after{content:"";}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- breadcrumb -->
+  <nav class="crumbs no-print">
+    <a href="../../index.html">🌱 Klaswerkplaats</a><span class="sep">›</span>
+    <a href="../index.html">1e Middelbaar</a><span class="sep">›</span>
+    <span>Verhoudingen &amp; evenredigheden</span>
+  </nav>
+
+  <!-- header -->
+  <header class="head">
+    <div class="icon">📐</div>
+    <div class="titles">
+      <h1>Verhoudingen &amp; evenredigheden herkennen</h1>
+      <div class="date">Hoofdstuk evenredigheden · Reeks A &amp; B</div>
+    </div>
+  </header>
+  <p class="intro no-print">Een <b>verhouding</b> vergelijkt twee getallen (de breuk a/b). Een <b>evenredigheid</b> is een
+  gelijkheid van twee verhoudingen: a/b = c/d. Hier oefen je <b>verhoudingen opstellen</b> en
+  <b>herkennen wanneer twee verhoudingen een evenredigheid vormen</b> met de kruisproef.</p>
+
+  <!-- tabs -->
+  <div class="tabs no-print" role="tablist">
+    <button class="tab active" data-panel="theorie">📚 Theorie</button>
+    <button class="tab" data-panel="verkenner">🔬 Mocktail-mixer</button>
+    <button class="tab" data-panel="herken">🧩 Herken &amp; check</button>
+    <button class="tab" data-panel="oefenen">✏️ Oefeningen</button>
+  </div>
+
+  <!-- ================= THEORIE ================= -->
+  <section class="panel active" id="theorie">
+    <h2 class="print-head" style="display:none;">📚 Theorie</h2>
+
+    <div class="card">
+      <h2>🍹 Een verhouding: de mocktail</h2>
+      <p class="lead">We maken een mocktail. De verhouding van <b>veenbessensap : citroensap : grenadine</b> is
+      <b>3 : 2 : 6</b> (samen 11 delen). Voor meer personen neem je van álles evenveel keer meer — de verhouding blijft gelijk.</p>
+      <div class="tbl-scroll">
+        <table class="data">
+          <tr><th>aantal personen</th><th>1</th><th>4</th><th>verhouding</th></tr>
+          <tr><td>veenbessensap</td><td>3</td><td>12</td><td>3/11</td></tr>
+          <tr><td>citroensap</td><td>2</td><td>8</td><td>2/11</td></tr>
+          <tr><td>grenadine</td><td>6</td><td>24</td><td>6/11</td></tr>
+          <tr><td>totale hoeveelheid</td><td>11</td><td>44</td><td>11/11</td></tr>
+        </table>
+      </div>
+      <p>Kijk naar veenbessensap: bij 1 persoon is dat <b>3 van de 11</b> delen, bij 4 personen <b>12 van de 44</b>.
+      Dat zijn dezelfde verhoudingen: 3/11 = 12/44. Zo'n gelijkheid van twee verhoudingen heet een <b>evenredigheid</b>.</p>
+      <div class="defbox"><strong>Verhouding</strong> = de breuk die twee getallen vergelijkt (a/b).
+      <br><strong>Evenredigheid</strong> = een gelijkheid van twee verhoudingen: a/b = c/d.</div>
+    </div>
+
+    <div class="card">
+      <h2>✖️ De kruisproef: is het een evenredigheid?</h2>
+      <p class="lead">Wil je weten of twee verhoudingen <b>écht</b> gelijk zijn? Gebruik de
+      <b>hoofdeigenschap</b>: in een evenredigheid is het product van de <span class="t-uit">uiterste termen</span>
+      gelijk aan het product van de <span class="t-mid">middelste termen</span>.</p>
+      <div class="formule"><span class="t-uit">a</span>/<span class="t-mid">b</span> =
+      <span class="t-mid">c</span>/<span class="t-uit">d</span> &nbsp;→&nbsp;
+      <span class="t-uit">a</span> · <span class="t-uit">d</span> = <span class="t-mid">b</span> · <span class="t-mid">c</span></div>
+      <div class="legend">
+        <span><i class="dot" style="background:#5C4033;"></i> uiterste termen (buitenste)</span>
+        <span><i class="dot" style="background:#7A8B6F;"></i> middelste termen (binnenste)</span>
+      </div>
+      <h3>Voorbeeld — wél een evenredigheid</h3>
+      <p>Is 15/18 = 20/24? Kruisproef: <span class="t-uit">15</span> · <span class="t-uit">24</span> = <b class="t-res">360</b>
+      en <span class="t-mid">18</span> · <span class="t-mid">20</span> = <b class="t-res">360</b>. Gelijk → <span class="tag ja">evenredigheid</span></p>
+      <h3>Voorbeeld — géén evenredigheid</h3>
+      <p>Is 2/5 = 3/4? Kruisproef: <span class="t-uit">2</span> · <span class="t-uit">4</span> = <b class="t-res">8</b>
+      en <span class="t-mid">5</span> · <span class="t-mid">3</span> = <b class="t-res">15</b>. Niet gelijk → <span class="tag nee">geen evenredigheid</span></p>
+    </div>
+
+    <div class="card">
+      <h2>📏 Een verhouding opstellen uit een situatie</h2>
+      <p class="lead">Soms moet je zelf de verhouding maken. Drie stappen:</p>
+      <p>1️⃣ Wat vergelijk je waarmee? &nbsp; 2️⃣ Zet alles in <b>dezelfde eenheid</b>. &nbsp; 3️⃣ Vereenvoudig de breuk.</p>
+      <h3>Voorbeeld</h3>
+      <p>Een kwartier ten opzichte van een volledig uur. Eerst gelijke eenheid: een kwartier = 15 min, een uur = 60 min.
+      Dus de verhouding is 15/60 = <b>1/4</b>.</p>
+      <div class="attn"><b>Valkuil!</b> Eerst dezelfde eenheid, dán pas de breuk. "Een kwartier op een uur" is niet 1/1 maar
+      15 min op 60 min = 1/4. Hetzelfde bij gram en kilogram: zet de kilogram eerst om naar gram.</div>
+    </div>
+  </section>
+
+  <!-- ================= MOCKTAIL-MIXER ================= -->
+  <section class="panel print-hide" id="verkenner">
+    <div class="card">
+      <h2>🔬 Mocktail-mixer</h2>
+      <p class="lead">Schuif het aantal personen. De hoeveelheden veranderen, maar de <b>verhouding 3 : 2 : 6 blijft gelijk</b> —
+      en daarom vormen de oude en de nieuwe verhouding telkens een evenredigheid. Onderaan zie je de kruisproef.</p>
+
+      <div class="mixer-slider">
+        <label for="sl-pers">Aantal personen:</label>
+        <input type="range" id="sl-pers" min="1" max="10" step="1" value="4" oninput="mix()">
+        <span class="pers" id="pers-val">4</span>
+      </div>
+
+      <div class="glasses" id="glasses"></div>
+      <div class="mix-total" id="mix-total"></div>
+
+      <div class="kruis">
+        <p style="font-size:.92rem;margin-bottom:4px;">Blijft de verhouding veenbessensap : totaal gelijk? Vergelijk 1 persoon met
+        <span id="kp-pers">4</span> personen:</p>
+        <div class="formule" id="kp-formule"></div>
+        <div class="formule" id="kp-check"></div>
+      </div>
+      <div class="takeaway" id="mix-take"></div>
+    </div>
+  </section>
+
+  <!-- ================= HERKEN (quiz) ================= -->
+  <section class="panel print-hide" id="herken">
+    <div class="scorebar no-print" id="scorebar">
+      <div class="stxt"><span id="score-label">Score: 0/0</span><button class="btn-reset" onclick="resetQuiz()">🔄 Opnieuw</button></div>
+      <div class="pbar"><i id="pbar-fill"></i></div>
+    </div>
+    <div class="celebrate" id="celebrate"></div>
+    <div class="card">
+      <h2>🧩 Herken &amp; check</h2>
+      <p class="lead">Twee soorten vragen: <b>vormen deze twee verhoudingen een evenredigheid?</b> (gebruik de kruisproef)
+      en <b>welke verhouding hoort bij deze situatie?</b></p>
+    </div>
+    <div id="quiz"></div>
+  </section>
+
+  <!-- ================= OEFENEN ================= -->
+  <section class="panel" id="oefenen">
+    <h2 class="print-head" style="display:none;">✏️ Oefeningen</h2>
+    <div class="card oef">
+      <p class="lead no-print">Maak de oefeningen en klik op <b>Toon oplossing</b> om te controleren.</p>
+
+      <!-- OEF 3 -->
+      <div style="margin-top:6px;">
+        <h3>3) Schrijf als een evenredigheid</h3>
+        <p class="ctx">a) 3 verhoudt zich tot 8 zoals 9 zich verhoudt tot 24. &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">b) 5 staat tot 6 zoals 30 tot 36. &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">c) 2 en 6 verhouden zich zoals 8 en 24. &nbsp; <span class="write-inline"></span></p>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>a) <span class="frac"><b>3</b><i>8</i></span> = <span class="frac"><b>9</b><i>24</i></span> &nbsp;(3·24 = 72 = 8·9)</p>
+          <p>b) <span class="frac"><b>5</b><i>6</i></span> = <span class="frac"><b>30</b><i>36</i></span> &nbsp;(5·36 = 180 = 6·30)</p>
+          <p>c) <span class="frac"><b>2</b><i>6</i></span> = <span class="frac"><b>8</b><i>24</i></span> &nbsp;(2·24 = 48 = 6·8)</p>
+        </div>
+      </div>
+
+      <!-- OEF 4 -->
+      <div style="margin-top:18px;">
+        <h3>4) Wat is de verhouding van …</h3>
+        <p class="ctx">a) een kwartier ten opzichte van een volledig uur? &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">b) het aantal doelmannen van een voetbalploeg ten opzichte van het totale aantal voetballers? &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">c) een week in de maand april tot het aantal dagen van die maand? &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">d) het aantal lesuren wiskunde tot het totale aantal lesuren per week? &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">e) 250 gram suiker ten opzichte van één kilogram suiker? &nbsp; <span class="write-inline"></span></p>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>a) 15 min op 60 min = <span class="frac"><b>15</b><i>60</i></span> = <b class="t-res">1/4</b></p>
+          <p>b) 1 doelman op 11 spelers = <b class="t-res">1/11</b></p>
+          <p>c) 7 dagen op 30 dagen (april heeft 30 dagen) = <b class="t-res">7/30</b></p>
+          <p>d) 5 lesuren wiskunde op 33 lesuren = <b class="t-res">5/33</b> <span style="color:#8a7a68;font-size:.85rem;">(hangt af van het lesrooster)</span></p>
+          <p>e) 250 g op 1000 g = <span class="frac"><b>250</b><i>1000</i></span> = <b class="t-res">1/4</b></p>
+        </div>
+      </div>
+
+      <!-- OEF 5 -->
+      <div style="margin-top:18px;">
+        <h3>5) Welke verhoudingen vormen samen een evenredigheid?</h3>
+        <p class="ctx">Zoek de paren die gelijk zijn (gebruik de kruisproef of vereenvoudig).</p>
+        <div class="match-grid">
+          <div class="match-cell">15/18</div><div class="match-cell">2/5</div><div class="match-cell">5/10</div>
+          <div class="match-cell">6/8</div><div class="match-cell">20/24</div><div class="match-cell">8/10</div>
+          <div class="match-cell">3/4</div><div class="match-cell">20/25</div><div class="match-cell">6/15</div>
+          <div class="match-cell">3/2</div><div class="match-cell">1/2</div><div class="match-cell">24/16</div>
+        </div>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>Zes paren (met hun vereenvoudigde waarde):</p>
+          <p>• 15/18 = 20/24 &nbsp;(= 5/6)<br>
+          • 2/5 = 6/15 &nbsp;(= 2/5)<br>
+          • 5/10 = 1/2 &nbsp;(= 1/2)<br>
+          • 6/8 = 3/4 &nbsp;(= 3/4)<br>
+          • 8/10 = 20/25 &nbsp;(= 4/5)<br>
+          • 3/2 = 24/16 &nbsp;(= 3/2)</p>
+        </div>
+      </div>
+
+      <!-- OEF 6 -->
+      <div style="margin-top:18px;">
+        <h3>6) Vul aan</h3>
+        <p class="ctx">a) In <span class="frac"><b>1</b><i>3</i></span> = <span class="frac"><b>4</b><i>12</i></span> is 3 de … term. &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">b) In <span class="frac"><b>2</b><i>7</i></span> = <span class="frac"><b>6</b><i>21</i></span> zijn 7 en 6 de … termen. &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">c) In <span class="frac"><b>12</b><i>15</i></span> = <span class="frac"><b>16</b><i>20</i></span> zijn 12 en 20 de … termen. &nbsp; <span class="write-inline"></span></p>
+        <p class="ctx">d) In <span class="frac"><b>27</b><i>36</i></span> = <span class="frac"><b>12</b><i>16</i></span> is 16 de … term. &nbsp; <span class="write-inline"></span></p>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>a) 3 is de <b>2de</b> term.</p>
+          <p>b) 7 en 6 zijn de <b>2de en 3de</b> termen (de <span class="t-mid">middelste termen</span>).</p>
+          <p>c) 12 en 20 zijn de <b>1ste en 4de</b> termen (de <span class="t-uit">uiterste termen</span>).</p>
+          <p>d) 16 is de <b>4de</b> term.</p>
+        </div>
+      </div>
+
+      <!-- OEF 7 -->
+      <div style="margin-top:18px;">
+        <h3>7) Zoek de ontbrekende teller of noemer</h3>
+        <p class="ctx">a) <span class="frac"><b>3</b><i>4</i></span> = <span class="frac"><b>12</b><i>?</i></span> &nbsp;
+        b) <span class="frac"><b>1</b><i>5</i></span> = <span class="frac"><b>20</b><i>?</i></span> &nbsp;
+        c) <span class="frac"><b>-9</b><i>36</i></span> = <span class="frac"><b>?</b><i>-72</i></span> &nbsp;
+        d) <span class="frac"><b>15</b><i>-27</i></span> = <span class="frac"><b>?</b><i>-54</i></span></p>
+        <p class="ctx">e) <span class="frac"><b>?</b><i>8</i></span> = <span class="frac"><b>15</b><i>12</i></span> &nbsp;
+        f) <span class="frac"><b>12</b><i>?</i></span> = <span class="frac"><b>48</b><i>64</i></span> &nbsp;
+        g) <span class="frac"><b>?</b><i>9</i></span> = <span class="frac"><b>22</b><i>33</i></span> &nbsp;
+        h) <span class="frac"><b>-10</b><i>?</i></span> = <span class="frac"><b>25</b><i>30</i></span></p>
+        <button class="show-sol no-print" onclick="toggleSol(this)">Toon oplossing</button>
+        <div class="solution">
+          <p>a) noemer = <b class="t-res">16</b> &nbsp;(3·? = 4·12 → ? = 48÷3)</p>
+          <p>b) noemer = <b class="t-res">100</b> &nbsp;(1·? = 5·20)</p>
+          <p>c) teller = <b class="t-res">18</b> &nbsp;(-9·-72 = 36·? → ? = 648÷36)</p>
+          <p>d) teller = <b class="t-res">30</b> &nbsp;(15·-54 = -27·? → ? = -810÷-27)</p>
+          <p>e) teller = <b class="t-res">10</b> &nbsp;(?·12 = 8·15 → ? = 120÷12)</p>
+          <p>f) noemer = <b class="t-res">16</b> &nbsp;(12·64 = ?·48 → ? = 768÷48)</p>
+          <p>g) teller = <b class="t-res">6</b> &nbsp;(?·33 = 9·22 → ? = 198÷33)</p>
+          <p>h) noemer = <b class="t-res">-12</b> &nbsp;(-10·30 = ?·25 → ? = -300÷25)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- action buttons -->
+  <div class="actions no-print">
+    <button class="act" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="act" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+  <!-- ===== PRINT ANSWERS ===== -->
+  <div class="print-only print-answers" id="print-answers">
+    <h2 class="print-head">Oplossingen — Oefeningen</h2>
+    <p><b>3)</b> a) 3/8 = 9/24 &nbsp; b) 5/6 = 30/36 &nbsp; c) 2/6 = 8/24</p>
+    <p><b>4)</b> a) 15/60 = 1/4 &nbsp; b) 1/11 &nbsp; c) 7/30 &nbsp; d) 5/33 (rooster-afhankelijk) &nbsp; e) 250/1000 = 1/4</p>
+    <p><b>5)</b> 15/18 = 20/24 &nbsp;|&nbsp; 2/5 = 6/15 &nbsp;|&nbsp; 5/10 = 1/2 &nbsp;|&nbsp; 6/8 = 3/4 &nbsp;|&nbsp; 8/10 = 20/25 &nbsp;|&nbsp; 3/2 = 24/16</p>
+    <p><b>6)</b> a) 2de term &nbsp; b) 2de en 3de (middelste) termen &nbsp; c) 1ste en 4de (uiterste) termen &nbsp; d) 4de term</p>
+    <p><b>7)</b> a) 16 &nbsp; b) 100 &nbsp; c) 18 &nbsp; d) 30 &nbsp; e) 10 &nbsp; f) 16 &nbsp; g) 6 &nbsp; h) -12</p>
+  </div>
+
+</div>
+
+<script>
+/* ---------- tabs ---------- */
+var tabs=document.querySelectorAll('.tab');
+var panels=document.querySelectorAll('.panel');
+tabs.forEach(function(t){
+  t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.classList.remove('active');});
+    t.classList.add('active');
+    var id=t.getAttribute('data-panel');
+    panels.forEach(function(p){p.classList.toggle('active',p.id===id);});
+  });
+});
+
+/* ---------- mocktail mixer ---------- */
+var ING=[
+  {key:'veen',name:'veenbessensap',ratio:3,cls:'veen'},
+  {key:'citr',name:'citroensap',ratio:2,cls:'citr'},
+  {key:'gren',name:'grenadine',ratio:6,cls:'gren'}
+];
+var MAXVAL=60; // grenadine bij 10 personen
+function mix(){
+  var n=parseInt(document.getElementById('sl-pers').value,10);
+  document.getElementById('pers-val').textContent=n;
+  document.getElementById('kp-pers').textContent=n;
+  var g=document.getElementById('glasses'); g.innerHTML='';
+  ING.forEach(function(it){
+    var val=it.ratio*n;
+    var h=Math.max(8,Math.round(val/MAXVAL*100));
+    var col=document.createElement('div'); col.className='glass';
+    col.innerHTML='<div class="bar '+it.cls+'" style="height:'+h+'%;">'+val+'</div>'+
+      '<div class="gl-name">'+it.name+'</div><div class="gl-ratio">'+it.ratio+' delen</div>';
+    g.appendChild(col);
+  });
+  var tot=11*n;
+  document.getElementById('mix-total').innerHTML='Totale hoeveelheid: <b>'+tot+'</b> delen &nbsp;·&nbsp; verhouding blijft <b>3 : 2 : 6</b>';
+  // kruisproef veenbessensap/totaal: 3/11 = 3n/11n
+  var t3=3*n, t11=11*n, prod=3*t11;
+  document.getElementById('kp-formule').innerHTML=
+    '<span class="t-uit">3</span>/<span class="t-mid">11</span> = '+
+    '<span class="t-mid">'+t3+'</span>/<span class="t-uit">'+t11+'</span>';
+  document.getElementById('kp-check').innerHTML=
+    '<span class="t-uit">3</span> · <span class="t-uit">'+t11+'</span> = <b class="t-res">'+prod+'</b>'+
+    ' &nbsp;en&nbsp; <span class="t-mid">11</span> · <span class="t-mid">'+t3+'</span> = <b class="t-res">'+prod+'</b>';
+  document.getElementById('mix-take').textContent=
+    (n===1)
+      ? 'Bij 1 persoon is de basisverhouding 3 : 2 : 6 (samen 11). Schuif naar rechts!'
+      : 'De kruisproducten zijn gelijk ('+prod+' = '+prod+') → 3/11 = '+t3+'/'+t11+' is een evenredigheid.';
+}
+
+/* ---------- quiz ---------- */
+function frac(a,b){return '<span class="frac"><b>'+a+'</b><i>'+b+'</i></span>';}
+var EV_OPTS=['Ja, evenredigheid','Nee, geen evenredigheid'];
+var quizItems=[
+  {type:'ev',f1:[15,18],f2:[20,24]},
+  {type:'ev',f1:[6,8],f2:[3,4]},
+  {type:'ev',f1:[8,10],f2:[20,25]},
+  {type:'ev',f1:[3,2],f2:[24,16]},
+  {type:'ev',f1:[2,5],f2:[3,4]},
+  {type:'ev',f1:[6,15],f2:[3,4]},
+  {type:'ev',f1:[20,24],f2:[6,8]},
+  {type:'ev',f1:[5,10],f2:[2,5]},
+  {type:'mc',t:'Wat is de verhouding van een kwartier ten opzichte van een volledig uur?',
+   opts:['1/4','1/15','4/1','15/1'],a:0,u:'Eerst dezelfde eenheid: 15 min op 60 min = 15/60 = 1/4.'},
+  {type:'mc',t:'Wat is de verhouding van 250 gram suiker ten opzichte van één kilogram suiker?',
+   opts:['1/250','1/40','1/4','250/1'],a:2,u:'1 kg = 1000 g. Dus 250/1000 = 1/4.'},
+  {type:'mc',t:'Wat is de verhouding van één week ten opzichte van de maand april?',
+   opts:['1/7','7/31','7/30','1/4'],a:2,u:'Een week = 7 dagen, april heeft 30 dagen. Dus 7/30.'},
+  {type:'mc',t:'Wat is de verhouding van het aantal doelmannen tot het totale aantal spelers van een voetbalploeg?',
+   opts:['1/11','2/11','1/10','11/1'],a:0,u:'Een ploeg op het veld telt 11 spelers, met 1 doelman. Dus 1/11.'}
+];
+var order=[],answered=0,correct=0;
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp;}return a;}
+
+function itemData(it){
+  if(it.type==='ev'){
+    var a=it.f1[0],b=it.f1[1],c=it.f2[0],d=it.f2[1];
+    var ad=a*d, bc=b*c, even=(ad===bc);
+    var q='Vormen '+frac(a,b)+' en '+frac(c,d)+' samen een evenredigheid?';
+    var u='Kruisproef: '+a+'·'+d+' = '+ad+' en '+b+'·'+c+' = '+bc+'. '+
+          (even?('Gelijk ('+ad+' = '+bc+') → het is een evenredigheid.')
+               :('Niet gelijk ('+ad+' ≠ '+bc+') → geen evenredigheid.'));
+    return {q:q,opts:EV_OPTS,correct:(even?0:1),u:u};
+  } else {
+    return {q:it.t,opts:it.opts,correct:it.a,u:it.u};
+  }
+}
+
+function buildQuiz(){
+  order=shuffle(quizItems.map(function(_,i){return i;}));
+  answered=0;correct=0;
+  var box=document.getElementById('quiz');box.innerHTML='';
+  order.forEach(function(idx,pos){
+    var d=itemData(quizItems[idx]);
+    var q=document.createElement('div');q.className='q';
+    var opts='';
+    d.opts.forEach(function(label,oi){
+      opts+='<button class="opt" data-oi="'+oi+'" onclick="answer(this,'+idx+','+oi+')">'+label+'</button>';
+    });
+    q.innerHTML='<div class="qnum">Vraag '+(pos+1)+'</div>'+
+                '<div class="qtxt">'+d.q+'</div>'+
+                '<div class="opts">'+opts+'</div>'+
+                '<div class="fb"></div>';
+    box.appendChild(q);
+  });
+  document.getElementById('scorebar').classList.remove('show');
+  document.getElementById('celebrate').classList.remove('show');
+  updateScore();
+}
+function answer(btn,idx,oi){
+  var q=btn.closest('.q');
+  if(q.dataset.done) return;
+  q.dataset.done='1';
+  var d=itemData(quizItems[idx]);
+  var ok=(oi===d.correct);
+  answered++; if(ok) correct++;
+  q.querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    var k=parseInt(b.getAttribute('data-oi'),10);
+    if(k===d.correct) b.classList.add('good');
+    else if(k===oi) b.classList.add('bad');
+  });
+  var fb=q.querySelector('.fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'✓ Juist! ':'✗ Niet juist. ')+d.u;
+  q.classList.add(ok?'pop':'shake');
+  setTimeout(function(){q.classList.remove('pop','shake');},420);
+  document.getElementById('scorebar').classList.add('show');
+  updateScore();
+  if(answered===quizItems.length) celebrate();
+}
+function updateScore(){
+  document.getElementById('score-label').textContent='Score: '+correct+'/'+answered;
+  document.getElementById('pbar-fill').style.width=(answered/quizItems.length*100)+'%';
+}
+function celebrate(){
+  var pct=correct/quizItems.length*100, msg;
+  if(pct===100) msg='🌟 Alles juist — fantastisch!';
+  else if(pct>=80) msg='🎉 Heel goed! Bijna alles juist.';
+  else if(pct>=60) msg='💪 Goed bezig! Bekijk de fouten nog eens.';
+  else msg='📚 Bekijk de theorie nog eens en probeer opnieuw!';
+  var c=document.getElementById('celebrate');c.textContent=msg+'  ('+correct+'/'+quizItems.length+')';c.classList.add('show');
+}
+function resetQuiz(){buildQuiz();window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ---------- oefeningen ---------- */
+function toggleSol(btn){
+  var sol=btn.nextElementSibling;
+  var open=sol.classList.toggle('show');
+  btn.textContent=open?'Verberg oplossing':'Toon oplossing';
+}
+
+/* init */
+mix();
+buildQuiz();
+</script>
+</body>
+</html>
