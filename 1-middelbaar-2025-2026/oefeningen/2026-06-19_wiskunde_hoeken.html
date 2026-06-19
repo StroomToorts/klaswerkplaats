@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoeken — 1e Middelbaar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F2E8; --warm-white:#FFFDF7; --terracotta:#C2704E; --terracotta-light:#D4916F;
+  --ochre:#D4A843; --olive:#7A8B6F; --olive-dark:#5E6D53; --warm-brown:#5C4033; --dark-brown:#3D2B1F;
+  --sand:#E8DCC8; --sand-light:#F0E8D8; --parchment:#F5EDE0; --rust:#B7553D; --sage:#A8B89A;
+  --dusty-rose:#C9A0A0; --sky-blue:#6A9BB5;
+  --vak-color:#7A8B6F; --vak-dark:#5E6D53;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Vollkorn',Georgia,serif;
+  color:var(--dark-brown);
+  line-height:1.6;
+  background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);
+  min-height:100vh;
+  padding:24px 16px 60px;
+  position:relative;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04;
+  background-image:radial-gradient(circle at 20% 30%,var(--warm-brown) 1px,transparent 1px),
+                   radial-gradient(circle at 70% 60%,var(--olive) 1px,transparent 1px);
+  background-size:90px 90px,120px 120px;
+}
+.wrap{max-width:860px;margin:0 auto;position:relative;z-index:1}
+
+/* Breadcrumb */
+.breadcrumb{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--olive-dark);margin-bottom:18px}
+.breadcrumb a{color:var(--olive-dark);text-decoration:none;opacity:.85}
+.breadcrumb a:hover{opacity:1;text-decoration:underline}
+.breadcrumb span{opacity:.55;margin:0 4px}
+
+/* Header */
+.head{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+.head .icon{
+  flex:none;width:58px;height:58px;border-radius:15px;
+  background:linear-gradient(145deg,var(--vak-color),var(--vak-dark));
+  display:flex;align-items:center;justify-content:center;font-size:30px;
+  box-shadow:0 6px 16px rgba(94,109,83,.28);
+}
+.head h1{font-family:'Vollkorn',serif;font-weight:700;font-size:27px;line-height:1.15;color:var(--dark-brown)}
+.head .date{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-dark);margin-top:2px}
+.intro{font-family:'Source Sans 3',sans-serif;font-size:15px;color:#6b5a48;margin:10px 2px 22px;max-width:680px}
+
+/* Tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tab{
+  font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;
+  padding:9px 16px;border-radius:22px;border:1.5px solid var(--sand);
+  background:var(--warm-white);color:var(--olive-dark);cursor:pointer;transition:all .18s;
+}
+.tab:hover{border-color:var(--vak-color)}
+.tab.active{background:linear-gradient(145deg,var(--vak-color),var(--vak-dark));color:var(--cream);border-color:var(--vak-dark);box-shadow:0 4px 12px rgba(94,109,83,.25)}
+
+.tab-content{display:none;animation:fadeSlideUp .4s ease}
+.tab-content.active{display:block}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{
+  background:var(--warm-white);border:1.5px solid var(--sand);border-radius:18px;
+  padding:22px 24px;margin-bottom:18px;box-shadow:0 4px 14px rgba(92,64,51,.06);
+}
+.card h2{font-family:'Caveat',cursive;font-size:30px;color:var(--vak-dark);margin-bottom:8px;line-height:1.1}
+.card h3{font-family:'Vollkorn',serif;font-weight:700;font-size:19px;color:var(--warm-brown);margin:18px 0 8px}
+.card p{margin-bottom:10px}
+.card p:last-child{margin-bottom:0}
+.lead{font-family:'Source Sans 3',sans-serif;font-size:15px;color:#6b5a48}
+
+.attention{
+  background:var(--sand-light);border-left:4px solid var(--ochre);border-radius:0 12px 12px 0;
+  padding:12px 16px;margin:14px 0;font-size:15.5px;
+}
+.attention strong{color:var(--rust)}
+
+/* Soorten hoeken — grid van mini-figuren */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-top:8px}
+.type-cell{
+  background:var(--parchment);border:1.5px solid var(--sand);border-radius:14px;padding:12px;text-align:center;
+}
+.type-cell svg{display:block;margin:0 auto 6px}
+.type-cell .nm{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:15px;color:var(--vak-dark)}
+.type-cell .rng{font-family:'Source Sans 3',sans-serif;font-size:13px;color:#7a6a58;margin-top:2px}
+
+/* Hoekenparen */
+.pair-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:8px}
+.pair-cell{background:var(--parchment);border:1.5px solid var(--sand);border-radius:14px;padding:14px;text-align:center}
+.pair-cell svg{display:block;margin:0 auto 8px}
+.pair-cell .nm{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:16px;color:var(--vak-dark)}
+.pair-cell .ds{font-family:'Source Sans 3',sans-serif;font-size:13.5px;color:#6b5a48;margin-top:4px;line-height:1.4}
+
+/* Hoekmeter (verkenner) */
+.meter-wrap{text-align:center}
+.meter-stage{margin:6px auto 4px;max-width:340px}
+.meter-readout{font-family:'Caveat',cursive;font-size:46px;color:var(--vak-dark);line-height:1;margin-top:4px}
+.meter-name{
+  display:inline-block;font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:18px;
+  padding:6px 18px;border-radius:20px;margin-top:8px;color:#fff;background:var(--vak-color);transition:background .2s;
+}
+.meter-hint{font-family:'Source Sans 3',sans-serif;font-size:14px;color:#7a6a58;margin-top:10px}
+.slider-row{display:flex;align-items:center;gap:12px;max-width:460px;margin:18px auto 4px}
+.slider-row input[type=range]{flex:1;accent-color:var(--vak-color);height:6px}
+.slider-row .step-btn{
+  font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:600;width:38px;height:38px;border-radius:50%;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--vak-dark);cursor:pointer;line-height:1;
+}
+.slider-row .step-btn:hover{border-color:var(--vak-color)}
+.quick-row{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}
+.quick-row button{
+  font-family:'Source Sans 3',sans-serif;font-size:13.5px;padding:5px 12px;border-radius:16px;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--olive-dark);cursor:pointer;
+}
+.quick-row button:hover{border-color:var(--vak-color);color:var(--vak-dark)}
+
+/* Spiekkaart (print-fallback voor hoekmeter) */
+.spiek table{width:100%;border-collapse:collapse;font-size:15px}
+.spiek th,.spiek td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--sand)}
+.spiek th{font-family:'Source Sans 3',sans-serif;font-weight:600;color:var(--vak-dark)}
+.spiek td:first-child{font-weight:600;color:var(--warm-brown)}
+
+/* Quiz */
+.q{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 3px 10px rgba(92,64,51,.05)}
+.q .qnum{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color)}
+.q .qtext{font-size:17px;margin:2px 0 12px}
+.q .qtext b{color:var(--vak-dark)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{
+  font-family:'Source Sans 3',sans-serif;font-size:15px;padding:8px 16px;border-radius:20px;
+  border:1.5px solid var(--sand);background:var(--cream);color:var(--dark-brown);cursor:pointer;transition:all .15s;
+}
+.opt:hover:not(.locked){border-color:var(--vak-color)}
+.opt.correct{background:var(--olive);color:#fff;border-color:var(--olive-dark)}
+.opt.wrong{background:var(--rust);color:#fff;border-color:var(--rust)}
+.opt.locked{cursor:default}
+.opt.reveal{background:var(--olive);color:#fff;border-color:var(--olive-dark)}
+.qfb{font-family:'Source Sans 3',sans-serif;font-size:14.5px;margin-top:10px;min-height:1px}
+.qfb.ok{color:var(--olive-dark)}
+.qfb.no{color:var(--rust)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pop{animation:pop .3s ease}
+.shake{animation:shake .35s ease}
+
+.scorebar{
+  display:none;position:sticky;top:8px;z-index:5;
+  background:var(--warm-white);border:1.5px solid var(--sand);border-radius:14px;
+  padding:12px 16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(92,64,51,.08);
+}
+.scorebar.show{display:block}
+.scorebar .lbl{font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--vak-dark);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.progress{height:9px;background:var(--sand);border-radius:6px;margin-top:8px;overflow:hidden}
+.progress > div{height:100%;width:0;background:linear-gradient(90deg,var(--terracotta),var(--ochre));border-radius:6px;transition:width .4s}
+.reset-btn{font-family:'Source Sans 3',sans-serif;font-size:13px;padding:4px 12px;border-radius:14px;border:1.5px solid var(--sand);background:var(--cream);color:var(--vak-dark);cursor:pointer}
+.celebration{display:none;text-align:center;padding:18px;font-family:'Caveat',cursive;font-size:30px;color:var(--vak-dark);margin-top:6px}
+.celebration.show{display:block;animation:pop .4s ease}
+
+/* Oefeningen */
+.oef-item{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:18px 20px;margin-bottom:14px;box-shadow:0 3px 10px rgba(92,64,51,.05)}
+.oef-cat{font-family:'Caveat',cursive;font-size:26px;color:var(--vak-dark);margin:22px 2px 8px}
+.oef-cat:first-child{margin-top:4px}
+.oef-q{font-size:17px}
+.oef-q .nr{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-color);margin-right:6px}
+.oef-q b{color:var(--vak-dark)}
+.show-btn{
+  font-family:'Source Sans 3',sans-serif;font-size:14px;padding:6px 16px;border-radius:18px;
+  border:1.5px solid var(--vak-color);background:var(--warm-white);color:var(--vak-dark);cursor:pointer;margin-top:12px;
+}
+.show-btn:hover{background:var(--sand-light)}
+.oef-solution{display:none;margin-top:12px;padding:14px 16px;background:var(--sand-light);border-left:4px solid var(--olive);border-radius:0 12px 12px 0;font-size:15.5px}
+.oef-solution.open{display:block;animation:fadeSlideUp .3s ease}
+.oef-solution .ans{font-weight:700;color:var(--olive-dark)}
+.oef-solution .stp{font-family:'Source Sans 3',sans-serif;font-size:14.5px;color:#5b4a3a;margin-top:6px}
+
+/* Action buttons */
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{font-family:'Source Sans 3',sans-serif;font-size:15px;padding:11px 22px;border-radius:24px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.btn.print{background:linear-gradient(145deg,var(--vak-color),var(--vak-dark));color:var(--cream)}
+.btn.back{background:var(--warm-white);border:1.5px solid var(--sand);color:var(--olive-dark)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(92,64,51,.12)}
+
+.print-only{display:none}
+.print-head{display:none}
+
+/* Mobile */
+@media(max-width:600px){
+  body{padding:18px 12px 50px}
+  .head h1{font-size:22px}
+  .head .icon{width:50px;height:50px;font-size:26px}
+  .card{padding:18px 16px}
+  .type-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+  .meter-readout{font-size:38px}
+  .slider-row{gap:8px}
+  .opt{font-size:14px;padding:7px 13px}
+}
+
+/* ===================== PRINT ===================== */
+@media print{
+  .no-print{display:none !important}
+  body{background:white !important;font-size:11pt;padding:0}
+  body::before{display:none}
+  .wrap{max-width:100%}
+  .print-only{display:block !important}
+  .print-head{display:block !important;font-family:'Vollkorn',serif;font-weight:700;font-size:15pt;color:#000;margin:18px 0 8px;border-bottom:2px solid #999;padding-bottom:3px}
+  .tab-content{display:block !important}
+  .card,.q,.oef-item{box-shadow:none !important;border-color:#ccc !important;background:#fff !important;break-inside:avoid}
+  .type-cell,.pair-cell,.attention,.oef-solution{background:#fff !important}
+  .attention{border-left-color:#999 !important}
+  .oef-solution{border-left-color:#999 !important}
+  .head .icon{display:none}
+  .scorebar,.progress,.celebration,.show-btn,.slider-row,.quick-row,.meter-readout,.meter-name,.meter-hint,.meter-stage{display:none !important}
+  /* Herken-tab (vragen) niet bruikbaar op papier -> verbergen */
+  #tab-quiz{display:none !important}
+  /* Oefeningen: oplossingen inline verbergen, losse oplossingenpagina tonen */
+  .oef-item .oef-solution{display:none !important}
+  .print-answers{display:block !important;page-break-before:always}
+  .print-answers h2{font-family:'Caveat',cursive;font-size:30pt;color:#000;margin-bottom:10px}
+  .spiek{display:block !important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb no-print">
+    <a href="../../index.html">🌱</a><span>›</span>
+    <a href="../index.html">1e Middelbaar</a><span>›</span>
+    Hoeken
+  </nav>
+
+  <!-- Header -->
+  <header class="head">
+    <div class="icon">📐</div>
+    <div>
+      <h1>Hoofdstuk 2: Hoeken</h1>
+      <div class="date">vrijdag 19 juni 2026</div>
+    </div>
+  </header>
+  <p class="intro">Hoeken meten en benoemen, en de soorten leren herkennen: van een scherpe hoek tot een volle hoek. Daarna ook de hoekenparen — aanliggende, neven- en overstaande hoeken — en hoe je daarmee de ontbrekende hoek berekent.</p>
+
+  <!-- Tabs -->
+  <div class="tabs no-print">
+    <button class="tab active" data-tab="theorie">📚 Theorie</button>
+    <button class="tab" data-tab="meter">🎚️ Hoekmeter</button>
+    <button class="tab" data-tab="quiz">🎯 Herken &amp; benoem</button>
+    <button class="tab" data-tab="oef">✏️ Oefeningen</button>
+  </div>
+
+  <!-- ===================== THEORIE ===================== -->
+  <section id="tab-theorie" class="tab-content active">
+    <h2 class="print-head">📚 Theorie</h2>
+
+    <div class="card">
+      <h2>Hoeken meten</h2>
+      <p class="lead">Gebruik hiervoor je gradenboog in je geodriehoek. Leg de <b>"nul"</b> op het hoekpunt, leg één zijde van de hoek gelijk met een zijde van de gradenboog en lees het aantal graden af.</p>
+      <div style="text-align:center;margin-top:10px">
+        <svg width="200" height="120" viewBox="0 0 200 120" role="img" aria-label="Hoek met hoekpunt en twee benen">
+          <line x1="30" y1="95" x2="185" y2="95" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+          <line x1="30" y1="95" x2="160" y2="25" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+          <path d="M 70 95 A 40 40 0 0 0 56 73" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+          <circle cx="30" cy="95" r="3.5" fill="#3D2B1F"/>
+          <text x="20" y="110" font-family="Vollkorn" font-style="italic" font-size="14" fill="#3D2B1F">hoekpunt</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Soorten hoeken</h2>
+      <p class="lead">We delen hoeken in volgens hun grootte. Let goed op de grenswaarden — dat is waar fouten gemaakt worden.</p>
+      <div class="type-grid" id="type-grid"><!-- gevuld door JS --></div>
+      <div class="attention">
+        <strong>Opgelet bij de grenzen:</strong> precies <b>90°</b> is geen scherpe maar een <b>rechte</b> hoek, en precies <b>180°</b> is geen inspringende maar een <b>gestrekte</b> hoek.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Hoekenparen</h2>
+      <p class="lead">Twee hoeken kunnen een bijzondere band hebben. Hieronder de drie die je moet kennen.</p>
+      <div class="pair-grid">
+
+        <div class="pair-cell">
+          <svg width="170" height="110" viewBox="0 0 170 110" role="img" aria-label="Aanliggende hoeken">
+            <line x1="82" y1="93" x2="28.3" y2="62.0" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <line x1="82" y1="93" x2="95.7" y2="28.4" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <line x1="82" y1="93" x2="136.7" y2="63.9" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <path d="M 88.2 63.7 L 86.2 63.3 L 84.1 63.1 L 82.0 63.0 L 79.9 63.1 L 77.8 63.3 L 75.8 63.7 L 73.7 64.2 L 71.7 64.8 L 69.8 65.6 L 67.9 66.5 L 66.1 67.6 L 64.4 68.7 L 62.7 70.0 L 61.2 71.4 L 59.7 72.9 L 58.4 74.5 L 57.1 76.2 L 56.0 78.0" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+            <path d="M 108.5 78.9 L 107.4 77.0 L 106.2 75.2 L 104.8 73.5 L 103.3 71.9 L 101.7 70.4 L 100.1 69.0 L 98.3 67.8 L 96.4 66.7 L 94.4 65.7 L 92.4 64.9 L 90.4 64.2 L 88.2 63.7" fill="none" stroke="#7A8B6F" stroke-width="2.5"/>
+            <text x="64.5" y="57.0" font-family="Vollkorn" font-style="italic" font-size="13" fill="#C2704E">1</text>
+            <text x="106.6" y="61.5" font-family="Vollkorn" font-style="italic" font-size="13" fill="#5E6D53">2</text>
+            <circle cx="82" cy="93" r="3" fill="#3D2B1F"/>
+          </svg>
+          <div class="nm">Aanliggende hoeken</div>
+          <div class="ds">Eén gemeenschappelijk hoekpunt en tussenin een gemeenschappelijk been.</div>
+        </div>
+
+        <div class="pair-cell">
+          <svg width="170" height="110" viewBox="0 0 170 110" role="img" aria-label="Nevenhoeken">
+            <line x1="20" y1="85" x2="150" y2="85" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <line x1="85" y1="85" x2="120" y2="22" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <path d="M 50 85 A 35 35 0 0 1 70 56" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+            <path d="M 109 71 A 35 35 0 0 1 120 85" fill="none" stroke="#7A8B6F" stroke-width="2.5"/>
+            <text x="52" y="78" font-family="Vollkorn" font-style="italic" font-size="13" fill="#C2704E">1</text>
+            <text x="112" y="78" font-family="Vollkorn" font-style="italic" font-size="13" fill="#5E6D53">2</text>
+            <text x="56" y="105" font-family="Source Sans 3" font-size="12.5" fill="#5b4a3a">∠1 + ∠2 = 180°</text>
+            <circle cx="85" cy="85" r="3" fill="#3D2B1F"/>
+          </svg>
+          <div class="nm">Nevenhoeken</div>
+          <div class="ds">Aanliggende hoeken waarvan de som <b>180°</b> bedraagt (de buitenste benen vormen één rechte lijn).</div>
+        </div>
+
+        <div class="pair-cell">
+          <svg width="170" height="110" viewBox="0 0 170 110" role="img" aria-label="Overstaande hoeken">
+            <line x1="22" y1="78" x2="148" y2="32" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <line x1="28" y1="30" x2="142" y2="80" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+            <path d="M 100 47 A 22 22 0 0 1 102 63" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+            <path d="M 68 63 A 22 22 0 0 1 70 47" fill="none" stroke="#C2704E" stroke-width="2.5"/>
+            <text x="106" y="60" font-family="Vollkorn" font-style="italic" font-size="13" fill="#C2704E">1</text>
+            <text x="58" y="60" font-family="Vollkorn" font-style="italic" font-size="13" fill="#C2704E">3</text>
+            <circle cx="85" cy="55" r="3" fill="#3D2B1F"/>
+          </svg>
+          <div class="nm">Overstaande hoeken</div>
+          <div class="ds">Eén gemeenschappelijk hoekpunt en de benen liggen in elkaars verlengde. Ze zijn <b>altijd even groot</b>.</div>
+        </div>
+
+      </div>
+      <div class="attention">
+        <strong>Belangrijk verband:</strong> elke <b>nevenhoek</b> is ook een aanliggende hoek — maar niet elke aanliggende hoek is een nevenhoek (alleen als de som precies 180° is).
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOEKMETER ===================== -->
+  <section id="tab-meter" class="tab-content">
+    <h2 class="print-head">🎚️ Hoekmeter — spiekkaart</h2>
+
+    <div class="card meter-wrap no-print">
+      <h2>Levende hoekmeter</h2>
+      <p class="lead" style="max-width:520px;margin:0 auto 6px">Schuif de regelaar van 0° naar 360° en kijk hoe de hoek verandert. De soort en de grenswaarden lichten mee op.</p>
+
+      <div class="meter-stage">
+        <svg id="meter-svg" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="Levende hoek"></svg>
+      </div>
+      <div class="meter-readout"><span id="meter-deg">45</span>°</div>
+      <div class="meter-name" id="meter-name">scherpe hoek</div>
+
+      <div class="slider-row">
+        <button class="step-btn" id="minus" aria-label="Min 1 graad">−</button>
+        <input type="range" id="meter-range" min="0" max="360" value="45" step="1" aria-label="Hoekgrootte in graden">
+        <button class="step-btn" id="plus" aria-label="Plus 1 graad">+</button>
+      </div>
+      <div class="quick-row">
+        <button data-deg="0">0°</button>
+        <button data-deg="45">45°</button>
+        <button data-deg="90">90°</button>
+        <button data-deg="130">130°</button>
+        <button data-deg="180">180°</button>
+        <button data-deg="250">250°</button>
+        <button data-deg="360">360°</button>
+      </div>
+      <p class="meter-hint">Tip: zet 'm precies op 90° en op 180° — dat zijn de twee grenzen waar fouten gemaakt worden.</p>
+    </div>
+
+    <!-- Print-fallback: spiekkaart -->
+    <div class="card spiek print-only">
+      <h3 style="margin-top:0">Soorten hoeken volgens grootte</h3>
+      <table>
+        <tr><th>Soort hoek</th><th>Grootte</th></tr>
+        <tr><td>Nulhoek</td><td>0°</td></tr>
+        <tr><td>Scherpe hoek</td><td>groter dan 0° en kleiner dan 90°</td></tr>
+        <tr><td>Rechte hoek</td><td>90°</td></tr>
+        <tr><td>Stompe hoek</td><td>groter dan 90° en kleiner dan 180°</td></tr>
+        <tr><td>Gestrekte hoek</td><td>180°</td></tr>
+        <tr><td>Inspringende hoek</td><td>groter dan 180° en kleiner dan 360°</td></tr>
+        <tr><td>Volle hoek</td><td>360°</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== HERKEN &amp; BENOEM ===================== -->
+  <section id="tab-quiz" class="tab-content">
+    <h2 class="print-head">🎯 Herken &amp; benoem</h2>
+
+    <div class="scorebar no-print" id="scorebar">
+      <div class="lbl"><span>Score: <span id="score">0</span>/<span id="total">0</span></span>
+        <button class="reset-btn" id="reset">🔄 Opnieuw</button></div>
+      <div class="progress"><div id="progress-fill"></div></div>
+    </div>
+
+    <div id="quiz-list" class="no-print"></div>
+    <div class="celebration no-print" id="celebration"></div>
+  </section>
+
+  <!-- ===================== OEFENINGEN ===================== -->
+  <section id="tab-oef" class="tab-content">
+    <h2 class="print-head">✏️ Oefeningen</h2>
+    <div id="oef-list"></div>
+
+    <!-- Oplossingen (eigen pagina bij printen) -->
+    <div class="print-only print-answers" id="print-answers"></div>
+  </section>
+
+  <!-- Actions -->
+  <div class="actions no-print">
+    <button class="btn print" onclick="window.print()">🖨️ Afdrukken</button>
+    <a class="btn back" href="../index.html">← Terug naar overzicht</a>
+  </div>
+
+</div>
+
+<script>
+/* ---------- Tabs ---------- */
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    document.getElementById('tab-'+t.dataset.tab).classList.add('active');
+  });
+});
+
+/* ---------- Soorten-hoeken figuren (theorie) ---------- */
+(function(){
+  var types=[
+    {nm:'Nulhoek',rng:'0°',deg:0},
+    {nm:'Scherpe hoek',rng:'> 0° en < 90°',deg:45},
+    {nm:'Rechte hoek',rng:'90°',deg:90},
+    {nm:'Stompe hoek',rng:'> 90° en < 180°',deg:130},
+    {nm:'Gestrekte hoek',rng:'180°',deg:180},
+    {nm:'Inspringende hoek',rng:'> 180° en < 360°',deg:250},
+    {nm:'Volle hoek',rng:'360°',deg:360}
+  ];
+  var W=130,H=92,cx=42,cy=58,R=42;
+  function pt(r,d){var a=d*Math.PI/180;return [cx+r*Math.cos(a),cy-r*Math.sin(a)];}
+  function wedge(deg){
+    if(deg<=0) return '';
+    var rr=20,seg=Math.max(2,Math.round(deg/6)),d='M '+cx+' '+cy;
+    for(var i=0;i<=seg;i++){var p=pt(rr,deg*i/seg);d+=' L '+p[0].toFixed(1)+' '+p[1].toFixed(1);}
+    return d+' Z';
+  }
+  var grid=document.getElementById('type-grid'),html='';
+  types.forEach(function(t){
+    var end=pt(R,t.deg);
+    var svg='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">';
+    // gevulde sector
+    if(t.deg>0){svg+='<path d="'+wedge(t.deg)+'" fill="#7A8B6F" fill-opacity="0.20"/>';}
+    // vast been (rechts)
+    svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R)+'" y2="'+cy+'" stroke="#5C4033" stroke-width="2.5" stroke-linecap="round"/>';
+    // bewegend been
+    if(t.deg===0){
+      svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R-3)+'" y2="'+(cy-3)+'" stroke="#C2704E" stroke-width="2.5" stroke-linecap="round"/>';
+    } else if(t.deg===360){
+      svg+='<circle cx="'+cx+'" cy="'+cy+'" r="20" fill="none" stroke="#7A8B6F" stroke-width="2" stroke-dasharray="3 2"/>';
+      svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R-3)+'" y2="'+(cy-3)+'" stroke="#C2704E" stroke-width="2.5" stroke-linecap="round"/>';
+    } else {
+      svg+='<line x1="'+cx+'" y1="'+cy+'" x2="'+end[0].toFixed(1)+'" y2="'+end[1].toFixed(1)+'" stroke="#5C4033" stroke-width="2.5" stroke-linecap="round"/>';
+    }
+    // rechte-hoek markering
+    if(t.deg===90){svg+='<path d="M '+(cx+12)+' '+cy+' L '+(cx+12)+' '+(cy-12)+' L '+cx+' '+(cy-12)+'" fill="none" stroke="#C2704E" stroke-width="1.6"/>';}
+    svg+='<circle cx="'+cx+'" cy="'+cy+'" r="2.6" fill="#3D2B1F"/></svg>';
+    html+='<div class="type-cell">'+svg+'<div class="nm">'+t.nm+'</div><div class="rng">'+t.rng+'</div></div>';
+  });
+  grid.innerHTML=html;
+})();
+
+/* ---------- Levende hoekmeter ---------- */
+(function(){
+  var svg=document.getElementById('meter-svg');
+  if(!svg) return;
+  var range=document.getElementById('meter-range'),
+      degEl=document.getElementById('meter-deg'),
+      nameEl=document.getElementById('meter-name');
+  var cx=160,cy=150,R=110,rArc=46;
+  function classify(d){
+    if(d===0) return ['nulhoek','#7A8B6F'];
+    if(d>0&&d<90) return ['scherpe hoek','#7A8B6F'];
+    if(d===90) return ['rechte hoek','#B07A4B'];
+    if(d>90&&d<180) return ['stompe hoek','#C2704E'];
+    if(d===180) return ['gestrekte hoek','#B7553D'];
+    if(d>180&&d<360) return ['inspringende hoek','#5E6D53'];
+    return ['volle hoek','#5C4033'];
+  }
+  function pt(r,d){var a=d*Math.PI/180;return [cx+r*Math.cos(a),cy-r*Math.sin(a)];}
+  function wedgePath(deg){
+    if(deg<=0) return '';
+    var seg=Math.max(2,Math.round(deg/4)),d='M '+cx+' '+cy;
+    for(var i=0;i<=seg;i++){var p=pt(rArc,deg*i/seg);d+=' L '+p[0].toFixed(1)+' '+p[1].toFixed(1);}
+    return d+' Z';
+  }
+  function render(deg){
+    var end=pt(R,deg),c=classify(deg);
+    var s='';
+    if(deg>0){s+='<path d="'+wedgePath(deg)+'" fill="'+c[1]+'" fill-opacity="0.18"/>';}
+    // vast been
+    s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R)+'" y2="'+cy+'" stroke="#5C4033" stroke-width="3.5" stroke-linecap="round"/>';
+    // bewegend been
+    if(deg===0){
+      s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R-4)+'" y2="'+(cy-4)+'" stroke="#C2704E" stroke-width="3.5" stroke-linecap="round"/>';
+    } else if(deg===360){
+      s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+rArc+'" fill="none" stroke="'+c[1]+'" stroke-width="2.5" stroke-dasharray="4 3"/>';
+      s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+(cx+R-4)+'" y2="'+(cy-4)+'" stroke="#C2704E" stroke-width="3.5" stroke-linecap="round"/>';
+    } else {
+      s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+end[0].toFixed(1)+'" y2="'+end[1].toFixed(1)+'" stroke="#C2704E" stroke-width="3.5" stroke-linecap="round"/>';
+    }
+    if(deg===90){s+='<path d="M '+(cx+20)+' '+cy+' L '+(cx+20)+' '+(cy-20)+' L '+cx+' '+(cy-20)+'" fill="none" stroke="#B07A4B" stroke-width="2"/>';}
+    s+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#3D2B1F"/>';
+    svg.innerHTML=s;
+    degEl.textContent=deg;
+    nameEl.textContent=c[0];
+    nameEl.style.background=c[1];
+  }
+  function set(v){v=Math.max(0,Math.min(360,parseInt(v,10)||0));range.value=v;render(v);}
+  range.addEventListener('input',function(){render(parseInt(range.value,10));});
+  document.getElementById('plus').addEventListener('click',function(){set(parseInt(range.value,10)+1);});
+  document.getElementById('minus').addEventListener('click',function(){set(parseInt(range.value,10)-1);});
+  document.querySelectorAll('.quick-row button').forEach(function(b){
+    b.addEventListener('click',function(){set(b.dataset.deg);});
+  });
+  render(45);
+})();
+
+/* ---------- Quiz ---------- */
+(function(){
+  var questions=[
+    {t:'Een hoek van <b>47°</b> is een ... hoek.',o:['scherpe','rechte','stompe','gestrekte'],a:0},
+    {t:'Een hoek van <b>152°</b> is een ... hoek.',o:['scherpe','rechte','stompe','inspringende'],a:2},
+    {t:'Een hoek van precies <b>90°</b> is een ... hoek.',o:['scherpe','rechte','stompe','nul'],a:1},
+    {t:'Een hoek van <b>180°</b> is een ... hoek.',o:['gestrekte','volle','inspringende','rechte'],a:0},
+    {t:'Een hoek van <b>215°</b> is een ... hoek.',o:['stompe','gestrekte','inspringende','volle'],a:2},
+    {t:'Een hoek van <b>0°</b> is een ... hoek.',o:['scherpe','nul','volle','gestrekte'],a:1},
+    {t:'Een hoek van <b>360°</b> is een ... hoek.',o:['gestrekte','inspringende','volle','rechte'],a:2},
+    {t:'Twee hoeken met een gemeenschappelijk hoekpunt; hun benen liggen in elkaars verlengde. Dat zijn ... hoeken.',o:['neven','overstaande','aanliggende','volle'],a:1},
+    {t:'Twee aanliggende hoeken waarvan de som 180° bedraagt. Dat zijn ... hoeken.',o:['overstaande','volle','neven','gestrekte'],a:2},
+    {t:'"Overstaande hoeken zijn altijd even groot."',o:['waar','niet waar'],a:0},
+    {t:'"Nevenhoeken zijn altijd even groot."',o:['waar','niet waar'],a:1},
+    {t:'"Elke nevenhoek is ook een aanliggende hoek."',o:['waar','niet waar'],a:0},
+    {t:'"Een hoek van 90° is een scherpe hoek."',o:['waar','niet waar'],a:1}
+  ];
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var x=a[i];a[i]=a[j];a[j]=x;}return a;}
+  var oks=['Correct!','Juist!','Goed zo!','Knap!'];
+  var qs=shuffle(questions),answered=0,score=0;
+  var list=document.getElementById('quiz-list');
+  document.getElementById('total').textContent=qs.length;
+
+  qs.forEach(function(q,i){
+    var div=document.createElement('div');div.className='q';
+    var opts='<div class="opts">';
+    q.o.forEach(function(o,k){opts+='<button class="opt" data-k="'+k+'">'+o+'</button>';});
+    opts+='</div>';
+    div.innerHTML='<div class="qnum">Vraag '+(i+1)+'</div><div class="qtext">'+q.t+'</div>'+opts+'<div class="qfb"></div>';
+    list.appendChild(div);
+    var done=false,btns=div.querySelectorAll('.opt'),fb=div.querySelector('.qfb');
+    btns.forEach(function(b){
+      b.addEventListener('click',function(){
+        if(done) return;done=true;
+        btns.forEach(function(x){x.classList.add('locked')});
+        var k=parseInt(b.dataset.k,10);
+        document.getElementById('scorebar').classList.add('show');
+        if(k===q.a){
+          b.classList.add('correct','pop');score++;
+          fb.textContent=oks[Math.floor(Math.random()*oks.length)];fb.className='qfb ok';
+        } else {
+          b.classList.add('wrong','shake');
+          btns[q.a].classList.add('reveal');
+          fb.textContent='Juist antwoord: '+q.o[q.a]+'.';fb.className='qfb no';
+        }
+        answered++;
+        document.getElementById('score').textContent=score;
+        document.getElementById('progress-fill').style.width=(answered/qs.length*100)+'%';
+        if(answered===qs.length) finish();
+      });
+    });
+  });
+
+  function finish(){
+    var pct=Math.round(score/qs.length*100),msg;
+    if(pct===100) msg='🌟 Alles juist — fantastisch!';
+    else if(pct>=80) msg='🎉 Heel goed! Bijna alles juist.';
+    else if(pct>=60) msg='💪 Goed bezig! Bekijk de fouten nog eens.';
+    else msg='📚 Bekijk de theorie nog eens en probeer opnieuw!';
+    var c=document.getElementById('celebration');c.textContent=msg;c.classList.add('show');
+  }
+  document.getElementById('reset').addEventListener('click',function(){location.reload();});
+})();
+
+/* ---------- Oefeningen ---------- */
+(function(){
+  var data=[
+    {cat:'Soort benoemen'},
+    {q:'Benoem de soort hoek bij elke grootte: <b>30°</b>, <b>90°</b>, <b>117°</b>, <b>180°</b>, <b>280°</b>.',
+     ans:'scherp · recht · stomp · gestrekt · inspringend',
+     stp:'30° ligt tussen 0° en 90° (scherp). 90° is precies recht. 117° ligt tussen 90° en 180° (stomp). 180° is gestrekt. 280° ligt tussen 180° en 360° (inspringend).'},
+    {q:'Welke soort hoek hoort bij <b>0°</b> en welke bij <b>360°</b>?',
+     ans:'0° = nulhoek · 360° = volle hoek',
+     stp:'Een hoek van 0° is een nulhoek; een hoek van 360° is een volle hoek (een volledige draai).'},
+
+    {cat:'Nevenhoeken'},
+    {q:'Bereken de nevenhoek van een hoek van <b>130°</b>.',
+     ans:'50°',
+     stp:'Nevenhoeken hebben samen 180°. Dus: 180° − 130° = 50°.'},
+    {q:'Een hoek en zijn nevenhoek zijn even groot. Hoe groot is elke hoek?',
+     ans:'elk 90°',
+     stp:'Samen 180°, en beide gelijk: 180° ÷ 2 = 90°. Twee rechte hoeken dus.'},
+
+    {cat:'Overstaande hoeken'},
+    {q:'Twee rechten snijden elkaar. Eén van de hoeken is <b>65°</b>. Bereken de drie andere hoeken.',
+     ans:'65° · 115° · 115°',
+     stp:'De overstaande hoek is even groot: 65°. De twee nevenhoeken van de hoek van 65° zijn elk 180° − 65° = 115°.'},
+
+    {cat:'Redeneren met twee regels'},
+    {q:'∠1 en ∠2 zijn nevenhoeken. ∠2 en ∠3 zijn overstaande hoeken. ∠1 = <b>110°</b>. Bereken ∠2 en ∠3.',
+     ans:'∠2 = 70° · ∠3 = 70°',
+     stp:'∠1 en ∠2 zijn nevenhoeken → ∠2 = 180° − 110° = 70°. ∠2 en ∠3 zijn overstaand → even groot → ∠3 = 70°.'}
+  ];
+  var list=document.getElementById('oef-list'),pa=document.getElementById('print-answers');
+  var paHtml='<h2>Oplossingen</h2>',nr=0;
+  data.forEach(function(d){
+    if(d.cat){
+      var h=document.createElement('div');h.className='oef-cat';h.textContent=d.cat;list.appendChild(h);
+      paHtml+='<h3 style="font-family:Vollkorn;color:#5C4033;margin:14px 0 6px">'+d.cat+'</h3>';
+      return;
+    }
+    nr++;
+    var item=document.createElement('div');item.className='oef-item';
+    item.innerHTML='<div class="oef-q"><span class="nr">'+nr+'.</span>'+d.q+'</div>'+
+      '<button class="show-btn">Toon oplossing</button>'+
+      '<div class="oef-solution"><span class="ans">'+d.ans+'</span><div class="stp">'+d.stp+'</div></div>';
+    list.appendChild(item);
+    var btn=item.querySelector('.show-btn'),sol=item.querySelector('.oef-solution');
+    btn.addEventListener('click',function(){
+      var open=sol.classList.toggle('open');
+      btn.textContent=open?'Verberg oplossing':'Toon oplossing';
+    });
+    paHtml+='<p style="margin-bottom:8px"><b>'+nr+'.</b> <span style="color:#5E6D53;font-weight:700">'+d.ans+'</span><br><span style="font-family:Source Sans 3;font-size:14px;color:#5b4a3a">'+d.stp+'</span></p>';
+  });
+  pa.innerHTML=paHtml;
+})();
+</script>
+</body>
+</html>
