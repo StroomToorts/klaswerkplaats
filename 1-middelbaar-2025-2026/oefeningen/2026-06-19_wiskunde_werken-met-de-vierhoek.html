@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Werken met de vierhoek</title>
+<link href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>:root{
+  --cream:#F7F2E8; --warm-white:#FFFDF7; --terracotta:#C2704E; --terracotta-light:#D4916F;
+  --ochre:#D4A843; --olive:#7A8B6F; --olive-dark:#5E6D53; --warm-brown:#5C4033;
+  --dark-brown:#3D2B1F; --sand:#E8DCC8; --sand-light:#F0E8D8; --parchment:#F5EDE0;
+  --rust:#B7553D; --sage:#A8B89A; --sky:#6A9BB5; --rose:#C9A0A0;
+  --vak-color:#7A8B6F; --vak-dark:#5E6D53;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;color:var(--dark-brown);
+  background:linear-gradient(170deg,var(--cream) 0%,var(--warm-white) 40%,var(--parchment) 100%);
+  min-height:100vh;padding:0 0 60px;line-height:1.5}
+.wrap{max-width:880px;margin:0 auto;padding:18px 18px 0}
+.crumb{font-size:14px;color:var(--olive-dark);margin-bottom:18px}
+.crumb a{color:var(--olive-dark);text-decoration:none;border-bottom:1px dotted var(--olive)}
+.crumb a:hover{color:var(--terracotta)} .crumb span{color:var(--warm-brown)}
+.head{display:flex;align-items:center;gap:16px;margin-bottom:8px}
+.icon{width:58px;height:58px;border-radius:15px;background:var(--vak-color);display:flex;align-items:center;
+  justify-content:center;font-size:30px;flex-shrink:0;box-shadow:0 4px 14px rgba(94,109,83,.28)}
+.head h1{font-family:'Vollkorn',serif;font-weight:700;font-size:26px;line-height:1.15;color:var(--dark-brown)}
+.head .date{font-family:'Caveat',cursive;font-size:22px;color:var(--vak-dark);margin-top:2px}
+.intro{font-size:15.5px;color:var(--warm-brown);margin:10px 2px 22px;max-width:680px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.tab{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:14.5px;padding:9px 16px;border-radius:30px;
+  border:1.5px solid var(--sand);background:var(--warm-white);color:var(--warm-brown);cursor:pointer;transition:.18s}
+.tab:hover{border-color:var(--vak-color)}
+.tab.active{background:var(--vak-color);color:var(--warm-white);border-color:var(--vak-color);box-shadow:0 3px 10px rgba(94,109,83,.3)}
+.panel{display:none;animation:fadeSlideUp .35s ease}
+.panel.active{display:block}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sec-h{font-family:'Vollkorn',serif;font-size:20px;font-weight:700;color:var(--vak-dark);margin:26px 2px 12px;display:flex;align-items:center;gap:9px}
+.sec-h:first-child{margin-top:0}
+.sec-h .dot{width:26px;height:26px;border-radius:50%;background:var(--vak-color);color:#fff;font-family:'Caveat',cursive;font-size:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.insight{display:flex;gap:12px;align-items:center;background:var(--sand-light);border:1.5px solid var(--sand);
+  border-left:5px solid var(--ochre);border-radius:14px;padding:14px 16px;margin-bottom:18px}
+.insight .emo{font-size:24px}
+.insight p{font-size:14.5px;color:var(--warm-brown)}
+.insight b{color:var(--olive-dark)}
+.card{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:18px;padding:18px;margin-bottom:18px;box-shadow:0 3px 12px rgba(92,64,51,.06)}
+/* diagonaal-matrix */
+.dtable{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:6px}
+.dtable th,.dtable td{padding:9px 6px;text-align:center;border-bottom:1px solid var(--sand)}
+.dtable th{font-family:'Source Sans 3',sans-serif;font-weight:600;color:var(--olive-dark);font-size:12.5px;text-transform:uppercase;letter-spacing:.3px}
+.dtable td:first-child,.dtable th:first-child{text-align:left;font-weight:600;color:var(--dark-brown)}
+.dtable tbody tr:last-child td{border-bottom:none}
+.dtable .yes{color:var(--olive-dark);font-weight:700}
+.dtable .no{color:var(--rust);font-weight:700}
+.matnote{font-size:12.5px;color:var(--warm-brown);margin-top:8px}
+/* figure grid */
+.figgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+.figc{background:#fff;border:1px solid var(--sand);border-radius:14px;padding:10px}
+.figc .fname{font-family:'Vollkorn',serif;font-size:15px;font-weight:700;color:var(--rust);margin-bottom:4px}
+.figc svg{width:100%;height:auto;display:block;margin-bottom:6px}
+.figc ul{list-style:none;font-size:12.5px;color:var(--warm-brown)}
+.figc li{padding-left:12px;position:relative;margin-bottom:2px;line-height:1.35}
+.figc li:before{content:"–";position:absolute;left:0;color:var(--olive)}
+.qf{stroke:var(--warm-brown);stroke-width:2;fill:none;stroke-linejoin:round}
+.qd{stroke:var(--terracotta);stroke-width:2.2;fill:none;stroke-linecap:round}
+.qv{fill:var(--warm-brown)}
+.perp{stroke:var(--olive);stroke-width:1.5;fill:none}
+/* legend */
+.flegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--warm-brown);margin:2px 2px 12px}
+.flegend span{display:flex;align-items:center;gap:6px}
+.sw{width:20px;height:4px;border-radius:3px;display:inline-block}
+/* cirkel */
+.cirkbox{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.cirksvg{flex:0 0 260px;max-width:260px;background:#fff;border:1px solid var(--sand);border-radius:14px;padding:8px}
+.cirksvg svg{width:100%;height:auto;display:block}
+.ct-circ{stroke:var(--warm-brown);stroke-width:1.6;fill:none}
+.ct-raak{stroke:var(--olive);stroke-width:3;stroke-linecap:round}
+.ct-koord{stroke:var(--sky);stroke-width:3;stroke-linecap:round}
+.ct-mid{stroke:var(--rose);stroke-width:3;stroke-linecap:round}
+.ct-straal{stroke:var(--terracotta);stroke-width:3;stroke-linecap:round}
+.ct-touch{fill:var(--olive)} .ct-ctr{fill:var(--dark-brown)}
+.ct-lr{fill:var(--olive-dark)} .ct-lk{fill:var(--sky)} .ct-lm{fill:var(--rose)} .ct-ls{fill:var(--terracotta)}
+.ct-lr,.ct-lk,.ct-lm,.ct-ls{font-family:'Vollkorn',serif;font-style:italic;font-size:12.5px;font-weight:600}
+.ctlist{flex:1;min-width:200px;font-size:14px;color:var(--warm-brown)}
+.ctlist li{list-style:none;padding-left:18px;position:relative;margin-bottom:7px}
+.ctlist li b{color:var(--vak-dark)}
+.ctlist .mk{position:absolute;left:0;top:5px;width:11px;height:11px;border-radius:3px}
+/* formules */
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.fbox{background:#fff;border:1px solid var(--sand);border-radius:12px;padding:11px 13px}
+.fbox h4{font-family:'Vollkorn',serif;font-size:15px;color:var(--vak-dark);margin-bottom:5px}
+.fbox .frm{font-size:13.5px;color:var(--dark-brown);margin-bottom:3px}
+.fbox .frm b{color:var(--terracotta)}
+/* veelhoek row */
+.prow{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;padding:4px 2px 10px}
+.pnode{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;width:104px}
+.pfig{width:96px;height:100px;background:#fff;border:1px solid var(--sand);border-radius:12px;padding:5px}
+.pfig svg{width:100%;height:100%;display:block}
+.rp{stroke:var(--warm-brown);stroke-width:2.2;fill:none;stroke-linejoin:round}
+.plabel{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--warm-brown);margin-top:5px;text-align:center}
+.pdeg{font-family:'Caveat',cursive;font-size:19px;color:var(--rust);line-height:1}
+/* quiz (engine) */
+.q{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px rgba(92,64,51,.05)}
+.q .qhead{font-size:13px;color:var(--olive-dark);font-weight:600;margin-bottom:8px}
+.q .qtext{font-family:'Vollkorn',serif;font-size:17px;font-weight:600;color:var(--dark-brown);margin-bottom:12px}
+.q .qfig{max-width:170px;margin:0 auto 14px;background:#fff;border:1px solid var(--sand);border-radius:12px;padding:6px}
+.q .qfig svg{width:100%;height:auto;display:block}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{text-align:left;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:11px 15px;border-radius:12px;border:1.5px solid var(--sand);background:var(--warm-white);color:var(--dark-brown);cursor:pointer;transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--vak-color);background:var(--sand-light)}
+.opt:disabled{cursor:default}
+.opt.correct{background:#E3EAD9;border-color:var(--olive);color:var(--olive-dark);font-weight:600}
+.opt.wrong{background:#F3DAD2;border-color:var(--rust);color:var(--rust)}
+.fb{margin-top:11px;font-size:14px;font-weight:600;min-height:20px}
+.fb.ok{color:var(--olive-dark)} .fb.no{color:var(--rust)}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pop{animation:pop .3s} .shake{animation:shake .3s}
+.scorebar{position:sticky;top:8px;z-index:5;background:var(--warm-white);border:1.5px solid var(--sand);border-radius:14px;padding:12px 16px;margin-bottom:18px;box-shadow:0 3px 12px rgba(92,64,51,.08);display:none}
+.scorebar.show{display:block}
+.scorebar .lbl{font-size:14px;font-weight:600;color:var(--warm-brown);margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
+.bar{height:9px;border-radius:6px;background:var(--sand);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--terracotta),var(--ochre));transition:width .4s}
+.again{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;color:var(--olive-dark);background:none;border:none;cursor:pointer;border-bottom:1px dotted var(--olive)}
+.celebrate{margin-top:10px;font-family:'Vollkorn',serif;font-size:16px;font-weight:600;color:var(--vak-dark);display:none}
+.celebrate.show{display:block}
+.intro-mini{font-size:14.5px;color:var(--warm-brown);background:var(--parchment);border:1px solid var(--sand);border-radius:14px;padding:12px 16px;margin-bottom:20px}
+/* oefeningen */
+.oef{background:var(--warm-white);border:1.5px solid var(--sand);border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:0 3px 12px rgba(92,64,51,.05)}
+.oef-h{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+.oef-n{font-family:'Caveat',cursive;font-size:24px;color:var(--vak-dark);font-weight:700}
+.oef-t{font-family:'Vollkorn',serif;font-size:17px;font-weight:700;color:var(--dark-brown)}
+.oef-geg{font-size:14.5px;color:var(--warm-brown);margin-bottom:4px}
+.oef-geg b{color:var(--rust)}
+.oef-vraag{font-size:14px;color:var(--olive-dark);font-style:italic;margin-bottom:10px}
+.toon{font-family:'Source Sans 3',sans-serif;font-size:13.5px;font-weight:600;color:#fff;background:var(--vak-color);border:none;border-radius:20px;padding:7px 16px;cursor:pointer;transition:.15s}
+.toon:hover{background:var(--vak-dark)}
+.opl{display:none;margin-top:12px;background:var(--parchment);border:1px solid var(--sand);border-radius:12px;padding:12px 14px}
+.opl.show{display:block}
+.opl .step{font-size:14px;color:var(--dark-brown);margin-bottom:6px;font-family:'Vollkorn',serif}
+.opl .step .lab{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--olive-dark);display:block;margin-bottom:1px}
+.opl .res{font-weight:700;color:var(--terracotta)}
+/* print answers */
+.print-only{display:none}
+.print-head{display:none}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:14.5px;padding:11px 20px;border-radius:30px;border:1.5px solid var(--vak-color);cursor:pointer;text-decoration:none;transition:.18s}
+.btn.prim{background:var(--vak-color);color:#fff}.btn.prim:hover{background:var(--vak-dark)}
+.btn.ghost{background:transparent;color:var(--vak-dark)}.btn.ghost:hover{background:var(--sand-light)}
+@media(max-width:600px){
+  .wrap{padding:14px 14px 0}.head h1{font-size:21px}.icon{width:48px;height:48px;font-size:25px}
+  .figgrid{grid-template-columns:repeat(2,1fr)}
+  .fgrid{grid-template-columns:1fr}
+  .dtable{font-size:12.5px}.dtable th{font-size:11px}.dtable th,.dtable td{padding:7px 3px}
+  .cirksvg{flex:none;width:100%;max-width:280px;margin:0 auto}
+}
+@media print{
+  body{background:#fff!important;font-size:11pt;color:#000}
+  .no-print{display:none!important}.wrap{max-width:100%;padding:0}
+  .icon,.intro{display:none}
+  .card,.figc,.fbox,.pfig,.cirksvg,.insight,.oef{box-shadow:none!important;border-color:#ccc!important;background:#fff!important}
+  .figc,.fbox,.cirksvg,.insight,.pfig{break-inside:avoid}
+  .prow{overflow:visible;flex-wrap:wrap}
+  .panel{display:none!important}#panel-overzicht{display:block!important;page-break-after:always}
+  #panel-oefeningen{display:block!important}
+  .scorebar,.celebrate,.actions,.toon,.intro-mini{display:none!important}
+  .opl{display:none!important}
+  .print-head{display:block;margin-bottom:14px}
+  .print-head h2{font-family:'Vollkorn',serif;font-size:18pt;color:#000}
+  .sec-h .dot,.fname,.oef-n{color:#000!important;-webkit-print-color-adjust:exact}
+  .print-only{display:block!important}
+  .print-answers{page-break-before:always}
+  .print-answers h2{font-family:'Caveat',cursive;font-size:24pt;color:#000;margin-bottom:10px}
+  .pa-item{margin-bottom:10px;font-size:11pt}
+  .pa-item .pn{font-weight:700}
+  .oef-vraag{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="crumb no-print"><a href="../../index.html">🌱</a> › <a href="../index.html">1e Middelbaar</a> › <span>Werken met de vierhoek</span></div>
+<div class="head"><div class="icon">📐</div><div><h1>Werken met de vierhoek</h1><div class="date">toetsvoorbereiding · 19 juni 2026</div></div></div>
+<p class="intro">Hoofdstuk 6. Bekijk in het <b>overzicht</b> de eigenschappen van de zes vierhoeken, de cirkeltermen en de veelhoeken, test daarna of je ze <b>herkent</b>, en <b>oefen</b> omtrek en oppervlakte.</p>
+<div class="print-head"><h2>Werken met de vierhoek · overzicht</h2></div>
+<div class="tabs no-print"><button class="tab active" data-panel="overzicht">📚 Overzicht</button><button class="tab" data-panel="herken">🎯 Herken &amp; check</button><button class="tab" data-panel="oefeningen">✏️ Oefeningen</button></div>
+<section class="panel active" id="panel-overzicht"><div class="insight no-print"><span class="emo">🎯</span><p><b>De kern van dit hoofdstuk:</b> de <b>diagonalen</b>. Onthoud per figuur drie dingen — zijn ze <b>even lang</b>, staan ze <b>loodrecht</b> (⊥), en snijden ze elkaar <b>middendoor</b>? Daar worden de punten op verdiend.</p></div><h2 class="sec-h"><span class="dot">A</span>De zes vierhoeken</h2><div class="card"><table class="dtable"><thead><tr><th>figuur</th><th>even lang?</th><th>⊥?</th><th>middendoor?</th></tr></thead><tbody><tr><td>vierkant</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr><tr><td>rechthoek</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td></tr><tr><td>ruit</td><td class="no">✗</td><td class="yes">✓</td><td class="yes">✓</td></tr><tr><td>parallellogram</td><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td></tr><tr><td>vlieger</td><td class="no">✗</td><td class="yes">✓</td><td class="no">✗</td></tr><tr><td>gelijkbenig trapezium</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td></tr></tbody></table><p class="matnote">De drie scharnierpunten: <b>even lang</b> alleen bij vierkant, rechthoek en gelijkbenig trapezium · <b>⊥</b> bij vierkant, ruit en vlieger · <b>middendoor</b> bij iedereen behalve vlieger en trapezium.</p></div><div class="flegend"><span><i class="sw" style="background:#5C4033"></i> de figuur</span><span><i class="sw" style="background:#C2704E"></i> de diagonalen</span><span><i class="sw" style="background:#7A8B6F"></i> ⊥ (rechte hoek)</span></div><div class="figgrid"><div class="figc"><div class="fname">Vierkant</div><svg viewBox="0 0 150 120"><polygon class="qf" points="45.0,18.0 105.0,18.0 105.0,78.0 45.0,78.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="45.0" y1="18.0" x2="105.0" y2="78.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="105.0" y1="18.0" x2="45.0" y2="78.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><polyline class="perp" points="81.4,54.4 87.7,48.0 81.4,41.6" fill="none" stroke="#7A8B6F" stroke-width="1.5"/><circle class="qv" cx="45.0" cy="18.0" r="2" fill="#5C4033"/><circle class="qv" cx="105.0" cy="18.0" r="2" fill="#5C4033"/><circle class="qv" cx="105.0" cy="78.0" r="2" fill="#5C4033"/><circle class="qv" cx="45.0" cy="78.0" r="2" fill="#5C4033"/></svg><ul><li>4 rechte hoeken</li><li>4 gelijke zijden</li><li>diagonalen even lang, ⊥, middendoor</li></ul></div><div class="figc"><div class="fname">Rechthoek</div><svg viewBox="0 0 150 120"><polygon class="qf" points="22.0,30.0 128.0,30.0 128.0,82.0 22.0,82.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="22.0" y1="30.0" x2="128.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="128.0" y1="30.0" x2="22.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><circle class="qv" cx="22.0" cy="30.0" r="2" fill="#5C4033"/><circle class="qv" cx="128.0" cy="30.0" r="2" fill="#5C4033"/><circle class="qv" cx="128.0" cy="82.0" r="2" fill="#5C4033"/><circle class="qv" cx="22.0" cy="82.0" r="2" fill="#5C4033"/></svg><ul><li>4 rechte hoeken</li><li>2 aan 2 gelijke zijden</li><li>diagonalen even lang, niet ⊥, middendoor</li></ul></div><div class="figc"><div class="fname">Ruit</div><svg viewBox="0 0 150 120"><polygon class="qf" points="75.0,12.0 117.0,60.0 75.0,108.0 33.0,60.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="75.0" y1="12.0" x2="75.0" y2="108.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="117.0" y1="60.0" x2="33.0" y2="60.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><polyline class="perp" points="84.0,60.0 84.0,69.0 75.0,69.0" fill="none" stroke="#7A8B6F" stroke-width="1.5"/><circle class="qv" cx="75.0" cy="12.0" r="2" fill="#5C4033"/><circle class="qv" cx="117.0" cy="60.0" r="2" fill="#5C4033"/><circle class="qv" cx="75.0" cy="108.0" r="2" fill="#5C4033"/><circle class="qv" cx="33.0" cy="60.0" r="2" fill="#5C4033"/></svg><ul><li>2 aan 2 gelijke hoeken</li><li>4 gelijke zijden</li><li>diagonalen niet even lang, ⊥, middendoor</li></ul></div><div class="figc"><div class="fname">Parallellogram</div><svg viewBox="0 0 150 120"><polygon class="qf" points="40.0,28.0 120.0,28.0 100.0,82.0 20.0,82.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="40.0" y1="28.0" x2="100.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="120.0" y1="28.0" x2="20.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><circle class="qv" cx="40.0" cy="28.0" r="2" fill="#5C4033"/><circle class="qv" cx="120.0" cy="28.0" r="2" fill="#5C4033"/><circle class="qv" cx="100.0" cy="82.0" r="2" fill="#5C4033"/><circle class="qv" cx="20.0" cy="82.0" r="2" fill="#5C4033"/></svg><ul><li>2 aan 2 gelijke hoeken</li><li>2 aan 2 gelijke zijden</li><li>diagonalen niet even lang, niet ⊥, middendoor</li></ul></div><div class="figc"><div class="fname">Vlieger</div><svg viewBox="0 0 150 120"><polygon class="qf" points="75.0,12.0 112.0,52.0 75.0,108.0 38.0,52.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="75.0" y1="12.0" x2="75.0" y2="108.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="112.0" y1="52.0" x2="38.0" y2="52.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><polyline class="perp" points="84.0,52.0 84.0,61.0 75.0,61.0" fill="none" stroke="#7A8B6F" stroke-width="1.5"/><circle class="qv" cx="75.0" cy="12.0" r="2" fill="#5C4033"/><circle class="qv" cx="112.0" cy="52.0" r="2" fill="#5C4033"/><circle class="qv" cx="75.0" cy="108.0" r="2" fill="#5C4033"/><circle class="qv" cx="38.0" cy="52.0" r="2" fill="#5C4033"/></svg><ul><li>1 paar gelijke hoeken</li><li>2 aan 2 gelijke zijden</li><li>diagonalen niet even lang, ⊥, niet middendoor</li></ul></div><div class="figc"><div class="fname">Gelijkbenig trapezium</div><svg viewBox="0 0 150 120"><polygon class="qf" points="45.0,28.0 105.0,28.0 125.0,82.0 25.0,82.0" fill="none" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/><line class="qd" x1="45.0" y1="28.0" x2="125.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><line class="qd" x1="105.0" y1="28.0" x2="25.0" y2="82.0" stroke="#C2704E" stroke-width="2.2" stroke-linecap="round"/><circle class="qv" cx="45.0" cy="28.0" r="2" fill="#5C4033"/><circle class="qv" cx="105.0" cy="28.0" r="2" fill="#5C4033"/><circle class="qv" cx="125.0" cy="82.0" r="2" fill="#5C4033"/><circle class="qv" cx="25.0" cy="82.0" r="2" fill="#5C4033"/></svg><ul><li>1 paar evenwijdige zijden</li><li>de 2 schuine zijden gelijk</li><li>diagonalen even lang, niet ⊥, niet middendoor; stukken van hoek naar snijpunt 2 aan 2 gelijk</li></ul></div></div><h2 class="sec-h"><span class="dot">B</span>De cirkel</h2><div class="card"><div class="cirkbox"><div class="cirksvg"><svg viewBox="0 0 235 200"><circle class="ct-circ" cx="130" cy="100" r="60" fill="none" stroke="#5C4033" stroke-width="1.6"/><line class="ct-raak" x1="54.7" y1="107.2" x2="103.5" y2="29.2" stroke="#7A8B6F" stroke-width="3" stroke-linecap="round"/><circle class="ct-touch" cx="79.1" cy="68.2" r="2.4" fill="#7A8B6F"/><line class="ct-koord" x1="127.9" y1="160.0" x2="183.0" y2="71.8" stroke="#6A9BB5" stroke-width="3" stroke-linecap="round"/><line class="ct-mid" x1="98.2" y1="150.9" x2="161.8" y2="49.1" stroke="#C9A0A0" stroke-width="3" stroke-linecap="round"/><line class="ct-straal" x1="130" y1="100" x2="190" y2="100" stroke="#C2704E" stroke-width="3" stroke-linecap="round"/><circle class="ct-ctr" cx="130" cy="100" r="2.6" fill="#3D2B1F"/><text class="ct-lr" x="52.7" y="119.2" fill="#5E6D53" font-family="Vollkorn,serif" font-style="italic" font-size="12.5" font-weight="600">raaklijn</text><text class="ct-lk" x="131.9" y="174.0" fill="#6A9BB5" font-family="Vollkorn,serif" font-style="italic" font-size="12.5" font-weight="600">koorde</text><text class="ct-lm" x="96.2" y="163.9" fill="#C9A0A0" font-family="Vollkorn,serif" font-style="italic" font-size="12.5" font-weight="600">middellijn</text><text class="ct-ls" x="146" y="93" fill="#C2704E" font-family="Vollkorn,serif" font-style="italic" font-size="12.5" font-weight="600">straal (r)</text></svg></div><ul class="ctlist"><li><span class="mk" style="background:var(--terracotta)"></span><b>Straal (r):</b> van het midden naar de rand.</li><li><span class="mk" style="background:var(--rose)"></span><b>Middellijn:</b> door het midden, van rand tot rand (= 2× de straal).</li><li><span class="mk" style="background:var(--sky)"></span><b>Koorde:</b> verbindt twee punten op de rand, maar gaat <i>niet</i> door het midden.</li><li><span class="mk" style="background:var(--olive)"></span><b>Raaklijn:</b> raakt de cirkel in <i>één</i> punt en ligt verder erbuiten.</li></ul></div></div><h2 class="sec-h"><span class="dot">C</span>Omtrek &amp; oppervlakte</h2><div class="card"><div class="fgrid"><div class="fbox"><h4>Vierkant</h4><div class="frm"><b>omtrek</b> &nbsp;O = 4 · z</div><div class="frm"><b>oppervlakte</b> &nbsp;A = z · z</div></div><div class="fbox"><h4>Rechthoek</h4><div class="frm"><b>omtrek</b> &nbsp;O = 2·l + 2·b</div><div class="frm"><b>oppervlakte</b> &nbsp;A = l · b</div></div><div class="fbox"><h4>Parallellogram</h4><div class="frm"><b>omtrek</b> &nbsp;O = 2·b + 2·z</div><div class="frm"><b>oppervlakte</b> &nbsp;A = b · h  (b = basis, h = hoogte)</div></div><div class="fbox"><h4>Ruit</h4><div class="frm"><b>omtrek</b> &nbsp;O = 4 · z</div><div class="frm"><b>oppervlakte</b> &nbsp;A = (d₁ · d₂) : 2</div></div><div class="fbox"><h4>Trapezium</h4><div class="frm"><b>omtrek</b> &nbsp;O = som van de 4 zijden</div><div class="frm"><b>oppervlakte</b> &nbsp;A = (a + b) : 2 · h</div></div></div></div><h2 class="sec-h"><span class="dot">D</span>Van 3-hoek naar 10-hoek</h2><div class="insight"><span class="emo">💡</span><p>Op de onderste zijde stapel je telkens een <b>grotere</b> regelmatige veelhoek. Hoe meer hoeken, hoe <b>groter</b> elke binnenhoek — altijd richting 180°, maar er nooit bij.</p></div><div class="card"><div class="prow"><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 103.7,49.8 87.0,101.2 33.0,101.2 16.3,49.8" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">vijfhoek<br><span class="pdeg">108°</span></div></div><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 99.8,41.0 99.8,87.0 60.0,110.0 20.2,87.0 20.2,41.0" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">zeshoek<br><span class="pdeg">120°</span></div></div><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 96.0,35.3 104.8,74.2 80.0,105.4 40.0,105.4 15.2,74.2 24.0,35.3" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">zevenhoek<br><span class="pdeg">128,5°</span></div></div><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 92.5,31.5 106.0,64.0 92.5,96.5 60.0,110.0 27.5,96.5 14.0,64.0 27.5,31.5" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">achthoek<br><span class="pdeg">135°</span></div></div><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 89.6,28.8 105.3,56.0 99.8,87.0 75.7,107.2 44.3,107.2 20.2,87.0 14.7,56.0 30.4,28.8" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">negenhoek<br><span class="pdeg">140°</span></div></div><div class="pnode"><div class="pfig"><svg viewBox="0 0 120 128"><polygon class="rp" points="60.0,18.0 87.0,26.8 103.7,49.8 103.7,78.2 87.0,101.2 60.0,110.0 33.0,101.2 16.3,78.2 16.3,49.8 33.0,26.8" fill="none" stroke="#5C4033" stroke-width="2.2" stroke-linejoin="round"/></svg></div><div class="plabel">tienhoek<br><span class="pdeg">144°</span></div></div></div></div></section>
+<section class="panel" id="panel-herken"><div class="scorebar no-print" id="sb"><div class="lbl"><span id="sl">Score: 0/0</span><button class="again" onclick="resetQuiz()">🔄 Opnieuw</button></div><div class="bar"><i id="sp"></i></div><div class="celebrate" id="cel"></div></div><div id="quiz"></div></section>
+<section class="panel" id="panel-oefeningen"><p class="intro-mini no-print">Reken elke figuur uit: eerst de <b>formule</b>, dan de <b>afmetingen</b>, dan het <b>resultaat</b>. Klik op <b>Toon oplossing</b> om te controleren. De afmetingen staan bij elke oefening.</p><div class="oef"><div class="oef-h"><span class="oef-n">1</span><span class="oef-t">Vierkant</span></div><div class="oef-geg"><b>Gegeven:</b> zijde z = 5 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 4 · z = 4 · 5 = <span class="res">20 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = z · z = 5 · 5 = <span class="res">25 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">2</span><span class="oef-t">Rechthoek</span></div><div class="oef-geg"><b>Gegeven:</b> lengte l = 8 cm · breedte b = 3 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 2·l + 2·b = 2·8 + 2·3 = <span class="res">22 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = l · b = 8 · 3 = <span class="res">24 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">3</span><span class="oef-t">Parallellogram</span></div><div class="oef-geg"><b>Gegeven:</b> basis b = 6 cm · schuine zijde z = 4 cm · hoogte h = 3 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 2·b + 2·z = 2·6 + 2·4 = <span class="res">20 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = b · h = 6 · 3 = <span class="res">18 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">4</span><span class="oef-t">Ruit</span></div><div class="oef-geg"><b>Gegeven:</b> zijde z = 5 cm · diagonalen d₁ = 6 cm en d₂ = 8 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 4 · z = 4 · 5 = <span class="res">20 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = (d₁ · d₂) : 2 = (6 · 8) : 2 = <span class="res">24 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">5</span><span class="oef-t">Gelijkbenig trapezium</span></div><div class="oef-geg"><b>Gegeven:</b> evenwijdige zijden a = 10 cm en b = 4 cm · benen = 5 cm · hoogte h = 4 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = a + b + 2·been = 10 + 4 + 2·5 = <span class="res">24 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = (a + b) : 2 · h = (10 + 4) : 2 · 4 = <span class="res">28 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">6</span><span class="oef-t">Vierkant</span></div><div class="oef-geg"><b>Gegeven:</b> zijde z = 7 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 4 · z = 4 · 7 = <span class="res">28 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = z · z = 7 · 7 = <span class="res">49 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">7</span><span class="oef-t">Rechthoek</span></div><div class="oef-geg"><b>Gegeven:</b> lengte l = 12 cm · breedte b = 5 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 2·l + 2·b = 2·12 + 2·5 = <span class="res">34 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = l · b = 12 · 5 = <span class="res">60 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">8</span><span class="oef-t">Parallellogram</span></div><div class="oef-geg"><b>Gegeven:</b> basis b = 9 cm · schuine zijde z = 5 cm · hoogte h = 4 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 2·b + 2·z = 2·9 + 2·5 = <span class="res">28 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = b · h = 9 · 4 = <span class="res">36 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">9</span><span class="oef-t">Ruit</span></div><div class="oef-geg"><b>Gegeven:</b> zijde z = 10 cm · diagonalen d₁ = 12 cm en d₂ = 16 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = 4 · z = 4 · 10 = <span class="res">40 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = (d₁ · d₂) : 2 = (12 · 16) : 2 = <span class="res">96 cm²</span></div></div></div><div class="oef"><div class="oef-h"><span class="oef-n">10</span><span class="oef-t">Gelijkbenig trapezium</span></div><div class="oef-geg"><b>Gegeven:</b> evenwijdige zijden a = 12 cm en b = 6 cm · benen = 5 cm · hoogte h = 4 cm</div><div class="oef-vraag">Bereken de omtrek en de oppervlakte. Schrijf eerst de formule, dan de afmetingen, dan het resultaat.</div><button class="toon no-print" onclick="toonOpl(this)">Toon oplossing</button><div class="opl"><div class="step"><span class="lab">Omtrek</span>O = a + b + 2·been = 12 + 6 + 2·5 = <span class="res">28 cm</span></div><div class="step"><span class="lab">Oppervlakte</span>A = (a + b) : 2 · h = (12 + 6) : 2 · 4 = <span class="res">36 cm²</span></div></div></div><div class="print-only print-answers"><h2>Oplossingen</h2><div class="pa-item"><span class="pn">1. Vierkant</span> — O: O = 4 · z = 4 · 5 = <b>20 cm</b> · A: A = z · z = 5 · 5 = <b>25 cm²</b></div><div class="pa-item"><span class="pn">2. Rechthoek</span> — O: O = 2·l + 2·b = 2·8 + 2·3 = <b>22 cm</b> · A: A = l · b = 8 · 3 = <b>24 cm²</b></div><div class="pa-item"><span class="pn">3. Parallellogram</span> — O: O = 2·b + 2·z = 2·6 + 2·4 = <b>20 cm</b> · A: A = b · h = 6 · 3 = <b>18 cm²</b></div><div class="pa-item"><span class="pn">4. Ruit</span> — O: O = 4 · z = 4 · 5 = <b>20 cm</b> · A: A = (d₁ · d₂) : 2 = (6 · 8) : 2 = <b>24 cm²</b></div><div class="pa-item"><span class="pn">5. Gelijkbenig trapezium</span> — O: O = a + b + 2·been = 10 + 4 + 2·5 = <b>24 cm</b> · A: A = (a + b) : 2 · h = (10 + 4) : 2 · 4 = <b>28 cm²</b></div><div class="pa-item"><span class="pn">6. Vierkant</span> — O: O = 4 · z = 4 · 7 = <b>28 cm</b> · A: A = z · z = 7 · 7 = <b>49 cm²</b></div><div class="pa-item"><span class="pn">7. Rechthoek</span> — O: O = 2·l + 2·b = 2·12 + 2·5 = <b>34 cm</b> · A: A = l · b = 12 · 5 = <b>60 cm²</b></div><div class="pa-item"><span class="pn">8. Parallellogram</span> — O: O = 2·b + 2·z = 2·9 + 2·5 = <b>28 cm</b> · A: A = b · h = 9 · 4 = <b>36 cm²</b></div><div class="pa-item"><span class="pn">9. Ruit</span> — O: O = 4 · z = 4 · 10 = <b>40 cm</b> · A: A = (d₁ · d₂) : 2 = (12 · 16) : 2 = <b>96 cm²</b></div><div class="pa-item"><span class="pn">10. Gelijkbenig trapezium</span> — O: O = a + b + 2·been = 12 + 6 + 2·5 = <b>28 cm</b> · A: A = (a + b) : 2 · h = (12 + 6) : 2 · 4 = <b>36 cm²</b></div></div></section>
+<div class="actions no-print"><button class="btn prim" onclick="window.print()">🖨️ Afdrukken</button><a class="btn ghost" href="../index.html">← Terug naar overzicht</a></div>
+</div>
+<script>
+const FIG={"vierkant": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"45.0,18.0 105.0,18.0 105.0,78.0 45.0,78.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"45.0\" y1=\"18.0\" x2=\"105.0\" y2=\"78.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"105.0\" y1=\"18.0\" x2=\"45.0\" y2=\"78.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><polyline class=\"perp\" points=\"81.4,54.4 87.7,48.0 81.4,41.6\" fill=\"none\" stroke=\"#7A8B6F\" stroke-width=\"1.5\"/><circle class=\"qv\" cx=\"45.0\" cy=\"18.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"105.0\" cy=\"18.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"105.0\" cy=\"78.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"45.0\" cy=\"78.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "rechthoek": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"22.0,30.0 128.0,30.0 128.0,82.0 22.0,82.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"22.0\" y1=\"30.0\" x2=\"128.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"128.0\" y1=\"30.0\" x2=\"22.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle class=\"qv\" cx=\"22.0\" cy=\"30.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"128.0\" cy=\"30.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"128.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"22.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "ruit": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"75.0,12.0 117.0,60.0 75.0,108.0 33.0,60.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"75.0\" y1=\"12.0\" x2=\"75.0\" y2=\"108.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"117.0\" y1=\"60.0\" x2=\"33.0\" y2=\"60.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><polyline class=\"perp\" points=\"84.0,60.0 84.0,69.0 75.0,69.0\" fill=\"none\" stroke=\"#7A8B6F\" stroke-width=\"1.5\"/><circle class=\"qv\" cx=\"75.0\" cy=\"12.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"117.0\" cy=\"60.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"75.0\" cy=\"108.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"33.0\" cy=\"60.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "parallellogram": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"40.0,28.0 120.0,28.0 100.0,82.0 20.0,82.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"40.0\" y1=\"28.0\" x2=\"100.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"120.0\" y1=\"28.0\" x2=\"20.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle class=\"qv\" cx=\"40.0\" cy=\"28.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"120.0\" cy=\"28.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"100.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"20.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "vlieger": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"75.0,12.0 112.0,52.0 75.0,108.0 38.0,52.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"75.0\" y1=\"12.0\" x2=\"75.0\" y2=\"108.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"112.0\" y1=\"52.0\" x2=\"38.0\" y2=\"52.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><polyline class=\"perp\" points=\"84.0,52.0 84.0,61.0 75.0,61.0\" fill=\"none\" stroke=\"#7A8B6F\" stroke-width=\"1.5\"/><circle class=\"qv\" cx=\"75.0\" cy=\"12.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"112.0\" cy=\"52.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"75.0\" cy=\"108.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"38.0\" cy=\"52.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "trapezium": "<svg viewBox=\"0 0 150 120\"><polygon class=\"qf\" points=\"45.0,28.0 105.0,28.0 125.0,82.0 25.0,82.0\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"2\" stroke-linejoin=\"round\"/><line class=\"qd\" x1=\"45.0\" y1=\"28.0\" x2=\"125.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><line class=\"qd\" x1=\"105.0\" y1=\"28.0\" x2=\"25.0\" y2=\"82.0\" stroke=\"#C2704E\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><circle class=\"qv\" cx=\"45.0\" cy=\"28.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"105.0\" cy=\"28.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"125.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/><circle class=\"qv\" cx=\"25.0\" cy=\"82.0\" r=\"2\" fill=\"#5C4033\"/></svg>", "cirkel": "<svg viewBox=\"0 0 235 200\"><circle class=\"ct-circ\" cx=\"130\" cy=\"100\" r=\"60\" fill=\"none\" stroke=\"#5C4033\" stroke-width=\"1.6\"/><line class=\"ct-raak\" x1=\"54.7\" y1=\"107.2\" x2=\"103.5\" y2=\"29.2\" stroke=\"#7A8B6F\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle class=\"ct-touch\" cx=\"79.1\" cy=\"68.2\" r=\"2.4\" fill=\"#7A8B6F\"/><line class=\"ct-koord\" x1=\"127.9\" y1=\"160.0\" x2=\"183.0\" y2=\"71.8\" stroke=\"#6A9BB5\" stroke-width=\"3\" stroke-linecap=\"round\"/><line class=\"ct-mid\" x1=\"98.2\" y1=\"150.9\" x2=\"161.8\" y2=\"49.1\" stroke=\"#C9A0A0\" stroke-width=\"3\" stroke-linecap=\"round\"/><line class=\"ct-straal\" x1=\"130\" y1=\"100\" x2=\"190\" y2=\"100\" stroke=\"#C2704E\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle class=\"ct-ctr\" cx=\"130\" cy=\"100\" r=\"2.6\" fill=\"#3D2B1F\"/><text class=\"ct-lr\" x=\"52.7\" y=\"119.2\" fill=\"#5E6D53\" font-family=\"Vollkorn,serif\" font-style=\"italic\" font-size=\"12.5\" font-weight=\"600\">raaklijn</text><text class=\"ct-lk\" x=\"131.9\" y=\"174.0\" fill=\"#6A9BB5\" font-family=\"Vollkorn,serif\" font-style=\"italic\" font-size=\"12.5\" font-weight=\"600\">koorde</text><text class=\"ct-lm\" x=\"96.2\" y=\"163.9\" fill=\"#C9A0A0\" font-family=\"Vollkorn,serif\" font-style=\"italic\" font-size=\"12.5\" font-weight=\"600\">middellijn</text><text class=\"ct-ls\" x=\"146\" y=\"93\" fill=\"#C2704E\" font-family=\"Vollkorn,serif\" font-style=\"italic\" font-size=\"12.5\" font-weight=\"600\">straal (r)</text></svg>"};
+const QUIZ=[{"fig": "ruit", "q": "Welke vierhoek is dit?", "correct": "Ruit", "opts": ["Ruit", "Vierkant", "Vlieger", "Parallellogram"], "fb": "4 gelijke zijden, diagonalen ⊥ en middendoor, maar niet even lang."}, {"fig": "vlieger", "q": "Welke vierhoek is dit?", "correct": "Vlieger", "opts": ["Vlieger", "Ruit", "Trapezium", "Rechthoek"], "fb": "Diagonalen ⊥, maar niet allebei middendoor."}, {"fig": "parallellogram", "q": "Welke vierhoek is dit?", "correct": "Parallellogram", "opts": ["Parallellogram", "Rechthoek", "Ruit", "Trapezium"], "fb": "Diagonalen middendoor, maar niet even lang en niet ⊥."}, {"fig": "trapezium", "q": "Welke vierhoek is dit?", "correct": "Gelijkbenig trapezium", "opts": ["Gelijkbenig trapezium", "Parallellogram", "Vlieger", "Ruit"], "fb": "Eén paar evenwijdige zijden; diagonalen even lang maar niet middendoor."}, {"fig": null, "q": "Welke vierhoek heeft diagonalen die <b>niet even lang</b>, <b>wel ⊥</b> en <b>wel middendoor</b> zijn?", "correct": "Ruit", "opts": ["Ruit", "Vlieger", "Parallellogram", "Rechthoek"], "fb": "Dat is de ruit."}, {"fig": null, "q": "Welke vierhoek heeft diagonalen die <b>even lang</b> zijn, <b>niet ⊥</b>, en elkaar <b>wel middendoor</b> snijden?", "correct": "Rechthoek", "opts": ["Rechthoek", "Gelijkbenig trapezium", "Ruit", "Vierkant"], "fb": "De rechthoek: even lang én middendoor, maar niet ⊥. (Bij het trapezium snijden ze niet middendoor.)"}, {"fig": null, "q": "Bij welke vierhoek snijden de diagonalen elkaar <b>niet</b> in het midden, maar wel <b>loodrecht</b>?", "correct": "Vlieger", "opts": ["Vlieger", "Ruit", "Parallellogram", "Trapezium"], "fb": "De vlieger: ⊥, maar de ene diagonaal wordt niet gehalveerd."}, {"fig": null, "q": "Bij welke vierhoek zijn de diagonalen <b>even lang én ⊥ én middendoor</b>?", "correct": "Vierkant", "opts": ["Vierkant", "Ruit", "Rechthoek", "Parallellogram"], "fb": "Alleen het vierkant heeft alle drie."}, {"fig": null, "q": "Hoeveel gelijke zijden heeft een <b>ruit</b>?", "correct": "4", "opts": ["4", "2", "1 paar", "0"], "fb": "Een ruit heeft 4 gelijke zijden (net als een vierkant)."}, {"fig": "cirkel", "q": "Welke lijn raakt de cirkel in maar <b>één</b> punt en ligt verder erbuiten?", "correct": "Raaklijn", "opts": ["Raaklijn", "Koorde", "Middellijn", "Straal"], "fb": "De raaklijn (groen)."}, {"fig": null, "q": "Welke cirkellijn verbindt twee randpunten maar gaat <b>niet</b> door het midden?", "correct": "Koorde", "opts": ["Koorde", "Middellijn", "Straal", "Raaklijn"], "fb": "De koorde. Een koorde door het midden is een middellijn."}, {"fig": null, "q": "De middellijn van een cirkel is hoeveel keer de straal?", "correct": "2 keer", "opts": ["2 keer", "1 keer", "de helft", "4 keer"], "fb": "Middellijn = 2 × straal."}, {"fig": null, "q": "Hoe groot is een binnenhoek van een <b>regelmatige zeshoek</b>?", "correct": "120°", "opts": ["120°", "108°", "135°", "144°"], "fb": "De zeshoek heeft hoeken van 120°."}, {"fig": null, "q": "Hoe groot is een binnenhoek van een <b>regelmatige vijfhoek</b>?", "correct": "108°", "opts": ["108°", "120°", "90°", "128,5°"], "fb": "De vijfhoek heeft hoeken van 108°."}, {"fig": null, "q": "Welke regelmatige veelhoek heeft binnenhoeken van <b>135°</b>?", "correct": "Achthoek", "opts": ["Achthoek", "Zeshoek", "Tienhoek", "Vijfhoek"], "fb": "135° hoort bij de achthoek."}, {"fig": null, "q": "Wat gebeurt er met de binnenhoek als de veelhoek meer hoeken krijgt?", "correct": "Hij wordt groter, richting 180°", "opts": ["Hij wordt groter, richting 180°", "Hij wordt kleiner", "Hij blijft gelijk", "Hij wordt altijd 90°"], "fb": "Meer hoeken → grotere binnenhoek, steeds dichter bij (maar nooit) 180°."}];
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+let answered=0, correctCount=0;
+function buildQuiz(){
+  answered=0; correctCount=0;
+  const order=shuffle(QUIZ.map((_,i)=>i));
+  const box=document.getElementById('quiz'); box.innerHTML='';
+  order.forEach((qi,n)=>{
+    const item=QUIZ[qi];
+    const div=document.createElement('div'); div.className='q';
+    div.innerHTML=`<div class="qhead">Vraag ${n+1} van ${QUIZ.length}</div>`+
+      (item.fig?`<div class="qfig">${FIG[item.fig]}</div>`:'')+
+      `<div class="qtext">${item.q}</div><div class="opts"></div><div class="fb"></div>`;
+    const opts=div.querySelector('.opts');
+    shuffle(item.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.innerHTML=o;
+      b.onclick=()=>answer(b,div,item); opts.appendChild(b);
+    });
+    box.appendChild(div);
+  });
+  document.getElementById('sb').classList.remove('show');
+  document.getElementById('cel').classList.remove('show');
+}
+function answer(btn,div,item){
+  if(div.dataset.done) return; div.dataset.done='1'; answered++;
+  const ok = btn.innerHTML===item.correct;
+  const fb=div.querySelector('.fb');
+  div.querySelectorAll('.opt').forEach(b=>{b.disabled=true; if(b.innerHTML===item.correct) b.classList.add('correct');});
+  if(ok){correctCount++; btn.classList.add('pop'); fb.className='fb ok'; fb.innerHTML='\u2713 '+item.fb;}
+  else{btn.classList.add('wrong','shake'); fb.className='fb no'; fb.innerHTML='\u2717 Juist is: '+item.correct+'. '+item.fb;}
+  updateScore();
+}
+function updateScore(){
+  const sb=document.getElementById('sb'); sb.classList.add('show');
+  document.getElementById('sl').textContent=`Score: ${correctCount}/${answered}`;
+  document.getElementById('sp').style.width=(answered/QUIZ.length*100)+'%';
+  if(answered===QUIZ.length){
+    const pct=correctCount/QUIZ.length*100; const cel=document.getElementById('cel'); let m;
+    if(pct===100)m='\uD83C\uDF1F Alles juist \u2014 fantastisch! Klaar voor de toets.';
+    else if(pct>=80)m='\uD83C\uDF89 Heel goed! Bijna alles juist.';
+    else if(pct>=60)m='\uD83D\uDCAA Goed bezig! Bekijk de fout gegane vragen nog eens in het overzicht.';
+    else m='\uD83D\uDCDA Bekijk het overzicht nog eens en probeer opnieuw.';
+    cel.textContent=m; cel.classList.add('show');
+  }
+}
+function resetQuiz(){buildQuiz(); window.scrollTo({top:document.getElementById('panel-herken').offsetTop-20,behavior:'smooth'});}
+buildQuiz();
+function toonOpl(btn){
+  const opl=btn.parentElement.querySelector('.opl');
+  const open=opl.classList.toggle('show');
+  btn.textContent=open?'Verberg oplossing':'Toon oplossing';
+}
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active'); document.getElementById('panel-'+t.dataset.panel).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+});
+
+</script>
+</body>
+</html>
